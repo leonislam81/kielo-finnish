@@ -38,6 +38,7 @@
 .listening-reveal strong{display:block;margin-top:4px;color:#335a48;font:700 15px var(--heading)}
 .listening-reveal p{margin:3px 0 0;color:#78877d;font-size:9px}
 .listening-reveal .audio-button{width:34px;height:34px;border-radius:10px;font-size:13px}
+.listening-text-badge{display:grid;width:34px;height:34px;flex:0 0 34px;place-items:center;border-radius:10px;background:#eef3ed;color:#64816a;font-size:10px;font-weight:800}
 .listening-next{margin-top:10px;font-size:10px}
 .listening-audio-note{margin:12px 0 0;color:#9aa49d;font-size:8px;line-height:1.5}
 .listening-tip{display:flex;align-items:flex-start;gap:11px;margin-top:14px;padding:13px 15px;border:1px solid #e9eadf;border-radius:13px;background:#f8f7f0}
