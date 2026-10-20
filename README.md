@@ -1,6 +1,6 @@
 # Kielo — Learn Finnish, gently
 
-Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with separate listening, speaking, reading, writing, and grammar labs through C2. Vocabulary review includes the course words plus curated C1 and C2 word sets with contextual examples. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café, railway station, grocery store, and library, a standalone pronunciation lab for Finnish vowels and sound length, and an installable offline app shell.
+Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with separate listening, speaking, reading, writing, and grammar labs through C2. Vocabulary review includes the course words plus curated C1 and C2 word sets with contextual examples. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café, railway station, grocery store, and library, with an optional open-response writing mode, a standalone pronunciation lab for Finnish vowels and sound length, and an installable offline app shell.
 
 ## Run locally
 
@@ -40,3 +40,6 @@ The grocery-store role-play adds English and Bangla support for finding rye brea
 
 
 The library role-play introduces a library card, a Finnish address requirement in the Helsinki-region Helmet libraries, a usual four-week loan period, and the due date on a loan receipt. It is original A1 guided practice; for local rules, learners can open [Helmet’s library card and borrowing guide](https://helmet.finna.fi/Content/kirjastokortti-ja-lainaaminen?lng=en-gb).
+
+
+In conversation practice, learners can either choose a response or write a Finnish reply first and reveal a useful example afterward. Open responses are not machine-scored or saved, because many different replies can be natural.

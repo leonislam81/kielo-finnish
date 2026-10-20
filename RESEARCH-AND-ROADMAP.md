@@ -130,3 +130,8 @@ The A1 grocery-store role-play uses short, standard Finnish responses for findin
 ## Library conversation
 
 The A1 library role-play connects everyday Finnish with public-library culture in the Helsinki region. Its four short exchanges practise asking for a library card, describing a Finnish address, checking when to return a book, and understanding *eräpäivä* (due date). The example follows Helmet’s stated card and loan guidance, while the linked official page remains the source for current local rules: [Helmet: Library card and loans](https://helmet.finna.fi/Content/kirjastokortti-ja-lainaaminen?lng=en-gb).
+
+
+## Open-response conversation practice
+
+Every role-play now offers a choice between selecting a prepared reply and composing a short Finnish response. Learners reveal the model only after attempting their own answer. The app does not claim to grade free-form Finnish; the sample is a comparison point, and learner text stays in memory only and is not saved. This encourages retrieval and short-form production without marking valid alternate wording as wrong.
