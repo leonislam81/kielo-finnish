@@ -1,6 +1,6 @@
 # Kielo — Learn Finnish, gently
 
-Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with reading, listening, speaking, and writing practice through C1 and vocabulary and grammar practice through B2, browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café and railway station, and a standalone pronunciation lab for Finnish vowels and sound length.
+Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with reading, listening, speaking, and writing practice through C1, vocabulary through B2, and grammar practice through C1. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café and railway station, and a standalone pronunciation lab for Finnish vowels and sound length.
 
 ## Run locally
 
@@ -23,3 +23,5 @@ The C1 Listening Lab adds three extended talks about renewable energy, Lapland t
 The C1 Speaking Lab adds four open-ended Finland-set conversations about city planning, Lapland tourism, hybrid work, and library access. Each turn includes a Finnish partner, a prompt, a model answer, and Bangla or English support. Learners connect their reply to the partner’s point, qualify claims, and keep discussion moving. Browser recognition only displays a transcript; it does not score meaning or pronunciation. The activities follow OPH’s C1.1 interaction descriptors and are guided practice, not an official YKI task.
 
 The C1 Writing Lab adds three structured Finland-themed texts about Helsinki housing and urban nature, tourism in Lapland, and the role of public libraries. Learners arrange paragraphs, study a Finnish model with English or Bangla support, hear browser speech, and draft their own response. Drafts save in the current browser and are not scored. The activities follow OPH’s C1 writing descriptors for detailed, well-structured texts supported with reasons and examples; they are guided practice, not official YKI tasks.
+
+The C1 Grammar Lab adds four contextual lessons on active present participles, agent participles, temporal substitute constructions, and compact reported ideas. Learners hear Finnish browser speech, choose a form, and get English or Bangla feedback. The selected patterns support precise, structured expression described at C1.1 by OPH; they are a focused practice set, not an official C1 topic list or a complete grammar syllabus.
