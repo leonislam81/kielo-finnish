@@ -130,7 +130,7 @@
   function renderPractice(){
     const query=state.search.trim().toLowerCase();
     const allWords=words();
-    const levelWords=allWords.filter(word=>state.vocabularyLevel==="all"||word.level.toLowerCase()===state.vocabularyLevel);
+    const levelWords=allWords.filter(word=>state.vocabularyLevel==="all"||(word.exampleFi&&word.level.toLowerCase()===state.vocabularyLevel));
     const filtered=levelWords.filter(word=>(word.fi+" "+word.en+" "+word.bn+" "+(word.exampleFi||"")).toLowerCase().includes(query));
     const due=dueReviewWords();
     const reviewMarkup=renderReviewPanel(due);
