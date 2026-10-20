@@ -22,10 +22,11 @@
     <link rel="stylesheet" href="grammar.css?v=25" />
     <link rel="stylesheet" href="vocabulary.css?v=1" />
     <link rel="stylesheet" href="pwa.css?v=1" />
+    <link rel="stylesheet" href="backup.css?v=1" />
     <script src="curriculum.js" defer></script>
     <script src="advanced-vocabulary.js" defer></script>
     <script src="pwa.js?v=1" defer></script>
-    <script src="app.js?v=48" defer></script>
+    <script src="app.js?v=49" defer></script>
   </head>
   <body>
     <div class="app-shell">
@@ -67,7 +68,7 @@
           <div class="topbar-actions">
             <button id="install-app" class="pwa-install-button" type="button" aria-label="Install Kielo"><span aria-hidden="true">↓</span><span class="install-label">Install app</span></button>
             <div class="help-language"><span>Lesson help</span><button id="language-toggle" class="language-toggle" aria-label="Change lesson help language"><span data-lang-label="en">EN</span><span class="language-divider">/</span><span data-lang-label="bn">বাংলা</span></button></div>
-            <div class="avatar" aria-label="Your learner profile">K</div>
+            <button class="avatar" id="profile-button" type="button" aria-label="Open learner profile and data tools">K</button>
           </div>
         </header>
         <main class="page-content" id="page-content" tabindex="-1"></main>
@@ -78,6 +79,25 @@
     <div class="modal-backdrop" id="lesson-backdrop" hidden>
       <section class="lesson-modal" id="lesson-modal" role="dialog" aria-modal="true" aria-labelledby="lesson-title">
         <div id="lesson-modal-content"></div>
+      </section>
+    </div>
+    <div class="modal-backdrop backup-backdrop" id="backup-backdrop" hidden>
+      <section class="backup-modal" role="dialog" aria-modal="true" aria-labelledby="backup-title" aria-describedby="backup-description">
+        <div class="backup-header">
+          <div class="backup-mark" aria-hidden="true">✿</div>
+          <button class="close-modal" id="backup-close" type="button" aria-label="Close progress tools">×</button>
+        </div>
+        <p class="eyebrow">YOUR LEARNING, IN YOUR HANDS</p>
+        <h2 id="backup-title">Keep your Finnish progress</h2>
+        <p class="backup-description" id="backup-description">Your learning stays on this device. Save a private backup file to carry your lessons, review schedule, and writing drafts to another device.</p>
+        <div class="backup-summary" id="backup-summary" aria-live="polite"></div>
+        <div class="backup-actions">
+          <button class="button-primary" id="backup-export" type="button"><span aria-hidden="true">↓</span> Download backup</button>
+          <button class="button-secondary" id="backup-import" type="button"><span aria-hidden="true">↑</span> Restore from file</button>
+          <input id="backup-file" type="file" accept=".json,application/json" hidden />
+        </div>
+        <p class="backup-merge-note"><span aria-hidden="true">↗</span> Restore combines the backup with this device. Existing progress and drafts are kept.</p>
+        <p class="backup-status" id="backup-status" role="status" aria-live="polite"></p>
       </section>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>

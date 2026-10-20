@@ -24,6 +24,7 @@
   const pageContent=document.getElementById("page-content");
   const modalBackdrop=document.getElementById("lesson-backdrop");
   const modalContent=document.getElementById("lesson-modal-content");
+  const backupBackdrop=document.getElementById("backup-backdrop");
   const toast=document.getElementById("toast");
   const photo={cover:"images/kielo-cover.webp",summer:"https://images.unsplash.com/photo-1627419386455-2ce1ee744cff?auto=format&fit=crop&w=1200&q=84",winter:"https://images.unsplash.com/photo-1580060510168-d909e950a973?auto=format&fit=crop&w=900&q=82",city:"https://images.unsplash.com/photo-1551286771-f713e47e0a85?auto=format&fit=crop&w=900&q=82",twilight:"https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=82",train:"https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=1200&q=84"};
   function sceneForLesson(lesson){
@@ -66,6 +67,81 @@
   const whyText=lesson=>state.help==="bn"?lesson.whyBn:lesson.why;
   const iconFor=level=>({"pre-a1":"◌","a1":"☕","a2":"◷","b1":"↗","b2":"◈","c1":"✎","c2":"✦"}[level]||"✿");
   function showToast(message){toast.textContent=message;toast.classList.add("visible");window.clearTimeout(showToast.timer);showToast.timer=window.setTimeout(()=>toast.classList.remove("visible"),2400)}
+  const backupLevels=["pre-a1","a1","a2","b1","b2","c1","c2"];
+  const backupLevelKeys=new Set(["vocabularyLevel","listeningLevel","readingLevel","writingLevel","grammarLevel","speakingLevel"]);
+  const backupAllowedKeys=new Set(("help vocabularyLevel completed known review drafts cafeComplete conversationComplete soundsComplete listeningLevel listeningComplete a1ListeningComplete a2ListeningComplete b1ListeningComplete b2ListeningComplete c1ListeningComplete c2ListeningComplete readingLevel readingComplete a1ReadingComplete a2ReadingComplete b1ReadingComplete b2ReadingComplete c1ReadingComplete c2ReadingComplete writingLevel writingComplete a1WritingComplete a2WritingComplete b1WritingComplete b2WritingComplete c1WritingComplete c2WritingComplete grammarLevel grammarComplete a1GrammarComplete a2GrammarComplete b1GrammarComplete b2GrammarComplete c1GrammarComplete c2GrammarComplete speakingLevel speakingSteps speakingComplete").split(" "));
+  const plainRecord=value=>Boolean(value)&&typeof value==="object"&&!Array.isArray(value)&&(Object.getPrototypeOf(value)===Object.prototype||Object.getPrototypeOf(value)===null);
+  function sanitizeBackupData(value){
+    if(!plainRecord(value))throw new Error("This file does not contain a valid Kielo progress record.");
+    const safe={},validLessonIds=new Set(lessons.map(lesson=>lesson.id)),validWords=new Set(words().map(word=>word.fi));
+    if(value.help==="en"||value.help==="bn")safe.help=value.help;
+    for(const key of backupLevelKeys)if(backupLevels.includes(value[key])||(key==="vocabularyLevel"&&value[key]==="all"))safe[key]=value[key];
+    if(Array.isArray(value.completed))safe.completed=[...new Set(value.completed.filter(id=>typeof id==="string"&&validLessonIds.has(id)))];
+    if(Array.isArray(value.known))safe.known=[...new Set(value.known.filter(word=>typeof word==="string"&&validWords.has(word)))];
+    if(plainRecord(value.review)){
+      safe.review={};
+      for(const [word,item] of Object.entries(value.review))if(validWords.has(word)&&plainRecord(item)){
+        const box=Number(item.box),due=Number(item.due);
+        if(Number.isFinite(box)&&Number.isFinite(due))safe.review[word]={box:Math.max(0,Math.min(5,Math.trunc(box))),due:Math.max(0,Math.min(due,Date.now()+10*365*24*60*60*1000))};
+      }
+    }
+    if(plainRecord(value.drafts)){
+      safe.drafts={};let count=0;
+      for(const [key,draft] of Object.entries(value.drafts))if(count<150&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(key)&&key.length<=80&&typeof draft==="string"){
+        safe.drafts[key]=draft.slice(0,20000);count++;
+      }
+    }
+    if(typeof value.cafeComplete==="boolean")safe.cafeComplete=value.cafeComplete;
+    if(plainRecord(value.conversationComplete))safe.conversationComplete={cafe:value.conversationComplete.cafe===true,station:value.conversationComplete.station===true};
+    for(const key of backupAllowedKeys)if(/Complete$/.test(key)&&typeof value[key]==="boolean")safe[key]=value[key];
+    if(plainRecord(value.speakingSteps)){
+      safe.speakingSteps={};for(const level of backupLevels){const step=Number(value.speakingSteps[level]);if(Number.isFinite(step))safe.speakingSteps[level]=Math.max(0,Math.min(100,Math.trunc(step)))}
+    }
+    if(plainRecord(value.speakingComplete)){
+      safe.speakingComplete={};for(const level of backupLevels)safe.speakingComplete[level]=value.speakingComplete[level]===true;
+    }
+    return safe;
+  }
+  function mergeBackupData(imported,current){
+    const merged={...imported,...current};
+    merged.completed=[...new Set([...(imported.completed||[]),...(current.completed||[])])];
+    merged.known=[...new Set([...(imported.known||[]),...(current.known||[])])];
+    merged.review={...(imported.review||{}),...(current.review||{})};
+    merged.drafts={...(imported.drafts||{}),...(current.drafts||{})};
+    merged.conversationComplete={cafe:imported.conversationComplete?.cafe===true||current.conversationComplete?.cafe===true,station:imported.conversationComplete?.station===true||current.conversationComplete?.station===true};
+    merged.cafeComplete=imported.cafeComplete===true||current.cafeComplete===true||merged.conversationComplete.cafe;
+    for(const key of backupAllowedKeys)if(/Complete$/.test(key))merged[key]=imported[key]===true||current[key]===true;
+    merged.speakingSteps={};merged.speakingComplete={};
+    for(const level of backupLevels){merged.speakingSteps[level]=Math.max(imported.speakingSteps?.[level]||0,current.speakingSteps?.[level]||0);merged.speakingComplete[level]=imported.speakingComplete?.[level]===true||current.speakingComplete?.[level]===true}
+    return merged;
+  }
+  function openBackupModal(){
+    const drafts=Object.keys(state.drafts).length;
+    document.getElementById("backup-summary").innerHTML='<div class="backup-stat"><strong>'+state.completed.size+' / '+lessons.length+'</strong><span>lessons done</span></div><div class="backup-stat"><strong>'+state.known.size+'</strong><span>words saved</span></div><div class="backup-stat"><strong>'+drafts+'</strong><span>writing drafts</span></div>';
+    const status=document.getElementById("backup-status");status.textContent="";status.classList.remove("error");backupBackdrop.hidden=false;document.body.style.overflow="hidden";document.getElementById("backup-close").focus();
+  }
+  function closeBackupModal(){backupBackdrop.hidden=true;document.body.style.overflow="";document.getElementById("profile-button").focus()}
+  function downloadBackup(){
+    try{
+      const data=JSON.parse(localStorage.getItem(storageKey)||"{}");
+      const file=new Blob([JSON.stringify({format:"kielo-progress",version:1,exportedAt:new Date().toISOString(),data},null,2)],{type:"application/json"});
+      const link=document.createElement("a"),url=URL.createObjectURL(file);link.href=url;link.download="kielo-progress-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1000);
+      const status=document.getElementById("backup-status");status.classList.remove("error");status.textContent="Backup downloaded. Keep the file somewhere you can find it.";
+    }catch(_error){const status=document.getElementById("backup-status");status.classList.add("error");status.textContent="Could not create the backup. Please try again."}
+  }
+  async function restoreBackup(file){
+    const status=document.getElementById("backup-status");status.classList.remove("error");
+    try{
+      if(!file||file.size>5*1024*1024)throw new Error("Choose a Kielo backup file smaller than 5 MB.");
+      const envelope=JSON.parse(await file.text());
+      if(!plainRecord(envelope)||envelope.format!=="kielo-progress"||envelope.version!==1)throw new Error("That file is not a supported Kielo backup.");
+      const imported=sanitizeBackupData(envelope.data);let current={};
+      try{current=sanitizeBackupData(JSON.parse(localStorage.getItem(storageKey)||"{}"))}catch(_error){current={}}
+      localStorage.setItem(storageKey,JSON.stringify(mergeBackupData(imported,current)));
+      status.textContent="Progress restored and combined. Kielo is refreshing…";
+      window.setTimeout(()=>window.location.reload(),900);
+    }catch(error){status.classList.add("error");status.textContent=error instanceof Error?error.message:"Could not restore this file. Check that it is a valid Kielo backup."}
+  }
   function progressBar(count,total){return `<div class="progress-track"><div class="progress-fill" style="width:${total?Math.min(100,Math.round(count/total*100)):0}%"></div></div>`}
   function setActiveNav(){document.querySelectorAll(".nav-link").forEach(button=>button.classList.toggle("active",button.dataset.page===state.page));document.querySelectorAll("[data-lang-label]").forEach(label=>label.classList.toggle("selected",label.dataset.langLabel===state.help));document.getElementById("word-count").textContent=state.known.size}
   function setPage(page){if(state.page==="speaking"&&page!=="speaking")stopSpeakingRecognition();state.page=page;render();document.getElementById("sidebar").classList.remove("open");window.scrollTo({top:0,behavior:"smooth"})}
@@ -901,9 +977,15 @@ When planning services, we should therefore assess both the accessibility of dig
     if(event.target===modalBackdrop)closeLesson();
   }
   document.addEventListener("click",handleClick);
+  document.getElementById("profile-button").addEventListener("click",openBackupModal);
+  document.getElementById("backup-close").addEventListener("click",closeBackupModal);
+  document.getElementById("backup-export").addEventListener("click",downloadBackup);
+  document.getElementById("backup-import").addEventListener("click",()=>document.getElementById("backup-file").click());
+  document.getElementById("backup-file").addEventListener("change",event=>{const file=event.target.files?.[0];if(file)restoreBackup(file);event.target.value=""});
+  backupBackdrop.addEventListener("click",event=>{if(event.target===backupBackdrop)closeBackupModal()});
   document.getElementById("language-toggle").addEventListener("click",()=>{state.help=state.help==="bn"?"en":"bn";persist();render();if(state.lesson)renderLessonModal()});
   document.getElementById("mobile-menu").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
   document.addEventListener("input",event=>{if(event.target.id==="word-search"){state.search=event.target.value;const caret=event.target.selectionStart;renderPractice();const input=document.getElementById("word-search");input.focus();input.setSelectionRange(caret,caret)}if(event.target.id==="lesson-draft"&&state.lesson){state.drafts[state.lesson.id]=event.target.value;persist();const status=document.getElementById("draft-status");if(status)status.textContent="Saved on this device"}if(event.target.id==="writing-draft"){const key=event.target.dataset.draftKey;state.drafts[key]=event.target.value;persist();const status=document.getElementById("writing-draft-status");if(status)status.textContent=state.help==="bn"?"এই device-এ খসড়া সংরক্ষিত":"Saved on this device"}});
-  document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!modalBackdrop.hidden)closeLesson()});
+  document.addEventListener("keydown",event=>{if(event.key==="Escape"){if(!backupBackdrop.hidden)closeBackupModal();else if(!modalBackdrop.hidden)closeLesson()}});
   render();
 })();
