@@ -52,3 +52,4 @@ Each unit is designed around a scene, a short input (image, dialogue, or video l
 - [Yle: Finnish self-study materials by level](https://yle.fi/a/20-10002426)
 - [Finnish Meteorological Institute: seasons in Finland](https://en.ilmatieteenlaitos.fi/seasons-in-finland)
 - [Finland Toolbox: Finnish Midsummer](https://toolbox.finland.fi/seasons-destinations/finnish-midsummer/)
+- [thisisFINLAND: Finland's national flower and nature symbols](https://finland.fi/life-society/iconic-finnish-nature-symbols-stand-out/)
