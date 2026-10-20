@@ -31,7 +31,9 @@ Each unit is designed around a scene, a short input (image, dialogue, or officia
 
 ## Current course additions
 
-The B1 Writing Lab completes the four-skill practice path through B1 with three guided connected texts: explaining a work delay, sharing an opinion with a reason and making a plan, and recounting a winter day trip. Sentence-block ordering scaffolds clear writing about familiar everyday topics, in line with OPH’s B1.1 written-production description; it is guided practice, not open-ended writing assessment or an official YKI task.
+The B1 Writing Lab adds three guided connected texts: explaining a work delay, sharing an opinion with a reason and making a plan, and recounting a winter day trip. Sentence-block ordering scaffolds clear writing about familiar everyday topics, in line with OPH’s B1.1 written-production description; it is guided practice, not open-ended writing assessment or an official YKI task.
+
+The B2 Writing Lab completes the four-skill practice path through B2 with three scaffolded texts: a balanced city newsletter argument, a recommendation weighing Lapland tourism and nature, and a concise team follow-up email. Learners arrange sentence blocks, hear the complete model in Finnish, review the English or Bangla meaning, and write a personal draft that autosaves in the browser. The draft is not scored. The examples follow OPH’s B2.1 written-production goal of expressing ideas fairly clearly and precisely across topics with varied structures; this is guided practice, not an official YKI writing task.
 
 The B1 Grammar Lab adds four short pattern lessons: relative clauses with joka/jossa, experiences with the perfect tense, contrast with vaikka, and purpose clauses with jotta. Learners hear Finnish browser speech and choose a form in context, with English or Bangla feedback. This focused set complements OPH’s B1.1 description of connected expression and a broader range of structures; it is not a complete grammar syllabus.
 
@@ -47,7 +49,7 @@ The B2 Speaking Lab adds four guided Finland-set discussions: make a balanced ca
 2. **Mockup:** a responsive learner dashboard shows the current path, next lesson, practice streak, and a Finland-themed scene.
 3. **Course experience:** level navigation covers Pre-A1 through C2; each level has a coherent progression, while playable lessons demonstrate the lesson, quiz, listening, speaking, and flashcard patterns.
 4. **Culture and media:** season cards connect vocabulary to Finland; a media shelf links to Yle's beginner videos, levelled materials, and simplified news.
-5. **Review and delivery:** check the local preview, publish the private preview site, and push the project to a private GitHub repository.
+5. **Review and delivery:** check the local preview, publish the public GitHub Pages site, and push the source to the public GitHub repository.
 6. **Practice iteration:** ship scene-specific pictures, picture matching, spaced word review, and guided café and train-station conversations.
 
 ## Design and teaching choices
@@ -66,7 +68,7 @@ The B2 Speaking Lab adds four guided Finland-set discussions: make a balanced ca
 - [OPH: YKI topics and practice](https://www.oph.fi/en/education-and-qualifications/yki-test)
 - [OPH: YKI and CEFR proficiency descriptions](https://www.oph.fi/sites/default/files/documents/169247_proficiency_levels_cefr.pdf)
 - [OPH: Developing language proficiency scale (A2.1 descriptors)](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
-- [OPH: Developing language proficiency scale (B2.1 reading and listening descriptors)](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
+- [OPH: Developing language proficiency scale (B2.1 reading, listening and written-production descriptors)](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
 - [Uusi Kielemme: Finnish imperfect / past tense](https://uusikielemme.fi/finnish-grammar/verbs/verb-tenses-and-moods/the-imperfect-tense-past-tense-imperfekti)
 - [Uusi Kielemme: Finnish location cases](https://uusikielemme.fi/finnish-grammar/finnish-cases/location-cases/missa-mista-mihin-location-cases)
 - [Uusi Kielemme: Finnish conditional mood](https://uusikielemme.fi/finnish-grammar/verbs/verb-tenses-and-moods/the-conditional-mood-konditionaali)
