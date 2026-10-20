@@ -1,0 +1,56 @@
+.speaking-level-picker{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 13px}
+.speaking-level-tab{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:3px;padding:11px 13px;border:1px solid #e2e9e1;border-radius:12px;background:#fff;color:#526b58;text-align:left;cursor:pointer;transition:border-color .16s,background .16s,box-shadow .16s}
+.speaking-level-tab:hover{border-color:#b8cbb8;background:#f8fbf7}
+.speaking-level-tab.selected{border-color:#9eb99f;background:#edf5ec;box-shadow:inset 0 0 0 1px rgba(112,155,115,.12)}
+.speaking-level-tab:focus-visible,.speaking-actions button:focus-visible,.speaking-topline button:focus-visible,.speaking-complete button:focus-visible{outline:3px solid #96bba1;outline-offset:2px}
+.speaking-level-tab span{font:700 11px/1.35 var(--heading)}
+.speaking-level-tab small{color:#87958a;font-size:8px;line-height:1.4}
+.speaking-card{display:grid;grid-template-columns:.72fr 1.28fr;overflow:hidden;border:1px solid #e3eae2;border-radius:19px;background:#fff;box-shadow:0 8px 28px rgba(31,57,45,.035)}
+.speaking-scene{position:relative;isolation:isolate;display:flex;min-height:590px;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:24px;background:#dce9df}
+.speaking-scene:before{position:absolute;z-index:-2;inset:0;background-image:var(--scene-image);background-position:center;background-size:cover;content:""}
+.speaking-scene:after{position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(17,44,36,.03) 25%,rgba(15,38,33,.68));content:""}
+.speaking-scene>span{display:grid;width:76px;height:76px;place-items:center;border:1px solid rgba(255,255,255,.58);border-radius:25px;background:rgba(255,255,255,.87);box-shadow:0 12px 40px rgba(10,35,30,.15);font-size:36px;backdrop-filter:blur(8px)}
+.speaking-scene>div{position:absolute;right:20px;bottom:19px;left:20px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.25)}
+.speaking-scene small,.speaking-scene strong{display:block}
+.speaking-scene small{font-size:8px;font-weight:800;letter-spacing:1.1px;opacity:.84}
+.speaking-scene strong{margin-top:4px;font:700 14px var(--heading)}
+.speaking-content{min-width:0;padding:24px 27px 19px}
+.speaking-topline{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.speaking-progress{height:4px;margin:13px 0 15px;overflow:hidden;border-radius:5px;background:#edf0eb}
+.speaking-progress span{display:block;height:100%;border-radius:inherit;background:#709b73;transition:width .2s}
+.speaking-prompt{padding:14px 15px;border:1px solid #e5ece4;border-radius:13px;background:#f7faf6}
+.speaking-prompt p{margin:5px 0 0;color:#345b47;font:700 18px/1.45 var(--heading);letter-spacing:-.25px}
+.speaking-phrase{display:flex;flex-direction:column;gap:5px;margin-top:10px;padding:14px 15px;border:1px solid #dce8dc;border-radius:13px;background:linear-gradient(135deg,#f4f8f2,#fff)}
+.speaking-phrase-label{color:#87958a;font-size:8px;font-weight:800;letter-spacing:.9px}
+.speaking-phrase strong{color:#355d47;font:700 20px/1.45 var(--heading);letter-spacing:-.3px}
+.speaking-phrase>span:last-child{color:#78877c;font-size:9px;line-height:1.5}
+.speaking-instruction{margin:13px 0 8px;color:#839087;font-size:9px;line-height:1.6}
+.speaking-hint{display:flex;align-items:flex-start;gap:9px;margin-top:11px;padding:10px 11px;border-radius:11px;background:#f7f8f3;color:#728276}
+.speaking-hint>span{color:#789477;font-size:12px}
+.speaking-hint p{margin:0;font-size:8px;line-height:1.6}
+.speaking-hint strong{color:#5b715f;font-size:9px}
+.speaking-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.speaking-actions button{min-height:38px;font-size:9px}
+.speaking-mic.is-listening{border-color:#d8aaa1;background:#fff8f6;color:#985d52}
+.speaking-practised{flex:1}
+.speaking-status{margin-top:11px;padding:10px 12px;border-radius:11px;font-size:9px;line-height:1.5}
+.speaking-status.recognized{background:#edf5ec;color:#466e4c}
+.speaking-status.heard{background:#f7f4ea;color:#796d45}
+.speaking-status.listening{display:flex;align-items:center;gap:8px;background:#edf4f5;color:#476d72}
+.speaking-status>strong{margin-right:4px}
+.speaking-status small{display:block;margin-top:4px;color:#75837a;font-size:8px;line-height:1.55}
+.speaking-pulse{width:9px;height:9px;border-radius:50%;background:#588d91;box-shadow:0 0 0 4px rgba(88,141,145,.13);animation:speaking-pulse 1.25s ease-in-out infinite}
+@keyframes speaking-pulse{50%{box-shadow:0 0 0 7px rgba(88,141,145,.06)}}
+.speaking-privacy{margin:11px 0 0;color:#89958c;font-size:8px;line-height:1.6}
+.speaking-sources{margin-top:13px;padding:11px 13px;border:1px solid #e8ece6;border-radius:12px;background:#fafbf9;color:#88948c;font-size:8px;line-height:1.65}
+.speaking-sources a{color:#52775d;font-weight:700;text-decoration:none}
+.speaking-sources a:hover{text-decoration:underline}
+.speaking-complete{position:relative;min-height:280px;overflow:hidden;padding:28px 30px;border:1px solid #dce8dc;border-radius:19px;background:linear-gradient(120deg,#edf5ec,#fafbf7)}
+.speaking-complete-mark{display:grid;width:48px;height:48px;place-items:center;border-radius:50%;background:#d9ead8;color:#4c8054;font-size:21px}
+.speaking-complete>.review-kicker{display:block;margin-top:13px}
+.speaking-complete h2{max-width:540px;margin:5px 0 7px;color:#345640;font:700 21px var(--heading);letter-spacing:-.55px}
+.speaking-complete p{max-width:480px;margin:0 0 14px;color:#77867b;font-size:10px;line-height:1.65}
+.speaking-complete button{font-size:10px}
+.speaking-complete-art{position:absolute;right:28px;bottom:-7px;color:rgba(57,104,67,.12);font-size:125px;line-height:1}
+@media(max-width:960px){.speaking-content{padding:21px}.speaking-scene{min-height:550px}}
+@media(max-width:760px){.speaking-level-picker{gap:6px;margin:12px 0 10px}.speaking-level-tab{padding:10px}.speaking-card{grid-template-columns:1fr}.speaking-scene{min-height:175px;max-height:200px;grid-row:1}.speaking-scene>span{width:60px;height:60px;border-radius:19px;font-size:29px}.speaking-content{padding:17px 16px 15px;grid-row:2}.speaking-prompt p{font-size:17px}.speaking-phrase strong{font-size:18px}.speaking-complete{min-height:260px;padding:22px}.speaking-complete h2{font-size:19px}.speaking-complete-art{right:14px;font-size:92px}}
