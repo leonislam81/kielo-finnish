@@ -16,6 +16,8 @@ Lesson completion, review words and their due dates, language preference, writin
 
 Use the **K** profile button to download a JSON backup or restore one on another device. Restore combines lesson completion, known words, review dates, practice completion, and drafts with the current browser; the current device's version wins if the same draft or review schedule exists in both. Backup files stay on your device unless you choose to move or share them.
 
+The home dashboard also shows a weekly study rhythm and consecutive-day streak. A study date is saved locally when you practise, review a word, or work on a writing draft; switching the help language or course level does not add a study day. Streak dates are included in progress backups.
+
 ## Media and credits
 
 The app links to official Yle learning materials. Seasonal, café, and travel photography is loaded from Unsplash; an internet connection is needed to show those images. Browser speech synthesis is used for Finnish audio when a Finnish voice is installed.
