@@ -1,0 +1,57 @@
+.sound-lab-hero{display:grid;grid-template-columns:.86fr 1fr;min-height:215px;overflow:hidden;border:1px solid #dce8dd;border-radius:18px;background:#eaf1e9;margin:14px 0 24px}
+.sound-lab-hero>img{width:100%;height:100%;min-height:215px;object-fit:cover}
+.sound-lab-hero-copy{display:flex;flex-direction:column;justify-content:center;padding:24px 28px}
+.sound-lab-hero-copy>span{color:#789179;font-size:8px;font-weight:800;letter-spacing:1.2px}
+.sound-lab-hero-copy h2{max-width:360px;margin:7px 0 8px;color:#29483d;font:700 23px/1.14 var(--heading);letter-spacing:-.65px}
+.sound-lab-hero-copy p{max-width:390px;margin:0;color:#77867b;font-size:10px;line-height:1.65}
+.sound-hero-note{margin-top:15px;color:#598065;font-size:9px;font-weight:700}
+.sound-map-section,.sound-compare-section{margin:24px 0}
+.sound-map-section .section-head,.sound-compare-section .section-head{margin-bottom:12px}
+.sound-map-section .section-head h2,.sound-compare-section .section-head h2{margin:3px 0;font:700 17px var(--heading);letter-spacing:-.35px}
+.sound-map-section .section-head p,.sound-compare-section .section-head p{margin:4px 0 0;color:#87938b;font-size:10px;line-height:1.55}
+.sound-vowel-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.sound-vowel-card{min-width:0;border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 13px;box-shadow:0 4px 16px rgba(34,60,48,.025)}
+.sound-vowel-head{display:flex;align-items:center;justify-content:space-between}
+.sound-vowel-letter{display:grid;width:42px;height:42px;place-items:center;border-radius:13px;background:#eaf2e9;color:#35644d;font:700 25px/1 var(--heading)}
+.sound-vowel-icon{font-size:19px}
+.sound-vowel-group{margin-top:8px;color:#91a097;font-size:8px;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.sound-vowel-word{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:2px;color:#34574a;font:700 15px var(--heading)}
+.sound-vowel-card p{margin:3px 0 0;color:#76867c;font-size:9px}
+.sound-vowel-card p span{color:#9a8776}
+.sound-groups-note{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.sound-groups-note span{padding:7px 10px;border:1px solid #e8ece6;border-radius:9px;background:#f8faf7;color:#718178;font-size:9px}
+.sound-groups-note b{margin-right:4px;color:#466956}
+.sound-pair-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sound-pair-card{border:1px solid #e6eade;border-radius:14px;background:#f9f8f2;padding:13px}
+.sound-pair-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#496e55;font-size:9px;font-weight:800}
+.sound-pair-heading small{color:#8a958c;font-size:8px;font-weight:500;text-align:right}
+.sound-pair-words{display:grid;grid-template-columns:minmax(0,1fr) 25px minmax(0,1fr);align-items:center;gap:6px;margin-top:10px}
+.sound-pair-words>i{color:#a5b0a5;font-size:15px;font-style:normal;text-align:center}
+.sound-pair-word{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:2px;padding:10px;border:1px solid #edf0e9;border-radius:11px;background:#fff;color:#395c4a;text-align:left;cursor:pointer;transition:border-color .15s,transform .15s}
+.sound-pair-word:hover{transform:translateY(-1px);border-color:#b7c9b8}
+.sound-pair-word strong{font:700 18px var(--heading)}
+.sound-pair-word>span{color:#7d897f;font-size:8px}
+.sound-pair-word>small{margin-top:4px;color:#5d8265;font-size:8px;font-weight:700}
+.sound-quiz{margin:20px 0 13px;padding:17px 19px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.sound-quiz-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.sound-quiz-top h2{margin:3px 0 0;font:700 15px var(--heading);letter-spacing:-.3px}
+.sound-quiz-time{padding:6px 9px;border-radius:20px;background:#eef3ed;color:#728276;font-size:8px;font-weight:700}
+.sound-quiz-progress{height:4px;margin:11px 0 14px;overflow:hidden;border-radius:5px;background:#edf0eb}
+.sound-quiz-progress span{display:block;height:100%;border-radius:inherit;background:#709b73;transition:width .2s}
+.sound-quiz-question{margin:0 0 9px;color:#425a4b;font:700 13px var(--heading)}
+.sound-quiz-options{display:flex;flex-wrap:wrap;gap:7px}
+.sound-quiz-options .quiz-option{min-width:70px;padding:9px 13px;font:700 12px var(--heading)}
+.sound-quiz-options .quiz-option:disabled{cursor:default;opacity:1}
+.sound-quiz .quiz-feedback{margin-top:9px;font-size:10px}
+.sound-quiz>.button-primary,.sound-quiz>.button-secondary{margin-top:10px;font-size:10px}
+.sound-complete{display:flex;align-items:center;gap:12px;margin:20px 0 13px;padding:15px 17px;border:1px solid #dce8dc;border-radius:15px;background:#edf5ec}
+.sound-complete>span{display:grid;width:37px;height:37px;flex:0 0 37px;place-items:center;border-radius:50%;background:#d9ead8;color:#4c8054;font-size:17px}
+.sound-complete>div{flex:1}
+.sound-complete strong{color:#385b42;font:700 12px var(--heading)}
+.sound-complete p{margin:3px 0 0;color:#7d897e;font-size:9px}
+.sound-complete button{padding:8px 11px;font-size:9px}
+.sound-source-note{padding:12px 14px;border:1px solid #e8ece6;border-radius:12px;background:#fafbf9;color:#89948c;font-size:9px;line-height:1.6}
+.sound-source-note a{color:#52775d;font-weight:700;text-decoration:none}
+.sound-source-note a:hover{text-decoration:underline}
+@media(max-width:900px){.sound-lab-hero{grid-template-columns:.8fr 1fr}.sound-lab-hero-copy{padding:20px}.sound-vowel-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:760px){.sound-lab-hero{grid-template-columns:1fr;min-height:unset}.sound-lab-hero>img{min-height:135px;height:135px;grid-row:1}.sound-lab-hero-copy{padding:18px 19px}.sound-lab-hero-copy h2{font-size:21px}.sound-vowel-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.sound-vowel-card{padding:10px}.sound-pair-grid{grid-template-columns:1fr}.sound-groups-note{gap:5px}.sound-groups-note span{font-size:8px;padding:7px}.sound-complete{align-items:flex-start;flex-wrap:wrap}.sound-complete>div{min-width:180px}.sound-complete button{margin-left:49px}}

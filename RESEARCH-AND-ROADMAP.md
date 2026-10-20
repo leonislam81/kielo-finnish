@@ -12,6 +12,7 @@ The name comes from *kielo*, the Finnish name for lily-of-the-valley, Finland's 
 - OPH describes YKI as practical language use and gives recurring themes such as personal background, home, services, culture, travel, health, work, environment, and society. Those themes provide the real-life spine for the course.
 - The Council of Europe's CEFR Companion Volume includes Pre-A1 and updated descriptors. Kielo therefore starts before A1 and treats progress as communication tasks rather than a list of grammar labels.
 - Yle provides beginner Finnish videos (alphabet, numbers, phrases), subtitled programmes, simplified news, and levelled self-study materials. Kielo links learners to these resources rather than copying or rehosting third-party media.
+- Aalto OpenLearning's beginner Finnish course introduces long and short vowels and double consonants. The University of Turku's Finnish teaching videos include pronunciation, vowel harmony, and short/long sound practice. Kielo's Sound Lab turns the first pronunciation ideas into short browser-audio drills and keeps the university resources linked as optional follow-up.
 - VR's official ticket flow labels one-way and return options as Meno and Paluu, and Helsinki station departure listings use raide / raiteelta for platform information. These terms inform the station role-play; the lesson does not present live train times.
 - The Finnish Meteorological Institute explains the regional variation of Finnish seasons, including the longer northern winter and the midnight sun. Finland's official country communications describe Midsummer, sauna, cottages, and outdoor life. These become the settings for culture-based examples.
 
@@ -26,7 +27,7 @@ The name comes from *kielo*, the Finnish name for lily-of-the-valley, Finland's 
 | B2 | Explain ideas and participate in extended discussion | Society; environment; media; formal requests and workplace communication |
 | C1–C2 | Understand nuanced Finnish and express precise, flexible ideas | Register and style; argument; idioms; long-form listening and writing |
 
-Each unit is designed around a scene, a short input (image, dialogue, or official video link), a compact vocabulary set, one grammar pattern, four-skills practice, and a short review. The app tracks a local progress record so learners can start without an account. Iterations add scene-specific imagery, visual word matching, a small spaced-review schedule that learners can adjust with Again or Got it, and guided café and train-station conversations with listen-and-choose turns, bilingual hints, and phrase replay.
+Each unit is designed around a scene, a short input (image, dialogue, or official video link), a compact vocabulary set, one grammar pattern, four-skills practice, and a short review. The app tracks a local progress record so learners can start without an account. Iterations add scene-specific imagery, visual word matching, a small spaced-review schedule that learners can adjust with Again or Got it, guided café and train-station conversations with listen-and-choose turns, bilingual hints, and phrase replay, plus a standalone Sound Lab for the eight vowels and sound length.
 
 ## First release plan
 
@@ -52,6 +53,8 @@ Each unit is designed around a scene, a short input (image, dialogue, or officia
 - [OPH: YKI topics and practice](https://www.oph.fi/en/education-and-qualifications/yki-test)
 - [Yle: Finnish-language beginner videos](https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet)
 - [Yle: Finnish self-study materials by level](https://yle.fi/a/20-10002426)
+- [Aalto OpenLearning: Tips for mastering Finnish pronunciation](https://openlearning.aalto.fi/mod/page/view.php?id=17025)
+- [University of Turku: Finnish language teaching videos](https://www.utu.fi/en/fi/yliopisto/kieli-ja-viestintaopintojen-keskus/tutkimus-ja-kehittaminen/osus/opetusvideot)
 - [VR: Helsinki station departures and platform wording](https://www.vr.fi/rautatieasemat-ja-reitit/helsinki)
 - [VR: Commuter train tickets](https://www.vr.fi/rautatieasemat-ja-reitit/lahiliikenne)
 - [Finnish Meteorological Institute: seasons in Finland](https://en.ilmatieteenlaitos.fi/seasons-in-finland)
