@@ -35,6 +35,8 @@ The B1 Writing Lab completes the four-skill practice path through B1 with three 
 
 The B1 Grammar Lab adds four short pattern lessons: relative clauses with joka/jossa, experiences with the perfect tense, contrast with vaikka, and purpose clauses with jotta. Learners hear Finnish browser speech and choose a form in context, with English or Bangla feedback. This focused set complements OPH’s B1.1 description of connected expression and a broader range of structures; it is not a complete grammar syllabus.
 
+The B2 Listening Lab extends the audio path with three longer, Finland-set arguments about city cycling, nature tourism, and hybrid work. Learners identify a main claim, weigh reasons and trade-offs, or infer a speaker’s position. Finnish browser speech is played at a near-normal rate; a Yle Areena podcast link provides an optional path to authentic full-speed recordings. The focused listening tasks align with OPH’s B2.1 descriptor for following longer speech and complex argumentation and identifying its main points, but they are not an official YKI test or complete B2 course.
+
 ## First release plan
 
 1. **Research and planning:** this document records the teaching model, level map, content sources, and product assumptions.
@@ -67,6 +69,8 @@ The B1 Grammar Lab adds four short pattern lessons: relative clauses with joka/j
 - [Uusi Kielemme: Finnish relative pronoun joka](https://uusikielemme.fi/finnish-grammar/syntax/constructions/the-relative-pronoun-joka-joka-pronomini)
 - [Uusi Kielemme: Finnish perfect tense](https://uusikielemme.fi/finnish-grammar/verbs/verb-tenses-and-moods/the-perfect-tense-perfekti)
 - [Uusi Kielemme: Finnish comma use with conjunctions](https://uusikielemme.fi/finnish-grammar/syntax/connectors/use-of-the-comma-with-conjunctions-and-other-connectives)
+- [OPH: Developing language proficiency scale, including B2.1 listening descriptors](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
+- [Yle Areena: Finnish podcasts](https://areena.yle.fi/podcastit)
 - [Yle: Selkouutiset in easy Finnish](https://yle.fi/selkouutiset)
 - [Yle: Finnish-language beginner videos](https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet)
 - [Yle: Finnish self-study materials by level](https://yle.fi/a/20-10002426)
