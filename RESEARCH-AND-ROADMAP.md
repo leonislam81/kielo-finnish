@@ -51,6 +51,8 @@ The B2 Speaking Lab adds four guided Finland-set discussions: make a balanced ca
 
 The C1 Speaking Lab adds four open-ended, Finland-set discussions about Helsinki’s green corridors, Lapland tourism, hybrid work, and public libraries. Each scenario presents a partner’s view, then invites the learner to respond, qualify a claim, offer a condition, or broaden the decision criteria. Finnish model turns come with English and Bangla support; speech recognition shows a transcript without scoring it. The activities follow OPH’s C1.1 goals for fluent, precise interaction, connecting contributions, taking responsibility for discussion, and rephrasing when needed. They are guided practice, not a full C1 course or official YKI task.
 
+The C1 Writing Lab completes the four-skills practice path through C1. Three structured text tasks address Helsinki housing and urban nature, Lapland tourism, and the role of public libraries. Learners sequence paragraphs, inspect a detailed Finnish model, listen with browser speech, and save a personal response locally. Drafts are not scored. The writing goals follow OPH’s C1 descriptors for well-structured, detailed writing on complex topics, highlighting key points and supporting opinions with reasons and examples. These are guided examples, not a complete C1 course or official YKI tasks.
+
 ## First release plan
 
 1. **Research and planning:** this document records the teaching model, level map, content sources, and product assumptions.
@@ -78,7 +80,7 @@ The C1 Speaking Lab adds four open-ended, Finland-set discussions about Helsinki
 - [OPH: Developing language proficiency scale (A2.1 descriptors)](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
 - [OPH: Developing language proficiency scale (B2.1 reading, listening and written-production descriptors)](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
 - [OPH: C1.1 reading descriptors for complex texts, summarising, attitudes and critical evaluation](https://www.oph.fi/en/node/1113)
-- [OPH: Finnish and Swedish as a second language proficiency scale, including C1 listening descriptors (PDF)](https://www.oph.fi/sites/default/files/documents/language-proficiency-scale_finnish-and-swedish-as-a-second-language-and-literature.pdf)
+- [OPH: Finnish and Swedish as a second language proficiency scale, including C1 listening and writing descriptors (PDF)](https://www.oph.fi/sites/default/files/documents/language-proficiency-scale_finnish-and-swedish-as-a-second-language-and-literature.pdf)
 - [OPH: C1.1 descriptors for fluent interaction, communication strategies and rephrasing](https://www.oph.fi/en/node/1113)
 - [Aalto University Open University: Finnish 3B grammar learning outcomes (conditional, present passive, zero-person, plural cases)](https://www.aalto.fi/sites/default/files/2019-09/aalto_avoin_2018_kesa_0.pdf#page=129)
 - [Uusi Kielemme: Finnish imperfect / past tense](https://uusikielemme.fi/finnish-grammar/verbs/verb-tenses-and-moods/the-imperfect-tense-past-tense-imperfekti)
