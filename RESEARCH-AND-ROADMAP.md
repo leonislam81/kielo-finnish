@@ -39,6 +39,8 @@ The B2 Listening Lab extends the audio path with three longer, Finland-set argum
 
 The B2 Reading Lab adds three original longer opinion and discussion texts about winter cycling in Helsinki, tourism in Lapland, and hybrid work. Learners tap selected words for English or Bangla help, listen with browser speech, compare viewpoints, and answer questions about an argument or inference. A link to Yle Uutiset offers authentic Finnish reporting for continued practice. The activities follow OPH’s B2.1 reading descriptor for understanding varied written texts, including abstract topics, facts, attitudes, and opinions; they are focused practice, not a full B2 course or official YKI task.
 
+The B2 Speaking Lab adds four guided Finland-set discussions: make a balanced case for winter cycling, weigh jobs and nature in Lapland, disagree politely about office days, and summarise a plan before confirming it. Each turn includes a Finnish partner prompt, a model response, English or Bangla support, and browser audio. Voice recognition only shows its transcript at B2; it does not score pronunciation or judge whether a learner’s response is correct. The practice follows OPH’s B2.1 interaction descriptors for stating a position, negotiating meaning, monitoring understanding, and communicating respectfully, with Yle Areena podcasts as an optional authentic follow-up.
+
 ## First release plan
 
 1. **Research and planning:** this document records the teaching model, level map, content sources, and product assumptions.
