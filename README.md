@@ -1,6 +1,6 @@
 # Kielo — Learn Finnish, gently
 
-Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with reading practice through C2, listening, speaking, and writing practice through C1, vocabulary through B2, and grammar practice through C1. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café and railway station, and a standalone pronunciation lab for Finnish vowels and sound length.
+Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with reading and listening practice through C2, speaking and writing practice through C1, vocabulary through B2, and grammar practice through C1. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café and railway station, and a standalone pronunciation lab for Finnish vowels and sound length.
 
 ## Run locally
 
@@ -19,6 +19,8 @@ Lesson completion, review words and their due dates, language preference, writin
 The app links to official Yle learning materials. Seasonal, café, and travel photography is loaded from Unsplash; an internet connection is needed to show those images. Browser speech synthesis is used for Finnish audio when a Finnish voice is installed.
 
 The C1 Listening Lab adds three extended talks about renewable energy, Lapland tourism, and libraries. Questions target implied meaning, speaker stance, and qualifications across the whole talk. Browser speech synthesis is synthetic and voice availability varies, so the lab links to Yle Areena for authentic Finnish listening. It is focused practice informed by OPH’s C1 listening descriptors, not a complete C1 course or official YKI task.
+
+The C2 Listening Lab adds three longer Finland-themed talks about neighbourhood sauna culture, winter cycling routes, and digital public services. Learners hear how a speaker qualifies a claim, balances competing needs, and signals a careful position. Browser-generated Finnish audio plays at a natural practice speed, with transcript and English or Bangla support after an answer; Yle Areena offers optional unscripted listening. The focus reflects OPH/YKI’s broad C2 listening description, but the talks are original guided practice, not official YKI recordings.
 
 The C1 Speaking Lab adds four open-ended Finland-set conversations about city planning, Lapland tourism, hybrid work, and library access. Each turn includes a Finnish partner, a prompt, a model answer, and Bangla or English support. Learners connect their reply to the partner’s point, qualify claims, and keep discussion moving. Browser recognition only displays a transcript; it does not score meaning or pronunciation. The activities follow OPH’s C1.1 interaction descriptors and are guided practice, not an official YKI task.
 
