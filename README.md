@@ -1,6 +1,6 @@
 # Kielo — Learn Finnish, gently
 
-Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with separate listening, speaking, reading, writing, and grammar labs through C2. Vocabulary review includes the course words plus curated C1 and C2 word sets with contextual examples. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café, railway station, and grocery store, a standalone pronunciation lab for Finnish vowels and sound length, and an installable offline app shell.
+Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with separate listening, speaking, reading, writing, and grammar labs through C2. Vocabulary review includes the course words plus curated C1 and C2 word sets with contextual examples. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café, railway station, grocery store, and library, a standalone pronunciation lab for Finnish vowels and sound length, and an installable offline app shell.
 
 ## Run locally
 
@@ -37,3 +37,6 @@ The C1 Grammar Lab adds four contextual lessons on active present participles, a
 The C2 Reading Lab adds three longer Finland-themed passages about a Helsinki library, a Lapland trail, and winter cycling. Learners interpret subtext, tone, and how public wording signals commitment; they can tap selected Finnish words, hear browser audio, read the English or Bangla translation, and check comprehension. The practice reflects OPH/YKI’s broad C2 description of understanding varied written language and subtle differences of tone, but it is not an official YKI task.
 
 The grocery-store role-play adds English and Bangla support for finding rye bread, following a card payment, and asking for a receipt. Its short A1-style practice is original guided material; learners can continue with [Yle’s authentic grocery-shopping lesson](https://yle.fi/a/20-152698), which is marked A2.1 by Yle.
+
+
+The library role-play introduces a library card, a Finnish address requirement in the Helsinki-region Helmet libraries, a usual four-week loan period, and the due date on a loan receipt. It is original A1 guided practice; for local rules, learners can open [Helmet’s library card and borrowing guide](https://helmet.finna.fi/Content/kirjastokortti-ja-lainaaminen?lng=en-gb).

@@ -125,3 +125,8 @@ The C1 Writing Lab completes the four-skills practice path through C1. Three str
 ## Grocery-store conversation
 
 The A1 grocery-store role-play uses short, standard Finnish responses for finding rye bread, understanding a card-payment prompt, and answering whether the learner wants a receipt. The practice is an original beginner adaptation, rather than a transcript. Yle’s authentic grocery-shopping material covers these everyday shop interactions at A2.1, so the app offers it as an optional next step: [Yle Oppiminen: Ruokakaupassa](https://yle.fi/a/20-152698).
+
+
+## Library conversation
+
+The A1 library role-play connects everyday Finnish with public-library culture in the Helsinki region. Its four short exchanges practise asking for a library card, describing a Finnish address, checking when to return a book, and understanding *eräpäivä* (due date). The example follows Helmet’s stated card and loan guidance, while the linked official page remains the source for current local rules: [Helmet: Library card and loans](https://helmet.finna.fi/Content/kirjastokortti-ja-lainaaminen?lng=en-gb).
