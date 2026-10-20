@@ -25,7 +25,7 @@ The name comes from *kielo*, the Finnish name for lily-of-the-valley, Finland's 
 | B2 | Explain ideas and participate in extended discussion | Society; environment; media; formal requests and workplace communication |
 | C1–C2 | Understand nuanced Finnish and express precise, flexible ideas | Register and style; argument; idioms; long-form listening and writing |
 
-Each unit is designed around a scene, a short input (image, dialogue, or official video link), a compact vocabulary set, one grammar pattern, four-skills practice, and a short review. The app tracks a local progress record so learners can start without an account. The next iteration adds scene-specific imagery, visual word matching, and a small spaced-review schedule that learners can adjust with Again or Got it.
+Each unit is designed around a scene, a short input (image, dialogue, or official video link), a compact vocabulary set, one grammar pattern, four-skills practice, and a short review. The app tracks a local progress record so learners can start without an account. Iterations add scene-specific imagery, visual word matching, a small spaced-review schedule that learners can adjust with Again or Got it, and a guided Pre-A1 café conversation with listen-and-choose turns, bilingual hints, and phrase replay.
 
 ## First release plan
 
@@ -42,7 +42,7 @@ Each unit is designed around a scene, a short input (image, dialogue, or officia
 - Keep Finnish visible beside its translation. Use short sentences, one concept at a time, audio playback, image prompts, and immediate answer feedback.
 - Use a progression that includes listening, speaking, reading, and writing. Speaking prompts are practice prompts, not an automated pronunciation score.
 - Use learner-created examples and link to Yle for third-party video. External video availability and captions can change, so media cards identify their source and open the official material.
-- Save lesson completion and vocabulary review to this browser with `localStorage`; no account or server is needed for the first release.
+- Save lesson completion, café role-play completion, and vocabulary review to this browser with `localStorage`; no account or server is needed for the first release.
 
 ## Sources
 

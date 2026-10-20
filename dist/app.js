@@ -9,7 +9,7 @@
   const reviewSchedule=saved.review&&typeof saved.review==="object"?saved.review:Object.fromEntries(savedKnown.map(word=>[word,{box:0,due:Date.now()}]));
   savedKnown.forEach(word=>{if(!reviewSchedule[word])reviewSchedule[word]={box:0,due:Date.now()}});
   const state={
-    page:"home",filter:"all",help:saved.help==="en"?"en":"bn",completed:new Set(Array.isArray(saved.completed)?saved.completed:[]),known:new Set(savedKnown),reviewSchedule,drafts:saved.drafts||{},lesson:null,step:0,quizChoice:null,quizDone:false,search:"",reviewActive:false,reviewQueue:[],reviewIndex:0,reviewRevealed:false,reviewFinished:false,matchWord:null,matchOptions:[],matchChoice:null
+    page:"home",filter:"all",help:saved.help==="en"?"en":"bn",completed:new Set(Array.isArray(saved.completed)?saved.completed:[]),known:new Set(savedKnown),reviewSchedule,drafts:saved.drafts||{},lesson:null,step:0,quizChoice:null,quizDone:false,search:"",reviewActive:false,reviewQueue:[],reviewIndex:0,reviewRevealed:false,reviewFinished:false,matchWord:null,matchOptions:[],matchChoice:null,cafeStep:0,cafeChoice:null,cafeAnswered:false,cafeComplete:saved.cafeComplete===true
   };
   const pageContent=document.getElementById("page-content");
   const modalBackdrop=document.getElementById("lesson-backdrop");
@@ -44,7 +44,7 @@
     state.matchOptions=[state.matchWord,...distractors].sort(()=>Math.random()-.5);state.matchChoice=null;renderPractice();
   }
   const escapeHTML=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
-  const persist=()=>localStorage.setItem(storageKey,JSON.stringify({help:state.help,completed:[...state.completed],known:[...state.known],review:state.reviewSchedule,drafts:state.drafts}));
+  const persist=()=>localStorage.setItem(storageKey,JSON.stringify({help:state.help,completed:[...state.completed],known:[...state.known],review:state.reviewSchedule,drafts:state.drafts,cafeComplete:state.cafeComplete}));
   const doneCount=()=>state.completed.size;
   const pct=()=>Math.round(doneCount()/lessons.length*100);
   const getNextLesson=()=>lessons.find(lesson=>!state.completed.has(lesson.id))||lessons[0];
@@ -59,7 +59,7 @@
   function progressBar(count,total){return `<div class="progress-track"><div class="progress-fill" style="width:${total?Math.min(100,Math.round(count/total*100)):0}%"></div></div>`}
   function setActiveNav(){document.querySelectorAll(".nav-link").forEach(button=>button.classList.toggle("active",button.dataset.page===state.page));document.querySelectorAll("[data-lang-label]").forEach(label=>label.classList.toggle("selected",label.dataset.langLabel===state.help));document.getElementById("word-count").textContent=state.known.size}
   function setPage(page){state.page=page;render();document.getElementById("sidebar").classList.remove("open");window.scrollTo({top:0,behavior:"smooth"})}
-  function render(){setActiveNav();if(state.page==="home")renderHome();else if(state.page==="path")renderPath();else if(state.page==="practice")renderPractice();else renderCulture()}
+  function render(){setActiveNav();if(state.page==="home")renderHome();else if(state.page==="path")renderPath();else if(state.page==="practice")renderPractice();else if(state.page==="cafe")renderCafe();else renderCulture()}
   function renderHome(){
     const next=getNextLesson();
     pageContent.innerHTML=`
@@ -131,6 +131,30 @@
       ${reviewMarkup}${matchMarkup}
       <div class="section-head"><div><h2>${wordTitle}</h2><p>Audio uses the Finnish voice available in your browser.</p></div></div><div class="vocab-grid">${(wordCards.length?wordCards:"<div class=\"vocab-empty\">No matching words yet. Try another search.</div>")}</div>`;
   }
+  const cafeTurns=[
+    {prompt:"Hei! Mitä saisi olla?",en:"Hello! What can I get you?",bn:"হ্যালো! আপনাকে কী দিতে পারি?",choices:[{fi:"Ottaisin kahvin, kiitos.",en:"I’d have a coffee, please.",bn:"আমি একটি কফি নেব, ধন্যবাদ।",correct:true},{fi:"Missä on asema?",en:"Where is the station?",bn:"স্টেশন কোথায়?"},{fi:"Hyvää yötä.",en:"Good night.",bn:"শুভরাত্রি।"}]},
+    {prompt:"Haluatko mukaan vai täällä?",en:"Would you like it to go or here?",bn:"সঙ্গে নিয়ে যাবেন, নাকি এখানে খাবেন?",choices:[{fi:"Täällä, kiitos.",en:"Here, please.",bn:"এখানেই, ধন্যবাদ।",correct:true},{fi:"Minä olen opiskelija.",en:"I am a student.",bn:"আমি একজন শিক্ষার্থী।"},{fi:"On kylmä.",en:"It is cold.",bn:"ঠান্ডা পড়েছে।"}]},
+    {prompt:"Se tekee kolme euroa.",en:"That will be three euros.",bn:"মোট তিন ইউরো।",choices:[{fi:"Tässä, ole hyvä.",en:"Here you are.",bn:"এই নিন।",correct:true},{fi:"Mitä kello on?",en:"What time is it?",bn:"এখন কয়টা বাজে?"},{fi:"Nähdään huomenna.",en:"See you tomorrow.",bn:"আগামীকাল দেখা হবে।"}]},
+    {prompt:"Kiitos! Mukavaa päivää!",en:"Thank you! Have a lovely day!",bn:"ধন্যবাদ! আপনার দিনটি ভালো কাটুক!",choices:[{fi:"Kiitos, samoin!",en:"Thank you, you too!",bn:"ধন্যবাদ, আপনারও!",correct:true},{fi:"Yksi lippu, kiitos.",en:"One ticket, please.",bn:"একটি টিকিট, ধন্যবাদ।"},{fi:"Minulla on nälkä.",en:"I am hungry.",bn:"আমার ক্ষুধা লেগেছে।"}]}
+  ];
+  function renderCafe(){
+    const done=state.cafeComplete;
+    const turn=cafeTurns[state.cafeStep];
+    const helpTextFor=(item)=>state.help==="bn"?item.bn:item.en;
+    const progress=cafeTurns.map((_,index)=>'<span class="cafe-progress-segment '+(index<state.cafeStep||done?'done':index===state.cafeStep&&!done?'current':'')+'"></span>').join("");
+    let activity="";
+    if(done){
+      activity='<div class="cafe-finished"><div class="cafe-finished-mark">✓</div><p class="cafe-eyebrow">ROLE-PLAY COMPLETE</p><h2>One coffee, four useful moments.</h2><p>You handled a friendly café order from hello to goodbye. Listen to the phrases again and try them in a real conversation.</p><div class="cafe-recap">'+cafeTurns.map(item=>'<button class="cafe-recap-phrase" data-speak="'+escapeHTML(item.choices.find(choice=>choice.correct).fi)+'"><span>▶</span><strong>'+escapeHTML(item.choices.find(choice=>choice.correct).fi)+'</strong><small>'+escapeHTML(helpTextFor(item.choices.find(choice=>choice.correct)))+'</small></button>').join("")+'</div><button class="button-secondary" data-cafe-action="restart">Practise the café scene again ↺</button></div>';
+    }else{
+      const answered=state.cafeAnswered;
+      const picked=turn.choices.find(choice=>choice.fi===state.cafeChoice);
+      const correct=picked?.correct===true;
+      const options=turn.choices.map(choice=>'<button class="cafe-choice '+(answered&&choice.correct?'correct':'')+' '+(answered&&choice.fi===state.cafeChoice&&!choice.correct?'incorrect':'')+'" data-cafe-choice="'+escapeHTML(choice.fi)+'" '+(answered?'disabled':'')+'><strong>'+escapeHTML(choice.fi)+'</strong><span>'+escapeHTML(helpTextFor(choice))+'</span></button>').join("");
+      const feedback=answered?'<div class="cafe-feedback '+(correct?'right':'wrong')+'" role="status">'+(correct?'Perfect — that sounds natural.':'Good try. Listen once more, then choose a different phrase.')+'</div><button class="'+(correct?'button-primary':'button-secondary')+'" data-cafe-action="'+(correct?'continue':'retry')+'">'+(correct?(state.cafeStep===cafeTurns.length-1?'Finish conversation':'Continue conversation'):'Try again')+' <span>'+ (correct?'→':'↺')+'</span></button>':'';
+      activity='<div class="cafe-conversation"><div class="cafe-step-label"><span>YOUR TURN</span><small>Moment '+(state.cafeStep+1)+' of '+cafeTurns.length+'</small></div><div class="cafe-barista"><div class="barista-avatar" aria-hidden="true">☕</div><div class="barista-line"><span class="speaker-label">BARISTA · FINNISH</span><p>'+escapeHTML(turn.prompt)+'</p><small>'+escapeHTML(helpTextFor(turn))+'</small></div><button class="cafe-listen" data-speak="'+escapeHTML(turn.prompt)+'" aria-label="Listen to the barista">▶</button></div><h2>What would you say?</h2><p class="cafe-instruction">Choose the Finnish phrase that fits. Listen to each phrase before you answer.</p><div class="cafe-choices">'+options+'</div>'+feedback+'</div>';
+    }
+    pageContent.innerHTML='<div class="page-title-row"><div><div class="page-kicker">Everyday Finnish, one gentle step at a time</div><h1>Let’s visit a Finnish café</h1><p>Listen to the barista, pick a phrase, and build a simple real-life conversation.</p></div><span class="cafe-level-pill">PRE-A1 · BEGINNER</span></div><section class="cafe-hero"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1500&q=84" alt="A warm Finnish café with wooden tables and a cup of coffee"/><div class="cafe-hero-shade"></div><div class="cafe-hero-copy"><span>PIENI KAHVILA · LITTLE CAFÉ</span><h2>Order a coffee in Finnish.</h2><p>Four small turns. Helpful translations. No pressure to get it perfect.</p><div class="cafe-hero-note">☕ &nbsp; Speak it, hear it, remember it.</div></div></section><div class="cafe-progress" aria-label="Conversation progress">'+progress+'</div><section class="cafe-panel">'+activity+'</section><div class="cafe-footer-note"><span>✿</span><p>Finnish TTS uses the voice installed in your browser. Your practice progress stays on this device.</p></div>';
+  }
   function renderCulture(){
     const media=window.KIELO_MEDIA||[];
     pageContent.innerHTML=`<div class="page-title-row"><div><div class="page-kicker">Words live in places</div><h1>Finland & media</h1><p>Learn Finnish through the light, weather, journeys, and everyday traditions that shape life across Finland.</p></div></div>
@@ -168,6 +192,8 @@
     const reviewButton=event.target.closest("[data-review]");if(reviewButton){const action=reviewButton.dataset.review;if(action==="start")startReview();else if(action==="reveal"){state.reviewRevealed=true;renderPractice()}else if(action==="again"||action==="got-it")answerReview(action);else if(action==="finish"){state.reviewActive=false;state.reviewQueue=[];state.reviewRevealed=false;renderPractice()}return}
     const matchButton=event.target.closest("[data-match]");if(matchButton){if(matchButton.dataset.match==="start"||matchButton.dataset.match==="next")startPictureMatch();return}
     const matchChoice=event.target.closest("[data-match-choice]");if(matchChoice){state.matchChoice=matchChoice.dataset.matchChoice;renderPractice();return}
+    const cafeChoice=event.target.closest("[data-cafe-choice]");if(cafeChoice){state.cafeChoice=cafeChoice.dataset.cafeChoice;state.cafeAnswered=true;renderCafe();return}
+    const cafeAction=event.target.closest("[data-cafe-action]");if(cafeAction){const action=cafeAction.dataset.cafeAction;if(action==="restart"){state.cafeStep=0;state.cafeChoice=null;state.cafeAnswered=false;state.cafeComplete=false;persist()}else if(action==="retry"){state.cafeChoice=null;state.cafeAnswered=false}else if(action==="continue"){if(state.cafeStep===cafeTurns.length-1){state.cafeComplete=true;persist()}else state.cafeStep++;state.cafeChoice=null;state.cafeAnswered=false}renderCafe();return}
     const closeButton=event.target.closest("[data-close-modal]");if(closeButton){closeLesson();return}
     const stepButton=event.target.closest("[data-step]");if(stepButton){state.step=Number(stepButton.dataset.step);state.quizChoice=null;state.quizDone=false;renderLessonModal();return}
     const choiceButton=event.target.closest("[data-choice]");if(choiceButton){state.quizChoice=choiceButton.dataset.choice;state.quizDone=true;renderLessonModal();return}

@@ -1,6 +1,6 @@
 # Kielo — Learn Finnish, gently
 
-Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with vocabulary, grammar notes, browser audio, a short quiz, speaking prompts, writing practice, scene-based pictures, picture matching, and spaced vocabulary review.
+Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with vocabulary, grammar notes, browser audio, a short quiz, speaking prompts, writing practice, scene-based pictures, picture matching, spaced vocabulary review, and a beginner café conversation with immediate feedback.
 
 ## Run locally
 
@@ -12,7 +12,7 @@ See [RESEARCH-AND-ROADMAP.md](RESEARCH-AND-ROADMAP.md) for the research notes, c
 
 ## Learner data
 
-Lesson completion, review words and their due dates, language preference, and writing drafts are stored in the current browser with `localStorage`. Review intervals grow from 1 to 30 days when a word is recalled and reset to 10 minutes when it needs another try. This first release does not need an account or send learner progress to a server.
+Lesson completion, review words and their due dates, language preference, writing drafts, and café role-play completion are stored in the current browser with `localStorage`. Review intervals grow from 1 to 30 days when a word is recalled and reset to 10 minutes when it needs another try. This first release does not need an account or send learner progress to a server.
 
 ## Media and credits
 
