@@ -22,12 +22,12 @@ The name comes from *kielo*, the Finnish name for lily-of-the-valley, Finland's 
 | --- | --- | --- |
 | Pre-A1 | Recognise sounds and use first survival phrases | Sounds & spelling; greetings; numbers and time; first questions |
 | A1 | Handle simple everyday exchanges | Introductions; café and shop; home and family; directions and transport |
-| A2 | Describe routines and past events; understand the gist and details in short, simple everyday texts | Daily life; weather and seasons; health; travel; messages, notices, and simple travel notes |
+| A2 | Describe routines and past events; understand everyday texts; write concise messages and notes | Daily life; weather and seasons; health; travel; messages, notices, and short everyday writing |
 | B1 | Manage familiar situations with connected speech | Work and study; housing; appointments; stories and opinions |
 | B2 | Explain ideas and participate in extended discussion | Society; environment; media; formal requests and workplace communication |
 | C1–C2 | Understand nuanced Finnish and express precise, flexible ideas | Register and style; argument; idioms; long-form listening and writing |
 
-Each unit is designed around a scene, a short input (image, dialogue, or official video link), a compact vocabulary set, one grammar pattern, four-skills practice, and a short review. The A2 Reading practice uses short messages, a library notice, and a travel note; learners can tap words for English or Bangla meanings and answer detail questions. It links to Yle Selkouutiset for optional real-world reading. The app tracks a local progress record so learners can start without an account. Iterations add scene-specific imagery, visual word matching, a small spaced-review schedule that learners can adjust with Again or Got it, guided café and train-station conversations with listen-and-choose turns, bilingual hints, and phrase replay, plus a standalone Sound Lab for the eight vowels and sound length.
+Each unit is designed around a scene, a short input (image, dialogue, or official video link), a compact vocabulary set, one grammar pattern, four-skills practice, and a short review. The A2 Reading practice uses short messages, a library notice, and a travel note; learners can tap words for English or Bangla meanings and answer detail questions. It links to Yle Selkouutiset for optional real-world reading. A2 Writing now guides learners through arranging Finnish message parts for a reply, a cottage invitation, and a short request; translations, audio, and explanations are available in English or Bangla. The app tracks a local progress record so learners can start without an account. Iterations add scene-specific imagery, visual word matching, a small spaced-review schedule that learners can adjust with Again or Got it, guided café and train-station conversations with listen-and-choose turns, bilingual hints, and phrase replay, plus a standalone Sound Lab for the eight vowels and sound length.
 
 ## First release plan
 
@@ -56,6 +56,7 @@ Each unit is designed around a scene, a short input (image, dialogue, or officia
 - [Yle: Finnish-language beginner videos](https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet)
 - [Yle: Finnish self-study materials by level](https://yle.fi/a/20-10002426)
 - [Aalto OpenLearning: Tips for mastering Finnish pronunciation](https://openlearning.aalto.fi/mod/page/view.php?id=17025)
+- [Aalto OpenLearning: Beginner text-message writing task](https://openlearning.aalto.fi/mod/assign/view.php?id=15404)
 - [University of Turku: Finnish language teaching videos](https://www.utu.fi/en/fi/yliopisto/kieli-ja-viestintaopintojen-keskus/tutkimus-ja-kehittaminen/osus/opetusvideot)
 - [VR: Helsinki station departures and platform wording](https://www.vr.fi/rautatieasemat-ja-reitit/helsinki)
 - [VR: Commuter train tickets](https://www.vr.fi/rautatieasemat-ja-reitit/lahiliikenne)

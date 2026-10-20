@@ -1,4 +1,4 @@
-.writing-level-picker{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 13px}
+.writing-level-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:16px 0 13px}
 .writing-level-tab{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:3px;padding:11px 13px;border:1px solid #e2e9e1;border-radius:12px;background:#fff;color:#526b58;text-align:left;cursor:pointer;transition:border-color .16s,background .16s,box-shadow .16s}
 .writing-level-tab:hover{border-color:#b8cbb8;background:#f8fbf7}
 .writing-level-tab.selected{border-color:#9eb99f;background:#edf5ec;box-shadow:inset 0 0 0 1px rgba(112,155,115,.12)}
@@ -28,6 +28,8 @@
 .writing-placed-word>span{color:#89958b;font:400 13px Arial,sans-serif}
 .writing-tiles{display:flex;min-height:48px;flex-wrap:wrap;gap:7px;margin-top:9px}
 .writing-tile{background:#edf5ec;color:#446e4d}
+.writing-card.a2-writing .writing-tile{max-width:100%;justify-content:flex-start;text-align:left;white-space:normal;line-height:1.45}
+.writing-card.a2-writing .writing-built{align-content:flex-start}
 .writing-tile:hover:not(:disabled){transform:translateY(-1px);border-color:#aac5aa;background:#e4f0e3}
 .writing-tile:disabled{display:none}
 .writing-placed-word:disabled{cursor:default;opacity:1}
