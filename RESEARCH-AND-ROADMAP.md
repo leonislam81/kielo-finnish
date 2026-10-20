@@ -22,12 +22,12 @@ The name comes from *kielo*, the Finnish name for lily-of-the-valley, Finland's 
 | --- | --- | --- |
 | Pre-A1 | Recognise sounds and use first survival phrases | Sounds & spelling; greetings; numbers and time; first questions |
 | A1 | Handle simple everyday exchanges | Introductions; café and shop; home and family; directions and transport |
-| A2 | Describe routines and past events | Daily life; weather and seasons; health; travel and short messages |
+| A2 | Describe routines and past events; understand the gist and details in short, simple everyday texts | Daily life; weather and seasons; health; travel; messages, notices, and simple travel notes |
 | B1 | Manage familiar situations with connected speech | Work and study; housing; appointments; stories and opinions |
 | B2 | Explain ideas and participate in extended discussion | Society; environment; media; formal requests and workplace communication |
 | C1–C2 | Understand nuanced Finnish and express precise, flexible ideas | Register and style; argument; idioms; long-form listening and writing |
 
-Each unit is designed around a scene, a short input (image, dialogue, or official video link), a compact vocabulary set, one grammar pattern, four-skills practice, and a short review. The app tracks a local progress record so learners can start without an account. Iterations add scene-specific imagery, visual word matching, a small spaced-review schedule that learners can adjust with Again or Got it, guided café and train-station conversations with listen-and-choose turns, bilingual hints, and phrase replay, plus a standalone Sound Lab for the eight vowels and sound length.
+Each unit is designed around a scene, a short input (image, dialogue, or official video link), a compact vocabulary set, one grammar pattern, four-skills practice, and a short review. The A2 Reading practice uses short messages, a library notice, and a travel note; learners can tap words for English or Bangla meanings and answer detail questions. It links to Yle Selkouutiset for optional real-world reading. The app tracks a local progress record so learners can start without an account. Iterations add scene-specific imagery, visual word matching, a small spaced-review schedule that learners can adjust with Again or Got it, guided café and train-station conversations with listen-and-choose turns, bilingual hints, and phrase replay, plus a standalone Sound Lab for the eight vowels and sound length.
 
 ## First release plan
 
@@ -51,6 +51,8 @@ Each unit is designed around a scene, a short input (image, dialogue, or officia
 - [Council of Europe: CEFR Companion Volume](https://www.coe.int/en/web/education/-/common-european-framework-of-reference-for-languages-learning-teaching-assessment-14)
 - [OPH: YKI levels and four subtests](https://www.oph.fi/en/education-and-qualifications/selecting-right-yki-test-test-days)
 - [OPH: YKI topics and practice](https://www.oph.fi/en/education-and-qualifications/yki-test)
+- [OPH: YKI and CEFR proficiency descriptions](https://www.oph.fi/sites/default/files/documents/169247_proficiency_levels_cefr.pdf)
+- [Yle: Selkouutiset in easy Finnish](https://yle.fi/selkouutiset)
 - [Yle: Finnish-language beginner videos](https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet)
 - [Yle: Finnish self-study materials by level](https://yle.fi/a/20-10002426)
 - [Aalto OpenLearning: Tips for mastering Finnish pronunciation](https://openlearning.aalto.fi/mod/page/view.php?id=17025)
