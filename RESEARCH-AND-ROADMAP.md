@@ -76,7 +76,7 @@ The C1 Writing Lab completes the four-skills practice path through C1. Three str
 3. **Course experience:** level navigation covers Pre-A1 through C2; each level has a coherent progression, while playable lessons demonstrate the lesson, quiz, listening, speaking, and flashcard patterns.
 4. **Culture and media:** season cards connect vocabulary to Finland; a media shelf links to Yle's beginner videos, levelled materials, and simplified news.
 5. **Review and delivery:** check the local preview, publish the public GitHub Pages site, and push the source to the public GitHub repository.
-6. **Practice iteration:** ship scene-specific pictures, picture matching, spaced word review, and guided café and train-station conversations.
+6. **Practice iteration:** ship scene-specific pictures, picture matching, spaced word review, and guided café, train-station, and grocery-store conversations.
 
 ## Design and teaching choices
 
@@ -121,3 +121,7 @@ The C1 Writing Lab completes the four-skills practice path through C1. Three str
 - [Finnish Meteorological Institute: seasons in Finland](https://en.ilmatieteenlaitos.fi/seasons-in-finland)
 - [Finland Toolbox: Finnish Midsummer](https://toolbox.finland.fi/seasons-destinations/finnish-midsummer/)
 - [thisisFINLAND: Finland's national flower and nature symbols](https://finland.fi/life-society/iconic-finnish-nature-symbols-stand-out/)
+
+## Grocery-store conversation
+
+The A1 grocery-store role-play uses short, standard Finnish responses for finding rye bread, understanding a card-payment prompt, and answering whether the learner wants a receipt. The practice is an original beginner adaptation, rather than a transcript. Yle’s authentic grocery-shopping material covers these everyday shop interactions at A2.1, so the app offers it as an optional next step: [Yle Oppiminen: Ruokakaupassa](https://yle.fi/a/20-152698).

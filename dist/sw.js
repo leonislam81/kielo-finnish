@@ -21,7 +21,7 @@ const ASSET_PATHS=[
   "pwa.js?v=1",
   "backup.css?v=1",
   "rhythm.css?v=1",
-  "app.js?v=50",
+  "app.js?v=51",
   "images/kielo-cover.webp",
   "images/kielo-mark.svg",
   "images/kielo-icon-192.png",
