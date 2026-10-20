@@ -43,6 +43,8 @@ The B2 Listening Lab extends the audio path with three longer, Finland-set argum
 
 The B2 Reading Lab adds three original longer opinion and discussion texts about winter cycling in Helsinki, tourism in Lapland, and hybrid work. Learners tap selected words for English or Bangla help, listen with browser speech, compare viewpoints, and answer questions about an argument or inference. A link to Yle Uutiset offers authentic Finnish reporting for continued practice. The activities follow OPH’s B2.1 reading descriptor for understanding varied written texts, including abstract topics, facts, attitudes, and opinions; they are focused practice, not a full B2 course or official YKI task.
 
+The C1 Reading Lab adds three original, multi-paragraph texts about urban nature and housing, tourism and cultural decision-making in Lapland, and the civic role of public libraries. Learners use selected Finnish vocabulary with English or Bangla meanings, hear browser speech, and answer questions that require synthesis, inference, and attention to a writer’s stance. The practice follows OPH’s C1.1 reading descriptors for understanding complex texts, summarising main points, recognising attitudes, and evaluating what was read critically. Yle Uutiset offers optional authentic follow-up. This is a focused reading lab, not a complete C1 course or official YKI task.
+
 The B2 Speaking Lab adds four guided Finland-set discussions: make a balanced case for winter cycling, weigh jobs and nature in Lapland, disagree politely about office days, and summarise a plan before confirming it. Each turn includes a Finnish partner prompt, a model response, English or Bangla support, and browser audio. Voice recognition only shows its transcript at B2; it does not score pronunciation or judge whether a learner’s response is correct. The practice follows OPH’s B2.1 interaction descriptors for stating a position, negotiating meaning, monitoring understanding, and communicating respectfully, with Yle Areena podcasts as an optional authentic follow-up.
 
 ## First release plan
@@ -71,6 +73,7 @@ The B2 Speaking Lab adds four guided Finland-set discussions: make a balanced ca
 - [OPH: YKI and CEFR proficiency descriptions](https://www.oph.fi/sites/default/files/documents/169247_proficiency_levels_cefr.pdf)
 - [OPH: Developing language proficiency scale (A2.1 descriptors)](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
 - [OPH: Developing language proficiency scale (B2.1 reading, listening and written-production descriptors)](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
+- [OPH: C1.1 reading descriptors for complex texts, summarising, attitudes and critical evaluation](https://www.oph.fi/en/node/1113)
 - [Aalto University Open University: Finnish 3B grammar learning outcomes (conditional, present passive, zero-person, plural cases)](https://www.aalto.fi/sites/default/files/2019-09/aalto_avoin_2018_kesa_0.pdf#page=129)
 - [Uusi Kielemme: Finnish imperfect / past tense](https://uusikielemme.fi/finnish-grammar/verbs/verb-tenses-and-moods/the-imperfect-tense-past-tense-imperfekti)
 - [Uusi Kielemme: Finnish location cases](https://uusikielemme.fi/finnish-grammar/finnish-cases/location-cases/missa-mista-mihin-location-cases)
