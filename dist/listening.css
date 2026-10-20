@@ -53,5 +53,15 @@
 .listening-complete-copy button{font-size:10px}
 .listening-complete-art{position:absolute;right:27px;bottom:6px;color:rgba(57,104,67,.12);font-size:126px;line-height:1}
 .listening-complete-art span{position:absolute;top:11px;right:-2px;font-size:45px}
+.listening-level-picker{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0 13px}
+.listening-level-tab{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:3px;padding:11px 13px;border:1px solid #e2e9e1;border-radius:12px;background:#fff;color:#526b58;text-align:left;cursor:pointer;transition:border-color .16s,background .16s,box-shadow .16s}
+.listening-level-tab:hover{border-color:#b8cbb8;background:#f8fbf7}
+.listening-level-tab.selected{border-color:#9eb99f;background:#edf5ec;box-shadow:inset 0 0 0 1px rgba(112,155,115,.12)}
+.listening-level-tab:focus-visible{outline:3px solid #96bba1;outline-offset:2px}
+.listening-level-tab span{font:700 11px/1.35 var(--heading)}
+.listening-level-tab small{color:#87958a;font-size:8px;line-height:1.4}
+.listening-sources{margin-top:13px;padding:11px 13px;border:1px solid #e8ece6;border-radius:12px;background:#fafbf9;color:#88948c;font-size:8px;line-height:1.65}
+.listening-sources a{color:#52775d;font-weight:700;text-decoration:none}
+.listening-sources a:hover{text-decoration:underline}
 @media(max-width:900px){.listening-hero{grid-template-columns:.72fr 1fr}.listening-practice{padding:21px}.listening-scene{min-height:530px}}
-@media(max-width:760px){.listening-hero{grid-template-columns:1fr}.listening-scene{min-height:180px;max-height:210px;grid-row:1}.listening-scene>span{width:67px;height:67px;border-radius:21px;font-size:32px}.listening-practice{padding:18px 17px 16px;grid-row:2}.listening-complete{min-height:280px;align-items:flex-start;padding:22px;gap:12px}.listening-complete-mark{width:42px;height:42px;flex-basis:42px;font-size:18px}.listening-complete-copy h2{font-size:19px}.listening-complete-art{right:16px;font-size:92px}}
+@media(max-width:760px){.listening-hero{grid-template-columns:1fr}.listening-scene{min-height:180px;max-height:210px;grid-row:1}.listening-scene>span{width:67px;height:67px;border-radius:21px;font-size:32px}.listening-practice{padding:18px 17px 16px;grid-row:2}.listening-level-picker{gap:6px;margin:12px 0 10px}.listening-level-tab{padding:10px}.listening-complete{min-height:280px;align-items:flex-start;padding:22px;gap:12px}.listening-complete-mark{width:42px;height:42px;flex-basis:42px;font-size:18px}.listening-complete-copy h2{font-size:19px}.listening-complete-art{right:16px;font-size:92px}}
