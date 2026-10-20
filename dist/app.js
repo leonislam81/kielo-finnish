@@ -5,16 +5,46 @@
   const storageKey="kielo-learning-v1";
   let saved={};
   try{saved=JSON.parse(localStorage.getItem(storageKey)||"{}")}catch(_error){saved={}}
+  const savedKnown=Array.isArray(saved.known)?saved.known:[];
+  const reviewSchedule=saved.review&&typeof saved.review==="object"?saved.review:Object.fromEntries(savedKnown.map(word=>[word,{box:0,due:Date.now()}]));
+  savedKnown.forEach(word=>{if(!reviewSchedule[word])reviewSchedule[word]={box:0,due:Date.now()}});
   const state={
-    page:"home",filter:"all",help:saved.help==="en"?"en":"bn",completed:new Set(Array.isArray(saved.completed)?saved.completed:[]),known:new Set(Array.isArray(saved.known)?saved.known:[]),drafts:saved.drafts||{},lesson:null,step:0,quizChoice:null,quizDone:false,search:""
+    page:"home",filter:"all",help:saved.help==="en"?"en":"bn",completed:new Set(Array.isArray(saved.completed)?saved.completed:[]),known:new Set(savedKnown),reviewSchedule,drafts:saved.drafts||{},lesson:null,step:0,quizChoice:null,quizDone:false,search:"",reviewActive:false,reviewQueue:[],reviewIndex:0,reviewRevealed:false,reviewFinished:false,matchWord:null,matchOptions:[],matchChoice:null
   };
   const pageContent=document.getElementById("page-content");
   const modalBackdrop=document.getElementById("lesson-backdrop");
   const modalContent=document.getElementById("lesson-modal-content");
   const toast=document.getElementById("toast");
   const photo={summer:"https://images.unsplash.com/photo-1627419386455-2ce1ee744cff?auto=format&fit=crop&w=1200&q=84",winter:"https://images.unsplash.com/photo-1580060510168-d909e950a973?auto=format&fit=crop&w=900&q=82",city:"https://images.unsplash.com/photo-1551286771-f713e47e0a85?auto=format&fit=crop&w=900&q=82",twilight:"https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=82"};
+  function sceneForLesson(lesson){
+    const wordsInScene=((lesson.scene||"")+" "+(lesson.title||"")+" "+(lesson.focus||"")).toLowerCase();
+    if(/snow|winter|cold|weather|frost|lumi|commute/.test(wordsInScene))return {image:photo.winter,label:"A Finnish winter"};
+    if(/lake|forest|pine|outdoor|cottage|nature|north|summer/.test(wordsInScene))return {image:photo.summer,label:"Finnish lakes and forests"};
+    if(/radio|email|seminar|study group|editorial|dusk|discussion|meeting|office|report/.test(wordsInScene))return {image:photo.twilight,label:"A northern evening"};
+    return {image:photo.city,label:"Everyday life in Finland"};
+  }
+  const wordPictures=[
+    [/fire|burn/i,"🔥"],[/wind/i,"🌬️"],[/moon/i,"🌙"],[/hello|greeting/i,"👋"],[/thank you/i,"🙏"],[/one/i,"1️⃣"],[/two/i,"2️⃣"],[/three/i,"3️⃣"],[/what/i,"❔"],[/this/i,"👆"],[/^is$| is /i,"🟰"],[/coffee/i,"☕"],[/tea/i,"🍵"],[/water/i,"💧"],[/home|apartment|balcony|rent/i,"🏠"],[/family|sibling|colleague|neighbour|resident/i,"👥"],[/where/i,"📍"],[/station/i,"🚉"],[/left/i,"⬅️"],[/weather/i,"🌦️"],[/snow|frost/i,"❄️"],[/sun/i,"☀️"],[/wake up|breakfast|weekday|everyday life/i,"🌅"],[/yesterday/i,"🕰️"],[/visit|go|travel|journey|move home|come|hike/i,"🚶"],[/market/i,"🧺"],[/doctor|health|ill/i,"🩺"],[/appointment|time/i,"🗓️"],[/train/i,"🚆"],[/work|experience|job/i,"💼"],[/forest/i,"🌲"],[/lake/i,"🏞️"],[/public transport|transport/i,"🚋"],[/report|summary|email/i,"📝"],[/send/i,"📨"],[/environment|ecological|waste|recycl|sort/i,"♻️"],[/reservation/i,"🎟️"],[/grateful/i,"💛"],[/solution/i,"🧩"],[/cost-effective|convenient/i,"💡"],[/decision/i,"✅"],[/schedule/i,"📅"],[/rain|ironic/i,"🌧️"],[/soon/i,"⏳"],[/accessibility/i,"♿"],[/whole|environment/i,"🌍"]
+  ];
+  function pictureForWord(word){const text=(word.en+" "+word.fi).toLowerCase();return wordPictures.find(([pattern])=>pattern.test(text))?.[1]||"✨"}
+  function dueReviewWords(){const lookup=new Map(words().map(word=>[word.fi,word]));return [...state.known].filter(fi=>Number(state.reviewSchedule[fi]?.due||0)<=Date.now()).map(fi=>lookup.get(fi)).filter(Boolean).sort((a,b)=>(state.reviewSchedule[a.fi]?.due||0)-(state.reviewSchedule[b.fi]?.due||0))}
+  function startReview(){state.reviewQueue=dueReviewWords().map(word=>word.fi);state.reviewIndex=0;state.reviewActive=state.reviewQueue.length>0;state.reviewRevealed=false;state.reviewFinished=false;if(!state.reviewActive)showToast("No words are due right now.");renderPractice()}
+  function answerReview(rating){
+    const fi=state.reviewQueue[state.reviewIndex];if(!fi)return;
+    const current=state.reviewSchedule[fi]||{box:0,due:Date.now()};
+    if(rating==="again")state.reviewSchedule[fi]={box:0,due:Date.now()+10*60*1000};
+    else{const box=Math.min(5,Number(current.box||0)+1);const intervals=[1,3,7,14,30];state.reviewSchedule[fi]={box,due:Date.now()+intervals[box-1]*24*60*60*1000}}
+    state.reviewIndex++;state.reviewRevealed=false;
+    if(state.reviewIndex>=state.reviewQueue.length){state.reviewActive=false;state.reviewFinished=true;state.reviewQueue=[]}
+    persist();renderPractice();
+  }
+  function startPictureMatch(){
+    const pool=words();state.matchWord=pool[Math.floor(Math.random()*pool.length)];
+    const distractors=pool.filter(word=>word.fi!==state.matchWord.fi).sort(()=>Math.random()-.5).slice(0,2);
+    state.matchOptions=[state.matchWord,...distractors].sort(()=>Math.random()-.5);state.matchChoice=null;renderPractice();
+  }
   const escapeHTML=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
-  const persist=()=>localStorage.setItem(storageKey,JSON.stringify({help:state.help,completed:[...state.completed],known:[...state.known],drafts:state.drafts}));
+  const persist=()=>localStorage.setItem(storageKey,JSON.stringify({help:state.help,completed:[...state.completed],known:[...state.known],review:state.reviewSchedule,drafts:state.drafts}));
   const doneCount=()=>state.completed.size;
   const pct=()=>Math.round(doneCount()/lessons.length*100);
   const getNextLesson=()=>lessons.find(lesson=>!state.completed.has(lesson.id))||lessons[0];
@@ -51,12 +81,55 @@
       <div>${visibleLevels.map(level=>{const done=level.lessons.filter(lesson=>state.completed.has(lesson.id)).length;return `<section class="curriculum-level"><header class="curriculum-level-header"><span class="level-badge ${escapeHTML(level.color)}">${escapeHTML(level.label)}</span><div><h2>${escapeHTML(level.title)}</h2><p>${escapeHTML(level.description)}</p></div><div class="path-progress-label" style="margin-left:auto"><b>${done}/${level.lessons.length}</b>lessons</div></header><div class="curriculum-units">${level.lessons.map((lesson,index)=>`<div class="unit-row ${state.completed.has(lesson.id)?"done":""}"><span class="unit-number">${state.completed.has(lesson.id)?"✓":String(index+1).padStart(2,"0")}</span><div class="unit-copy"><strong>${escapeHTML(lesson.title)}</strong><small>${escapeHTML(lesson.focus)} · ${escapeHTML(lesson.scene)}</small></div><button class="unit-action" data-open-lesson="${escapeHTML(lesson.id)}" aria-label="Open ${escapeHTML(lesson.title)}">${state.completed.has(lesson.id)?"↻":"→"}</button></div>`).join("")}</div></section>`}).join("")}</div>
       <p class="levels-note">This is a guided self-study path. The YKI certificate is a separate assessment of listening, speaking, reading, and writing.</p>`;
   }
+  function renderReviewPanel(due){
+    if(state.reviewActive){
+      const fi=state.reviewQueue[state.reviewIndex];
+      const word=words().find(item=>item.fi===fi);
+      const scene=sceneForLesson(findLesson(word.lessonId));
+      const revealMarkup=state.reviewRevealed
+        ? '<div class="review-answer"><strong>'+escapeHTML(word.en)+'</strong><span>'+escapeHTML(word.bn)+'</span></div>'
+        : '<button class="button-primary review-reveal" data-review="reveal">Show meaning <span>↓</span></button>';
+      const box=Number(state.reviewSchedule[fi]?.box||0);
+      const nextInterval=[1,3,7,14,30][Math.min(4,box)];
+      const ratingMarkup=state.reviewRevealed
+        ? '<div class="review-rating"><span>How easy was that?</span><button class="button-secondary" data-review="again">Again · 10 min</button><button class="button-primary" data-review="got-it">Got it · '+nextInterval+' day'+(box===0?"":"s")+'</button></div>'
+        : '';
+      return '<section class="review-panel"><div class="review-panel-top"><div><span class="review-kicker">SPACED REVIEW · '+(state.reviewIndex+1)+' OF '+state.reviewQueue.length+'</span><h2>Bring this word back to mind</h2></div><button class="link-button" data-review="finish">Pause review</button></div><div class="review-card"><div class="review-picture" role="img" aria-label="'+escapeHTML(scene.label)+'" style="--scene-image:url(\''+scene.image+'\')"><span>'+pictureForWord(word)+'</span></div><div class="review-prompt"><small>Say it, then listen</small><h3>'+escapeHTML(word.fi)+'</h3><button class="button-secondary" data-speak="'+escapeHTML(word.fi)+'">▶ &nbsp; Listen</button>'+revealMarkup+'</div></div>'+ratingMarkup+'</section>';
+    }
+    const nextDue=[...state.known].map(fi=>state.reviewSchedule[fi]?.due).filter(dueAt=>Number(dueAt)>Date.now()).sort((a,b)=>a-b)[0];
+    const status=state.reviewFinished?"Lovely work. Your due words are reviewed for now.":due.length?(due.length===1?"1 word is":"Several words are")+" ready to revisit.":state.known.size?"All caught up. Next word due "+(nextDue?new Date(nextDue).toLocaleDateString():"soon")+".":"Add a word to your shelf and it will appear here when you are ready to review.";
+    const button=due.length?"Review "+due.length+" word"+(due.length===1?"":"s"):"Up to date";
+    return '<section class="review-panel review-start"><div><span class="review-kicker">A LITTLE, OFTEN</span><h2>Your review shelf</h2><p>'+escapeHTML(status)+' Remember a word, reveal the meaning, then choose a review interval.</p></div><button class="button-primary" data-review="start" '+(due.length?"":"disabled")+'>'+button+' <span>↗</span></button></section>';
+  }
+  function renderMatchPanel(){
+    if(!state.matchWord)return '<section class="match-panel"><div class="match-copy"><span class="review-kicker">LOOK · THINK · MATCH</span><h2>Picture match</h2><p>Use a small visual clue to connect an everyday Finnish word with its meaning.</p><button class="button-secondary" data-match="start">Start a picture match <span>✳</span></button></div><div class="match-picture match-picture-empty" role="img" aria-label="Finnish nature and everyday life"><span>🌲</span><span>❄️</span><span>🚋</span></div></section>';
+    const word=state.matchWord;
+    const scene=sceneForLesson(findLesson(word.lessonId));
+    const answered=state.matchChoice!==null;
+    const correct=state.matchChoice===word.fi;
+    const options=state.matchOptions.map(option=>{
+      const right=answered&&option.fi===word.fi;
+      const wrong=answered&&option.fi===state.matchChoice&&!correct;
+      return '<button class="quiz-option '+(right?"correct":"")+' '+(wrong?"incorrect":"")+'" data-match-choice="'+escapeHTML(option.fi)+'" '+(answered?"disabled":"")+'>'+escapeHTML(option.fi)+'</button>';
+    }).join("");
+    const feedback=answered
+      ? '<div class="match-feedback '+(correct?"":"wrong")+'">'+(correct?"That’s it!":"Good try. The picture matches")+' <strong>'+escapeHTML(word.fi)+'</strong> — '+escapeHTML(word.en)+' · '+escapeHTML(word.bn)+'</div><button class="link-button" data-match="next">Next picture →</button>'
+      : '';
+    return '<section class="match-panel"><div class="match-copy"><span class="review-kicker">LOOK · THINK · MATCH</span><h2>Which Finnish word fits?</h2><p>Look at the picture, say each option aloud, then choose the word that matches it.</p><div class="match-options">'+options+'</div>'+feedback+'</div><div class="match-picture" role="img" aria-label="'+escapeHTML(scene.label)+' with a visual clue" style="--scene-image:url(\''+scene.image+'\')"><span>'+pictureForWord(word)+'</span><small>'+escapeHTML(scene.label)+'</small></div></section>';
+  }
   function renderPractice(){
     const query=state.search.trim().toLowerCase();
-    const filtered=words().filter(word=>`${word.fi} ${word.en} ${word.bn}`.toLowerCase().includes(query));
+    const allWords=words();
+    const filtered=allWords.filter(word=>(word.fi+" "+word.en+" "+word.bn).toLowerCase().includes(query));
+    const due=dueReviewWords();
+    const reviewMarkup=renderReviewPanel(due);
+    const matchMarkup=renderMatchPanel();
+    const wordTitle=query?filtered.length+" matching words":"Words from your course";
+    const wordCards=filtered.map(word=>`<article class="vocab-card"><div class="vocab-top"><h3>${escapeHTML(word.fi)}</h3><button class="icon-button" data-speak="${escapeHTML(word.fi)}" aria-label="Listen to ${escapeHTML(word.fi)}">▶</button></div><p class="vocab-translation">${escapeHTML(word.en)} <span class="bn-text">· ${escapeHTML(word.bn)}</span></p><div class="vocab-source"><span>${escapeHTML(word.level)} · ${escapeHTML(word.lessonTitle)}</span><button class="known-button ${(state.known.has(word.fi)?"known":"")}" data-known="${escapeHTML(word.fi)}">${(state.known.has(word.fi)?"✓ In review":"+ Add to review")}</button></div></article>`).join("");
     pageContent.innerHTML=`<div class="page-title-row"><div><div class="page-kicker">Keep the words close</div><h1>Practice & review</h1><p>Say each word, connect it with a useful sentence, and mark words you want to revisit.</p></div><button class="button-secondary" data-open-lesson="${escapeHTML(getNextLesson().id)}">Continue a lesson <span>→</span></button></div>
-      <div class="practice-banner"><div><h2>Your personal word shelf</h2><p>${state.known.size} words marked for review · ${words().length} words across the full learning path</p></div><div class="practice-tools"><label class="search-box"><span>⌕</span><input id="word-search" type="search" value="${escapeHTML(state.search)}" placeholder="Find a Finnish word" aria-label="Find a Finnish word"/></label><button class="button-primary" data-open-lesson="${escapeHTML((lessons[Math.floor(Math.random()*lessons.length)]||lessons[0]).id)}">Quick quiz <span>✳</span></button></div></div>
-      <div class="section-head"><div><h2>${query?`${filtered.length} matching words`:"Words from your course"}</h2><p>Audio uses the Finnish voice available in your browser.</p></div></div><div class="vocab-grid">${filtered.length?filtered.map(word=>`<article class="vocab-card"><div class="vocab-top"><h3>${escapeHTML(word.fi)}</h3><button class="icon-button" data-speak="${escapeHTML(word.fi)}" aria-label="Listen to ${escapeHTML(word.fi)}">▶</button></div><p class="vocab-translation">${escapeHTML(word.en)} <span class="bn-text">· ${escapeHTML(word.bn)}</span></p><div class="vocab-source"><span>${escapeHTML(word.level)} · ${escapeHTML(word.lessonTitle)}</span><button class="known-button ${state.known.has(word.fi)?"known":""}" data-known="${escapeHTML(word.fi)}">${state.known.has(word.fi)?"✓ In review":"+ Add to review"}</button></div></article>`).join(""):"<div class=\"vocab-empty\">No matching words yet. Try another search.</div>"}</div>`;
+      <div class="practice-banner"><div><h2>Your personal word shelf</h2><p>${state.known.size} words marked for review · ${allWords.length} words across the full learning path</p></div><div class="practice-tools"><label class="search-box"><span>⌕</span><input id="word-search" type="search" value="${escapeHTML(state.search)}" placeholder="Find a Finnish word" aria-label="Find a Finnish word"/></label><button class="button-primary" data-open-lesson="${escapeHTML((lessons[Math.floor(Math.random()*lessons.length)]||lessons[0]).id)}">Quick lesson <span>✳</span></button></div></div>
+      ${reviewMarkup}${matchMarkup}
+      <div class="section-head"><div><h2>${wordTitle}</h2><p>Audio uses the Finnish voice available in your browser.</p></div></div><div class="vocab-grid">${(wordCards.length?wordCards:"<div class=\"vocab-empty\">No matching words yet. Try another search.</div>")}</div>`;
   }
   function renderCulture(){
     const media=window.KIELO_MEDIA||[];
@@ -75,7 +148,7 @@
     const header=`<header class="modal-top"><div><span class="modal-level">${escapeHTML(lesson.levelLabel)} · ${escapeHTML(lesson.focus)}</span><h2 id="lesson-title">${escapeHTML(lesson.title)}</h2></div><button class="close-modal" data-close-modal aria-label="Close lesson">×</button></header><div class="lesson-progress">${stepNames.map((_,index)=>`<span class="${index<=state.step?"active":""}"></span>`).join("")}</div>`;
     if(state.step>3){modalContent.innerHTML=header+`<div class="completion-view"><div class="completion-mark">✓</div><h3>${complete?"Lesson complete!":"A strong little step."}</h3><p>You practised reading, listening, speaking, and writing. Your progress is saved in this browser.</p><button class="button-primary" data-close-modal>Back to learning <span>→</span></button></div>`;return}
     let body="";
-    if(state.step===0)body=`<div class="lesson-scene"><div class="lesson-scene-label"><small>PICTURE THE SCENE</small><strong>${escapeHTML(lesson.scene)}</strong></div></div><div class="lesson-phrase-card"><div><div class="fi-phrase">${escapeHTML(lesson.phrase)}</div><div class="translation">${escapeHTML(helpText(lesson))}</div></div><button class="audio-button" data-speak="${escapeHTML(lesson.phrase)}" aria-label="Listen to the Finnish sentence">▶</button></div><div class="lesson-hint">Read the Finnish first. Then use the speaker to hear it slowly. Say the sentence once before you move on.</div>`;
+    if(state.step===0){const scene=sceneForLesson(lesson);body=`<div class="lesson-scene" style="--scene-image:url('${scene.image}')"><div class="lesson-scene-label"><small>PICTURE THE SCENE · ${escapeHTML(scene.label.toUpperCase())}</small><strong>${escapeHTML(lesson.scene)}</strong></div></div><div class="lesson-phrase-card"><div><div class="fi-phrase">${escapeHTML(lesson.phrase)}</div><div class="translation">${escapeHTML(helpText(lesson))}</div></div><button class="audio-button" data-speak="${escapeHTML(lesson.phrase)}" aria-label="Listen to the Finnish sentence">▶</button></div><div class="lesson-hint">Read the Finnish first. Then use the speaker to hear it slowly. Say the sentence once before you move on.</div>`}
     else if(state.step===1)body=`<h3 class="lesson-subtitle">Three useful words from this scene</h3><div class="word-list">${lesson.words.map(word=>`<div class="lesson-word"><div class="lesson-word-top"><strong>${escapeHTML(word[0])}</strong><button class="icon-button" data-speak="${escapeHTML(word[0])}" aria-label="Listen to ${escapeHTML(word[0])}">▶</button></div><p>${escapeHTML(word[1])}</p><small>${escapeHTML(word[2])}</small></div>`).join("")}</div><div class="lesson-hint">Tap any speaker. Listen for clear vowel sounds, including the dots in ä and ö.</div>`;
     else if(state.step===2)body=`<h3 class="lesson-subtitle">One pattern to take with you</h3><div class="lesson-pattern"><p>${escapeHTML(grammarText(lesson))}</p></div><div class="lesson-hint"><strong>Learning tip:</strong> Keep this whole phrase as a chunk. Grammar gets easier when you notice a pattern inside something you can already say.</div>`;
     else body=`<h3 class="lesson-subtitle">Use it in your own words</h3><div class="try-grid"><div class="try-panel"><h4>Write a little</h4><p>${escapeHTML(lesson.say)}</p><textarea id="lesson-draft" placeholder="Write a short Finnish phrase or sentence...">${escapeHTML(state.drafts[lesson.id]||"")}</textarea><div class="saved-draft" id="draft-status">Saved on this device</div></div><div class="try-panel"><h4>Say it out loud</h4><p>Listen once, then repeat at your own pace.</p><button class="button-secondary" data-speak="${escapeHTML(lesson.phrase)}">▶ &nbsp; Hear the Finnish</button><p style="margin-top:9px">No score—just a chance to find your own Finnish voice.</p></div><div class="quiz-card"><p class="quiz-question">${escapeHTML(questionText(lesson))}</p><div class="quiz-options">${lesson.choices.map(choice=>`<button class="quiz-option ${state.quizDone&&choice===lesson.answer?"correct":""} ${state.quizDone&&choice===state.quizChoice&&choice!==lesson.answer?"incorrect":""}" data-choice="${escapeHTML(choice)}">${escapeHTML(choice)}</button>`).join("")}</div><div class="quiz-feedback ${state.quizDone&&state.quizChoice!==lesson.answer?"wrong":""}">${state.quizDone?escapeHTML((state.quizChoice===lesson.answer?"That's right. ":"Take another look. ")+whyText(lesson)):"Choose an answer to check your understanding."}</div></div></div>`;
@@ -91,7 +164,10 @@
     const filterButton=event.target.closest("[data-filter]");if(filterButton){state.filter=filterButton.dataset.filter;renderPath();return}
     const openButton=event.target.closest("[data-open-lesson]");if(openButton){openLesson(openButton.dataset.openLesson);return}
     const speakButton=event.target.closest("[data-speak]");if(speakButton){speak(speakButton.dataset.speak);return}
-    const knownButton=event.target.closest("[data-known]");if(knownButton){const word=knownButton.dataset.known;if(state.known.has(word))state.known.delete(word);else state.known.add(word);persist();renderPractice();return}
+    const knownButton=event.target.closest("[data-known]");if(knownButton){const word=knownButton.dataset.known;if(state.known.has(word)){state.known.delete(word);delete state.reviewSchedule[word]}else{state.known.add(word);state.reviewSchedule[word]={box:0,due:Date.now()}}persist();renderPractice();return}
+    const reviewButton=event.target.closest("[data-review]");if(reviewButton){const action=reviewButton.dataset.review;if(action==="start")startReview();else if(action==="reveal"){state.reviewRevealed=true;renderPractice()}else if(action==="again"||action==="got-it")answerReview(action);else if(action==="finish"){state.reviewActive=false;state.reviewQueue=[];state.reviewRevealed=false;renderPractice()}return}
+    const matchButton=event.target.closest("[data-match]");if(matchButton){if(matchButton.dataset.match==="start"||matchButton.dataset.match==="next")startPictureMatch();return}
+    const matchChoice=event.target.closest("[data-match-choice]");if(matchChoice){state.matchChoice=matchChoice.dataset.matchChoice;renderPractice();return}
     const closeButton=event.target.closest("[data-close-modal]");if(closeButton){closeLesson();return}
     const stepButton=event.target.closest("[data-step]");if(stepButton){state.step=Number(stepButton.dataset.step);state.quizChoice=null;state.quizDone=false;renderLessonModal();return}
     const choiceButton=event.target.closest("[data-choice]");if(choiceButton){state.quizChoice=choiceButton.dataset.choice;state.quizDone=true;renderLessonModal();return}

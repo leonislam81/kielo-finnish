@@ -25,7 +25,7 @@ The name comes from *kielo*, the Finnish name for lily-of-the-valley, Finland's 
 | B2 | Explain ideas and participate in extended discussion | Society; environment; media; formal requests and workplace communication |
 | C1–C2 | Understand nuanced Finnish and express precise, flexible ideas | Register and style; argument; idioms; long-form listening and writing |
 
-Each unit is designed around a scene, a short input (image, dialogue, or video link), a compact vocabulary set, one grammar pattern, four-skills practice, and a short review. The app tracks a local progress record so the first version works without an account.
+Each unit is designed around a scene, a short input (image, dialogue, or official video link), a compact vocabulary set, one grammar pattern, four-skills practice, and a short review. The app tracks a local progress record so learners can start without an account. The next iteration adds scene-specific imagery, visual word matching, and a small spaced-review schedule that learners can adjust with Again or Got it.
 
 ## First release plan
 
@@ -34,6 +34,7 @@ Each unit is designed around a scene, a short input (image, dialogue, or video l
 3. **Course experience:** level navigation covers Pre-A1 through C2; each level has a coherent progression, while playable lessons demonstrate the lesson, quiz, listening, speaking, and flashcard patterns.
 4. **Culture and media:** season cards connect vocabulary to Finland; a media shelf links to Yle's beginner videos, levelled materials, and simplified news.
 5. **Review and delivery:** check the local preview, publish the private preview site, and push the project to a private GitHub repository.
+6. **Practice iteration:** add lesson-specific scenes, picture matching, and a due-word review queue with short recall intervals.
 
 ## Design and teaching choices
 
