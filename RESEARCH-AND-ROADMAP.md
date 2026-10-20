@@ -37,6 +37,8 @@ The B1 Grammar Lab adds four short pattern lessons: relative clauses with joka/j
 
 The B2 Listening Lab extends the audio path with three longer, Finland-set arguments about city cycling, nature tourism, and hybrid work. Learners identify a main claim, weigh reasons and trade-offs, or infer a speaker’s position. Finnish browser speech is played at a near-normal rate; a Yle Areena podcast link provides an optional path to authentic full-speed recordings. The focused listening tasks align with OPH’s B2.1 descriptor for following longer speech and complex argumentation and identifying its main points, but they are not an official YKI test or complete B2 course.
 
+The B2 Reading Lab adds three original longer opinion and discussion texts about winter cycling in Helsinki, tourism in Lapland, and hybrid work. Learners tap selected words for English or Bangla help, listen with browser speech, compare viewpoints, and answer questions about an argument or inference. A link to Yle Uutiset offers authentic Finnish reporting for continued practice. The activities follow OPH’s B2.1 reading descriptor for understanding varied written texts, including abstract topics, facts, attitudes, and opinions; they are focused practice, not a full B2 course or official YKI task.
+
 ## First release plan
 
 1. **Research and planning:** this document records the teaching model, level map, content sources, and product assumptions.
@@ -62,6 +64,7 @@ The B2 Listening Lab extends the audio path with three longer, Finland-set argum
 - [OPH: YKI topics and practice](https://www.oph.fi/en/education-and-qualifications/yki-test)
 - [OPH: YKI and CEFR proficiency descriptions](https://www.oph.fi/sites/default/files/documents/169247_proficiency_levels_cefr.pdf)
 - [OPH: Developing language proficiency scale (A2.1 descriptors)](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
+- [OPH: Developing language proficiency scale (B2.1 reading and listening descriptors)](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
 - [Uusi Kielemme: Finnish imperfect / past tense](https://uusikielemme.fi/finnish-grammar/verbs/verb-tenses-and-moods/the-imperfect-tense-past-tense-imperfekti)
 - [Uusi Kielemme: Finnish location cases](https://uusikielemme.fi/finnish-grammar/finnish-cases/location-cases/missa-mista-mihin-location-cases)
 - [Uusi Kielemme: Finnish conditional mood](https://uusikielemme.fi/finnish-grammar/verbs/verb-tenses-and-moods/the-conditional-mood-konditionaali)
@@ -72,6 +75,7 @@ The B2 Listening Lab extends the audio path with three longer, Finland-set argum
 - [OPH: Developing language proficiency scale, including B2.1 listening descriptors](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko)
 - [Yle Areena: Finnish podcasts](https://areena.yle.fi/podcastit)
 - [Yle: Selkouutiset in easy Finnish](https://yle.fi/selkouutiset)
+- [Yle Uutiset: Finnish-language news](https://yle.fi/uutiset)
 - [Yle: Finnish-language beginner videos](https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet)
 - [Yle: Finnish self-study materials by level](https://yle.fi/a/20-10002426)
 - [Aalto OpenLearning: Tips for mastering Finnish pronunciation](https://openlearning.aalto.fi/mod/page/view.php?id=17025)
