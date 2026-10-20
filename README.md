@@ -1,0 +1,19 @@
+# Kielo — Learn Finnish, gently
+
+Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with vocabulary, grammar notes, browser audio, a short quiz, speaking prompts, writing practice, and locally saved progress.
+
+## Run locally
+
+Open `dist/index.html` in a browser, or serve the `dist` folder with any static web server. The app has no build step or package dependencies.
+
+## Course and research
+
+See [RESEARCH-AND-ROADMAP.md](RESEARCH-AND-ROADMAP.md) for the research notes, course map, design choices, media sources, and next steps. The proficiency path is informed by the Council of Europe's CEFR and the Finnish National Agency for Education's YKI mapping. Official Yle video and study pages open on Yle; they are not copied into this repository.
+
+## Learner data
+
+Lesson completion, vocabulary marked for review, language preference, and writing drafts are stored in the current browser with `localStorage`. This first release does not need an account or send learner progress to a server.
+
+## Media and credits
+
+The app links to official Yle learning materials. Seasonal photography is loaded from Unsplash; an internet connection is needed to show those images. Browser speech synthesis is used for Finnish audio when a Finnish voice is installed.
