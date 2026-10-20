@@ -1,0 +1,28 @@
+{
+  "id": "./",
+  "name": "Kielo — Learn Finnish, gently",
+  "short_name": "Kielo",
+  "description": "A calm Finnish-learning path with English or Bangla support.",
+  "lang": "en",
+  "start_url": "./?source=install#home",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f2",
+  "theme_color": "#f4f6f2",
+  "orientation": "any",
+  "categories": ["education", "lifestyle"],
+  "icons": [
+    {
+      "src": "./images/kielo-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./images/kielo-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

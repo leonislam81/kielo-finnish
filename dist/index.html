@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f4f6f2" />
     <meta name="description" content="Learn Finnish one small step at a time, with English or Bangla support and stories from Finland." />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Kielo" />
     <title>Kielo — Learn Finnish, step by step</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./images/kielo-mark.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./images/kielo-icon-192.png" />
     <link rel="preconnect" href="https://images.unsplash.com" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="cafe.css" />
@@ -16,8 +21,10 @@
     <link rel="stylesheet" href="speaking.css?v=28" />
     <link rel="stylesheet" href="grammar.css?v=25" />
     <link rel="stylesheet" href="vocabulary.css?v=1" />
+    <link rel="stylesheet" href="pwa.css?v=1" />
     <script src="curriculum.js" defer></script>
     <script src="advanced-vocabulary.js" defer></script>
+    <script src="pwa.js?v=1" defer></script>
     <script src="app.js?v=48" defer></script>
   </head>
   <body>
@@ -56,8 +63,9 @@
       <div class="app-main">
         <header class="topbar">
           <button class="mobile-menu" id="mobile-menu" aria-label="Open navigation">☰</button>
-          <div class="topbar-context"><span class="weather-dot"></span><span>Learning from everywhere</span></div>
+          <div class="topbar-context"><span class="weather-dot" aria-hidden="true"></span><span id="connection-label" role="status" aria-live="polite">Learning from everywhere</span></div>
           <div class="topbar-actions">
+            <button id="install-app" class="pwa-install-button" type="button" aria-label="Install Kielo"><span aria-hidden="true">↓</span><span class="install-label">Install app</span></button>
             <div class="help-language"><span>Lesson help</span><button id="language-toggle" class="language-toggle" aria-label="Change lesson help language"><span data-lang-label="en">EN</span><span class="language-divider">/</span><span data-lang-label="bn">বাংলা</span></button></div>
             <div class="avatar" aria-label="Your learner profile">K</div>
           </div>
