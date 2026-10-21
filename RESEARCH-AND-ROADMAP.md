@@ -170,3 +170,8 @@ An optional audio-first setting hides the Finnish prompt translation and reply t
 ## Spoken open-response practice
 
 The role-play writing mode now offers optional Finnish speech recognition where the browser supports it. The browser transcript is placed in the editable response box so learners can compare their own words with the model; it is not evaluated or saved. A short notice explains that browser speech recognition may process audio through its own service. Text input remains available when voice recognition is unsupported or permission is unavailable.
+
+
+## Everyday spoken Finnish
+
+The A1 Spoken Finnish lab compares five informal dialogue examples with standard written forms, with browser audio and English or Bangla explanations. It uses beginner examples from [Aalto OpenLearning’s question practice](https://openlearning.aalto.fi/mod/page/view.php?id=4673), which covers forms such as *mä oon*, *ootsä?*, *haluut sä kahvii?*, and *kahvii / maitoo*. The module presents these as forms to recognise, not a single nationwide dialect; standard Finnish remains a useful written form. Aalto OpenLearning material is marked CC BY 4.0 unless otherwise stated, and the site links to its own example videos.

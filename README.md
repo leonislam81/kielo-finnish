@@ -18,6 +18,8 @@ Use the **K** profile button to download a JSON backup or restore one on another
 
 The home dashboard also shows a weekly study rhythm and consecutive-day streak. A study date is saved locally when you practise, review a word, or work on a writing draft; switching the help language or course level does not add a study day. Streak dates are included in progress backups.
 
+The Spoken Finnish lab compares five common informal phrases with standard written Finnish. Learners hear each phrase, choose its standard equivalent, and reveal an English or Bangla explanation. Completion is saved on this device and included in progress backups. The examples follow Aalto OpenLearning beginner dialogue material; spoken forms vary by speaker and region.
+
 ## Media and credits
 
 The app links to official Yle learning materials. Seasonal, café, and travel photography is loaded from Unsplash; an internet connection is needed to show those images. Browser speech synthesis is used for Finnish audio when a Finnish voice is installed. Role-play full-scene playback reads each staff prompt followed by its sample reply, with a pause between turns. The optional transcript shows the whole scene with English or Bangla meanings and line-by-line audio. Learners can hide the meanings for a recall attempt, then reveal them when ready. Finnish-first mode also hides a role-play prompt until the learner selects a response, then reveals the line and its translation. In open-response scenes, optional browser speech recognition can place a Finnish reply in the editable text box; it is not scored or saved. A pace selector adjusts conversation playback from slow to natural speed.
