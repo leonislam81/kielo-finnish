@@ -188,3 +188,7 @@ Lesson drafts, writing-lab drafts, and open role-play replies now include an opt
 ## Progress-aware next step
 
 The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 28 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
+
+## Finnish word of the day
+
+The home page selects one existing Pre-A1 or A1 course word for each local calendar day. The stable daily rotation uses beginner words that appear in their lesson phrase, pairs each word and sentence with English and Bangla meanings and the lesson’s Finland scene, and offers Finnish browser audio for both. A learner can add or remove the word from the existing local spaced-review shelf; no additional learner data is collected.
