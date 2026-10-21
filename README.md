@@ -26,7 +26,7 @@ Each writing area now has an optional, bilingual self-review checklist. It offer
 
 The home dashboard now prioritises vocabulary that is due for spaced review, with a one-click route into the review session. When all 28 lessons are complete, it invites learners to revisit the path. Study-rhythm copy also makes clear that a break does not erase locally saved lesson progress.
 
-A Finnish word of the day is selected from the Pre-A1 and A1 course vocabulary using the learner’s local calendar date. Each card shows English and Bangla meanings, a Finland scene, the word in a beginner lesson sentence with its translations, browser Finnish audio, and a one-click add or remove action for the local spaced-review shelf.
+A Finnish word of the day is selected from the Pre-A1 and A1 course vocabulary using the learner’s local calendar date. Each card starts with an active-recall prompt: the learner sees the Finnish word and sentence, tries to remember their meanings, then reveals the English and Bangla translations. It also includes a Finland scene, Finnish browser audio, and a one-click add or remove action for the local spaced-review shelf.
 
 ## Media and credits
 
