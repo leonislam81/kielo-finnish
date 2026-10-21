@@ -20,7 +20,7 @@ The home dashboard also shows a weekly study rhythm and consecutive-day streak. 
 
 ## Media and credits
 
-The app links to official Yle learning materials. Seasonal, café, and travel photography is loaded from Unsplash; an internet connection is needed to show those images. Browser speech synthesis is used for Finnish audio when a Finnish voice is installed. Role-play full-scene playback reads each staff prompt followed by its sample reply, with a pause between turns. The optional transcript shows the whole scene with English or Bangla meanings and line-by-line audio. A pace selector adjusts conversation playback from slow to natural speed.
+The app links to official Yle learning materials. Seasonal, café, and travel photography is loaded from Unsplash; an internet connection is needed to show those images. Browser speech synthesis is used for Finnish audio when a Finnish voice is installed. Role-play full-scene playback reads each staff prompt followed by its sample reply, with a pause between turns. The optional transcript shows the whole scene with English or Bangla meanings and line-by-line audio. Learners can hide the meanings for a recall attempt, then reveal them when ready. A pace selector adjusts conversation playback from slow to natural speed.
 
 After the first online visit, the service worker caches the Kielo interface, course content, and local cover art for offline study on supported browsers. Learner progress remains in this browser. Unsplash photos, external video pages, and some browser-provided speech voices still need an internet connection or a separately installed Finnish voice. Use **Install app** in a supporting browser, or the browser menu's **Add to Home Screen** option on iPhone or iPad.
 

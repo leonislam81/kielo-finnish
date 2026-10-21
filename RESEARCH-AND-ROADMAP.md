@@ -155,3 +155,8 @@ Learners can open a full transcript for any of the four role-play scenes. Staff 
 ## Adjustable Finnish conversation speed
 
 A conversation pace selector offers slow, steady, and natural rates. It applies to full-scene playback and individual Finnish lines in the conversation practice and transcript, so a learner can rehear a phrase at a more comfortable speed. When a scene is already playing, a newly selected rate applies from the next spoken line.
+
+
+## Transcript meaning recall
+
+The full-scene transcript now lets learners hide the English or Bangla meanings while they try to recall them from the Finnish. They can reveal the meanings again without leaving the conversation or interrupting the learning path.
