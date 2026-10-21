@@ -175,3 +175,7 @@ The role-play writing mode now offers optional Finnish speech recognition where 
 ## Everyday spoken Finnish
 
 The A1 Spoken Finnish lab compares five informal dialogue examples with standard written forms, with browser audio and English or Bangla explanations. It uses beginner examples from [Aalto OpenLearning’s question practice](https://openlearning.aalto.fi/mod/page/view.php?id=4673), which covers forms such as *mä oon*, *ootsä?*, *haluut sä kahvii?*, and *kahvii / maitoo*. The module presents these as forms to recognise, not a single nationwide dialect; standard Finnish remains a useful written form. Aalto OpenLearning material is marked CC BY 4.0 unless otherwise stated, and the site links to its own example videos.
+
+## Finnish character quick keys
+
+Lesson drafts, writing-lab drafts, and open role-play replies now include accessible buttons for ä, ö, å, Ä, Ö, and Å. Selecting a key inserts that letter at the text cursor or replaces the current selection; the existing draft input flow remains active.

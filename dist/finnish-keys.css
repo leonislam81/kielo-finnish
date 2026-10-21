@@ -1,0 +1,4 @@
+.finnish-keyboard{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:7px 0 9px}
+.finnish-key{display:grid;place-items:center;min-width:36px;min-height:34px;padding:3px 9px;border:1px solid #d9e5d9;border-radius:9px;background:#f4f8f2;color:#315743;font:700 14px var(--font);cursor:pointer;transition:background .15s ease,border-color .15s ease,transform .15s ease}
+.finnish-key:hover{border-color:#a9c3aa;background:#eaf3e9;transform:translateY(-1px)}
+.finnish-key:focus-visible{outline:3px solid #96bba1;outline-offset:2px}
