@@ -150,3 +150,8 @@ Each beginner role-play now has a play-all control. The Finnish prompts and mode
 ## Bilingual conversation transcripts
 
 Learners can open a full transcript for any of the four role-play scenes. Staff prompts and sample learner replies appear as alternating, individually playable Finnish lines, with translations that follow the English/Bangla help setting. The transcript is optional and stays within the current scene.
+
+
+## Adjustable Finnish conversation speed
+
+A conversation pace selector offers slow, steady, and natural rates. It applies to full-scene playback and individual Finnish lines in the conversation practice and transcript, so a learner can rehear a phrase at a more comfortable speed. When a scene is already playing, a newly selected rate applies from the next spoken line.

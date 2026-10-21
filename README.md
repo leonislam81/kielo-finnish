@@ -1,6 +1,6 @@
 # Kielo — Learn Finnish, gently
 
-Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with separate listening, speaking, reading, writing, and grammar labs through C2. Vocabulary review includes the course words plus curated C1 and C2 word sets with contextual examples. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café, railway station, grocery store, and library, with full-scene audio and a bilingual transcript that alternates each Finnish prompt with its model reply, optional open-response writing mode, a standalone pronunciation lab for Finnish vowels and sound length, and an installable offline app shell.
+Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with separate listening, speaking, reading, writing, and grammar labs through C2. Vocabulary review includes the course words plus curated C1 and C2 word sets with contextual examples. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café, railway station, grocery store, and library, with full-scene audio at slow, steady, or natural speed and a bilingual transcript that alternates each Finnish prompt with its model reply, optional open-response writing mode, a standalone pronunciation lab for Finnish vowels and sound length, and an installable offline app shell.
 
 ## Run locally
 
@@ -20,7 +20,7 @@ The home dashboard also shows a weekly study rhythm and consecutive-day streak. 
 
 ## Media and credits
 
-The app links to official Yle learning materials. Seasonal, café, and travel photography is loaded from Unsplash; an internet connection is needed to show those images. Browser speech synthesis is used for Finnish audio when a Finnish voice is installed. Role-play full-scene playback reads each staff prompt followed by its sample reply, with a pause between turns. The optional transcript shows the whole scene with English or Bangla meanings and line-by-line audio.
+The app links to official Yle learning materials. Seasonal, café, and travel photography is loaded from Unsplash; an internet connection is needed to show those images. Browser speech synthesis is used for Finnish audio when a Finnish voice is installed. Role-play full-scene playback reads each staff prompt followed by its sample reply, with a pause between turns. The optional transcript shows the whole scene with English or Bangla meanings and line-by-line audio. A pace selector adjusts conversation playback from slow to natural speed.
 
 After the first online visit, the service worker caches the Kielo interface, course content, and local cover art for offline study on supported browsers. Learner progress remains in this browser. Unsplash photos, external video pages, and some browser-provided speech voices still need an internet connection or a separately installed Finnish voice. Use **Install app** in a supporting browser, or the browser menu's **Add to Home Screen** option on iPhone or iPad.
 
