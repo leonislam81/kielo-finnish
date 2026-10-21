@@ -2,3 +2,16 @@
 .finnish-key{display:grid;place-items:center;min-width:36px;min-height:34px;padding:3px 9px;border:1px solid #d9e5d9;border-radius:9px;background:#f4f8f2;color:#315743;font:700 14px var(--font);cursor:pointer;transition:background .15s ease,border-color .15s ease,transform .15s ease}
 .finnish-key:hover{border-color:#a9c3aa;background:#eaf3e9;transform:translateY(-1px)}
 .finnish-key:focus-visible{outline:3px solid #96bba1;outline-offset:2px}
+
+.finnish-review{margin-top:10px;padding:10px 12px;border:1px solid #e2e9e1;border-radius:12px;background:#f7faf6}
+.finnish-review summary{display:flex;align-items:center;gap:10px;list-style:none;color:#365744;font:700 11px var(--heading);cursor:pointer}
+.finnish-review summary::-webkit-details-marker{display:none}
+.finnish-review summary::after{content:"+";margin-left:auto;color:#64836d;font-size:16px;font-weight:500}
+.finnish-review[open] summary::after{content:"−"}
+.finnish-review summary:focus-visible{outline:3px solid #96bba1;outline-offset:3px;border-radius:3px}
+.finnish-review-count{color:#84928a;font:500 9px var(--font)}
+.finnish-review-list{display:grid;gap:9px;margin-top:12px}
+.finnish-review-list label{display:flex;align-items:flex-start;gap:8px;color:#586d60;font:500 10px/1.5 var(--font);cursor:pointer}
+.finnish-review-list input{width:15px;height:15px;flex:none;margin:1px 0 0;accent-color:var(--green)}
+.finnish-review-list p{margin:2px 0 0;color:#89958d;font:400 9px/1.5 var(--font)}
+.finnish-review-list a{color:#47725a;text-underline-offset:2px}

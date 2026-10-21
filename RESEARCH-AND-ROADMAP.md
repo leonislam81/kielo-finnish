@@ -113,6 +113,7 @@ The C1 Writing Lab completes the four-skills practice path through C1. Three str
 - [Yle Uutiset: Finnish-language news](https://yle.fi/uutiset)
 - [Yle: Finnish-language beginner videos](https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet)
 - [Yle: Finnish self-study materials by level](https://yle.fi/a/20-10002426)
+- [Aalto OpenLearning: Beginner tips for Finnish pronunciation, long and short vowels, and double consonants](https://openlearning.aalto.fi/mod/page/view.php?id=3388)
 - [Aalto OpenLearning: Tips for mastering Finnish pronunciation](https://openlearning.aalto.fi/mod/page/view.php?id=17025)
 - [Aalto OpenLearning: Beginner text-message writing task](https://openlearning.aalto.fi/mod/assign/view.php?id=15404)
 - [University of Turku: Finnish language teaching videos](https://www.utu.fi/en/fi/yliopisto/kieli-ja-viestintaopintojen-keskus/tutkimus-ja-kehittaminen/osus/opetusvideot)
@@ -179,3 +180,7 @@ The A1 Spoken Finnish lab compares five informal dialogue examples with standard
 ## Finnish character quick keys
 
 Lesson drafts, writing-lab drafts, and open role-play replies now include accessible buttons for ä, ö, å, Ä, Ö, and Å. Selecting a key inserts that letter at the text cursor or replaces the current selection; the existing draft input flow remains active.
+
+## Bilingual Finnish draft self-review
+
+Lesson drafts, writing-lab drafts, and open role-play replies now include an optional three-item checklist in English or Bangla. It asks learners to explain their meaning, recheck ä/ö and long or doubled sounds, and compare word endings with the lesson example. It is reflective guidance only: it neither scores nor edits a learner’s writing. The pronunciation prompt is informed by [Aalto OpenLearning’s beginner Finnish pronunciation guide](https://openlearning.aalto.fi/mod/page/view.php?id=3388).
