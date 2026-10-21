@@ -24,6 +24,8 @@ Finnish quick-insert keys (ä, ö, å and uppercase forms) are available beside 
 
 Each writing area now has an optional, bilingual self-review checklist. It offers three prompts, including a reminder to check Finnish long vowels and double consonants, and does not score or change the learner’s draft. The pronunciation prompt follows [Aalto OpenLearning’s beginner guide](https://openlearning.aalto.fi/mod/page/view.php?id=3388).
 
+The home dashboard now prioritises vocabulary that is due for spaced review, with a one-click route into the review session. When all 28 lessons are complete, it invites learners to revisit the path. Study-rhythm copy also makes clear that a break does not erase locally saved lesson progress.
+
 ## Media and credits
 
 The app links to official Yle learning materials. Seasonal, café, and travel photography is loaded from Unsplash; an internet connection is needed to show those images. Browser speech synthesis is used for Finnish audio when a Finnish voice is installed. Role-play full-scene playback reads each staff prompt followed by its sample reply, with a pause between turns. The optional transcript shows the whole scene with English or Bangla meanings and line-by-line audio. Learners can hide the meanings for a recall attempt, then reveal them when ready. Finnish-first mode also hides a role-play prompt until the learner selects a response, then reveals the line and its translation. In open-response scenes, optional browser speech recognition can place a Finnish reply in the editable text box; it is not scored or saved. A pace selector adjusts conversation playback from slow to natural speed.

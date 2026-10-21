@@ -184,3 +184,7 @@ Lesson drafts, writing-lab drafts, and open role-play replies now include access
 ## Bilingual Finnish draft self-review
 
 Lesson drafts, writing-lab drafts, and open role-play replies now include an optional three-item checklist in English or Bangla. It asks learners to explain their meaning, recheck ä/ö and long or doubled sounds, and compare word endings with the lesson example. It is reflective guidance only: it neither scores nor edits a learner’s writing. The pronunciation prompt is informed by [Aalto OpenLearning’s beginner Finnish pronunciation guide](https://openlearning.aalto.fi/mod/page/view.php?id=3388).
+
+## Progress-aware next step
+
+The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 28 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
