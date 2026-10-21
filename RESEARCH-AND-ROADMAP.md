@@ -165,3 +165,8 @@ The full-scene transcript now lets learners hide the English or Bangla meanings 
 ## Finnish-first conversation practice
 
 An optional audio-first setting hides the Finnish prompt translation and reply translations until the learner selects a response. After an answer, the Finnish line and current English/Bangla meanings appear for reflection. The learner can switch back to captioned practice at any time.
+
+
+## Spoken open-response practice
+
+The role-play writing mode now offers optional Finnish speech recognition where the browser supports it. The browser transcript is placed in the editable response box so learners can compare their own words with the model; it is not evaluated or saved. A short notice explains that browser speech recognition may process audio through its own service. Text input remains available when voice recognition is unsupported or permission is unavailable.
