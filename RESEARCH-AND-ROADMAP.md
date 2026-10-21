@@ -145,3 +145,8 @@ Each open-response turn offers optional vocabulary cues with English or Bangla m
 ## Full-scene conversation listening
 
 Each beginner role-play now has a play-all control. The Finnish prompts and model replies are spoken one by one with short pauses, so learners can hear the rhythm of a complete café, train-station, grocery-store, or library exchange. The learner can stop playback or interrupt it with any other phrase audio. Playback uses the Finnish voice available in the browser and does not save progress.
+
+
+## Bilingual conversation transcripts
+
+Learners can open a full transcript for any of the four role-play scenes. Staff prompts and sample learner replies appear as alternating, individually playable Finnish lines, with translations that follow the English/Bangla help setting. The transcript is optional and stays within the current scene.
