@@ -140,3 +140,8 @@ Every role-play now offers a choice between selecting a prepared reply and compo
 ## Conversation word hints
 
 Each open-response turn offers optional vocabulary cues with English or Bangla meanings. These give beginners a small prompt without replacing the example phrase or evaluating their response. Hint visibility and typed responses remain temporary in the current page.
+
+
+## Full-scene conversation listening
+
+Each beginner role-play now has a play-all control. The Finnish prompts and model replies are spoken one by one with short pauses, so learners can hear the rhythm of a complete café, train-station, grocery-store, or library exchange. The learner can stop playback or interrupt it with any other phrase audio. Playback uses the Finnish voice available in the browser and does not save progress.
