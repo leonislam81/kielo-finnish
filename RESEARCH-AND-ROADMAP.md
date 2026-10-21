@@ -135,3 +135,8 @@ The A1 library role-play connects everyday Finnish with public-library culture i
 ## Open-response conversation practice
 
 Every role-play now offers a choice between selecting a prepared reply and composing a short Finnish response. Learners reveal the model only after attempting their own answer. The app does not claim to grade free-form Finnish; the sample is a comparison point, and learner text stays in memory only and is not saved. This encourages retrieval and short-form production without marking valid alternate wording as wrong.
+
+
+## Conversation word hints
+
+Each open-response turn offers optional vocabulary cues with English or Bangla meanings. These give beginners a small prompt without replacing the example phrase or evaluating their response. Hint visibility and typed responses remain temporary in the current page.

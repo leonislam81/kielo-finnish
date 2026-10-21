@@ -43,3 +43,6 @@ The library role-play introduces a library card, a Finnish address requirement i
 
 
 In conversation practice, learners can either choose a response or write a Finnish reply first and reveal a useful example afterward. Open responses are not machine-scored or saved, because many different replies can be natural.
+
+
+Open-response scenes now include optional contextual word hints in English or Bangla. Learners can use them to build a reply before revealing the example; hints and typed answers remain temporary.
