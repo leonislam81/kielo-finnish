@@ -160,3 +160,8 @@ A conversation pace selector offers slow, steady, and natural rates. It applies 
 ## Transcript meaning recall
 
 The full-scene transcript now lets learners hide the English or Bangla meanings while they try to recall them from the Finnish. They can reveal the meanings again without leaving the conversation or interrupting the learning path.
+
+
+## Finnish-first conversation practice
+
+An optional audio-first setting hides the Finnish prompt translation and reply translations until the learner selects a response. After an answer, the Finnish line and current English/Bangla meanings appear for reflection. The learner can switch back to captioned practice at any time.
