@@ -7,6 +7,9 @@
   let statusRequest = null;
   let activeAudio = null;
   let activeFinish = null;
+  let activeSource = null;
+  let audioContext = null;
+  let localSpeechModule = null;
   let playbackId = 0;
 
   function apiBase() {
@@ -44,13 +47,32 @@
     return statusRequest;
   }
 
-  function showMessage(message) {
+  function showMessage(message, persistent = false) {
     const toast = document.getElementById("toast");
     if (!toast) return;
     toast.textContent = message;
     toast.classList.add("visible");
     window.clearTimeout(toast.kieloTimer);
-    toast.kieloTimer = window.setTimeout(() => toast.classList.remove("visible"), 3_200);
+    if (!persistent) toast.kieloTimer = window.setTimeout(() => toast.classList.remove("visible"), 3_200);
+  }
+
+  function clearMessage() {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+    window.clearTimeout(toast.kieloTimer);
+    toast.classList.remove("visible");
+  }
+
+  function prepareAudioContext() {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+    try {
+      audioContext ||= new AudioContextClass();
+      if (audioContext.state === "suspended") void audioContext.resume().catch(() => {});
+      return audioContext;
+    } catch {
+      return null;
+    }
   }
 
   function stop() {
@@ -61,12 +83,17 @@
       activeAudio.load();
       activeAudio = null;
     }
+    if (activeSource) {
+      try { activeSource.stop(); } catch {}
+      activeSource = null;
+    }
     if (activeFinish) {
       const finish = activeFinish;
       activeFinish = null;
       finish(false);
     }
     if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    clearMessage();
   }
 
   function paceName(rate) {
@@ -123,6 +150,39 @@
     });
   }
 
+  function playLocalAudio(blob, currentPlaybackId) {
+    const context = prepareAudioContext();
+    if (!context) return playAudio(blob, currentPlaybackId);
+    return new Promise((resolve) => {
+      let settled = false;
+      let source = null;
+      const finish = (played) => {
+        if (settled) return;
+        settled = true;
+        if (activeSource === source) activeSource = null;
+        if (activeFinish === finish) activeFinish = null;
+        resolve(played);
+      };
+      activeFinish = finish;
+      (async () => {
+        try {
+          const audioBuffer = await context.decodeAudioData(await blob.arrayBuffer());
+          if (currentPlaybackId !== playbackId) return finish(false);
+          source = context.createBufferSource();
+          source.buffer = audioBuffer;
+          source.connect(context.destination);
+          activeSource = source;
+          source.onended = () => finish(currentPlaybackId === playbackId);
+          if (context.state === "suspended") await context.resume();
+          if (currentPlaybackId !== playbackId) return finish(false);
+          source.start(0);
+        } catch {
+          finish(false);
+        }
+      })();
+    });
+  }
+
   function speakOnDevice(text, rate, currentPlaybackId, quietIfMissing = false) {
     if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
       showMessage("Audio playback is not available in this browser.");
@@ -165,7 +225,48 @@
     stop();
     const currentPlaybackId = playbackId;
     const normalizedRate = Math.min(1.15, Math.max(0.6, Number(rate) || 0.86));
-    const voice = localStorage.getItem("kielo-neural-voice") || "device";
+    const voice = localStorage.getItem("kielo-neural-voice") || "local:F1";
+    const style = voice.startsWith("local:") ? voice.slice(6) : localStorage.getItem("kielo-supertonic-style") || "F1";
+    const localFallback = async () => {
+      if (currentPlaybackId !== playbackId) return false;
+      const firstUse = !localSpeechModule;
+      showMessage(firstUse
+        ? `Preparing a free Finnish voice on this device. First use downloads ${"about 398 MB"}; your text stays on this device.`
+        : "Creating Finnish speech on this device…", true);
+      try {
+        localSpeechModule ||= import("./supertonic-speech.js");
+        const localSpeech = await localSpeechModule;
+        if (currentPlaybackId !== playbackId) return false;
+        if (!localSpeech.isReady()) showMessage("Preparing the free Finnish voice model. First use may download about 398 MB; text stays on this device.", true);
+        const synthesisSpeed = rate < 0.78 ? 1.28 : rate > 0.93 ? 0.96 : 1.08;
+        const blob = await localSpeech.synthesize(text.trim(), style, synthesisSpeed, (progress) => {
+          if (currentPlaybackId !== playbackId) return;
+          if (progress.phase === "loading") {
+            const stage = progress.current ? ` · model ${progress.current} of ${progress.total}` : "";
+            showMessage(`Preparing the free Finnish voice${stage}. First use downloads about 398 MB; text stays on this device.`, true);
+          } else {
+            showMessage(`Generating Finnish speech · ${progress.current} of ${progress.total}`, true);
+          }
+        });
+        if (currentPlaybackId !== playbackId) return false;
+        showMessage("Playing Finnish voice…", true);
+        const played = await playLocalAudio(blob, currentPlaybackId);
+        clearMessage();
+        if (!played && currentPlaybackId === playbackId) showMessage("The Finnish voice is ready. Tap Preview voice again if this browser blocked audio playback.");
+        return played;
+      } catch (error) {
+        if (currentPlaybackId !== playbackId) return false;
+        localSpeechModule = null;
+        clearMessage();
+        const detail = String(error?.message || "").slice(0, 120);
+        showMessage(`Free Finnish voice could not load. Check your connection and try again${detail ? ` (${detail})` : ""}.`);
+        return false;
+      }
+    };
+    if (voice.startsWith("local:")) {
+      prepareAudioContext();
+      return localFallback();
+    }
     let onlineVoiceFailed = false;
     if (voice !== "device") {
       const status = await getStatus();
@@ -184,9 +285,12 @@
       }
     }
     if (currentPlaybackId !== playbackId) return false;
-    const played = await speakOnDevice(text.trim(), normalizedRate, currentPlaybackId, onlineVoiceFailed);
-    if (!played && onlineVoiceFailed) showMessage("The online Finnish voice could not connect, and the selected device voice could not play either. Choose another device voice or try again later.");
-    return played;
+    const deviceVoices = "speechSynthesis" in window ? window.speechSynthesis.getVoices() : [];
+    if (voice === "device" && deviceVoices.length) {
+      const played = await speakOnDevice(text.trim(), normalizedRate, currentPlaybackId, true);
+      if (played || currentPlaybackId !== playbackId) return played;
+    }
+    return localFallback();
   }
 
   window.KieloSpeech = { getStatus, speak, stop };

@@ -975,4 +975,5 @@
 .finland-region-word-list li{display:grid;grid-template-columns:minmax(0,1fr);align-items:start}
 .finland-region-word-list li>span{min-width:0}
 .finland-region-word-list li .finland-extra-word-actions{margin-top:3px}
+#toast{width:min(460px,calc(100vw - 28px));text-align:center;line-height:1.5}
 @media(max-width:560px){.finland-daily-goal{grid-template-columns:1fr;padding:12px}.finland-daily-goal>label{grid-column:1;max-width:none}.finland-daily-goal-meter{grid-column:1}.finland-daily-goal h2{font-size:13px}}
