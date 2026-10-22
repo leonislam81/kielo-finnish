@@ -870,6 +870,77 @@
 @media(max-width:760px){.finland-housing-hero{grid-template-columns:1fr}.finland-housing-hero-copy{padding:18px 18px 12px}.finland-housing-hero-art,.finland-housing-hero-art svg{min-height:150px}.finland-housing-scene-detail{grid-template-columns:minmax(100px,.38fr) minmax(0,1.62fr)}}
 @media(max-width:560px){.finland-housing-journey{padding:11px}.finland-housing-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-housing-heading-row>span{text-align:left}.finland-housing-scene-tabs{grid-template-columns:1fr}.finland-housing-scene-tabs button{padding:9px}.finland-housing-scene-detail{grid-template-columns:1fr}.finland-housing-scene-art{min-height:82px}.finland-housing-scene-copy{padding:12px}.finland-housing-word-grid,.finland-housing-source-grid,.finland-housing-step-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-housing-dialogue article{align-items:flex-start}}
 @media(max-width:390px){.finland-housing-hero-copy h2{font-size:22px}.finland-housing-word,.finland-housing-source-card{padding:8px}.finland-housing-step{gap:6px;padding:7px}}
+
+/* Everyday money, banking and taxes chapter */
+.finland-money-journey{display:grid;gap:15px;margin:14px 0;padding:14px;border:1px solid #e5e8df;border-radius:18px;background:linear-gradient(180deg,#f7f5ee,#fff 40%)}
+.finland-money-hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(220px,.88fr);overflow:hidden;border:1px solid #e6e4d9;border-radius:16px;background:#fff}
+.finland-money-hero-copy{align-self:center;padding:20px 22px}
+.finland-money-hero-copy h2{max-width:510px;margin:7px 0;color:#283f38;font:750 25px/1.17 var(--heading,Inter,sans-serif);letter-spacing:-.65px}
+.finland-money-hero-copy p{max-width:490px;margin:7px 0;color:#6e786d;font-size:10px;line-height:1.65}
+.finland-money-hero-copy>span:last-child{display:inline-block;margin-top:6px;color:#806a3f;font-size:9px;font-weight:750}
+.finland-money-hero-art{position:relative;min-height:175px;background:#dce8df}
+.finland-money-hero-art svg{display:block;width:100%;height:100%;min-height:175px}
+.finland-money-hero-art>span{position:absolute;right:11px;bottom:10px;padding:5px 8px;border:1px solid #ffffffad;border-radius:20px;background:#ffffffdf;color:#52654f;font-size:8px;font-weight:750}
+.finland-money-heading-row{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:8px}
+.finland-money-heading-row h3{margin:3px 0 0;color:#30453a;font:700 15px/1.25 var(--heading,Inter,sans-serif)}
+.finland-money-heading-row>span{color:#7b8075;font-size:8px;text-align:right}
+.finland-money-scene-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:9px}
+.finland-money-scene-tabs button{min-width:0;padding:9px 10px;border:1px solid #e5e7df;border-radius:10px;background:#fff;color:#495d4e;text-align:left;cursor:pointer;transition:border-color .16s ease,background .16s ease,transform .16s ease}
+.finland-money-scene-tabs button:hover{transform:translateY(-1px);border-color:#b5ad8d}
+.finland-money-scene-tabs button[aria-pressed=true]{border-color:#a79b77;background:#f4f2e8;box-shadow:inset 0 0 0 1px #a79b77}
+.finland-money-scene-tabs strong,.finland-money-scene-tabs small{display:block}
+.finland-money-scene-tabs strong{font-size:9px;line-height:1.4}
+.finland-money-scene-tabs small{margin-top:3px;color:#7c786b;font-size:8px}
+.finland-money-scene-detail{display:grid;grid-template-columns:minmax(115px,.38fr) minmax(0,1.62fr);overflow:hidden;border:1px solid #e5e6df;border-radius:13px;background:#fff}
+.finland-money-scene-art{position:relative;display:grid;min-height:190px;place-items:center;overflow:hidden;background:linear-gradient(155deg,#d8e6e1,#f1e8d5 66%,#bdcbb6)}
+.finland-money-scene-art:before,.finland-money-scene-art:after{position:absolute;bottom:-22px;width:115px;height:95px;border-radius:48% 52% 0 0;background:#809278;content:""}
+.finland-money-scene-art:before{left:-25px;transform:rotate(-8deg)}
+.finland-money-scene-art:after{right:-28px;background:#617b69;transform:rotate(9deg)}
+.finland-money-scene-art>span{position:relative;z-index:1;display:grid;width:52px;height:52px;place-items:center;border:1px solid #ffffffad;border-radius:17px;background:#ffffffdf;box-shadow:0 7px 19px #21483920;font-size:27px}
+.finland-money-scene-art>small{position:absolute;z-index:2;left:8px;bottom:8px;color:#fff;font-size:7px;font-weight:800;letter-spacing:.45px;text-shadow:0 1px 4px #30453a;text-transform:uppercase}
+.finland-money-scene-copy{padding:13px 15px}
+.finland-money-scene-copy h4{margin:3px 0 6px;color:#31473a;font:700 14px var(--heading,Inter,sans-serif)}
+.finland-money-scene-copy>p{margin:5px 0;color:#6e786d;font-size:9px;line-height:1.6}
+.finland-money-scene-copy>p[lang=bn]{color:#536b59}
+.finland-money-dialogue{overflow:hidden;margin-top:9px;border:1px solid #e8e7df;border-radius:10px;background:#fff}
+.finland-money-dialogue article{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px}
+.finland-money-dialogue article+article{border-top:1px solid #efeee8}
+.finland-money-dialogue article>div{min-width:0}
+.finland-money-dialogue article span{display:block;color:#8b826c;font-size:7px;font-weight:800;letter-spacing:.6px}
+.finland-money-dialogue article strong{display:block;margin-top:3px;color:#655536;font-size:9px;line-height:1.45}
+.finland-money-dialogue article p,.finland-money-dialogue article small{display:block;margin:2px 0 0;color:#6e786d;font-size:8px;line-height:1.4}
+.finland-money-dialogue article small{color:#536b59}
+.finland-money-dialogue article button{flex:none;width:28px;height:28px;border:1px solid #e8e7df;border-radius:9px;background:#f8f8f3;color:#786947;font-size:10px;cursor:pointer}
+.finland-money-word-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}
+.finland-money-word{min-width:0;padding:9px;border:1px solid #e7e8e1;border-radius:10px;background:#fff}
+.finland-money-word strong{display:block;overflow-wrap:anywhere;color:#34493b;font-size:10px}
+.finland-money-word span,.finland-money-word small{display:block;margin-top:3px;color:#6e786d;font-size:8px;line-height:1.4}
+.finland-money-word button{margin-top:7px;padding:4px 7px;border:1px solid #e4e5dc;border-radius:7px;background:#fafaf7;color:#756746;font-size:8px;font-weight:750;cursor:pointer}
+.finland-money-step-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.finland-money-step{display:flex;align-items:center;gap:9px;min-width:0;padding:9px;border:1px solid #e7e8e1;border-radius:10px;background:#fff}
+.finland-money-step>span{flex:none;display:grid;width:27px;height:27px;place-items:center;border-radius:9px;background:#f3f0e5;color:#806e49;font-size:8px;font-weight:800}
+.finland-money-step>div{min-width:0;flex:1}
+.finland-money-step strong,.finland-money-step b,.finland-money-step small{display:block}
+.finland-money-step strong{color:#6e786d;font-size:8px;line-height:1.35}
+.finland-money-step b{margin-top:3px;color:#5f5235;font-size:9px}
+.finland-money-step small{margin-top:2px;color:#536b59;font-size:8px}
+.finland-money-step button{flex:none;width:28px;height:28px;border:1px solid #e6e5dc;border-radius:9px;background:#f9f9f5;color:#786947;font-size:10px;cursor:pointer}
+.finland-money-safety{margin:9px 0 0;padding:10px 11px;border:1px solid #e6e2d2;border-radius:10px;background:#f7f5eb;color:#6c705f;font-size:8px;line-height:1.6}
+.finland-money-safety strong{color:#665536}
+.finland-money-safety small{display:block;margin-top:5px;color:#536b59;font-size:8px;line-height:1.5}
+.finland-money-source-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.finland-money-source-card{display:flex;min-width:0;flex-direction:column;padding:10px;border:1px solid #e7e8e1;border-radius:11px;background:#fff;text-decoration:none;transition:transform .18s ease,border-color .18s ease}
+.finland-money-source-card:hover{transform:translateY(-2px);border-color:#b5ad8d}
+.finland-money-source-card>span{color:#8b826c;font-size:7px;font-weight:800;letter-spacing:.5px;line-height:1.4}
+.finland-money-source-card>strong{margin-top:6px;color:#34493b;font-size:9px;line-height:1.4}
+.finland-money-source-card p{flex:1;margin:5px 0;color:#6e786d;font-size:8px;line-height:1.5}
+.finland-money-source-card>b{margin-top:5px;color:#756746;font-size:8px}
+.finland-money-source-note{margin:8px 0 0;color:#788078;font-size:8px;line-height:1.65}
+.finland-money-safety a,.finland-money-source-note a{color:#756746;font-weight:700;text-decoration:none}
+@media(max-width:980px){.finland-money-word-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.finland-money-source-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.finland-money-hero{grid-template-columns:1fr}.finland-money-hero-copy{padding:18px 18px 12px}.finland-money-hero-art,.finland-money-hero-art svg{min-height:150px}.finland-money-scene-detail{grid-template-columns:minmax(100px,.38fr) minmax(0,1.62fr)}}
+@media(max-width:560px){.finland-money-journey{padding:11px}.finland-money-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-money-heading-row>span{text-align:left}.finland-money-scene-tabs{grid-template-columns:1fr}.finland-money-scene-tabs button{padding:9px}.finland-money-scene-detail{grid-template-columns:1fr}.finland-money-scene-art{min-height:82px}.finland-money-scene-copy{padding:12px}.finland-money-word-grid,.finland-money-source-grid,.finland-money-step-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-money-dialogue article{align-items:flex-start}}
+@media(max-width:390px){.finland-money-hero-copy h2{font-size:22px}.finland-money-word,.finland-money-source-card{padding:8px}.finland-money-step{gap:6px;padding:7px}}
 .finland-health-journey{display:grid;gap:15px;margin:14px 0;padding:14px;border:1px solid #e5e8df;border-radius:18px;background:linear-gradient(180deg,#f7f5ee,#fff 40%)}
 .finland-health-hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(220px,.88fr);overflow:hidden;border:1px solid #e6e4d9;border-radius:16px;background:#fff}
 .finland-health-hero-copy{align-self:center;padding:20px 22px}
