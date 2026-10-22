@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME="kielo-offline-v15";
+const CACHE_NAME="kielo-offline-v16";
 const SCOPE_URL=new URL(self.registration.scope);
 const OFFLINE_PAGE=new URL("index.html",SCOPE_URL).href;
 const ASSET_PATHS=[
@@ -20,7 +20,7 @@ const ASSET_PATHS=[
   "backup.css?v=1",
   "rhythm.css?v=7",
   "finnish-keys.css?v=2",
-  "redesign.css?v=12",
+  "redesign.css?v=13",
   "curriculum.js",
   "advanced-vocabulary.js",
   "daily-vocabulary.js?v=1",
