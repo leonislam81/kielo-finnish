@@ -49,6 +49,7 @@
 
   function showMessage(message, persistent = false) {
     const toast = document.getElementById("toast");
+    document.dispatchEvent(new CustomEvent("kielo-speech-status", { detail: { message, persistent } }));
     if (!toast) return;
     toast.textContent = message;
     toast.classList.add("visible");
@@ -58,6 +59,7 @@
 
   function clearMessage() {
     const toast = document.getElementById("toast");
+    document.dispatchEvent(new CustomEvent("kielo-speech-status", { detail: { message: "", persistent: false } }));
     if (!toast) return;
     window.clearTimeout(toast.kieloTimer);
     toast.classList.remove("visible");
@@ -259,6 +261,14 @@
         localSpeechModule = null;
         clearMessage();
         const detail = String(error?.message || "").slice(0, 120);
+        const hasFinnishDeviceVoice = "speechSynthesis" in window && window.speechSynthesis.getVoices().some((item) => item.lang?.toLowerCase().startsWith("fi"));
+        if (hasFinnishDeviceVoice) {
+          showMessage("The free voice could not load. Trying your installed Finnish voice…", true);
+          if (await speakOnDevice(text.trim(), normalizedRate, currentPlaybackId)) {
+            clearMessage();
+            return true;
+          }
+        }
         showMessage(`Free Finnish voice could not load. Check your connection and try again${detail ? ` (${detail})` : ""}.`);
         return false;
       }

@@ -77,6 +77,9 @@
 .finland-voice-sample p,.finland-voice-sample small{display:block;margin:3px 0 0;color:#6e786d;font-size:8px;line-height:1.4}
 .finland-voice-sample small{color:#536b59}
 .finland-voice-preview{flex:none;min-height:34px;white-space:nowrap}
+.finland-voice-playback-status{flex:1 0 100%;margin:0;padding:8px 10px;border-radius:9px;background:#eef5ef;color:#426254;font-size:9px;line-height:1.5}
+.finland-voice-playback-status.is-busy{background:#e7f1eb;color:#204f42}
+.finland-voice-playback-status:not(.is-busy):empty{display:none}
 .finland-voice-tools button:focus-visible{outline:3px solid #315f52;outline-offset:3px}
 .finland-meaning-tools{display:flex;align-items:center;gap:12px;margin:12px 0;padding:10px 12px;background:#fff;border:1px solid #e4eae4;border-radius:12px}
 .finland-meaning-tools label{display:grid;gap:4px;color:#73837a;font-size:9px;font-weight:700}
