@@ -29,11 +29,13 @@
       statusCache = {
         enabled: result.enabled === true,
         dailyCharacterCap: Number(result.dailyCharacterCap) || 0,
+        provider: typeof result.provider === "string" ? result.provider : null,
+        voices: Array.isArray(result.voices) ? result.voices : [],
       };
       statusExpiresAt = Date.now() + 60_000;
       return statusCache;
     }).catch(() => {
-      statusCache = { enabled: false, dailyCharacterCap: 0 };
+      statusCache = { enabled: false, dailyCharacterCap: 0, provider: null, voices: [] };
       statusExpiresAt = Date.now() + 15_000;
       return statusCache;
     }).finally(() => {
@@ -121,7 +123,7 @@
     });
   }
 
-  function speakOnDevice(text, rate, currentPlaybackId) {
+  function speakOnDevice(text, rate, currentPlaybackId, quietIfMissing = false) {
     if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
       showMessage("Audio playback is not available in this browser.");
       return Promise.resolve(false);
@@ -129,7 +131,7 @@
     const voices = window.speechSynthesis.getVoices();
     const finnish = voices.filter((voice) => voice.lang?.toLowerCase().startsWith("fi"));
     if (!finnish.length) {
-      showMessage("No Finnish voice is installed in this browser. Try a natural voice when the site is connected, or open a Yle learning clip.");
+      if (!quietIfMissing) showMessage("No Finnish voice is installed in this browser. Try an online Finnish voice or open a Yle learning clip.");
       return Promise.resolve(false);
     }
     const selectedName = localStorage.getItem("kielo-finnish-voice") || "";
@@ -163,6 +165,7 @@
     const currentPlaybackId = playbackId;
     const normalizedRate = Math.min(1.15, Math.max(0.6, Number(rate) || 0.86));
     const voice = localStorage.getItem("kielo-neural-voice") || "device";
+    let onlineVoiceFailed = false;
     if (voice !== "device") {
       const status = await getStatus();
       if (currentPlaybackId !== playbackId) return false;
@@ -173,11 +176,16 @@
           if (await playAudio(blob, currentPlaybackId)) return true;
         } catch {
           if (currentPlaybackId !== playbackId) return false;
+          onlineVoiceFailed = true;
         }
+      } else {
+        onlineVoiceFailed = true;
       }
     }
     if (currentPlaybackId !== playbackId) return false;
-    return speakOnDevice(text.trim(), normalizedRate, currentPlaybackId);
+    const played = await speakOnDevice(text.trim(), normalizedRate, currentPlaybackId, onlineVoiceFailed);
+    if (!played && onlineVoiceFailed) showMessage("The online Finnish voice could not connect, and this browser has no Finnish voice installed. Check the voice service or open a Yle clip.");
+    return played;
   }
 
   window.KieloSpeech = { getStatus, speak, stop };

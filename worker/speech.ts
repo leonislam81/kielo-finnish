@@ -10,9 +10,11 @@ const SITE_ORIGINS = new Set([
 ]);
 
 const VOICES = {
-  "fi-FI-SelmaNeural": { gender: "female", name: "Selma" },
-  "fi-FI-NooraNeural": { gender: "female", name: "Noora" },
-  "fi-FI-HarriNeural": { gender: "male", name: "Harri" },
+  "gemini-Aoede": { gender: "female", name: "Aoede", provider: "gemini" },
+  "gemini-Charon": { gender: "male", name: "Charon", provider: "gemini" },
+  "fi-FI-SelmaNeural": { gender: "female", name: "Selma", provider: "azure" },
+  "fi-FI-NooraNeural": { gender: "female", name: "Noora", provider: "azure" },
+  "fi-FI-HarriNeural": { gender: "male", name: "Harri", provider: "azure" },
 } as const;
 
 const DAILY_CHARACTER_HARD_LIMIT = 10_000;
@@ -20,6 +22,7 @@ const MAX_TEXT_LENGTH = 180;
 const SPEECH_ENDPOINT = "/api/speech/synthesize";
 
 type SpeechEnvironment = Cloudflare.Env & {
+  GEMINI_API_KEY?: string;
   AZURE_SPEECH_KEY?: string;
   AZURE_SPEECH_REGION?: string;
   KIELO_NEURAL_VOICE_DAILY_CHAR_CAP?: string;
@@ -57,7 +60,8 @@ export async function handleKieloSpeech(request: Request, rawEnv: Cloudflare.Env
       {
         enabled: config.enabled,
         dailyCharacterCap: config.enabled ? config.dailyCharacterCap : 0,
-        voices: Object.entries(VOICES).map(([id, voice]) => ({ id, ...voice })),
+        provider: config.provider,
+        voices: Object.entries(VOICES).filter(([, voice]) => voice.provider === config.provider).map(([id, voice]) => ({ id, gender: voice.gender, name: voice.name })),
       },
       200,
       cors,
@@ -96,9 +100,10 @@ export async function handleKieloSpeech(request: Request, rawEnv: Cloudflare.Env
   const text = typeof body.text === "string"
     ? body.text.normalize("NFC").replace(/\s+/gu, " ").trim()
     : "";
-  const voice = typeof body.voice === "string" && body.voice in VOICES
+  const voiceId = typeof body.voice === "string" && Object.hasOwn(VOICES, body.voice)
     ? body.voice as keyof typeof VOICES
     : null;
+  const voice = voiceId ? VOICES[voiceId] : null;
   const pace = body.pace === "slow" || body.pace === "steady" || body.pace === "natural"
     ? body.pace
     : null;
@@ -106,7 +111,7 @@ export async function handleKieloSpeech(request: Request, rawEnv: Cloudflare.Env
   if (!text || text.length > MAX_TEXT_LENGTH || /[\u0000-\u001f\u007f]/u.test(text)) {
     return json({ error: "text_must_be_1_to_180_characters" }, 400, cors);
   }
-  if (!voice || !pace) {
+  if (!voice || voice.provider !== config.provider || !pace) {
     return json({ error: "unsupported_voice_or_pace" }, 400, cors);
   }
 
@@ -119,8 +124,52 @@ export async function handleKieloSpeech(request: Request, rawEnv: Cloudflare.Env
     );
   }
 
-  const ssml = makeSsml(text, voice, pace);
   try {
+    if (config.provider === "gemini") {
+      const upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": config.key,
+        },
+        body: JSON.stringify({
+          model: "gemini-3.8-flash-tts",
+          input: [{
+            type: "user_input",
+            content: [{
+              type: "text",
+              text,
+              annotations: [{
+                type: "speech_metadata",
+                style: pace === "slow"
+                  ? "Speak the exact Finnish text slowly and clearly for a language learner. Do not add or translate words."
+                  : pace === "natural"
+                    ? "Speak the exact Finnish text naturally and clearly. Do not add or translate words."
+                    : "Speak the exact Finnish text at a steady, clear pace for a language learner. Do not add or translate words.",
+              }],
+            }],
+          }],
+          response_format: { type: "audio" },
+          generation_config: { speech_config: [{ voice: voice.name }] },
+        }),
+        signal: AbortSignal.timeout(20_000),
+      });
+      if (!upstream.ok) return json({ error: "speech_provider_unavailable" }, 502, cors);
+      const result = await upstream.json() as {
+        output_audio?: { data?: string; mime_type?: string };
+        steps?: Array<{ type?: string; content?: Array<{ type?: string; data?: string }> }>;
+      };
+      const audioBase64 = result.output_audio?.data || result.steps
+        ?.filter((step) => step.type === "model_output")
+        .flatMap((step) => step.content ?? [])
+        .find((part) => part.type === "audio" && typeof part.data === "string")?.data;
+      if (!audioBase64) return json({ error: "speech_provider_unavailable" }, 502, cors);
+      const binary = atob(audioBase64);
+      const audio = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+      return audioResponse(audio, "audio/wav", cors);
+    }
+
+    const ssml = makeSsml(text, voiceId!, pace);
     const upstream = await fetch(
       `https://${config.region}.tts.speech.microsoft.com/cognitiveservices/v1`,
       {
@@ -138,21 +187,14 @@ export async function handleKieloSpeech(request: Request, rawEnv: Cloudflare.Env
     if (!upstream.ok || !upstream.body) {
       return json({ error: "speech_provider_unavailable" }, 502, cors);
     }
-    return new Response(upstream.body, {
-      status: 200,
-      headers: {
-        ...cors,
-        "Content-Type": "audio/mpeg",
-        "Cache-Control": "private, no-store",
-        "X-Content-Type-Options": "nosniff",
-      },
-    });
+    return audioResponse(upstream.body, "audio/mpeg", cors);
   } catch {
     return json({ error: "speech_provider_unavailable" }, 502, cors);
   }
 }
 
 function speechConfig(env: SpeechEnvironment) {
+  const geminiKey = env.GEMINI_API_KEY?.trim() || "";
   const key = env.AZURE_SPEECH_KEY?.trim() || "";
   const region = env.AZURE_SPEECH_REGION?.trim().toLowerCase() || "";
   const configuredCap = Number(env.KIELO_NEURAL_VOICE_DAILY_CHAR_CAP || "0");
@@ -162,11 +204,13 @@ function speechConfig(env: SpeechEnvironment) {
     ? configuredCap
     : 0;
   const validRegion = /^[a-z0-9-]{2,30}$/u.test(region);
+  const provider = geminiKey ? "gemini" : key && validRegion ? "azure" : null;
   return {
-    key,
+    key: provider === "gemini" ? geminiKey : key,
     region,
+    provider,
     dailyCharacterCap,
-    enabled: Boolean(key && validRegion && dailyCharacterCap && env.DB),
+    enabled: Boolean(provider && dailyCharacterCap && env.DB),
   };
 }
 
@@ -218,6 +262,18 @@ function makeSsml(text: string, voice: keyof typeof VOICES, pace: "slow" | "stea
     "'": "&apos;",
   })[character]!);
   return `<speak version="1.0" xml:lang="fi-FI"><voice name="${voice}"><prosody rate="${rate}">${safeText}</prosody></voice></speak>`;
+}
+
+function audioResponse(body: BodyInit | null, contentType: "audio/mpeg" | "audio/wav", cors: HeadersInit) {
+  return new Response(body, {
+    status: 200,
+    headers: {
+      ...cors,
+      "Content-Type": contentType,
+      "Cache-Control": "private, no-store",
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
 }
 
 function corsHeaders(origin: string | null) {
