@@ -491,3 +491,82 @@
 @media(max-width:760px){.finland-market-hero{grid-template-columns:1fr}.finland-market-hero-copy{padding:18px 18px 12px}.finland-market-hero-art{min-height:150px}.finland-market-hero-art svg{min-height:150px}.finland-market-scene-detail{grid-template-columns:minmax(110px,.55fr) minmax(0,1.3fr)}.finland-market-scene-art{min-height:220px}}
 @media(max-width:560px){.finland-market-journey{padding:11px}.finland-market-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-market-route-tabs{grid-template-columns:1fr}.finland-market-route-tabs button{padding:9px}.finland-market-scene-detail{grid-template-columns:1fr}.finland-market-scene-art{min-height:90px;flex-direction:row;gap:10px}.finland-market-scene-art>span{width:39px;height:39px;border-radius:14px;font-size:22px}.finland-market-scene-copy{padding:12px}.finland-market-season-detail{grid-template-columns:1fr}.finland-market-season-words{grid-template-columns:repeat(3,minmax(0,1fr))}.finland-market-region-grid{grid-template-columns:1fr}.finland-market-region-card{padding:9px}.finland-market-dialogue-line{align-items:flex-start}}
 @media(max-width:390px){.finland-market-hero-copy h2{font-size:23px}.finland-market-word-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.finland-market-word{padding:8px}.finland-market-season-word{padding:7px}.finland-market-season-tabs{gap:5px}.finland-market-season-tabs button{padding:8px 5px;font-size:7px}}
+
+.finland-culture-journey{margin:18px 0;padding:16px;border:1px solid #dfe7e5;border-radius:18px;background:linear-gradient(145deg,#f6f8f5,#fff 64%)}
+.finland-culture-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(220px,.95fr);min-height:190px;overflow:hidden;border-radius:14px;background:#e8efed}
+.finland-culture-hero-copy{align-self:center;padding:23px}
+.finland-culture-hero-copy h2{max-width:520px;margin:5px 0 8px;color:#19362e;font:700 clamp(22px,3.1vw,33px)/1.12 var(--heading,Inter,sans-serif);letter-spacing:-.035em}
+.finland-culture-hero-copy p{max-width:500px;margin:0;color:#5d7065;font-size:11px;line-height:1.65}
+.finland-culture-hero-copy>span:last-child{display:inline-block;margin-top:11px;color:#42735d;font-size:9px;font-weight:750;letter-spacing:.04em}
+.finland-culture-hero-art{position:relative;display:flex;min-height:190px;align-items:flex-end;overflow:hidden;background:#536b74}
+.finland-culture-hero-art svg{display:block;width:100%;height:100%;min-height:190px}
+.finland-culture-hero-art>span{position:absolute;right:11px;bottom:10px;padding:5px 9px;border:1px solid rgba(255,255,255,.7);border-radius:999px;background:rgba(250,251,246,.9);color:#355b4a;font-size:8px;font-weight:750}
+.finland-culture-heritage{display:flex;gap:10px;margin-top:10px;padding:11px;border:1px solid #e2e9dd;border-radius:11px;background:#f3f7ef}
+.finland-culture-heritage>span{flex:none;display:grid;width:28px;height:28px;place-items:center;border-radius:9px;background:#fff;color:#618968;font-size:15px}
+.finland-culture-heritage p{margin:0;color:#64756a;font-size:8px;line-height:1.6}
+.finland-culture-heritage p strong{display:block;margin-bottom:3px;color:#325641;font-size:9px}
+.finland-culture-heritage p small{display:block;margin-top:5px;color:#536e5f;font-size:8px;line-height:1.5}
+.finland-culture-heritage a,.finland-culture-practical a{display:inline-block;margin-top:6px;color:#527a63;font-size:8px;font-weight:750;text-decoration:none}
+.finland-culture-heritage a:hover,.finland-culture-practical a:hover,.finland-culture-sources a:hover{text-decoration:underline}
+.finland-culture-scenes,.finland-culture-words,.finland-culture-routine,.finland-culture-dialogue,.finland-culture-media{margin-top:18px}
+.finland-culture-heading-row{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:9px}
+.finland-culture-heading-row h3{margin:3px 0 0;color:#19362e;font:700 16px var(--heading,Inter,sans-serif)}
+.finland-culture-heading-row>span{color:#738279;font-size:8px}
+.finland-culture-scene-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.finland-culture-scene-tabs button{display:grid;gap:4px;min-width:0;padding:10px 12px;border:1px solid #e1e9e0;border-radius:12px;background:#fff;color:#385a49;text-align:left;cursor:pointer}
+.finland-culture-scene-tabs button[aria-pressed=true]{border-color:#77a184;background:#edf4ec;box-shadow:inset 0 0 0 1px #77a184}
+.finland-culture-scene-tabs button:focus-visible,.finland-culture-phrase button:focus-visible,.finland-culture-word button:focus-visible,.finland-culture-step button:focus-visible,.finland-culture-dialogue-line button:focus-visible{outline:2px solid #397a62;outline-offset:2px}
+.finland-culture-scene-tabs strong{font-size:9px;line-height:1.4}
+.finland-culture-scene-tabs small{color:#728279;font-size:7px}
+.finland-culture-scene-detail{display:grid;grid-template-columns:minmax(120px,.42fr) minmax(0,1.58fr);overflow:hidden;margin-top:8px;border:1px solid #e3eae3;border-radius:13px;background:#fff}
+.finland-culture-scene-art{position:relative;display:flex;min-height:200px;flex-direction:column;align-items:center;justify-content:center;gap:12px;overflow:hidden;background:linear-gradient(180deg,#d4e0dc 0%,#eff0df 52%,#b19779 53%,#657667 100%);color:#fff}
+.finland-culture-scene-art>span{z-index:1;display:grid;width:54px;height:54px;place-items:center;border:1px solid rgba(255,255,255,.6);border-radius:19px;background:rgba(255,255,255,.24);font-size:28px}
+.finland-culture-scene-art>small{z-index:1;padding:6px 10px;border:1px solid rgba(255,255,255,.5);border-radius:999px;background:rgba(25,54,46,.3);font-size:7px;font-weight:800;letter-spacing:.7px}
+.finland-culture-scene-copy{padding:14px;min-width:0}
+.finland-culture-scene-copy h4{margin:2px 0 7px;color:#19362e;font:700 15px var(--heading,Inter,sans-serif)}
+.finland-culture-scene-copy>p{margin:5px 0;color:#64766d;font-size:9px;line-height:1.6}
+.finland-culture-scene-copy>p[lang=bn]{color:#536e5f}
+.finland-culture-phrase{margin-top:9px;padding:9px 10px;border-left:3px solid #78a887;border-radius:8px;background:#edf4ec}
+.finland-culture-phrase strong,.finland-culture-phrase span,.finland-culture-phrase small{display:block}
+.finland-culture-phrase strong{color:#1c6553;font-size:11px;line-height:1.45}
+.finland-culture-phrase span,.finland-culture-phrase small{margin-top:3px;color:#64766d;font-size:8px;line-height:1.45}
+.finland-culture-phrase button{margin-top:7px;border:1px solid #dce8de;border-radius:7px;background:#fff;padding:5px 7px;color:#46715c;font-size:8px;font-weight:700;cursor:pointer}
+.finland-culture-word-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.finland-culture-word{min-width:0;padding:9px;border:1px solid #e5ebe5;border-radius:10px;background:#fff}
+.finland-culture-word strong{display:block;color:#19362e;font-size:11px;overflow-wrap:anywhere}
+.finland-culture-word span,.finland-culture-word small{display:block;margin-top:3px;color:#68796f;font-size:8px;line-height:1.4}
+.finland-culture-word button,.finland-culture-step button,.finland-culture-dialogue-line button{margin-top:7px;border:1px solid #e3eae3;border-radius:7px;background:#f8faf7;padding:5px 7px;color:#46715c;font-size:8px;font-weight:700;cursor:pointer}
+.finland-culture-word-note,.finland-culture-source-note{margin:8px 0 0;color:#78857c;font-size:8px;line-height:1.6}
+.finland-culture-word-note strong{color:#315744}
+.finland-culture-step-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.finland-culture-step{display:flex;align-items:center;gap:9px;min-width:0;padding:9px;border:1px solid #e4ebe4;border-radius:10px;background:#fff}
+.finland-culture-step>span{flex:none;display:grid;width:27px;height:27px;place-items:center;border-radius:9px;background:#edf4ec;color:#4f7c60;font-size:8px;font-weight:800}
+.finland-culture-step>div{min-width:0;flex:1}
+.finland-culture-step strong,.finland-culture-step b,.finland-culture-step small{display:block}
+.finland-culture-step strong{color:#6c7a71;font-size:8px}
+.finland-culture-step b{margin-top:3px;color:#315744;font-size:9px}
+.finland-culture-step small{margin-top:2px;color:#536e5f;font-size:8px}
+.finland-culture-step button,.finland-culture-dialogue-line button{flex:none;width:28px;height:28px;margin-top:0;border-radius:9px;font-size:10px}
+.finland-culture-practical{margin:9px 0 0;padding:10px 11px;border:1px solid #eadfc9;border-radius:10px;background:#fbf7ec;color:#716958;font-size:8px;line-height:1.6}
+.finland-culture-practical strong{color:#6d5632}
+.finland-culture-practical small{display:block;margin-top:5px;color:#536e5f;font-size:8px;line-height:1.5}
+.finland-culture-dialogue-card{overflow:hidden;border:1px solid #e3eae3;border-radius:12px;background:#fff}
+.finland-culture-dialogue-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 11px}
+.finland-culture-dialogue-line+.finland-culture-dialogue-line{border-top:1px solid #edf0eb}
+.finland-culture-dialogue-line>div{min-width:0}
+.finland-culture-dialogue-line>div>span{display:block;color:#789083;font-size:7px;font-weight:800;letter-spacing:.7px;text-transform:uppercase}
+.finland-culture-dialogue-line strong{display:block;margin-top:3px;color:#1d5946;font-size:10px;line-height:1.45}
+.finland-culture-dialogue-line p,.finland-culture-dialogue-line small{display:block;margin:2px 0 0;color:#68796f;font-size:8px;line-height:1.4}
+.finland-culture-dialogue-line small{color:#536e5f}
+.finland-culture-media-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.finland-culture-media-card{display:flex;min-width:0;flex-direction:column;padding:11px;border:1px solid #e3eae3;border-radius:11px;background:#fff;text-decoration:none;transition:transform .18s ease,border-color .18s ease}
+.finland-culture-media-card:hover{transform:translateY(-2px);border-color:#93b19a}
+.finland-culture-media-card>span{color:#6f8977;font-size:7px;font-weight:800;letter-spacing:.7px}
+.finland-culture-media-card>strong{margin-top:6px;color:#244a3b;font-size:10px;line-height:1.4}
+.finland-culture-media-card p{flex:1;margin:5px 0;color:#68796f;font-size:8px;line-height:1.5}
+.finland-culture-media-card>b{margin-top:5px;color:#46715c;font-size:8px}
+.finland-culture-sources{margin:9px 0 0;color:#7d8981;font-size:8px;line-height:1.65}
+.finland-culture-sources a{color:#527a63;font-weight:700;text-decoration:none}
+@media(max-width:760px){.finland-culture-hero{grid-template-columns:1fr}.finland-culture-hero-copy{padding:18px 18px 12px}.finland-culture-hero-art,.finland-culture-hero-art svg{min-height:150px}.finland-culture-scene-detail{grid-template-columns:minmax(100px,.38fr) minmax(0,1.62fr)}}
+@media(max-width:560px){.finland-culture-journey{padding:11px}.finland-culture-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-culture-scene-tabs{grid-template-columns:1fr}.finland-culture-scene-tabs button{padding:9px}.finland-culture-scene-detail{grid-template-columns:1fr}.finland-culture-scene-art{min-height:82px;flex-direction:row;gap:10px}.finland-culture-scene-art>span{width:39px;height:39px;border-radius:14px;font-size:22px}.finland-culture-scene-copy{padding:12px}.finland-culture-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-culture-step-grid,.finland-culture-media-grid{grid-template-columns:1fr}.finland-culture-dialogue-line{align-items:flex-start}}
+@media(max-width:390px){.finland-culture-hero-copy h2{font-size:23px}.finland-culture-word{padding:8px}.finland-culture-media-card{padding:9px}}
