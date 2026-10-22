@@ -148,7 +148,9 @@
   function updateClock(){
     const clock=document.getElementById("finland-clock");if(!clock)return;
     const now=new Date();
-    clock.textContent=new Intl.DateTimeFormat("en-GB",{timeZone:HELSINKI_ZONE,hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).format(now);
+    const time=new Intl.DateTimeFormat("en-US",{timeZone:HELSINKI_ZONE,hour:"numeric",minute:"2-digit",second:"2-digit",hourCycle:"h12"}).format(now);
+    clock.textContent=time;
+    clock.setAttribute("aria-label","Current Finland local time: "+time);
     const zone=new Intl.DateTimeFormat("en-US",{timeZone:HELSINKI_ZONE,timeZoneName:"short"}).formatToParts(now).find(item=>item.type==="timeZoneName")?.value||"Europe/Helsinki";
     const tz=document.getElementById("finland-timezone");if(tz)tz.textContent=zone+" · "+HELSINKI_ZONE;
     const date=document.getElementById("finland-date");if(date)date.textContent=cityNow().name+" · "+formattedHelsinkiDate(now);
