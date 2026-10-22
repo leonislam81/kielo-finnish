@@ -131,4 +131,13 @@
 .finland-quiz-feedback{width:100%;min-height:16px;margin:0;color:#637a6e;font-size:10px;line-height:1.55}
 .finland-quiz-feedback:focus{outline:2px solid #a9c4aa;outline-offset:3px;border-radius:3px}
 .finland-daily-quiz-result{background:#eaf3e9}
+.finland-quiz-review{width:100%;padding:12px;background:rgba(255,255,255,.7);border:1px solid #dce8dc;border-radius:12px}
+.finland-quiz-review h3{font-size:11px;color:#315d49;margin:0 0 8px}
+.finland-quiz-review ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;list-style:none;padding:0;margin:0}
+.finland-quiz-review li{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 8px;background:#fff;border:1px solid #e5ece5;border-radius:9px;padding:8px 10px;min-width:0}
+.finland-quiz-review li strong{font-size:13px;color:#19362e}
+.finland-quiz-review li span{font-size:10px;color:#68796f;overflow-wrap:anywhere}
+.finland-quiz-review li small{grid-column:1/-1;font-size:8px;color:#89958d}
+.finland-quiz-result-actions{width:100%;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 @media(max-width:520px){.finland-daily-quiz{align-items:stretch;padding:14px}.finland-daily-quiz>div:first-child{width:100%}.finland-quiz-choices{grid-template-columns:1fr}.finland-quiz-choice{padding:9px 11px}}
+@media(max-width:520px){.finland-quiz-review ul{grid-template-columns:1fr}.finland-quiz-result-actions{flex-direction:column;align-items:stretch}}
