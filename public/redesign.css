@@ -409,3 +409,85 @@
 @media(max-width:760px){.finland-jobs-hero{grid-template-columns:1fr}.finland-jobs-hero-copy{padding:18px 18px 12px}.finland-jobs-hero-art{min-height:150px}.finland-jobs-hero-art svg{min-height:150px}.finland-jobs-route-detail{grid-template-columns:minmax(110px,.55fr) minmax(0,1.3fr)}.finland-jobs-route-art{min-height:220px}.finland-jobs-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.finland-jobs-journey{padding:11px}.finland-jobs-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-jobs-route-tabs button{padding:9px;gap:3px}.finland-jobs-route-detail{grid-template-columns:1fr}.finland-jobs-route-art{min-height:90px;flex-direction:row;gap:10px}.finland-jobs-route-art>span{width:39px;height:39px;border-radius:14px;font-size:22px}.finland-jobs-route-copy{padding:12px}.finland-jobs-step-grid{grid-template-columns:1fr}.finland-jobs-step{padding:9px}.finland-jobs-dialogue-line{align-items:flex-start}.finland-jobs-official-note>div{flex-direction:column}}
 @media(max-width:390px){.finland-jobs-route-tabs button strong{font-size:9px}.finland-jobs-hero-copy h2{font-size:23px}.finland-jobs-word-grid{gap:5px}.finland-jobs-word{padding:8px}}
+
+.finland-market-journey{margin:18px 0;padding:16px;border:1px solid #dfe9df;border-radius:18px;background:linear-gradient(145deg,#f7f9f5,#fff 64%)}
+.finland-market-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(220px,.95fr);min-height:190px;overflow:hidden;border-radius:14px;background:#e8f0e7}
+.finland-market-hero-copy{align-self:center;padding:23px}
+.finland-market-hero-copy h2{max-width:520px;margin:5px 0 8px;color:#19362e;font:700 clamp(22px,3.1vw,33px)/1.12 var(--heading,Inter,sans-serif);letter-spacing:-.035em}
+.finland-market-hero-copy p{max-width:500px;margin:0;color:#5d7065;font-size:11px;line-height:1.65}
+.finland-market-hero-copy>span:last-child{display:inline-block;margin-top:11px;color:#42735d;font-size:9px;font-weight:750;letter-spacing:.04em}
+.finland-market-hero-art{position:relative;display:flex;min-height:190px;align-items:flex-end;overflow:hidden;background:#cfe4e2}
+.finland-market-hero-art svg{display:block;width:100%;height:100%;min-height:190px}
+.finland-market-hero-art>span{position:absolute;right:11px;bottom:10px;padding:5px 9px;border:1px solid rgba(255,255,255,.7);border-radius:999px;background:rgba(250,251,246,.88);color:#355b4a;font-size:8px;font-weight:750}
+.finland-market-routes,.finland-market-season,.finland-market-vocabulary,.finland-market-dialogue,.finland-market-regions{margin-top:18px}
+.finland-market-heading-row{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:9px}
+.finland-market-heading-row h3{margin:3px 0 0;color:#19362e;font:700 16px var(--heading,Inter,sans-serif)}
+.finland-market-heading-row>span{color:#738279;font-size:8px}
+.finland-market-route-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.finland-market-route-tabs button,.finland-market-season-tabs button{display:grid;gap:4px;min-width:0;padding:10px 12px;border:1px solid #e1e9e0;border-radius:12px;background:#fff;color:#385a49;text-align:left;cursor:pointer}
+.finland-market-route-tabs button[aria-pressed=true],.finland-market-season-tabs button[aria-pressed=true]{border-color:#77a184;background:#edf4ec;box-shadow:inset 0 0 0 1px #77a184}
+.finland-market-route-tabs button:focus-visible,.finland-market-season-tabs button:focus-visible,.finland-market-season-word button:focus-visible,.finland-market-word button:focus-visible,.finland-market-dialogue-line button:focus-visible,.finland-market-region-card button:focus-visible{outline:2px solid #397a62;outline-offset:2px}
+.finland-market-route-tabs strong{font-size:9px;line-height:1.4}
+.finland-market-route-tabs small{color:#728279;font-size:7px}
+.finland-market-scene-detail{display:grid;grid-template-columns:minmax(130px,.55fr) minmax(0,1.45fr);overflow:hidden;margin-top:8px;border:1px solid #e3eae3;border-radius:13px;background:#fff}
+.finland-market-scene-art{position:relative;display:flex;min-height:248px;flex-direction:column;align-items:center;justify-content:center;gap:12px;overflow:hidden;background:linear-gradient(180deg,#bfdde1 0%,#e5eee0 52%,#8cad85 53%,#527c62 100%);color:white;text-shadow:0 2px 8px rgba(24,55,43,.24)}
+.finland-market-scene-art--grocery{background:linear-gradient(180deg,#d7e7e2 0%,#eef0dc 52%,#a9bc85 53%,#658568 100%)}
+.finland-market-scene-art--hall{background:linear-gradient(180deg,#d8e5dc 0%,#f3ead4 52%,#c88b69 53%,#8f6354 100%)}
+.finland-market-scene-art>span{z-index:1;display:grid;width:60px;height:60px;place-items:center;border:1px solid rgba(255,255,255,.58);border-radius:21px;background:rgba(255,255,255,.22);font-size:31px}
+.finland-market-scene-art>small{z-index:1;padding:6px 10px;border:1px solid rgba(255,255,255,.5);border-radius:999px;background:rgba(25,54,46,.28);font-size:7px;font-weight:800;letter-spacing:.7px}
+.finland-market-scene-copy{padding:14px;min-width:0}
+.finland-market-scene-copy h4{margin:2px 0 7px;color:#19362e;font:700 15px var(--heading,Inter,sans-serif)}
+.finland-market-scene-copy>p{margin:5px 0;color:#64766d;font-size:9px;line-height:1.6}
+.finland-market-scene-copy>.finland-market-bn{color:#536e5f}
+.finland-market-phrase{margin-top:9px;padding:9px 10px;border-left:3px solid #78a887;border-radius:8px;background:#edf4ec}
+.finland-market-phrase strong,.finland-market-phrase span,.finland-market-phrase small{display:block}
+.finland-market-phrase strong{color:#1c6553;font-size:11px;line-height:1.45}
+.finland-market-phrase span,.finland-market-phrase small{margin-top:3px;color:#64766d;font-size:8px;line-height:1.45}
+.finland-market-phrase button,.finland-market-return button{margin-top:7px;border:1px solid #dce8de;border-radius:7px;background:#fff;padding:5px 7px;color:#46715c;font-size:8px;font-weight:700;cursor:pointer}
+.finland-market-scene-copy>a,.finland-market-source-note a{display:inline-block;margin-top:7px;color:#316d59;font-size:8px;font-weight:750;text-decoration:none}
+.finland-market-scene-copy>a:hover,.finland-market-source-note a:hover{text-decoration:underline}
+.finland-market-season-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.finland-market-season-tabs button{display:block;padding:8px 10px;font-size:8px;font-weight:700;text-align:center}
+.finland-market-season-detail{display:grid;grid-template-columns:minmax(155px,.62fr) minmax(0,1.38fr);gap:10px;align-items:center;margin-top:8px;padding:10px;border:1px solid #e4ebe3;border-radius:12px;background:#fff}
+.finland-market-season-detail h4{margin:0;color:#315744;font-size:10px}
+.finland-market-season-detail>div:first-child>p,.finland-market-season-detail>div:first-child>small{display:block;margin:4px 0 0;color:#708078;font-size:8px;line-height:1.5}
+.finland-market-season-detail>div:first-child>small{color:#536e5f}
+.finland-market-season-words{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.finland-market-season-word{min-width:0;padding:8px;border:1px solid #e8ede7;border-radius:9px;background:#fbfcfa}
+.finland-market-season-word strong{display:block;color:#19362e;font-size:10px;overflow-wrap:anywhere}
+.finland-market-season-word span,.finland-market-season-word small{display:block;margin-top:3px;color:#68796f;font-size:7px;line-height:1.4}
+.finland-market-season-word button{margin-top:5px;width:24px;height:23px;border:1px solid #e3eae3;border-radius:7px;background:#fff;color:#46715c;font-size:8px;cursor:pointer}
+.finland-market-season-note{margin:7px 0 0;color:#89958d;font-size:7px}
+.finland-market-word-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.finland-market-word{min-width:0;padding:9px;border:1px solid #e5ebe5;border-radius:10px;background:#fff}
+.finland-market-word strong{display:block;color:#19362e;font-size:12px;overflow-wrap:anywhere}
+.finland-market-word span,.finland-market-word small{display:block;margin-top:3px;color:#68796f;font-size:8px;line-height:1.4}
+.finland-market-word button,.finland-market-region-card button{margin-top:7px;border:1px solid #e3eae3;border-radius:7px;background:#f8faf7;padding:5px 7px;color:#46715c;font-size:8px;font-weight:700;cursor:pointer}
+.finland-market-word-note{margin:8px 0 0;padding:8px 10px;border-radius:9px;background:#f4f6ef;color:#68786e;font-size:8px;line-height:1.5}
+.finland-market-dialogue-card{overflow:hidden;border:1px solid #e3eae3;border-radius:12px;background:#fff}
+.finland-market-dialogue-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 11px}
+.finland-market-dialogue-line+.finland-market-dialogue-line{border-top:1px solid #edf0eb}
+.finland-market-dialogue-line>div{min-width:0}
+.finland-market-dialogue-line>div>span{display:block;color:#789083;font-size:7px;font-weight:800;letter-spacing:.7px;text-transform:uppercase}
+.finland-market-dialogue-line strong{display:block;margin-top:3px;color:#1d5946;font-size:10px;line-height:1.45}
+.finland-market-dialogue-line p,.finland-market-dialogue-line small{display:block;margin:2px 0 0;color:#68796f;font-size:8px;line-height:1.4}
+.finland-market-dialogue-line small{color:#536e5f}
+.finland-market-dialogue-line button{flex:none;width:28px;height:28px;border:1px solid #dfe8df;border-radius:9px;background:#f4f8f2;color:#316d59;font-size:11px;cursor:pointer}
+.finland-market-region-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.finland-market-region-card{min-width:0;padding:10px;border:1px solid #e5ebe5;border-radius:10px;background:#fff}
+.finland-market-region-card>span{display:block;color:#809087;font-size:7px;font-weight:800;letter-spacing:.7px;text-transform:uppercase}
+.finland-market-region-card>strong{display:block;margin-top:4px;color:#19362e;font-size:11px;overflow-wrap:anywhere}
+.finland-market-region-card>small{display:block;margin-top:2px;color:#597564;font-size:8px}
+.finland-market-region-card p{margin:6px 0 0;color:#718078;font-size:7px;line-height:1.5}
+.finland-market-region-card p[lang=bn]{color:#536e5f}
+.finland-market-return{display:flex;gap:10px;margin-top:10px;padding:11px;border:1px solid #dce8de;border-radius:11px;background:#f0f6ef}
+.finland-market-return>div{flex:none;display:grid;width:28px;height:28px;place-items:center;border-radius:9px;background:#fff;color:#538368;font-size:16px}
+.finland-market-return p{margin:0;color:#63756b;font-size:8px;line-height:1.55}
+.finland-market-return p strong{display:block;margin-bottom:3px;color:#325641;font-size:9px}
+.finland-market-return p small{display:block;margin-top:5px;color:#536e5f;font-size:8px;line-height:1.5}
+.finland-market-source-note{margin:9px 0 0;color:#7d8981;font-size:8px;line-height:1.65}
+.finland-market-source-note a{margin-top:0;color:#527a63}
+@media(max-width:920px){.finland-market-word-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.finland-market-hero{grid-template-columns:1fr}.finland-market-hero-copy{padding:18px 18px 12px}.finland-market-hero-art{min-height:150px}.finland-market-hero-art svg{min-height:150px}.finland-market-scene-detail{grid-template-columns:minmax(110px,.55fr) minmax(0,1.3fr)}.finland-market-scene-art{min-height:220px}}
+@media(max-width:560px){.finland-market-journey{padding:11px}.finland-market-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-market-route-tabs{grid-template-columns:1fr}.finland-market-route-tabs button{padding:9px}.finland-market-scene-detail{grid-template-columns:1fr}.finland-market-scene-art{min-height:90px;flex-direction:row;gap:10px}.finland-market-scene-art>span{width:39px;height:39px;border-radius:14px;font-size:22px}.finland-market-scene-copy{padding:12px}.finland-market-season-detail{grid-template-columns:1fr}.finland-market-season-words{grid-template-columns:repeat(3,minmax(0,1fr))}.finland-market-region-grid{grid-template-columns:1fr}.finland-market-region-card{padding:9px}.finland-market-dialogue-line{align-items:flex-start}}
+@media(max-width:390px){.finland-market-hero-copy h2{font-size:23px}.finland-market-word-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.finland-market-word{padding:8px}.finland-market-season-word{padding:7px}.finland-market-season-tabs{gap:5px}.finland-market-season-tabs button{padding:8px 5px;font-size:7px}}
