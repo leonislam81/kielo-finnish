@@ -66,6 +66,8 @@ Daily 100 is date-seeded to Finland’s local date and divided into ten sets. En
 
 Each ten-word set now has an optional ten-question recall quiz in the selected language. It gives immediate feedback, highlights the Finnish answer, and shows a temporary score. At the end, learners can review and retry only missed words or restart the full set; quiz results are not added to saved progress.
 
+Daily 100 also has an optional Recall first mode. It hides each word’s meanings until the learner reveals them, supports English and Bangla prompts, and remembers the mode on that device. Revealed meanings last only for the current word set.
+
 The Dictionary starts with 273 curated course and learner entries, searchable in Finnish, English, and Bangla. Learners can choose to load a wider 254,435-entry Finnish–English headword dictionary (about 11.6 MiB compressed). Its source reports translations for 82.78% of entries; some remaining entries are English definitions rather than direct translations, and the compact file does not include inflected-form lookup. The wider dataset is downloaded only on request and carries its own licence and attribution notes in [dist/data/ATTRIBUTION.md](dist/data/ATTRIBUTION.md). No single finite word list is described as every Finnish word.
 
 Finland Explorer has twelve short bilingual-support learning chapters: history, public services, people and languages, climate, forests, sea and lakes, transport, education, work, markets, places, and sauna/culture. Each adds Finnish vocabulary, a sentence, audio controls and a quick meaning check, then links to a source for further reading.
