@@ -191,41 +191,21 @@
     const voices=getVoices(),chosen=localStorage.getItem("kielo-finnish-voice")||"";
     return '<option value="">Automatic Finnish voice</option>'+voices.map(voice=>'<option value="'+esc(voice.name)+'" '+(voice.name===chosen?"selected":"")+'>'+esc(voice.name)+" · "+esc(voice.lang)+(voice.localService?" · device":"")+"</option>").join("");
   }
-  function speakFinnish(text){
-    if(!("speechSynthesis"in window)||!("SpeechSynthesisUtterance"in window))return;
-    const voices=getVoices();
-    if(!voices.length){
-      const note=document.querySelector(".finland-voice-note");
-      if(note)note.textContent="This browser has no Finnish speech voice installed, so it cannot speak this word yet. Try an official Yle Finnish clip, or install a Finnish voice in your device’s speech settings.";
-      const toast=document.getElementById("toast");if(toast){toast.textContent="No Finnish voice is installed in this browser yet.";toast.classList.add("visible");window.clearTimeout(toast.kieloTimer);toast.kieloTimer=window.setTimeout(()=>toast.classList.remove("visible"),2600)}
-      return;
-    }
-    window.speechSynthesis.cancel();
-    const utterance=new SpeechSynthesisUtterance(text),chosen=localStorage.getItem("kielo-finnish-voice")||"",selected=voices.find(voice=>voice.name===chosen)||voices[0];
-    utterance.lang="fi-FI";utterance.rate=Number(localStorage.getItem("kielo-finnish-rate")||".86");if(selected)utterance.voice=selected;
-    window.speechSynthesis.speak(utterance);
-  }
-  function setActiveCustomPage(page){
+  function speakFinnish(text){if(window.KieloSpeech)window.KieloSpeech.speak(text,Number(localStorage.getItem("kielo-finnish-rate")||".86"))}
+  function setActiveCustomPage  function setActiveCustomPage(page){
     document.querySelectorAll(".nav-link").forEach(button=>button.classList.toggle("active",button.dataset.redesignPage===page||(page==="home"&&button.dataset.page==="home")));
   }
   function customPageTitle(title,description,kicker){
     return '<div class="page-title-row finland-custom-page"><div><div class="page-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(description)+'</p></div></div>';
   }
-  function voiceTools(){
-    const available=getVoices().length>0;
-    const note=available?"Choose a Finnish voice installed by your browser/device. Device speech can sound different on each system; the browser does not reliably label voice gender. For natural recorded Finnish, open the <a href=\"https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet\" target=\"_blank\" rel=\"noreferrer\">Yle learning clips ↗</a>.":"No Finnish voice is currently listed by this browser. Install a Finnish speech voice in your device settings, or use authentic audio from <a href=\"https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet\" target=\"_blank\" rel=\"noreferrer\">Yle’s Finnish lessons ↗</a>. Browser speech settings do not provide a reliable male/female voice label.";
-    return '<div class="finland-voice-tools"><label for="finnish-voice-select">Available Finnish voice<select id="finnish-voice-select">'+voiceOptions()+'</select></label><label for="finnish-rate-select">Speaking pace<select id="finnish-rate-select"><option value=".72">Slow</option><option value=".86" selected>Steady</option><option value="1">Natural</option></select></label></div><p class="finland-voice-note">'+note+'</p>';
-  }
-  function meaningLanguageTools(language){
+  function voiceTools(){const available=getVoices().length>0;const note=available?"Natural Finnish male/female voices are not connected yet. Choose an installed Finnish device voice, or listen to authentic <a href=\"https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet\" target=\"_blank\" rel=\"noreferrer\">Yle learning clips ↗</a>.":"This browser has no Finnish voice installed. Natural male/female voices are not connected yet; try an authentic <a href=\"https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet\" target=\"_blank\" rel=\"noreferrer\">Yle learning clip ↗</a>.";return '<div class=\"finland-voice-tools\"><label for=\"finnish-neural-voice\">Natural Finnish voice<select id=\"finnish-neural-voice\"><option value=\"device\">Device voice · automatic</option><option value=\"fi-FI-SelmaNeural\" data-neural disabled>Female · Selma</option><option value=\"fi-FI-NooraNeural\" data-neural disabled>Female · Noora</option><option value=\"fi-FI-HarriNeural\" data-neural disabled>Male · Harri</option></select></label><label for=\"finnish-voice-select\">Available device voice<select id=\"finnish-voice-select\">'+voiceOptions()+'</select></label><label for=\"finnish-rate-select\">Speaking pace<select id=\"finnish-rate-select\"><option value=\".72\">Slow</option><option value=\".86\" selected>Steady</option><option value=\"1\">Natural</option></select></label></div><p class=\"finland-voice-note\" role=\"status\" aria-live=\"polite\">'+note+'</p>'}
+  async function updateNeuralVoiceUi(){const select=document.getElementById("finnish-neural-voice");if(!select||!window.KieloSpeech)return;const note=document.querySelector(".finland-voice-note");const status=await window.KieloSpeech.getStatus();const options=select.querySelectorAll("option[data-neural]");options.forEach(option=>option.disabled=!status.enabled);if(!status.enabled&&select.value!=="device"){select.value="device";localStorage.setItem("kielo-neural-voice","device")}if(note){note.innerHTML=status.enabled?"Azure neural Finnish audio is ready. Speech requests use Microsoft’s service and this Site caps them at "+Number(status.dailyCharacterCap).toLocaleString()+" characters per Finnish day, shared across visitors. Use the device voice if you prefer not to send a phrase for synthesis.":"Natural Finnish male/female voices are not connected yet. Use an installed Finnish device voice or authentic <a href=\"https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet\" target=\"_blank\" rel=\"noreferrer\">Yle learning clips ↗</a>."}}
+  function meaningLanguageTools  function meaningLanguageTools(language){
     const bn=language==="bn";
     return '<div class="finland-meaning-tools"><label for="finland-meaning-language">Daily meanings<select id="finland-meaning-language"><option value="en" '+(language==="en"?"selected":"")+'>English · wide word bank</option><option value="bn" '+(bn?"selected":"")+'>Bangla · curated word bank</option></select></label><span>'+(bn?"বাংলা অর্থসহ বাছাই করা শব্দ দেখানো হচ্ছে। ইংরেজি মোডে আরও বড় শব্দভান্ডার আছে।":"Bangla mode includes only words with a curated Bangla meaning. English mode adds the wider frequency bank.")+'</span><button class="button-secondary finland-recall-toggle" type="button" data-daily-recall-toggle aria-pressed="'+dailyRecallMode+'">'+(bn?(dailyRecallMode?"✓ আগে মনে করার মোড চালু":"আগে মনে করো · অর্থ লুকাও"):(dailyRecallMode?"✓ Recall first is on":"Recall first · hide meanings"))+'</button></div>';
   }
-  function setVoiceSelection(){
-    const voice=document.getElementById("finnish-voice-select"),rate=document.getElementById("finnish-rate-select");
-    if(voice)voice.value=localStorage.getItem("kielo-finnish-voice")||"";
-    if(rate)rate.value=localStorage.getItem("kielo-finnish-rate")||".86";
-  }
-  function loadFrequentWords(){
+  function setVoiceSelection(){const voice=document.getElementById("finnish-voice-select"),rate=document.getElementById("finnish-rate-select"),neural=document.getElementById("finnish-neural-voice");if(voice)voice.value=localStorage.getItem("kielo-finnish-voice")||"";if(rate)rate.value=localStorage.getItem("kielo-finnish-rate")||".86";if(neural)neural.value=localStorage.getItem("kielo-neural-voice")||"device";void updateNeuralVoiceUi()}
+  function loadFrequentWords  function loadFrequentWords(){
     if(frequentWordsReady)return Promise.resolve(window.KIELO_FREQUENT_WORDS||[]);
     if(frequentWordPromise)return frequentWordPromise;
     frequentWordPromise=fetchGzipJson("data/fi-en-frequent.json.gz?v=3").then(items=>{
@@ -556,6 +536,7 @@
       try{const saved=readJSON(weatherKey,null);if(saved?.cityId!==event.target.value)lastWeatherMessage="Loading current conditions…"}catch(_error){}
       updateClock();refreshStatusContent();loadWeather(true);
     }
+    if(event.target?.id==="finnish-neural-voice"){localStorage.setItem("kielo-neural-voice",event.target.value);setVoiceSelection()}
     if(event.target?.id==="finnish-voice-select"){localStorage.setItem("kielo-finnish-voice",event.target.value);setVoiceSelection()}
     if(event.target?.id==="finnish-rate-select"){localStorage.setItem("kielo-finnish-rate",event.target.value)}
   });

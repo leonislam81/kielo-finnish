@@ -1,10 +1,36 @@
 # Kielo — Learn Finnish, gently
 
+Live app: [Sites](https://kielo-finnish.openmoss1.chatgpt.site/) · [GitHub Pages](https://leonislam81.github.io/kielo-finnish/) · [Source repository](https://github.com/leonislam81/kielo-finnish)
+
 Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 28 guided lessons from Pre-A1 through C2, with separate listening, speaking, reading, writing, and grammar labs through C2. Vocabulary review includes the course words plus curated C1 and C2 word sets with contextual examples. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café, railway station, grocery store, and library, with full-scene audio at slow, steady, or natural speed and a bilingual transcript that alternates each Finnish prompt with its model reply, optional open-response writing mode, a standalone pronunciation lab for Finnish vowels and sound length, and an installable offline app shell.
 
 ## Run locally
 
-Open `dist/index.html` in a browser, or serve the `dist` folder with any static web server. The app has no build step or package dependencies.
+Install the locked dependencies, then build and run the local Cloudflare Worker preview:
+
+```sh
+npm ci --include=dev --include=optional --no-audit --no-fund
+npm run build
+npm start
+```
+
+Open the URL printed by Wrangler (usually `http://127.0.0.1:8787`). The browser app is in `public/`; `dist/client/` is the generated static output used by GitHub Pages.
+
+## Hosting
+
+- The public Sites deployment runs the Cloudflare Worker and serves the same browser app plus `/api/speech/*`.
+- GitHub Pages serves `dist/client/`. It calls the public Sites speech endpoint with a strict CORS origin allowlist; Pages itself does not run server code.
+- The Sites project identity and D1 binding are in `.openai/hosting.json`. The schema migration under `drizzle/` stores only a daily aggregate character count, without learner text, account IDs, or IP addresses.
+
+## Optional natural Finnish voices
+
+The Worker supports Microsoft Azure Speech's documented Finnish standard neural voices: female Selma and Noora, and male Harri. The browser picker keeps them disabled until the Site has all three of these runtime values:
+
+- `AZURE_SPEECH_KEY` — secret Speech resource key.
+- `AZURE_SPEECH_REGION` — the resource's region identifier, such as `northeurope`.
+- `KIELO_NEURAL_VOICE_DAILY_CHAR_CAP` — a Site-wide daily character cap shared by all visitors, from 1 to 10,000. Leave it unset to keep neural synthesis disabled.
+
+Set the key only through the Sites runtime secret settings; never add it to this repository or a browser bundle. Each learner phrase is sent to Azure only after the learner selects a neural voice and presses a listen control. The Worker validates the selected voice and text, applies the daily Helsinki-time character budget, and returns audio. Until the provider is configured, the app uses a Finnish voice installed on the learner's device, when available. Pricing and free quotas depend on the Azure offer and can change; review the live [Azure Speech pricing](https://azure.microsoft.com/en-us/pricing/details/speech/) before enabling it.
 
 ## Course and research
 
@@ -31,7 +57,7 @@ A Finnish word of the day is selected from the Pre-A1 and A1 course vocabulary u
 
 ## Media and credits
 
-The app links to official Yle learning materials. Seasonal, café, and travel photography is loaded from Unsplash; an internet connection is needed to show those images. Browser speech synthesis is used for Finnish audio when a Finnish voice is installed. Role-play full-scene playback reads each staff prompt followed by its sample reply, with a pause between turns. The optional transcript shows the whole scene with English or Bangla meanings and line-by-line audio. Learners can hide the meanings for a recall attempt, then reveal them when ready. Finnish-first mode also hides a role-play prompt until the learner selects a response, then reveals the line and its translation. In open-response scenes, optional browser speech recognition can place a Finnish reply in the editable text box; it is not scored or saved. A pace selector adjusts conversation playback from slow to natural speed.
+The app links to official Yle learning materials. Seasonal, café, and travel photography is loaded from Unsplash; an internet connection is needed to show those images. Device speech remains available when a Finnish voice is installed. Optional neural audio is sent to Azure only after the learner chooses a neural voice and presses a listen control. Role-play full-scene playback reads each staff prompt followed by its sample reply, with a pause between turns. The optional transcript shows the whole scene with English or Bangla meanings and line-by-line audio. Learners can hide the meanings for a recall attempt, then reveal them when ready. Finnish-first mode also hides a role-play prompt until the learner selects a response, then reveals the line and its translation. In open-response scenes, optional browser speech recognition can place a Finnish reply in the editable text box; it is not scored or saved. A pace selector adjusts conversation playback from slow to natural speed.
 
 After the first online visit, the service worker caches the Kielo interface, course content, and local cover art for offline study on supported browsers. Learner progress remains in this browser. Unsplash photos, external video pages, and some browser-provided speech voices still need an internet connection or a separately installed Finnish voice. Use **Install app** in a supporting browser, or the browser menu's **Add to Home Screen** option on iPhone or iPad.
 
@@ -68,7 +94,7 @@ Each ten-word set now has an optional ten-question recall quiz in the selected l
 
 Daily 100 also has an optional Recall first mode. It hides each word’s meanings until the learner reveals them, supports English and Bangla prompts, and remembers the mode on that device. Revealed meanings last only for the current word set.
 
-The Dictionary starts with 273 curated course and learner entries, searchable in Finnish, English, and Bangla. Finnish ä, ö, and å can be searched as a, o, and a for easier typing (for example, `jarvi` finds `järvi`). Learners can choose to load a wider 254,435-entry Finnish–English headword dictionary (about 11.6 MiB compressed). After the first download, Kielo tries to save it in IndexedDB on the current device for offline search; browser storage limits or private-browsing settings can prevent that, and the page reports when the copy is only available for the current session. Its source reports translations for 82.78% of entries; some remaining entries are English definitions rather than direct translations, and the compact file does not include inflected-form lookup. The wider dataset is downloaded only on request and carries its own licence and attribution notes in [dist/data/ATTRIBUTION.md](dist/data/ATTRIBUTION.md). No single finite word list is described as every Finnish word. Dictionary results can be saved directly to the spaced-review shelf, including entries from the optional wider collection. New words keep their Finnish headword and English source definition; when a Bangla translation is unavailable, the review card says so. Custom saved words are included in local progress backups.
+The Dictionary starts with 273 curated course and learner entries, searchable in Finnish, English, and Bangla. Finnish ä, ö, and å can be searched as a, o, and a for easier typing (for example, `jarvi` finds `järvi`). Learners can choose to load a wider 254,435-entry Finnish–English headword dictionary (about 11.6 MiB compressed). After the first download, Kielo tries to save it in IndexedDB on the current device for offline search; browser storage limits or private-browsing settings can prevent that, and the page reports when the copy is only available for the current session. Its source reports translations for 82.78% of entries; some remaining entries are English definitions rather than direct translations, and the compact file does not include inflected-form lookup. The wider dataset is downloaded only on request and carries its own licence and attribution notes in [public/data/ATTRIBUTION.md](public/data/ATTRIBUTION.md). No single finite word list is described as every Finnish word. Dictionary results can be saved directly to the spaced-review shelf, including entries from the optional wider collection. New words keep their Finnish headword and English source definition; when a Bangla translation is unavailable, the review card says so. Custom saved words are included in local progress backups.
 
 Finland Explorer has twelve short bilingual-support learning chapters: history, public services, people and languages, climate, forests, sea and lakes, transport, education, work, markets, places, and sauna/culture. Each adds Finnish vocabulary, a sentence, audio controls and a quick meaning check, then links to a source for further reading. The overview adds a Finland-in-numbers snapshot with the latest verified population figures from Statistics Finland and forest-account figures from Luke. It labels the reference year on each number, explains that the forest-stock figure is a theoretical statistical valuation, and pairs the facts with spoken Finnish vocabulary and English/Bangla support.
 
@@ -78,6 +104,6 @@ The Government & public services lesson now includes an official, dated map for 
 
 The History & independence lesson now offers a short English–Bangla timeline of seven milestones (1809–1995): the Grand Duchy, the Kalevala, the 1906 parliamentary reform, independence, the 1918 Civil War, the republic, and EU membership. Each event has a Finnish history word with audio and a direct source; an original model sentence practises the date of Parliament's approval of independence. The timeline is explicitly a starting point, not a complete account of Finland’s varied histories. Sources: [This is Finland — Main outlines of Finnish history](https://finland.fi/life-society/main-outlines-of-finnish-history/), [Finland Toolbox — Facts about Finland (2025)](https://toolbox.finland.fi/life-society/finfo-facts-about-finland-2/attachment/finfo_facts_2025_en_aukeama_toolbox-2/), and the [European Union — Finland profile](https://european-union.europa.eu/principles-countries-history/eu-countries/finland_en) (checked 22 October 2026).
 
-Finnish speech uses voices installed in the learner’s browser/device. The browser reports voice names and languages but does not provide reliable male/female labels. The app explains when this device has no Finnish voice and links to Yle’s authentic learning clips. Natural recorded male/female voices require a documented, licensed speech provider; they are not claimed as a capability of device speech synthesis.
+The optional Azure neural voice path provides Finnish female voices Selma and Noora and male voice Harri. It remains disabled until a Site owner configures an Azure Speech key, matching region, and daily character cap. The key stays server-side; the endpoint accepts only allowlisted voices, short text, and three pace values, and enforces a daily aggregate Helsinki-time character budget. It stores only daily character totals. Before configuration, the app uses the Finnish voice installed by the learner’s browser/device when available and links to Yle’s authentic learning clips.
 
 The research plan and responsive mockup are in [RESEARCH-AND-ROADMAP.md](RESEARCH-AND-ROADMAP.md) and [docs/redesign-mockup.html](docs/redesign-mockup.html).

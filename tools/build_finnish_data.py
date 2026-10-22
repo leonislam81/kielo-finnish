@@ -102,7 +102,7 @@ def main() -> None:
         raise SystemExit(__doc__)
     source = Path(sys.argv[1])
     frequency_path = Path(sys.argv[2])
-    out_dir = Path("dist/data")
+    out_dir = Path("public/data")
     out_dir.mkdir(parents=True, exist_ok=True)
 
     index = (source / "fi-en.idx").read_bytes()
@@ -163,3 +163,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
