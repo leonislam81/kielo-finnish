@@ -4,6 +4,7 @@
   const cityKey="kielo-finland-city-v1";
   const weatherKey="kielo-finland-weather-v1";
   const dailyProgressKey="kielo-daily-100-progress-v1";
+  const dailyTargetKey="kielo-daily-word-target-v1";
   const cities=[
     {id:"helsinki",name:"Helsinki",lat:60.1699,lon:24.9384},
     {id:"tampere",name:"Tampere",lat:61.4978,lon:23.7610},
@@ -190,6 +191,11 @@
     const keep=Object.keys(saved).sort().slice(-90).reduce((next,key)=>(next[key]=saved[key],next),{});
     try{localStorage.setItem(key,JSON.stringify(keep))}catch(_error){}
   }
+  function dailyTarget(){const saved=Number(localStorage.getItem(dailyTargetKey));return [10,30,100].includes(saved)?saved:100}
+  function dailyTargetMarkup(dateKey=helsinkiDayKey(),language=selectedDailyLanguage(),learnedCount=dailyProgress(dateKey,language).size){
+    const target=dailyTarget(),progress=Math.min(target,learnedCount),percent=Math.round(progress/target*100),complete=learnedCount>=target;
+    return '<section class="finland-daily-goal" aria-labelledby="finland-daily-goal-title"><div class="finland-daily-goal-copy"><span class="page-kicker">YOUR DAILY COMMITMENT</span><h2 id="finland-daily-goal-title">Choose a daily word goal</h2><p>All 100 words stay available. This target tracks a personal aim on this device.</p></div><label for="finland-daily-target">Words per Finland day<select id="finland-daily-target"><option value="10" '+(target===10?"selected":"")+'>10 · one set</option><option value="30" '+(target===30?"selected":"")+'>30 · three sets</option><option value="100" '+(target===100?"selected":"")+'>100 · all ten sets</option></select></label><div class="finland-daily-goal-meter"><div class="finland-daily-goal-count">'+progress+' / '+target+' words</div><div class="finland-daily-goal-progress" role="progressbar" aria-label="Daily word goal progress" aria-valuemin="0" aria-valuemax="'+target+'" aria-valuenow="'+progress+'" aria-valuetext="'+progress+' of '+target+' words"><span style="width:'+percent+'%"></span></div><p role="status" aria-live="polite">'+(complete?"Today’s goal reached. The full daily set remains ready whenever you want to continue.":"Progress resets at midnight in Finland · Europe/Helsinki.")+'</p></div></section>';
+  }
   function getVoices(){try{return "speechSynthesis"in window?window.speechSynthesis.getVoices().filter(voice=>voice.lang?.toLowerCase().startsWith("fi")):[]}catch(_error){return []}}
   function voiceOptions(){
     const voices=getVoices(),chosen=localStorage.getItem("kielo-finnish-voice")||"";
@@ -229,7 +235,7 @@
     const language=selectedDailyLanguage();
     if(language==="en"&&!frequentWordsReady&&!frequentWordsError){
       page.innerHTML=customPageTitle("Daily 100","A Finnish date, a fresh set of 100 words, and ten manageable groups of ten.","Learn through everyday Finland")+
-        '<section class="finland-daily-overview"><div><h2>Preparing today’s 100 words</h2><p>Loading the frequency-based Finnish word collection. Your search and progress stay in this browser.</p></div><span class="finland-daily-counter" aria-hidden="true">100</span></section>'+meaningLanguageTools(language)+voiceTools()+'<p class="finland-dictionary-status" id="finland-daily-loading" role="status" aria-live="polite">Opening the Finnish word collection…</p>';
+        '<section class="finland-daily-overview"><div><h2>Preparing today’s 100 words</h2><p>Loading the frequency-based Finnish word collection. Your search and progress stay in this browser.</p></div><span class="finland-daily-counter" aria-hidden="true">100</span></section>'+dailyTargetMarkup(helsinkiDayKey(),language)+meaningLanguageTools(language)+voiceTools()+'<p class="finland-dictionary-status" id="finland-daily-loading" role="status" aria-live="polite">Opening the Finnish word collection…</p>';
       setActiveCustomPage("daily");setVoiceSelection();loadFrequentWords();return;
     }
     const day=helsinkiDayKey(),items=dayWords(language),availableWords=dailyBank(language).length,learned=dailyProgress(day,language),start=activeGroup*10,group=items.slice(start,start+10);
@@ -247,7 +253,7 @@
       return '<article class="finland-word-card"><div class="finland-word-top"><h3 lang="fi">'+esc(word.fi)+'</h3><span class="finland-word-level">'+esc(word.level)+' · '+esc(word.topic)+'</span></div><div class="finland-word-meaning-area">'+meanings+revealControl+'</div><div class="finland-word-actions"><button type="button" data-daily-speak="'+overall+'" aria-label="Hear '+esc(word.fi)+' in Finnish">▶ Listen</button><button type="button" class="'+(done?"learned":"")+'" data-daily-learn="'+overall+'" aria-pressed="'+done+'">'+(done?"✓ Learned":"Mark learned")+'</button></div></article>';
     }).join("");
     page.innerHTML=customPageTitle("Daily 100","A Finnish date, a fresh set of 100 words, and ten manageable groups of ten.","Learn through everyday Finland")+
-      '<section class="finland-daily-overview"><div><h2>Today’s Finnish word journey</h2><p>'+esc(formattedHelsinkiDate())+' · Europe/Helsinki · '+esc(dailySourceCopy)+' 100 daily words from a pool of '+availableWords.toLocaleString()+'.</p></div><div class="finland-daily-counter">'+Math.min(100,learned.size)+' <small>/ 100 learned</small></div></section>'+
+      '<section class="finland-daily-overview"><div><h2>Today’s Finnish word journey</h2><p>'+esc(formattedHelsinkiDate())+' · Europe/Helsinki · '+esc(dailySourceCopy)+' 100 daily words from a pool of '+availableWords.toLocaleString()+'.</p></div><div class="finland-daily-counter">'+Math.min(100,learned.size)+' <small>/ 100 in today’s set</small></div></section>'+dailyTargetMarkup(day,language,learned.size)+
       meaningLanguageTools(language)+voiceTools()+'<div class="finland-groups" role="group" aria-label="Choose one of ten word sets">'+groupButtons+'</div>'+
       '<div class="finland-page-footer"><p>Set '+(activeGroup+1)+' of 10 · words '+(start+1)+'–'+(start+group.length)+'</p><div><button class="button-secondary" type="button" data-daily-prev '+(activeGroup===0?"disabled":"")+'>← Previous set</button> <button class="button-primary" type="button" data-daily-next '+(activeGroup===9?"disabled":"")+'>Next set →</button></div></div>'+
       '<section class="finland-word-grid" aria-label="Finnish words in set '+(activeGroup+1)+'">'+cards+'</section>'+dailyQuizMarkup(language,items)+
@@ -654,8 +660,8 @@
     if(!page.querySelector("#finland-status"))page.insertAdjacentHTML("afterbegin",statusMarkup());
     if(!page.querySelector(".finland-daily-promo")){
       const promo=document.createElement("section");promo.className="finland-daily-promo";
-      const date=formattedHelsinkiDate(),learned=dailyProgress().size;
-      promo.innerHTML='<div><div class="page-kicker">TODAY IN FINLAND · '+esc(date.toUpperCase())+'</div><h2>100 useful Finnish words, in ten calm sets.</h2><p>The daily set changes with Finland’s date. Listen, learn, save, and review at your own pace.</p><div class="daily-pips" aria-hidden="true">'+Array.from({length:10},(_,index)=>'<i '+(index===0?'class="done"':"")+'></i>').join("")+'</div></div><div><div class="finland-daily-progress">'+learned+' <small>/ 100</small></div><button class="finland-daily-open" type="button" data-redesign-page="daily">Start today’s words →</button></div>';
+      const date=formattedHelsinkiDate(),learned=dailyProgress().size,target=dailyTarget(),complete=learned>=target;
+      promo.innerHTML='<div><div class="page-kicker">TODAY IN FINLAND · '+esc(date.toUpperCase())+'</div><h2>100 useful Finnish words, in ten calm sets.</h2><p>'+esc(complete?"Today’s "+target+"-word aim is complete. The full set is still ready.":"Your daily goal is "+target+" words. The full 100-word set stays available.")+'</p><div class="daily-pips" aria-hidden="true">'+Array.from({length:target/10},(_,index)=>'<i class="'+(learned>=(index+1)*10?"done":(learned>index*10?"partial":""))+'" '+(learned>index*10&&learned<(index+1)*10?'style="--progress:'+((learned-index*10)*10)+'%"':"")+'></i>').join("")+'</div></div><div><div class="finland-daily-progress" aria-label="'+Math.min(target,learned)+' of '+target+' daily goal words">'+Math.min(target,learned)+' <small>/ '+target+' goal</small></div><button class="finland-daily-open" type="button" data-redesign-page="daily">Start today’s words →</button></div>';
       const existing=page.querySelector(".daily-word-card");if(existing)existing.insertAdjacentElement("afterend",promo);else page.appendChild(promo);
     }
     updateClock();refreshStatusContent();
@@ -781,6 +787,10 @@
   document.addEventListener("change",event=>{
     if(event.target?.id==="finland-meaning-language"){
       localStorage.setItem("kielo-daily-meaning-language",event.target.value==="bn"?"bn":"en");activeGroup=0;dailyQuiz=null;dailyRevealed.clear();renderDaily();
+    }
+    if(event.target?.id==="finland-daily-target"){
+      const target=Number(event.target.value);
+      if([10,30,100].includes(target)){localStorage.setItem(dailyTargetKey,String(target));renderDaily();document.getElementById("finland-daily-target")?.focus({preventScroll:true})}
     }
     if(event.target?.id==="finland-city"){
       localStorage.setItem(cityKey,event.target.value);cachedWeather=null;

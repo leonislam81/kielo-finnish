@@ -26,7 +26,8 @@
 .finland-daily-promo p{font-size:9px;color:#7e8d85;margin:0}
 .finland-daily-promo .daily-pips{display:flex;gap:4px;margin-top:8px}
 .finland-daily-promo .daily-pips i{height:5px;width:18px;border-radius:5px;background:#e9eeea}
-.finland-daily-promo .daily-pips i:first-child{background:#709b78}
+.finland-daily-promo .daily-pips i.done{background:#709b78}
+.finland-daily-promo .daily-pips i.partial{background:linear-gradient(90deg,#709b78 var(--progress),#e9eeea var(--progress))}
 .finland-daily-progress{text-align:right;color:#1c6553;font-weight:800;font-size:19px}
 .finland-daily-progress small{font-size:9px;color:#8d9992;font-weight:500}
 .finland-daily-open{border:0;background:none;padding:3px 0;color:#1c6553;font-size:9px;font-weight:750;cursor:pointer}
@@ -36,6 +37,18 @@
 .finland-daily-overview p{font-size:10px;color:#718178;margin:0}
 .finland-daily-counter{text-align:right;font-weight:800;font-size:21px;color:#1c6553}
 .finland-daily-counter small{font-size:10px;font-weight:500;color:#809087}
+.finland-daily-goal{display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,auto);gap:12px 18px;align-items:center;margin:10px 0 16px;padding:14px 16px;border:1px solid #dde8dd;border-radius:14px;background:#fbfcfa}
+.finland-daily-goal-copy .page-kicker{color:#6d8b77}
+.finland-daily-goal h2{margin:3px 0;color:#213d32;font:750 14px/1.3 var(--heading,Inter,sans-serif)}
+.finland-daily-goal-copy p,.finland-daily-goal-meter>p{margin:3px 0 0;color:#7b8980;font-size:9px;line-height:1.5}
+.finland-daily-goal>label{display:grid;gap:5px;color:#60746a;font-size:9px;font-weight:700}
+.finland-daily-goal select{width:100%;min-height:34px;border:1px solid #dce7dc;border-radius:9px;background:#fff;padding:7px 9px;color:#355849;font:600 10px/1.2 var(--heading,Inter,sans-serif)}
+.finland-daily-goal select:focus-visible{outline:3px solid #315f52;outline-offset:2px}
+.finland-daily-goal-meter{grid-column:1/-1}
+.finland-daily-goal-count{margin-bottom:5px;color:#466b55;font-size:9px;font-weight:750}
+.finland-daily-goal-progress{height:7px;overflow:hidden;border-radius:999px;background:#e8eee8}
+.finland-daily-goal-progress span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#7fa789,#4f8267);transition:width .25s ease}
+.finland-daily-goal-meter>p{min-height:14px}
 .finland-groups{display:grid;grid-template-columns:repeat(10,minmax(28px,1fr));gap:5px;margin:14px 0}
 .finland-group-button{border:1px solid #e2e9e2;background:white;border-radius:8px;padding:7px 3px;color:#7d8b83;font-size:9px;cursor:pointer}
 .finland-group-button.active{background:#1c6553;border-color:#1c6553;color:#fff}
@@ -944,3 +957,4 @@
 .finland-region-word-list li{display:grid;grid-template-columns:minmax(0,1fr);align-items:start}
 .finland-region-word-list li>span{min-width:0}
 .finland-region-word-list li .finland-extra-word-actions{margin-top:3px}
+@media(max-width:560px){.finland-daily-goal{grid-template-columns:1fr;padding:12px}.finland-daily-goal>label{grid-column:1;max-width:none}.finland-daily-goal-meter{grid-column:1}.finland-daily-goal h2{font-size:13px}}

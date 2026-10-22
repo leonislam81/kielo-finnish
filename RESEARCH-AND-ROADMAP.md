@@ -344,3 +344,7 @@ The Voice & audio page is reachable from the persistent top bar and Skill Labs n
 ### Finland Explorer vocabulary and spaced review
 
 The core Finnish vocabulary cards and the larger topic word grids in Finland Explorer now include both a listen control and a save-for-review action. Region vocabulary cards have the same action. Saved items retain their English and Bangla meanings and join the learner's existing local spaced-review shelf, so place-based learning can feed later recall practice without requiring an account.
+
+### Personal daily word goal
+
+Daily 100 continues to offer the complete 100-word Finland-date set, with ten groups of ten. Learners can now set a personal 10-, 30-, or 100-word goal, see progress against that target, and change the goal at any time. The goal and existing word progress stay on the current device; a shorter personal target does not hide the rest of the daily words.
