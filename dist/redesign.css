@@ -106,7 +106,7 @@
 .finland-topic-source{color:#316d59;font-size:10px;font-weight:700}
 .finland-dictionary-load{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid #dde8dd;border-radius:12px;background:#f4f7f2;margin:12px 0;color:#66786e;font-size:10px}
 .finland-dictionary-load button{flex:none;border:0;background:#1c6553;color:white;border-radius:9px;padding:9px 12px;font-size:10px;font-weight:750;cursor:pointer}
-.finland-dictionary-load button:disabled{opacity:.65;cursor:wait}
+.finland-dictionary-load button:disabled{opacity:.65;cursor:default}
 .finland-dictionary-status{min-height:16px;color:#6c8075;font-size:10px;margin:5px 0}
 .finland-dictionary-source{font-size:9px;color:#7c8982;line-height:1.6;margin-top:10px}
 .finland-chapter-icon{font-size:19px}

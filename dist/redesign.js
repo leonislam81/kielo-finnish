@@ -53,7 +53,7 @@
   }
   let cachedWeather=readJSON(weatherKey,null),weatherRequest=null,lastWeatherMessage="";
   let frequentWordPromise=null,frequentWordsReady=false,frequentWordsError="";
-  let fullDictionaryPromise=null,fullDictionaryEntries=null,fullDictionaryError="";
+  let fullDictionaryPromise=null,fullDictionaryEntries=null,fullDictionaryError="",fullDictionarySavedOffline=false;
   let dictionarySearchTimer=0,dictionaryPage=0;
   function weatherLabel(code){
     if(code===0)return ["Clear sky","☀️"];
@@ -326,23 +326,75 @@
     if(count)count.textContent=state.total.toLocaleString()+" "+(state.full?"Finnish–English matches":"learner words")+(state.total>60?" · showing "+Math.min((dictionaryPage+1)*60,state.total).toLocaleString():"");
     if(more)more.hidden=(dictionaryPage+1)*60>=state.total;
   }
+  function openDictionaryCache(){
+    return new Promise((resolve,reject)=>{
+      if(!("indexedDB"in window)){reject(new Error("Device storage is unavailable."));return}
+      const request=window.indexedDB.open("kielo-dictionary-cache-v1",1);
+      request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains("dictionary"))request.result.createObjectStore("dictionary")};
+      request.onsuccess=()=>resolve(request.result);
+      request.onerror=()=>reject(request.error||new Error("Device storage could not be opened."));
+      request.onblocked=()=>reject(new Error("Device storage is busy in another tab."));
+    });
+  }
+  async function readCachedDictionary(){
+    let db;
+    try{
+      db=await openDictionaryCache();
+      return await new Promise(resolve=>{
+        const transaction=db.transaction("dictionary","readonly"),request=transaction.objectStore("dictionary").get("fi-en-headwords-v1");
+        request.onsuccess=()=>resolve(Array.isArray(request.result?.entries)?request.result.entries:null);
+        request.onerror=()=>resolve(null);
+        transaction.onabort=()=>resolve(null);
+      });
+    }catch(_error){return null}finally{db?.close()}
+  }
+  async function saveDictionaryOffline(entries){
+    let db;
+    try{
+      db=await openDictionaryCache();
+      return await new Promise(resolve=>{
+        const transaction=db.transaction("dictionary","readwrite");
+        transaction.objectStore("dictionary").put({entries,savedAt:Date.now()},"fi-en-headwords-v1");
+        transaction.oncomplete=()=>resolve(true);
+        transaction.onerror=()=>resolve(false);
+        transaction.onabort=()=>resolve(false);
+      });
+    }catch(_error){return false}finally{db?.close()}
+  }
+  function showDictionaryReady(entries,offline){
+    const button=document.getElementById("finland-load-full-dictionary"),message=document.getElementById("finland-dictionary-status");
+    if(button){button.textContent=offline?"Dictionary ready offline":"Dictionary loaded for this session";button.disabled=true;}
+    if(message)message.textContent=entries.length.toLocaleString()+" entries are ready. Search Finnish headwords and English definitions; "+(offline?"this copy is saved on this device for offline search.":"device storage was unavailable, so reconnect to load it again next time.")+" The curated learner list remains available for Bangla meanings.";
+  }
   async function loadFullDictionary(){
     const button=document.getElementById("finland-load-full-dictionary"),status=document.getElementById("finland-dictionary-status");
     if(fullDictionaryEntries){updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");return}
     if(fullDictionaryPromise)return fullDictionaryPromise;
-    if(button)button.disabled=true;if(status)status.textContent="Loading the compressed Finnish–English headword dictionary…";
-    fullDictionaryPromise=fetchGzipJson("data/fi-en-dictionary.json.gz").then(entries=>{
-      fullDictionaryEntries=entries;fullDictionaryError="";
-      if(button){button.textContent="Finnish–English dictionary loaded";button.disabled=true;}
-      if(status)status.textContent=entries.length.toLocaleString()+" entries are ready. Search Finnish headwords and English definitions; the curated learner list remains available for Bangla meanings.";
-      updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");
-      return entries;
-    }).catch(error=>{
-      fullDictionaryError=error?.message||"The full dictionary could not be loaded.";
-      if(button){button.disabled=false;button.textContent="Try loading the Finnish–English dictionary again";}
-      if(status)status.textContent=fullDictionaryError+" The 273-word trilingual learner list still works.";
-      fullDictionaryPromise=null;return [];
-    });
+    if(button)button.disabled=true;if(status)status.textContent="Checking this device for a saved dictionary…";
+    fullDictionaryPromise=(async()=>{
+      const cached=await readCachedDictionary();
+      if(cached){
+        fullDictionaryEntries=cached;fullDictionarySavedOffline=true;fullDictionaryError="";
+        showDictionaryReady(cached,true);
+        updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");
+        return cached;
+      }
+      if(status)status.textContent="No saved copy found. Downloading the compressed Finnish–English dictionary…";
+      try{
+        const entries=await fetchGzipJson("data/fi-en-dictionary.json.gz");
+        if(!Array.isArray(entries))throw new Error("The dictionary file has an unexpected format.");
+        fullDictionaryEntries=entries;fullDictionaryError="";
+        fullDictionarySavedOffline=await saveDictionaryOffline(entries);
+        showDictionaryReady(entries,fullDictionarySavedOffline);
+        updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");
+        return entries;
+      }catch(error){
+        fullDictionaryError=error?.message||"The full dictionary could not be loaded.";
+        if(button){button.disabled=false;button.textContent="Try loading the Finnish–English dictionary again";}
+        if(status)status.textContent=fullDictionaryError+" The 273-word trilingual learner list still works.";
+        fullDictionaryPromise=null;return [];
+      }
+    })();
     return fullDictionaryPromise;
   }
   function renderDictionary(){
@@ -352,11 +404,11 @@
       '<div class="finland-dictionary-note"><strong>'+count+' curated trilingual learner words are ready immediately.</strong> These course and daily words include Finnish, English, Bangla, level and topic. Kotus publishes a Finnish headword list with more than 100,000 entries, but that list itself has no English or Bangla definitions. <a href="https://kotus.fi/sanakirjat/kielitoimiston-sanakirja/" target="_blank" rel="noreferrer">Open Kotus usage dictionary ↗</a></div>'+
       '<div class="finland-dictionary-tools"><input class="finland-dictionary-search" id="finland-dictionary-search" type="search" placeholder="Search suomi / English / বাংলা" autocomplete="off" aria-label="Search Finnish dictionary"><span class="finland-word-level" id="finland-dictionary-count"></span></div>'+
       '<section class="finland-dictionary-results" id="finland-dictionary-results" aria-live="polite">'+dictionaryCards("")+'</section><button class="button-secondary" id="finland-dictionary-more" type="button" data-dictionary-more hidden>Show more matches</button>'+
-      '<div class="finland-dictionary-load"><div><strong>Wider Finnish–English dictionary</strong><br>254,435 source headwords · approximately 11.6 MiB compressed · downloaded only when you choose it. The source reports a translation for 82.78% of entries; other entries may be English definitions. Bangla meanings remain in the curated learner list above.</div><button id="finland-load-full-dictionary" type="button">Load wider dictionary</button></div><p class="finland-dictionary-status" id="finland-dictionary-status" role="status" aria-live="polite">Your search and learning progress stay in this browser. The wider open dataset downloads only if you choose it.</p>'+
+      '<div class="finland-dictionary-load"><div><strong>Wider Finnish–English dictionary</strong><br>254,435 source headwords · approximately 11.6 MiB compressed · downloaded only when you choose it, then saved on this device for offline search when storage allows. The source reports a translation for 82.78% of entries; other entries may be English definitions. Bangla meanings remain in the curated learner list above.</div><button id="finland-load-full-dictionary" type="button">Load wider dictionary</button></div><p class="finland-dictionary-status" id="finland-dictionary-status" role="status" aria-live="polite">Your search and learning progress stay in this browser. The wider open dataset downloads only if you choose it.</p>'+
       '<div class="finland-dictionary-source">The wider dictionary is an open Finnish–English compilation from FinnWordNet / Open Multilingual Wordnet, Princeton WordNet 3.0 and English Wiktionary via kaikki.org. This compact version searches headwords, not every inflected Finnish form. Source notices and licence are included in <a href="data/fi-en-ATTRIBUTION.txt" target="_blank" rel="noreferrer">Kielo’s attribution file ↗</a>. <a href="https://danielgregorini.github.io/koreader-dicts/fr/fi-en/" target="_blank" rel="noreferrer">Dataset coverage and licence ↗</a> · Kotus’ word list is not a complete list of every Finnish word.</div>'+
       '<div class="finland-page-footer"><p>Finnish audio uses an installed browser/device voice.</p><button class="button-primary" type="button" data-redesign-page="daily">Study today’s 100 words →</button></div>';
     setActiveCustomPage("dictionary");
-    if(fullDictionaryEntries){const button=document.getElementById("finland-load-full-dictionary"),status=document.getElementById("finland-dictionary-status");if(button){button.textContent="Finnish–English dictionary loaded";button.disabled=true}if(status)status.textContent=fullDictionaryEntries.length.toLocaleString()+" entries are ready in this browser.";}
+    if(fullDictionaryEntries)showDictionaryReady(fullDictionaryEntries,fullDictionarySavedOffline);
     updateDictionaryResults("");
   }
   function renderCustom(page){
