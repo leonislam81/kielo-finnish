@@ -340,3 +340,7 @@ Research supports current-source routing. Finferries publishes its route list, t
 ### Voice Studio
 
 The Voice & audio page is reachable from the persistent top bar and Skill Labs navigation. Learners choose an installed Finnish device voice, adjust the speaking pace, and preview a bilingual sample; the same saved preferences are used throughout lessons and vocabulary practice. Female Selma and Noora and male Harri appear only when the Azure Speech service is configured. The page explains device-local preferences, neural synthesis data flow, and that spoken practice is not recorded. Browser/device voice availability varies, so the page links into the pronunciation lab rather than implying every platform provides Finnish speech.
+
+### Finland Explorer vocabulary and spaced review
+
+The core Finnish vocabulary cards in each Finland Explorer topic now include both a listen control and a save-for-review action. Saved items retain their English and Bangla meanings and join the learner's existing local spaced-review shelf, so place-based learning can feed later recall practice without requiring an account.
