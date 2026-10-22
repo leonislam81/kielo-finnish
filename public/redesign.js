@@ -130,6 +130,29 @@
   finlandTopicWordGroups.push({id:"regions",topic:topics[10].title,words:[...new Map(finlandRegionsGuide.flatMap(region=>[...region.words,region.place.word]).map(word=>[word[0],word])).values()]});
   function topicWords(groupId){return finlandTopicWordGroups.find(group=>group.id===groupId)?.words||[]}
   const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
+  const placementQuestions=[
+    {level:"A1",fi:"Mikä sinun nimesi on?",prompt:"Which reply fits the question?",bn:"প্রশ্নটির সঙ্গে কোন উত্তরটি মেলে?",choices:["Minä asun Suomessa.","Minun nimeni on Leo.","Olen kolmekymmentä vuotta."],answer:1,explanation:"The question asks for your name: ‘My name is Leo.’",bnExplanation:"প্রশ্নটি নাম জানতে চায়: ‘আমার নাম লিও।’"},
+    {level:"A1",fi:"Minä ___ kahvia aamulla.",prompt:"Choose the verb form that means “I drink coffee in the morning.”",bn:"‘আমি সকালে কফি পান করি’—এখানে সঠিক ক্রিয়া কোনটি?",choices:["juot","juovat","juon"],answer:2,explanation:"Juon is the first-person singular form of juoda, ‘to drink.’",bnExplanation:"Juon হলো juoda (‘পান করা’) ক্রিয়ার ‘আমি’ রূপ।"},
+    {level:"A2",fi:"Eilen me matkustimme Turkuun.",prompt:"What happened yesterday?",bn:"গতকাল কী ঘটেছিল?",choices:["We travelled to Turku.","We will travel to Turku.","We live in Turku."],answer:0,explanation:"Eilen means ‘yesterday’; matkustimme is the past-tense ‘we travelled.’",bnExplanation:"Eilen মানে ‘গতকাল’; matkustimme হলো ‘আমরা ভ্রমণ করেছিলাম’।"},
+    {level:"A2",fi:"Ostan lipun asemalta.",prompt:"Where does the speaker buy the ticket?",bn:"বক্তা কোথা থেকে টিকিটটি কিনছেন?",choices:["Inside the train.","At / from the station.","At the harbour."],answer:1,explanation:"Asemalta uses the -lta form for ‘from the station.’",bnExplanation:"Asemalta-তে -lta রূপটি ‘স্টেশন থেকে’ বোঝায়।"},
+    {level:"B1",fi:"Vaikka bussi myöhästyi, ehdin töihin ajoissa.",prompt:"Choose the best meaning.",bn:"সবচেয়ে সঠিক অর্থটি বেছে নিন।",choices:["The bus was early, so I missed work.","I was late because I walked to work.","Although the bus was late, I got to work on time."],answer:2,explanation:"Vaikka introduces a contrast: the bus was late, but the speaker arrived on time.",bnExplanation:"Vaikka দিয়ে বিপরীত ভাব বোঝায়: বাস দেরি করলেও বক্তা সময়মতো পৌঁছেছেন।"},
+    {level:"B1",fi:"Olen asunut Suomessa kolme vuotta.",prompt:"What does the sentence tell us?",bn:"বাক্যটি কী জানায়?",choices:["I will move to Finland in three years.","I have lived in Finland for three years.","I lived in Finland three years ago, but not now."],answer:1,explanation:"Olen asunut describes a period continuing up to now: ‘I have lived here for three years.’",bnExplanation:"Olen asunut এখন পর্যন্ত চলা সময় বোঝায়: ‘আমি এখানে তিন বছর ধরে বসবাস করছি।’"},
+    {level:"B2",fi:"Kunnan esitystä ei hyväksytty sellaisenaan.",prompt:"What happened to the municipality’s proposal?",bn:"পৌরসভার প্রস্তাবটির কী হয়েছিল?",choices:["It was not accepted in its original form.","It was approved without any changes.","It was never submitted."],answer:0,explanation:"Sellaisenaan means ‘as it is / in that form’; the proposal was not accepted that way.",bnExplanation:"Sellaisenaan মানে ‘যেমন আছে / সেই রূপে’; প্রস্তাবটি সেভাবে গৃহীত হয়নি।"},
+    {level:"B2",fi:"Hän suhtautui uudistukseen varauksella.",prompt:"How did the person respond to the reform?",bn:"ব্যক্তিটি সংস্কারটির প্রতি কেমন মনোভাব দেখিয়েছেন?",choices:["With complete enthusiasm.","Without knowing it existed.","With reservations or caution."],answer:2,explanation:"Suhtautua … varauksella means to take a cautious or reserved view.",bnExplanation:"Suhtautua … varauksella মানে সতর্কতা বা সংশয় নিয়ে দেখা।"},
+    {level:"C1",fi:"Kokonaisuutena katsottuna selvitys tukee ratkaisua, vaikka muutama olennainen kysymys jää avoimeksi.",prompt:"What is the writer’s overall position?",bn:"লেখকের সামগ্রিক অবস্থান কী?",choices:["The report supports the decision, while some important questions remain open.","The report rejects the decision and closes every question.","The report has not examined the decision."],answer:0,explanation:"The sentence balances support for the decision with a qualification about unresolved questions.",bnExplanation:"বাক্যটি সিদ্ধান্তের সমর্থনের সঙ্গে অমীমাংসিত প্রশ্নের সীমাবদ্ধতাও জানায়।"},
+    {level:"C1",fi:"Päätökselle esitetyt perusteet eivät kaikilta osin vakuuta.",prompt:"What does the sentence imply about the reasons given?",bn:"দেওয়া যুক্তিগুলো সম্পর্কে বাক্যটি কী ইঙ্গিত দেয়?",choices:["They are convincing without exception.","They are not convincing in every respect.","No reasons were presented."],answer:1,explanation:"Eivät kaikilta osin vakuuta is a measured way to say the reasons do not fully convince.",bnExplanation:"Eivät kaikilta osin vakuuta হলো সংযতভাবে বলা—যুক্তিগুলো পুরোপুরি সন্তুষ্ট করতে পারেনি।"},
+    {level:"C2",fi:"Keskustelu tyssäsi alkuunsa.",prompt:"What happened to the discussion?",bn:"আলোচনাটির কী হয়েছিল?",choices:["It became more lively near the end.","It continued without interruption.","It stalled almost as soon as it began."],answer:2,explanation:"Tyssätä alkuunsa is an idiomatic way to say something came to a halt right at the start.",bnExplanation:"Tyssätä alkuunsa একটি বাগ্‌ধারা: শুরুতেই থেমে যাওয়া।"},
+    {level:"C2",fi:"Hän osasi lukea rivien välistä.",prompt:"What ability does this idiom describe?",bn:"এই বাগ্‌ধারাটি কোন দক্ষতা বোঝায়?",choices:["Reading a text aloud with clear pronunciation.","Understanding what is implied but not said directly.","Remembering every line of a book."],answer:1,explanation:"Lukea rivien välistä means to understand an unstated or implied meaning.",bnExplanation:"Lukea rivien välistä মানে সরাসরি না বলা ইঙ্গিতপূর্ণ অর্থ বুঝতে পারা।"}
+  ];
+  const placementBands=[
+    {id:"pre-a1",label:"Pre-A1",title:"First steps",description:"Build comfort with Finnish sounds, letters and your first everyday phrases."},
+    {id:"a1",label:"A1",title:"Beginner",description:"Introduce yourself and manage familiar, simple situations."},
+    {id:"a2",label:"A2",title:"Elementary",description:"Talk about routines, familiar places and simple past events."},
+    {id:"b1",label:"B1",title:"Independent",description:"Explain experiences and handle everyday community and work topics."},
+    {id:"b2",label:"B2",title:"Upper intermediate",description:"Follow more detailed topics and give clear reasons for your views."},
+    {id:"c1",label:"C1",title:"Advanced",description:"Use flexible Finnish to discuss complex ideas with precision."},
+    {id:"c2",label:"C2",title:"Mastery",description:"Explore nuance, idiom, register and implied meaning."}
+  ];
   function readJSON(key,fallback){try{return JSON.parse(localStorage.getItem(key)||"null")??fallback}catch(_error){return fallback}}
   function cityNow(){const id=localStorage.getItem(cityKey)||"helsinki";return cities.find(city=>city.id===id)||cities[0]}
   function helsinkiDayKey(date=new Date()){
@@ -143,7 +166,7 @@
   let cachedWeather=readJSON(weatherKey,null),weatherRequest=null,lastWeatherMessage="";
   let frequentWordPromise=null,frequentWordsReady=false,frequentWordsError="";
   let fullDictionaryPromise=null,fullDictionaryEntries=null,fullDictionaryError="",fullDictionarySavedOffline=false;
-  let dictionarySearchTimer=0,dictionaryPage=0;
+  let dictionarySearchTimer=0,dictionaryPage=0,placementIndex=0,placementScore=0,placementAnswered=false,placementChoice=-1;
   function weatherLabel(code){
     if(code===0)return ["Clear sky","☀️"];
     if(code===1)return ["Mostly clear","🌤️"];
@@ -718,9 +741,31 @@
   }
   function renderCustom(page){
     const target=document.getElementById("page-content");if(!target)return;
-    if(page==="daily")renderDaily();else if(page==="dictionary")renderDictionary();else if(page==="voice")renderVoiceSettings();
+    if(page==="daily")renderDaily();else if(page==="dictionary")renderDictionary();else if(page==="voice")renderVoiceSettings();else if(page==="placement")renderPlacement();
     document.getElementById("sidebar")?.classList.remove("open");
     window.scrollTo({top:0,behavior:"smooth"});
+  }
+  function placementBandForScore(score){
+    const limits=[1,3,5,7,9,11,12],index=limits.findIndex(limit=>score<=limit);
+    return placementBands[Math.max(0,index)];
+  }
+  function renderPlacement(){
+    const page=document.getElementById("page-content");if(!page)return;
+    if(placementIndex>=placementQuestions.length){
+      const band=placementBandForScore(placementScore);
+      page.innerHTML=customPageTitle("Your suggested starting point","Use this result to choose a comfortable place to explore. You can change levels whenever you like.","Quick Finnish reading check")+
+        '<section class="finland-placement-result"><div class="finland-placement-result-mark" aria-hidden="true">✿</div><div class="finland-placement-result-copy"><span class="page-kicker">A STARTING SUGGESTION · NOT AN EXAM RESULT</span><h2>'+esc(band.label)+' · '+esc(band.title)+'</h2><p>'+esc(band.description)+'</p><p class="finland-placement-score">You answered <strong>'+placementScore+' of 12</strong> reading questions correctly.</p><p class="finland-placement-limit">This short check samples reading and vocabulary only. It does not measure speaking, listening or writing and is not an official CEFR or YKI assessment.</p><div class="finland-placement-actions"><button class="button-primary" type="button" data-level="'+esc(band.id)+'">Explore '+esc(band.label)+' lessons →</button><button class="button-secondary" type="button" data-placement-restart>Try the check again</button><button class="link-button" type="button" data-page="path">Browse all seven levels</button></div><p class="finland-placement-sources">About the scales: <a href="https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors" target="_blank" rel="noreferrer">Council of Europe CEFR descriptors ↗</a> · <a href="https://www.oph.fi/en/education-and-qualifications/selecting-right-yki-test-test-days" target="_blank" rel="noreferrer">Finnish National Agency for Education: YKI and CEFR ↗</a></p></div></section>';
+      window.scrollTo({top:0,behavior:"smooth"});return;
+    }
+    const question=placementQuestions[placementIndex],progress=Math.round(placementIndex/placementQuestions.length*100);
+    const choices=question.choices.map((choice,index)=>{
+      const correct=placementAnswered&&index===question.answer,incorrect=placementAnswered&&index===placementChoice&&index!==question.answer;
+      return '<button type="button" class="finland-placement-choice'+(correct?' is-correct':'')+(incorrect?' is-incorrect':'')+'" data-placement-answer="'+index+'"'+(placementAnswered?' disabled':'')+'><span>'+String.fromCharCode(65+index)+'</span>'+esc(choice)+'</button>';
+    }).join("");
+    const feedback=placementAnswered?'<div class="finland-placement-feedback '+(placementChoice===question.answer?'is-correct':'is-incorrect')+'" role="status" aria-live="polite"><strong>'+(placementChoice===question.answer?'Correct.':'A useful phrase to learn.')+'</strong><p>'+esc(question.explanation)+'</p><small lang="bn">'+esc(question.bnExplanation)+'</small></div>':"";
+    page.innerHTML=customPageTitle("Quick Finnish reading check","Twelve short questions move from familiar phrases to advanced nuance. Use the free voice to hear each Finnish example.","Find a comfortable level")+
+      '<section class="finland-placement-check"><div class="finland-placement-topline"><span class="page-kicker">QUESTION '+(placementIndex+1)+' OF '+placementQuestions.length+' · '+esc(question.level)+'</span><span>'+progress+'% complete</span></div><div class="finland-placement-progress" role="progressbar" aria-label="Reading check progress" aria-valuemin="0" aria-valuemax="12" aria-valuenow="'+placementIndex+'"><i style="width:'+progress+'%"></i></div><div class="finland-placement-question"><div class="finland-placement-finnish"><strong lang="fi">'+esc(question.fi)+'</strong><button type="button" data-topic-speak="'+esc(question.fi)+'" aria-label="Hear the Finnish question">▶ Listen</button></div><h2>'+esc(question.prompt)+'</h2><p lang="bn">'+esc(question.bn)+'</p><div class="finland-placement-choices" role="group" aria-label="Choose an answer">'+choices+'</div>'+feedback+(placementAnswered?'<button class="button-primary finland-placement-next" type="button" data-placement-next>'+(placementIndex===placementQuestions.length-1?'See my suggestion →':'Next question →')+'</button>':"")+'</div><p class="finland-placement-note">A reading-and-vocabulary practice check, not an official level result. <a href="https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors" target="_blank" rel="noreferrer">How CEFR descriptors work ↗</a></p></section>';
+    if(placementAnswered)page.querySelector("[data-placement-next]")?.focus({preventScroll:true});
   }
   function chapterMarkup(){
     const facts=finlandFacts.map(fact=>'<article class="finland-fact-card"><div class="finland-fact-top"><span aria-hidden="true">'+fact.icon+'</span><small>'+esc(fact.meta)+'</small></div><strong class="finland-fact-value">'+esc(fact.value)+'</strong><span class="finland-fact-label">'+esc(fact.label)+'</span><div class="finland-fact-word"><span><b lang="fi">'+esc(fact.fi)+'</b><small>'+esc(fact.en)+' · <span lang="bn">'+esc(fact.bn)+'</span></small></span><button type="button" data-topic-speak="'+esc(fact.fi)+'" aria-label="Hear '+esc(fact.fi)+' in Finnish">▶</button></div><a class="finland-fact-source" href="'+esc(fact.url)+'" target="_blank" rel="noreferrer">'+esc(fact.source)+' ↗</a></article>').join("");
@@ -1023,6 +1068,10 @@
       promo.innerHTML='<div><div class="page-kicker">TODAY IN FINLAND · '+esc(date.toUpperCase())+'</div><h2>100 useful Finnish words, in ten calm sets.</h2><p>'+esc(complete?"Today’s "+target+"-word aim is complete. The full set is still ready.":"Your daily goal is "+target+" words. The full 100-word set stays available.")+'</p><div class="daily-pips" aria-hidden="true">'+Array.from({length:target/10},(_,index)=>'<i class="'+(learned>=(index+1)*10?"done":(learned>index*10?"partial":""))+'" '+(learned>index*10&&learned<(index+1)*10?'style="--progress:'+((learned-index*10)*10)+'%"':"")+'></i>').join("")+'</div></div><div><div class="finland-daily-progress" aria-label="'+Math.min(target,learned)+' of '+target+' daily goal words">'+Math.min(target,learned)+' <small>/ '+target+' goal</small></div><button class="finland-daily-open" type="button" data-redesign-page="daily">Start today’s words →</button></div>';
       const existing=page.querySelector(".daily-word-card");if(existing)existing.insertAdjacentElement("afterend",promo);else page.appendChild(promo);
     }
+    if(!page.querySelector(".finland-placement-promo")){
+      const placement=document.createElement("section");placement.className="finland-placement-promo";placement.innerHTML='<div class="finland-placement-promo-mark" aria-hidden="true">↗</div><div><span class="page-kicker">12 QUICK QUESTIONS · PRE-A1 TO C2</span><h2>Not sure where to begin?</h2><p>Try a short Finnish reading check and get a suggested level to explore. It is practice, not an exam.</p></div><div class="finland-placement-promo-actions"><button class="button-primary" type="button" data-placement-start>Find my starting point →</button><button class="link-button" type="button" data-page="path">Choose a level yourself</button></div>';
+      const daily=page.querySelector(".finland-daily-promo");if(daily)daily.insertAdjacentElement("afterend",placement);else page.appendChild(placement);
+    }
     updateClock();refreshStatusContent();
   }
   function enhanceExplorer(){
@@ -1077,6 +1126,12 @@
     const top=document.getElementById("connection-label");if(top)top.textContent="Finland · Europe/Helsinki";
   }
   document.addEventListener("click",event=>{
+    const placementStart=event.target.closest("[data-placement-start]");
+    if(placementStart){event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();placementIndex=0;placementScore=0;placementAnswered=false;placementChoice=-1;renderCustom("placement");return}
+    const placementAnswer=event.target.closest("[data-placement-answer]");
+    if(placementAnswer&&!placementAnswered){const question=placementQuestions[placementIndex];placementChoice=Number(placementAnswer.dataset.placementAnswer);placementAnswered=true;if(placementChoice===question.answer)placementScore++;renderPlacement();return}
+    if(event.target.closest("[data-placement-next]")&&placementAnswered){placementIndex++;placementAnswered=false;placementChoice=-1;renderPlacement();document.querySelector("[data-placement-answer]")?.focus({preventScroll:true});return}
+    if(event.target.closest("[data-placement-restart]")){placementIndex=0;placementScore=0;placementAnswered=false;placementChoice=-1;renderPlacement();return}
     const holidayChoice=event.target.closest("[data-holiday-select]");
     if(holidayChoice){activeHolidayScene=holidayChoice.dataset.holidaySelect;document.querySelectorAll("[data-holiday-select]").forEach(button=>button.setAttribute("aria-pressed",String(button===holidayChoice)));const detail=document.getElementById("finland-holiday-detail");if(detail)detail.innerHTML=holidaySceneMarkup(activeHolidayScene);return}
     const studyRouteButton=event.target.closest("[data-study-route]");

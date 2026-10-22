@@ -1183,3 +1183,53 @@
 @media(max-width:390px){.finland-region-directory-grid{gap:5px}.finland-region-directory-card{padding:7px;gap:6px}.finland-region-directory-card-icon{font-size:17px}.finland-region-directory-card-copy strong{font-size:8px}.finland-region-directory-card-copy small{font-size:7px}}
 @media(max-width:760px){.finland-people-hero{grid-template-columns:1fr}.finland-people-hero-art{min-height:145px}.finland-people-stat-grid,.finland-people-language-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-people-region-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.finland-people-source-grid{grid-template-columns:1fr}}
 @media(max-width:560px){.finland-people-experience{padding:10px}.finland-people-hero-copy{padding:16px}.finland-people-hero-copy h2{font-size:21px}.finland-people-overview,.finland-people-languages,.finland-people-atlas,.finland-people-sources{padding:11px}.finland-people-region-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-people-region-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-people-region-detail{padding:10px}.finland-people-region-main{align-items:flex-start}.finland-people-population strong{font-size:16px}.finland-people-overview-heading{align-items:flex-start}.finland-people-overview-heading>span{max-width:125px}.finland-people-phrase{align-items:flex-start}}
+
+.finland-placement-promo{display:grid;grid-template-columns:48px minmax(0,1fr) auto;align-items:center;gap:16px;margin:15px 0;padding:20px 22px;border:1px solid #dce8dd;border-radius:18px;background:linear-gradient(115deg,#f3f8f1,#fbfaf4);box-shadow:0 7px 22px rgba(38,68,48,.035)}
+.finland-placement-promo-mark{display:grid;place-items:center;width:46px;height:46px;border-radius:15px;background:#e5f0e5;color:#3f7159;font:700 24px var(--heading)}
+.finland-placement-promo .page-kicker,.finland-placement-promo h2,.finland-placement-promo p{margin:0}
+.finland-placement-promo h2{margin-top:4px;color:#173e36;font:750 19px/1.25 var(--heading);letter-spacing:-.45px}
+.finland-placement-promo p{max-width:570px;margin-top:5px;color:#6c7e74;font-size:11px;line-height:1.55}
+.finland-placement-promo-actions{display:flex;flex-direction:column;align-items:flex-start;gap:7px;white-space:nowrap}
+.finland-placement-promo-actions .button-primary{padding:10px 13px;font-size:10px}
+.finland-placement-promo-actions .link-button{font-size:9px}
+.finland-placement-check,.finland-placement-result{max-width:820px;margin:18px auto;padding:clamp(18px,4vw,32px);border:1px solid #e0e9df;border-radius:21px;background:#fff;box-shadow:0 12px 30px rgba(38,68,48,.05)}
+.finland-placement-topline{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#819087;font-size:9px;font-weight:700}
+.finland-placement-topline .page-kicker{margin:0;color:#567c68}
+.finland-placement-progress{height:6px;margin:11px 0 25px;overflow:hidden;border-radius:999px;background:#edf2ec}
+.finland-placement-progress i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#70a884,#d2ab68);transition:width .24s ease}
+.finland-placement-question{max-width:650px;margin:0 auto}
+.finland-placement-finnish{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:19px 20px;border:1px solid #e7ece4;border-radius:15px;background:#f8faf6}
+.finland-placement-finnish strong{color:#173e36;font:700 clamp(18px,3vw,24px)/1.45 var(--heading);overflow-wrap:anywhere}
+.finland-placement-finnish button{flex:none;padding:8px 10px;border:1px solid #dce7dc;border-radius:10px;background:#fff;color:#376954;font-size:9px;font-weight:700;cursor:pointer}
+.finland-placement-question h2{margin:20px 0 4px;color:#243f35;font:700 18px/1.35 var(--heading);letter-spacing:-.25px}
+.finland-placement-question>p{margin:0 0 14px;color:#7e8d84;font-size:11px}
+.finland-placement-choices{display:grid;grid-template-columns:1fr;gap:8px}
+.finland-placement-choice{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;padding:10px 13px;border:1px solid #e3eae2;border-radius:12px;background:#fff;color:#43594c;text-align:left;font-size:11px;line-height:1.45;cursor:pointer;transition:border-color .16s,background .16s,transform .16s}
+.finland-placement-choice:hover:not(:disabled){transform:translateY(-1px);border-color:#a8c2aa;background:#f7faf5}
+.finland-placement-choice>span{display:grid;place-items:center;flex:none;width:25px;height:25px;border-radius:8px;background:#f0f4ed;color:#55755d;font-size:9px;font-weight:800}
+.finland-placement-choice:disabled{cursor:default}
+.finland-placement-choice.is-correct{border-color:#9cbea2;background:#f0f7ef;color:#27583e}
+.finland-placement-choice.is-correct>span{background:#dceedd;color:#285d3d}
+.finland-placement-choice.is-incorrect{border-color:#e2c5b7;background:#fbf3ef;color:#7c5140}
+.finland-placement-feedback{margin-top:12px;padding:12px 14px;border-radius:12px;background:#f1f7ef;color:#385a42}
+.finland-placement-feedback.is-incorrect{background:#f8f4ee;color:#685642}
+.finland-placement-feedback strong{font-size:10px}
+.finland-placement-feedback p,.finland-placement-feedback small{display:block;margin:3px 0 0;font-size:10px;line-height:1.55}
+.finland-placement-feedback small{color:#7d8c82}
+.finland-placement-next{margin-top:14px}
+.finland-placement-note,.finland-placement-sources{margin:18px 0 0;color:#829087;font-size:9px;line-height:1.55}
+.finland-placement-note a,.finland-placement-sources a{color:#52745e;text-decoration:underline;text-underline-offset:2px}
+.finland-placement-result{display:flex;align-items:flex-start;gap:19px}
+.finland-placement-result-mark{display:grid;place-items:center;flex:none;width:50px;height:50px;border-radius:16px;background:#e8f2e6;color:#3f7259;font-size:24px}
+.finland-placement-result-copy{min-width:0;flex:1}
+.finland-placement-result-copy .page-kicker{margin:0;color:#5f8068}
+.finland-placement-result h2{margin:6px 0;color:#173e36;font:750 clamp(22px,4vw,30px)/1.2 var(--heading);letter-spacing:-.7px}
+.finland-placement-result-copy>p{max-width:660px;color:#64766c;font-size:12px;line-height:1.6}
+.finland-placement-score{margin:14px 0 6px!important;padding:11px 13px;border-radius:11px;background:#f5f8f3}
+.finland-placement-score strong{color:#315c45}
+.finland-placement-limit{margin:7px 0;color:#869189!important;font-size:10px!important}
+.finland-placement-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px}
+.finland-placement-actions .button-primary,.finland-placement-actions .button-secondary{font-size:10px}
+.finland-placement-sources{margin-top:17px}
+@media(max-width:760px){.finland-placement-promo{grid-template-columns:42px minmax(0,1fr);gap:12px;padding:16px}.finland-placement-promo-mark{width:40px;height:40px}.finland-placement-promo-actions{grid-column:2;flex-direction:row;align-items:center;gap:12px;flex-wrap:wrap}.finland-placement-result{gap:13px;padding:20px}}
+@media(max-width:520px){.finland-placement-promo{grid-template-columns:1fr;gap:9px}.finland-placement-promo-mark{width:34px;height:34px;border-radius:11px;font-size:19px}.finland-placement-promo-actions{grid-column:1}.finland-placement-check{padding:15px}.finland-placement-finnish{padding:14px;flex-direction:column}.finland-placement-question h2{font-size:16px}.finland-placement-result{flex-direction:column;padding:17px}.finland-placement-result-mark{width:40px;height:40px;border-radius:13px;font-size:20px}.finland-placement-actions{align-items:flex-start;flex-direction:column}}
