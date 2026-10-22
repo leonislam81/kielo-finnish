@@ -211,3 +211,49 @@
 .finland-quiz-result-actions{width:100%;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 @media(max-width:520px){.finland-daily-quiz{align-items:stretch;padding:14px}.finland-daily-quiz>div:first-child{width:100%}.finland-quiz-choices{grid-template-columns:1fr}.finland-quiz-choice{padding:9px 11px}}
 @media(max-width:520px){.finland-quiz-review ul{grid-template-columns:1fr}.finland-quiz-result-actions{flex-direction:column;align-items:stretch}}
+.finland-region-explorer{margin:17px 0 20px;padding:15px;border:1px solid #dfe9df;border-radius:16px;background:linear-gradient(145deg,#f5f8f3,#fff 72%)}
+.finland-region-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:12px}
+.finland-region-heading h3{font:700 18px var(--heading,Inter,sans-serif);margin:2px 0;color:#19362e}
+.finland-region-heading p{font-size:10px;color:#718178;margin:4px 0 0}
+.finland-region-count{font-size:8px;color:#718178;white-space:nowrap}
+.finland-region-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.finland-region-choice{display:flex;align-items:center;gap:9px;min-width:0;text-align:left;padding:10px;border:1px solid #e2e9e0;border-radius:12px;background:#fff;color:#405b4b;cursor:pointer;transition:border-color .15s,background .15s,transform .15s}
+.finland-region-choice:hover{transform:translateY(-1px);border-color:#a9c2a9}
+.finland-region-choice:focus-visible{outline:2px solid #397a62;outline-offset:2px}
+.finland-region-choice.active{border-color:#397a62;background:#eaf2e9;box-shadow:inset 0 0 0 1px #397a62}
+.finland-region-choice-icon{font-size:20px;flex:none}
+.finland-region-choice strong,.finland-region-choice small{display:block;overflow-wrap:anywhere}
+.finland-region-choice strong{font-size:9px;line-height:1.3}
+.finland-region-choice small{font-size:8px;color:#78877e;margin-top:3px}
+.finland-region-detail{display:grid;grid-template-columns:minmax(155px,.72fr) minmax(0,1.6fr);overflow:hidden;border:1px solid #e3eae3;border-radius:14px;background:#fff}
+.finland-region-art{display:flex;min-height:255px;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:20px;color:#fff;background:linear-gradient(180deg,#b8d9d4 0%,#d9e6ce 52%,#7b9e72 53%,#527d61 100%);text-shadow:0 2px 12px rgba(25,54,46,.3)}
+.finland-region-art--coast{background:linear-gradient(180deg,#bddfe6 0%,#d8ece6 47%,#70aaba 48%,#36768a 100%)}
+.finland-region-art--lakeland{background:linear-gradient(180deg,#c8e1e4 0%,#dfebce 48%,#72a076 49%,#467863 100%)}
+.finland-region-art--lapland{background:linear-gradient(180deg,#243f63 0%,#597b95 49%,#cad9d8 50%,#f3f4e9 100%)}
+.finland-region-art-icons{display:flex;align-items:center;justify-content:center;gap:12px;font-size:clamp(25px,4vw,42px);filter:drop-shadow(0 4px 5px rgba(21,46,37,.2))}
+.finland-region-art-label{padding:6px 10px;border:1px solid rgba(255,255,255,.42);border-radius:999px;background:rgba(25,54,46,.24);font-size:10px;font-weight:800;letter-spacing:.3px;text-align:center}
+.finland-region-copy{padding:15px;min-width:0}
+.finland-region-copy h4{font:700 16px var(--heading,Inter,sans-serif);margin:3px 0 6px;color:#19362e}
+.finland-region-copy>p{font-size:10px;line-height:1.55;color:#64766d;margin:6px 0}
+.finland-region-copy .finland-region-bn{color:#526b5d}
+.finland-region-places{padding:8px 9px;border-radius:9px;background:#f4f7f2}
+.finland-region-word-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:9px 0;padding:0;list-style:none}
+.finland-region-word-list li{display:flex;align-items:center;gap:5px;min-width:0;padding:7px;border:1px solid #e9eee8;border-radius:9px;background:#fbfcfa}
+.finland-region-word-list li button{flex:none;border:0;border-radius:7px;background:#edf4ec;color:#316d59;padding:5px 6px;font-size:9px;cursor:pointer}
+.finland-region-word-list li strong,.finland-region-word-list li small{display:block;overflow-wrap:anywhere}
+.finland-region-word-list li strong{font-size:10px;color:#28533f}
+.finland-region-word-list li small{margin-top:2px;color:#78877e;font-size:7.5px;line-height:1.35}
+.finland-region-phrase{padding:10px;border-left:3px solid #78a887;border-radius:8px;background:#edf4ec}
+.finland-region-phrase strong,.finland-region-phrase span,.finland-region-phrase small{display:block}
+.finland-region-phrase strong{font-size:12px;color:#1c6553}
+.finland-region-phrase span,.finland-region-phrase small{margin-top:3px;font-size:9px;color:#64766d}
+.finland-region-phrase button{margin-top:7px}
+.finland-region-source,.finland-region-note{font-size:8px;color:#547663}
+.finland-region-source{display:inline-block;margin-top:9px;font-weight:700;text-decoration:none}
+.finland-region-source:hover,.finland-region-note a:hover{text-decoration:underline}
+.finland-region-note{margin:10px 0 0;line-height:1.5;color:#78877e}
+.finland-region-note a{color:#316d59;font-weight:700}
+@media(max-width:920px){.finland-region-choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.finland-region-detail{grid-template-columns:minmax(110px,.55fr) minmax(0,1.3fr)}.finland-region-art{min-height:210px;padding:12px}.finland-region-copy{padding:12px}}
+@media(max-width:520px){.finland-region-explorer{padding:11px}.finland-region-detail{grid-template-columns:1fr}.finland-region-art{min-height:125px;gap:12px}.finland-region-art-icons{font-size:31px}.finland-region-word-list{grid-template-columns:1fr}.finland-region-word-list li{padding:6px}.finland-region-heading{align-items:flex-start;flex-direction:column;gap:4px}}
+@media(max-width:390px){.finland-region-choices{gap:6px}.finland-region-choice{padding:8px;gap:6px}.finland-region-choice-icon{font-size:17px}.finland-region-choice strong{font-size:8px}}
