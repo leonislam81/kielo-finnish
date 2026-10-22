@@ -1,6 +1,6 @@
 // Local Finnish speech using Supertonic 3. Model files are fetched from the
 // pinned Hugging Face revision only after the learner asks to hear a phrase.
-import { loadTextToSpeech, loadVoiceStyle, writeWavFile } from "./supertonic-helper.js?v=3";
+import { loadTextToSpeech, loadVoiceStyle, writeWavFile } from "./supertonic-helper.js?v=4";
 
 const MODEL_ROOT = "https://huggingface.co/supertone-oss-archive/supertonic-3/resolve/aafc6e32416a594460b32413efc49d7fe4ce6d46";
 const ONNX_ROOT = `${MODEL_ROOT}/onnx`;
@@ -19,7 +19,7 @@ function loadEngine(onProgress) {
     const progress = (name, current, total) => onProgress?.({ phase: "loading", name, current, total });
     // The int8 voice graphs use DequantizeLinear operations that some browser
     // WebGPU providers expose but cannot execute. WASM supports these graphs.
-    return loadTextToSpeech(QUANTIZED_ROOT, { executionProviders: ["wasm"], graphOptimizationLevel: "all" }, progress, { modelSuffix: ".int8", textProcessorRoot: ONNX_ROOT });
+    return loadTextToSpeech(QUANTIZED_ROOT, { executionProviders: ["wasm"], graphOptimizationLevel: "all" }, progress, { modelSuffix: ".int8", configRoot: QUANTIZED_ROOT, textProcessorRoot: ONNX_ROOT });
   })().then((loaded) => {
     engine = loaded.textToSpeech;
     return loaded;

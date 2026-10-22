@@ -236,7 +236,7 @@
         ? `Preparing a free Finnish voice on this device. First use downloads ${"about 140 MB"}; your text stays on this device.`
         : "Creating Finnish speech on this device…", true);
       try {
-        localSpeechModule ||= import("./supertonic-speech.js?v=5");
+        localSpeechModule ||= import("./supertonic-speech.js?v=6");
         const localSpeech = await localSpeechModule;
         if (currentPlaybackId !== playbackId) return false;
         if (!localSpeech.isReady()) showMessage("Preparing the free Finnish voice model. First use may download about 140 MB; text stays on this device.", true);

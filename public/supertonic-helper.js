@@ -440,7 +440,7 @@ export async function loadOnnx(onnxPath, options) {
 export async function loadTextToSpeech(onnxDir, sessionOptions = {}, progressCallback = null, modelOptions = {}) {
     console.log('Using WebAssembly/WebGPU for inference');
     
-    const cfgs = await loadCfgs(onnxDir);
+    const cfgs = await loadCfgs(modelOptions.configRoot || onnxDir);
     const modelSuffix = modelOptions.modelSuffix || '';
     
     const dpPath = `${onnxDir}/duration_predictor${modelSuffix}.onnx`;
