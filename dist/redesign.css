@@ -141,6 +141,31 @@
 .finland-civic-phrase>div>span{display:block;color:#74877c;font-size:8px;font-weight:800;letter-spacing:.6px}
 .finland-civic-phrase strong{display:block;margin-top:4px;color:#1c6553;font-size:12px;line-height:1.5}
 .finland-civic-phrase p,.finland-civic-phrase small{display:block;margin:3px 0 0;color:#63756b;font-size:9px;line-height:1.5}
+.finland-history{margin:16px 0 18px;padding:15px;border:1px solid #dfe9df;border-radius:15px;background:linear-gradient(135deg,#f0f5ef,#fbfcfa 70%)}
+.finland-history-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:10px}
+.finland-history-heading h3{margin:3px 0;color:#19362e;font:700 16px var(--heading,Inter,sans-serif)}
+.finland-history-heading p{margin:0;color:#718178;font-size:10px}
+.finland-history-heading>span{color:#829087;font-size:9px;font-weight:750;white-space:nowrap}
+.finland-history-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.finland-history-event{display:grid;grid-template-columns:40px minmax(0,1fr);gap:9px;min-width:0;padding:11px;border:1px solid #e3eae3;border-radius:12px;background:#fff}
+.finland-history-year{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#e7f0e7;color:#1c6553;font-size:10px;font-weight:800}
+.finland-history-copy{min-width:0}
+.finland-history-copy h4{margin:0;color:#19362e;font:700 11px var(--heading,Inter,sans-serif)}
+.finland-history-copy>p{margin:5px 0 3px;color:#596e62;font-size:9px;line-height:1.55}
+.finland-history-copy>small{display:block;color:#75847b;font-size:9px;line-height:1.5}
+.finland-history-word{display:flex;align-items:center;gap:7px;margin:7px 0}
+.finland-history-word button{flex:none;border:1px solid #dce7dc;border-radius:8px;background:#f6f9f5;color:#316d59;padding:5px 7px;font-size:9px;font-weight:700;cursor:pointer}
+.finland-history-word b,.finland-history-word small{display:block;overflow-wrap:anywhere}
+.finland-history-word b{color:#1c6553;font-size:10px}
+.finland-history-word small{margin-top:2px;color:#74847a;font-size:8px}
+.finland-history-copy>a{color:#316d59;font-size:8px;font-weight:700;text-decoration:none}
+.finland-history-copy>a:hover{text-decoration:underline}
+.finland-history-phrase{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:9px;padding:11px 12px;border-radius:11px;background:#e7f0e7}
+.finland-history-phrase>div>span{display:block;color:#74877c;font-size:8px;font-weight:800;letter-spacing:.6px}
+.finland-history-phrase strong{display:block;margin-top:4px;color:#1c6553;font-size:12px;line-height:1.5}
+.finland-history-phrase p,.finland-history-phrase small{display:block;margin:3px 0 0;color:#63756b;font-size:9px;line-height:1.5}
+.finland-history-phrase button{flex:none;border:1px solid #dce7dc;border-radius:8px;background:#f6f9f5;color:#316d59;padding:6px 8px;font-size:9px;font-weight:700;cursor:pointer}
+.finland-history-note{margin:9px 0 0;color:#7d8a82;font-size:8px;line-height:1.5}
 .finland-dictionary-load{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid #dde8dd;border-radius:12px;background:#f4f7f2;margin:12px 0;color:#66786e;font-size:10px}
 .finland-dictionary-load button{flex:none;border:0;background:#1c6553;color:white;border-radius:9px;padding:9px 12px;font-size:10px;font-weight:750;cursor:pointer}
 .finland-dictionary-load button:disabled{opacity:.65;cursor:default}
@@ -155,7 +180,7 @@
 @media(max-width:920px){.finland-chapter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-facts-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-dictionary-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.finland-status-grid{grid-template-columns:1fr;gap:8px;margin-bottom:16px}.finland-clock{font-size:26px}.finland-daily-promo{padding:12px;gap:7px}.finland-daily-overview{grid-template-columns:1fr auto}.finland-word-grid{grid-template-columns:1fr}.finland-dictionary-results{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-chapter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-facts{padding:12px}.finland-facts-heading{align-items:flex-start;flex-direction:column;gap:4px}.finland-facts-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-facts-phrase{align-items:flex-start;flex-direction:column}.finland-groups{grid-template-columns:repeat(5,1fr)}.finland-voice-tools select{min-width:125px}.finland-topic-vocab{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-dictionary-load{align-items:flex-start;flex-direction:column}.finland-meaning-tools{align-items:flex-start;flex-direction:column}.finland-recall-toggle{align-self:flex-start}}
 @media(max-width:390px){.finland-dictionary-results,.finland-chapter-grid{grid-template-columns:1fr}.finland-status-head{align-items:flex-start}.finland-weather-credit{font-size:7px}.finland-city-select{max-width:118px}.finland-chapter{min-height:105px}.finland-fact-card{padding:9px}.finland-fact-value{font-size:15px}}
-@media(max-width:760px){.finland-civic-heading{align-items:flex-start;flex-direction:column;gap:4px}.finland-civic-grid{grid-template-columns:1fr}.finland-civic-phrase{align-items:flex-start;flex-direction:column}}
+@media(max-width:760px){.finland-civic-heading,.finland-history-heading{align-items:flex-start;flex-direction:column;gap:4px}.finland-civic-grid,.finland-history-grid{grid-template-columns:1fr}.finland-civic-phrase,.finland-history-phrase{align-items:flex-start;flex-direction:column}}
 .finland-daily-quiz{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;background:#f2f6f1;border:1px solid #dfe9df;border-radius:16px;padding:17px;margin:18px 0}
 .finland-daily-quiz h2{font:700 17px var(--heading,Inter,sans-serif);color:#19362e;margin:3px 0 4px}
 .finland-daily-quiz>div:first-child>p,.finland-quiz-prompt{font-size:10px;color:#6e8077;line-height:1.6;margin:0}
