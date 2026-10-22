@@ -64,3 +64,20 @@
 @media(max-width:760px){.grammar-card{grid-template-columns:1fr}.grammar-scene{min-height:175px;max-height:200px;grid-row:1}.grammar-scene-badge{width:60px;height:60px;border-radius:19px;font-size:29px}.grammar-scene-caption{right:16px;bottom:13px;left:16px}.grammar-content{padding:17px 16px 15px;grid-row:2}.grammar-content>h2{font-size:17px}.grammar-pattern{min-height:75px;gap:3px;padding:7px}.grammar-pattern-chip{padding:7px 2px}.grammar-pattern-chip small{font-size:7px}.grammar-note p{font-size:9px}.grammar-choice{padding:8px}.grammar-level-picker{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:12px 0 10px}.grammar-level-tab{padding:10px}.grammar-complete{min-height:260px;padding:22px}.grammar-complete h2{font-size:19px}.grammar-complete-art{right:14px;font-size:92px}}
 
 @media(max-width:480px){.grammar-level-picker{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.grammar-location-map{margin:12px 0;padding:12px;border:1px solid #e1e9df;border-radius:13px;background:#fbfcf9}
+.grammar-location-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.grammar-location-heading>span{display:grid;width:28px;height:28px;place-items:center;border-radius:9px;background:#e9f2e8;color:#648269}
+.grammar-location-heading p{margin:3px 0 0;color:#849087;font-size:8px;line-height:1.4}
+.grammar-location-grid{display:grid;grid-template-columns:42px repeat(3,minmax(0,1fr));gap:5px;align-items:stretch}
+.grammar-location-head{padding:7px 4px;border-radius:8px;background:#f0f4ee;color:#718075;text-align:center;font-size:7px;font-weight:800;line-height:1.35}
+.grammar-location-head small{display:block;margin-top:2px;color:#98a197;font-size:6px;letter-spacing:.3px}
+.grammar-location-noun{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:9px;background:#edf4ea;color:#46654b;text-align:center}
+.grammar-location-noun strong{font:700 12px var(--heading)}
+.grammar-location-noun small{margin-top:2px;color:#7b8c7d;font-size:7px}
+.grammar-location-cell{position:relative;min-width:0;min-height:68px;padding:8px 4px 25px;border:1px solid #e8ece6;border-radius:9px;background:#fff;text-align:center}
+.grammar-location-cell strong{display:block;color:#365a41;font:700 10px/1.35 var(--heading);overflow-wrap:anywhere}
+.grammar-location-cell small{display:block;margin-top:3px;color:#879188;font-size:7px;line-height:1.3;overflow-wrap:anywhere}
+.grammar-location-cell button{position:absolute;right:50%;bottom:4px;transform:translateX(50%);display:grid;width:20px;height:18px;place-items:center;border:0;border-radius:6px;background:#eff5ed;color:#57775d;font-size:8px;cursor:pointer}
+.grammar-location-cell button:hover{background:#dfeede}
+.grammar-location-cell button:focus-visible{outline:2px solid #96bba1;outline-offset:2px}
+@media(max-width:480px){.grammar-location-map{padding:9px}.grammar-location-grid{grid-template-columns:34px repeat(3,minmax(0,1fr));gap:4px}.grammar-location-head{padding:6px 2px;font-size:6px}.grammar-location-head small{font-size:5px}.grammar-location-cell{min-height:65px;padding-right:2px;padding-left:2px}.grammar-location-cell strong{font-size:9px}.grammar-location-cell small{font-size:6px}.grammar-location-noun strong{font-size:11px}.grammar-location-noun small{font-size:6px}}
