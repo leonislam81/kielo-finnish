@@ -17,13 +17,8 @@ function loadEngine(onProgress) {
   if (enginePromise) return enginePromise;
   enginePromise = (async () => {
     const progress = (name, current, total) => onProgress?.({ phase: "loading", name, current, total });
-    if ("gpu" in navigator) {
-      try {
-        return await loadTextToSpeech(QUANTIZED_ROOT, { executionProviders: ["webgpu"], graphOptimizationLevel: "all" }, progress, { modelSuffix: ".int8", textProcessorRoot: ONNX_ROOT });
-      } catch (error) {
-        console.info("WebGPU speech is unavailable; switching to WebAssembly.", error);
-      }
-    }
+    // The int8 voice graphs use DequantizeLinear operations that some browser
+    // WebGPU providers expose but cannot execute. WASM supports these graphs.
     return loadTextToSpeech(QUANTIZED_ROOT, { executionProviders: ["wasm"], graphOptimizationLevel: "all" }, progress, { modelSuffix: ".int8", textProcessorRoot: ONNX_ROOT });
   })().then((loaded) => {
     engine = loaded.textToSpeech;
