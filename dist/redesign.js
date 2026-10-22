@@ -313,7 +313,9 @@
     return result.items.map(word=>{
       const long=word.source==="open"&&word.en.length>240,summary=long?word.en.slice(0,220).trimEnd()+"…":word.en;
       const full=long?'<details class="finland-definition-details"><summary>Read the full source entry</summary><p>'+esc(word.en)+'</p></details>':'';
-      return '<article class="finland-word-card"><div class="finland-word-top"><h3 lang="fi">'+esc(word.fi)+'</h3><span class="finland-word-level">'+esc(word.level)+'</span></div><p class="finland-word-translation">'+esc(summary)+'</p>'+full+'<p class="finland-word-bn" lang="bn">'+esc(word.bn||(word.source==="open"?"English source definition · no Bangla translation in this entry":"Bangla meaning not added yet"))+'</p><div class="finland-word-actions"><button type="button" data-dictionary-speak="'+esc(word.fi)+'" aria-label="Hear '+esc(word.fi)+' in Finnish">▶ Listen</button><span class="finland-word-level">'+esc(word.topic||"")+'</span></div></article>';
+      const saved=window.kieloIsReviewWord?.(word.fi)===true;
+      const saveButton='<button type="button" data-dictionary-review="'+esc(word.fi)+'" data-review-en="'+esc(word.en)+'" data-review-bn="'+esc(word.bn||"")+'" data-review-level="'+esc(word.level||"Dictionary")+'" data-review-topic="'+esc(word.topic||"Open dictionary")+'" aria-pressed="'+saved+'">'+(saved?"✓ In review":"+ Save to review")+'</button>';
+      return '<article class="finland-word-card"><div class="finland-word-top"><h3 lang="fi">'+esc(word.fi)+'</h3><span class="finland-word-level">'+esc(word.level)+'</span></div><p class="finland-word-translation">'+esc(summary)+'</p>'+full+'<p class="finland-word-bn" lang="bn">'+esc(word.bn||(word.source==="open"?"English source definition · no Bangla translation in this entry":"Bangla meaning not added yet"))+'</p><div class="finland-word-actions"><button type="button" data-dictionary-speak="'+esc(word.fi)+'" aria-label="Hear '+esc(word.fi)+' in Finnish">▶ Listen</button>'+saveButton+'<span class="finland-word-level">'+esc(word.topic||"")+'</span></div></article>';
     }).join("");
   }
   function updateDictionaryResults(query=""){
@@ -360,6 +362,7 @@
   function renderCustom(page){
     const target=document.getElementById("page-content");if(!target)return;
     if(page==="daily")renderDaily();else if(page==="dictionary")renderDictionary();
+    document.getElementById("sidebar")?.classList.remove("open");
     window.scrollTo({top:0,behavior:"smooth"});
   }
   function chapterMarkup(){
@@ -428,6 +431,15 @@
     if(learn){const words=dayWords(),word=words[Number(learn.dataset.dailyLearn)];if(!word)return;const progress=dailyProgress();if(progress.has(word.fi))progress.delete(word.fi);else progress.add(word.fi);storeDailyProgress(progress);renderDaily();return}
     const listen=event.target.closest("[data-daily-speak]");
     if(listen){const word=dayWords()[Number(listen.dataset.dailySpeak)];if(word)speakFinnish(word.fi);return}
+    const dictionaryReview=event.target.closest("[data-dictionary-review]");
+    if(dictionaryReview){
+      const input={fi:dictionaryReview.dataset.dictionaryReview,en:dictionaryReview.dataset.reviewEn,bn:dictionaryReview.dataset.reviewBn,level:dictionaryReview.dataset.reviewLevel,topic:dictionaryReview.dataset.reviewTopic};
+      if(window.kieloToggleReviewWord?.(input)){
+        updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");
+        [...document.querySelectorAll("[data-dictionary-review]")].find(button=>button.dataset.dictionaryReview===input.fi)?.focus({preventScroll:true});
+      }
+      return;
+    }
     const dictionaryListen=event.target.closest("[data-dictionary-speak]");
     if(dictionaryListen){speakFinnish(dictionaryListen.dataset.dictionarySpeak);return}
     const refresh=event.target.closest("[data-weather-refresh]");

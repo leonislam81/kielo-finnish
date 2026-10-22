@@ -47,9 +47,9 @@
 .finland-word-level{color:#839188;font-size:8px;white-space:nowrap}
 .finland-word-translation{font-size:10px;color:#50645a;margin:3px 0}
 .finland-word-bn{font-size:9px;color:#74847b;margin:0}
-.finland-word-actions{display:flex;justify-content:space-between;align-items:center;margin-top:9px}
+.finland-word-actions{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px;margin-top:9px}
 .finland-word-actions button{border:1px solid #e4ebe4;background:#fbfcfa;border-radius:8px;padding:6px 9px;color:#557961;font-size:9px;cursor:pointer}
-.finland-word-actions button.learned{background:#e8f2e8;border-color:#d8e7d8;color:#44764e}
+.finland-word-actions button.learned,.finland-word-actions button[aria-pressed="true"]{background:#e8f2e8;border-color:#d8e7d8;color:#44764e}
 .finland-page-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:13px 0}
 .finland-page-footer p{font-size:9px;color:#829087}
 .finland-voice-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin:13px 0;padding:12px;background:#fff;border:1px solid #e4eae4;border-radius:12px}
