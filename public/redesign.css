@@ -337,3 +337,75 @@
 @media(max-width:760px){.finland-study-hero{grid-template-columns:1fr}.finland-study-hero-copy{padding:18px 18px 12px}.finland-study-campus{min-height:150px}.finland-study-campus svg{min-height:150px}.finland-study-route-detail{grid-template-columns:minmax(110px,.55fr) minmax(0,1.3fr)}.finland-study-route-art{min-height:210px}.finland-study-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.finland-study-journey{padding:11px}.finland-study-section-heading{align-items:flex-start;flex-direction:column;gap:4px}.finland-study-route-tabs button{grid-template-columns:24px 1fr;padding:9px;gap:2px 7px}.finland-study-route-tabs button>span{width:23px;height:23px}.finland-study-route-detail{grid-template-columns:1fr}.finland-study-route-art{min-height:105px;flex-direction:row;gap:10px}.finland-study-route-icon{width:39px;height:39px;border-radius:14px;font-size:23px}.finland-study-route-copy{padding:12px}.finland-study-step-grid{grid-template-columns:1fr}.finland-study-step{padding:10px}.finland-study-dialogue-line{align-items:flex-start}.finland-study-media{align-items:flex-start;flex-direction:column}.finland-study-support{padding:10px}}
 @media(max-width:390px){.finland-study-route-tabs button strong{font-size:9px}.finland-study-hero-copy h2{font-size:24px}.finland-study-word-grid{gap:5px}.finland-study-word{padding:8px}}
+
+.finland-jobs-journey{margin:18px 0;padding:16px;border:1px solid #dfe9df;border-radius:18px;background:linear-gradient(145deg,#f7f9f5,#fff 64%)}
+.finland-jobs-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(220px,.95fr);min-height:190px;overflow:hidden;border-radius:14px;background:#e8f0e7}
+.finland-jobs-hero-copy{align-self:center;padding:23px}
+.finland-jobs-hero-copy h2{max-width:520px;margin:5px 0 8px;color:#19362e;font:700 clamp(22px,3.1vw,33px)/1.12 var(--heading,Inter,sans-serif);letter-spacing:-.035em}
+.finland-jobs-hero-copy p{max-width:500px;margin:0;color:#5d7065;font-size:11px;line-height:1.65}
+.finland-jobs-hero-copy>span:last-child{display:inline-block;margin-top:11px;color:#42735d;font-size:9px;font-weight:750;letter-spacing:.04em}
+.finland-jobs-hero-art{position:relative;display:flex;min-height:190px;align-items:flex-end;overflow:hidden;background:#cfe4e2}
+.finland-jobs-hero-art svg{display:block;width:100%;height:100%;min-height:190px}
+.finland-jobs-hero-art>span{position:absolute;right:11px;bottom:10px;padding:5px 9px;border:1px solid rgba(255,255,255,.7);border-radius:999px;background:rgba(250,251,246,.88);color:#355b4a;font-size:8px;font-weight:750}
+.finland-jobs-routes,.finland-jobs-steps,.finland-jobs-vocabulary,.finland-jobs-dialogue{margin-top:18px}
+.finland-jobs-heading-row{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:9px}
+.finland-jobs-heading-row h3{margin:3px 0 0;color:#19362e;font:700 16px var(--heading,Inter,sans-serif)}
+.finland-jobs-heading-row>span{color:#738279;font-size:8px}
+.finland-jobs-route-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.finland-jobs-route-tabs button{display:grid;gap:4px;min-width:0;padding:11px 13px;border:1px solid #e1e9e0;border-radius:12px;background:#fff;color:#385a49;text-align:left;cursor:pointer}
+.finland-jobs-route-tabs button[aria-pressed=true]{border-color:#77a184;background:#edf4ec;box-shadow:inset 0 0 0 1px #77a184}
+.finland-jobs-route-tabs button:focus-visible,.finland-jobs-word button:focus-visible,.finland-jobs-dialogue-line button:focus-visible{outline:2px solid #397a62;outline-offset:2px}
+.finland-jobs-route-tabs strong{font-size:10px;line-height:1.4}
+.finland-jobs-route-tabs small{color:#728279;font-size:8px}
+.finland-jobs-route-detail{display:grid;grid-template-columns:minmax(135px,.58fr) minmax(0,1.42fr);overflow:hidden;margin-top:8px;border:1px solid #e3eae3;border-radius:13px;background:#fff}
+.finland-jobs-route-art{position:relative;display:flex;min-height:245px;flex-direction:column;align-items:center;justify-content:center;gap:12px;overflow:hidden;background:linear-gradient(180deg,#bfdde1 0%,#e5eee0 52%,#8cad85 53%,#527c62 100%);color:white;text-shadow:0 2px 8px rgba(24,55,43,.24)}
+.finland-jobs-route-art--support{background:linear-gradient(180deg,#d7e7e2 0%,#eef0dc 52%,#a9bc85 53%,#658568 100%)}
+.finland-jobs-route-art>span{z-index:1;display:grid;width:60px;height:60px;place-items:center;border:1px solid rgba(255,255,255,.58);border-radius:21px;background:rgba(255,255,255,.22);font-size:31px}
+.finland-jobs-route-art>small{z-index:1;padding:6px 10px;border:1px solid rgba(255,255,255,.5);border-radius:999px;background:rgba(25,54,46,.28);font-size:7px;font-weight:800;letter-spacing:.7px}
+.finland-jobs-route-copy{padding:14px;min-width:0}
+.finland-jobs-route-copy h4{margin:2px 0 7px;color:#19362e;font:700 15px var(--heading,Inter,sans-serif)}
+.finland-jobs-route-copy>p{margin:5px 0;color:#64766d;font-size:9px;line-height:1.6}
+.finland-jobs-route-copy>.finland-jobs-bn{color:#536e5f}
+.finland-jobs-phrase{margin-top:9px;padding:9px 10px;border-left:3px solid #78a887;border-radius:8px;background:#edf4ec}
+.finland-jobs-phrase strong,.finland-jobs-phrase span,.finland-jobs-phrase small{display:block}
+.finland-jobs-phrase strong{color:#1c6553;font-size:11px;line-height:1.45}
+.finland-jobs-phrase span,.finland-jobs-phrase small{margin-top:3px;color:#64766d;font-size:8px;line-height:1.45}
+.finland-jobs-phrase button{margin-top:7px;border:1px solid #dce8de;border-radius:7px;background:#fff;padding:5px 7px;color:#46715c;font-size:8px;font-weight:700;cursor:pointer}
+.finland-jobs-route-copy>a,.finland-jobs-official-note a{display:inline-block;margin-top:7px;color:#316d59;font-size:8px;font-weight:750;text-decoration:none}
+.finland-jobs-route-copy>a:hover,.finland-jobs-official-note a:hover,.finland-jobs-source-note a:hover{text-decoration:underline}
+.finland-jobs-step-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+.finland-jobs-step{display:flex;gap:8px;min-width:0;padding:9px;border:1px solid #e5ebe5;border-radius:11px;background:#fff}
+.finland-jobs-step>span{flex:none;display:grid;width:22px;height:22px;place-items:center;border-radius:8px;background:#e9f2e8;color:#39735d;font-size:7px;font-weight:800}
+.finland-jobs-step h4{margin:2px 0 4px;color:#294d3d;font-size:8px;line-height:1.4}
+.finland-jobs-step strong{display:block;color:#587766;font-size:7px;line-height:1.4}
+.finland-jobs-step p{margin:5px 0 0;color:#748178;font-size:7px;line-height:1.5}
+.finland-jobs-word-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.finland-jobs-word{min-width:0;padding:9px;border:1px solid #e5ebe5;border-radius:10px;background:#fff}
+.finland-jobs-word strong{display:block;color:#19362e;font-size:12px;overflow-wrap:anywhere}
+.finland-jobs-word span,.finland-jobs-word small{display:block;margin-top:3px;color:#68796f;font-size:8px;line-height:1.4}
+.finland-jobs-word button{margin-top:7px;border:1px solid #e3eae3;border-radius:7px;background:#f8faf7;padding:5px 7px;color:#46715c;font-size:8px;font-weight:700;cursor:pointer}
+.finland-jobs-dialogue-card{overflow:hidden;border:1px solid #e3eae3;border-radius:12px;background:#fff}
+.finland-jobs-dialogue-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 11px}
+.finland-jobs-dialogue-line+.finland-jobs-dialogue-line{border-top:1px solid #edf0eb}
+.finland-jobs-dialogue-line>div{min-width:0}
+.finland-jobs-dialogue-line>div>span{display:block;color:#789083;font-size:7px;font-weight:800;letter-spacing:.7px;text-transform:uppercase}
+.finland-jobs-dialogue-line strong{display:block;margin-top:4px;color:#1d5946;font-size:10px;line-height:1.45}
+.finland-jobs-dialogue-line p,.finland-jobs-dialogue-line small{display:block;margin:3px 0 0;color:#68796f;font-size:8px;line-height:1.45}
+.finland-jobs-dialogue-line small{color:#536e5f}
+.finland-jobs-dialogue-line button{flex:none;width:29px;height:29px;border:1px solid #dfe8df;border-radius:9px;background:#f4f8f2;color:#316d59;font-size:11px;cursor:pointer}
+.finland-jobs-culture{display:flex;gap:10px;margin-top:10px;padding:11px;border:1px solid #e5ebe2;border-radius:11px;background:#f8f8f0}
+.finland-jobs-culture>div{flex:none;display:grid;width:27px;height:27px;place-items:center;border-radius:9px;background:#fff;color:#538368;font-size:14px}
+.finland-jobs-culture p{margin:0;color:#63756b;font-size:8px;line-height:1.55}
+.finland-jobs-culture p strong{display:block;margin-bottom:3px;color:#325641;font-size:9px}
+.finland-jobs-culture p small{display:block;margin-top:5px;color:#536e5f;font-size:8px;line-height:1.5}
+.finland-jobs-official-note{margin-top:9px;padding:11px 12px;border:1px solid #eadfc9;border-radius:11px;background:#fbf7ec}
+.finland-jobs-official-note>strong{color:#6d5632;font-size:9px}
+.finland-jobs-official-note>p{margin:4px 0;color:#726958;font-size:8px;line-height:1.55}
+.finland-jobs-official-note>div{display:flex;flex-wrap:wrap;gap:3px 12px}
+.finland-jobs-official-note a{margin-top:3px}
+.finland-jobs-source-note{margin:9px 0 0;color:#7d8981;font-size:8px;line-height:1.65}
+.finland-jobs-source-note a{color:#527a63;font-weight:700;text-decoration:none}
+@media(max-width:920px){.finland-jobs-step-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.finland-jobs-hero{grid-template-columns:1fr}.finland-jobs-hero-copy{padding:18px 18px 12px}.finland-jobs-hero-art{min-height:150px}.finland-jobs-hero-art svg{min-height:150px}.finland-jobs-route-detail{grid-template-columns:minmax(110px,.55fr) minmax(0,1.3fr)}.finland-jobs-route-art{min-height:220px}.finland-jobs-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.finland-jobs-journey{padding:11px}.finland-jobs-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-jobs-route-tabs button{padding:9px;gap:3px}.finland-jobs-route-detail{grid-template-columns:1fr}.finland-jobs-route-art{min-height:90px;flex-direction:row;gap:10px}.finland-jobs-route-art>span{width:39px;height:39px;border-radius:14px;font-size:22px}.finland-jobs-route-copy{padding:12px}.finland-jobs-step-grid{grid-template-columns:1fr}.finland-jobs-step{padding:9px}.finland-jobs-dialogue-line{align-items:flex-start}.finland-jobs-official-note>div{flex-direction:column}}
+@media(max-width:390px){.finland-jobs-route-tabs button strong{font-size:9px}.finland-jobs-hero-copy h2{font-size:23px}.finland-jobs-word-grid{gap:5px}.finland-jobs-word{padding:8px}}
