@@ -63,7 +63,7 @@
 .finland-word-meaning-area{min-height:54px;margin-top:5px}
 .finland-word-meaning-area .finland-word-translation{margin-top:0}
 .finland-recall-hidden{min-height:32px;display:flex;align-items:center;color:#85948a;font-size:9px;font-style:italic}
-.finland-word-reveal{border:0;background:transparent;padding:5px 0;color:#316d59;font:700 9px inherit;cursor:pointer}
+.finland-word-reveal{border:0;background:transparent;padding:5px 0;color:#316d59;font:700 9px var(--heading,Inter,sans-serif);cursor:pointer}
 .finland-word-reveal:hover{text-decoration:underline}
 .finland-word-reveal:focus-visible,.finland-recall-toggle:focus-visible{outline:2px solid #8eae91;outline-offset:2px}
 .finland-voice-note{font-size:8px;color:#8b9890;margin:0 0 12px}
