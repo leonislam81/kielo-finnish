@@ -649,3 +649,100 @@
 @media(max-width:760px){.finland-transport-hero{grid-template-columns:1fr}.finland-transport-hero-copy{padding:18px 18px 12px}.finland-transport-hero-art,.finland-transport-hero-art svg{min-height:150px}.finland-transport-service-grid{grid-template-columns:1fr}}
 @media(max-width:560px){.finland-transport-journey{padding:11px}.finland-transport-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-transport-heading-row>span{text-align:left}.finland-transport-scene-tabs{grid-template-columns:1fr}.finland-transport-scene-tabs button{padding:9px}.finland-transport-scene-art{min-height:82px}.finland-transport-scene-copy{padding:12px}.finland-transport-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-transport-step-grid{grid-template-columns:1fr}.finland-transport-dialogue-line{align-items:flex-start}}
 @media(max-width:390px){.finland-transport-hero-copy h2{font-size:23px}.finland-transport-word{padding:8px}.finland-transport-service{padding:9px}}
+
+.finland-water-journey{display:grid;gap:16px;margin:14px 0;padding:14px;border:1px solid #e1e9e5;border-radius:18px;background:linear-gradient(180deg,#f1f7f5,#fff 38%)}
+.finland-water-hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(220px,.88fr);overflow:hidden;border:1px solid #dfe9e5;border-radius:16px;background:#fff}
+.finland-water-hero-copy{align-self:center;padding:20px 22px}
+.finland-water-hero-copy h2{max-width:530px;margin:7px 0;color:#1b3c38;font:750 26px/1.16 var(--heading,Inter,sans-serif);letter-spacing:-.7px}
+.finland-water-hero-copy p{max-width:510px;margin:7px 0;color:#65766c;font-size:10px;line-height:1.65}
+.finland-water-hero-copy>span:last-child{display:inline-block;margin-top:6px;color:#397869;font-size:9px;font-weight:750;letter-spacing:.4px}
+.finland-water-hero-art{position:relative;min-height:175px;background:#cde3e3}
+.finland-water-hero-art svg{display:block;width:100%;height:100%;min-height:175px}
+.finland-water-hero-art>span{position:absolute;right:11px;bottom:10px;padding:5px 8px;border:1px solid #ffffffad;border-radius:20px;background:#ffffffdf;color:#365849;font-size:8px;font-weight:750}
+.finland-water-heading-row{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:8px}
+.finland-water-heading-row h3{margin:3px 0 0;color:#1d403d;font:700 15px/1.25 var(--heading,Inter,sans-serif)}
+.finland-water-heading-row>span{color:#78857d;font-size:8px;text-align:right}
+.finland-water-scene-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:9px}
+.finland-water-scene-tabs button{min-width:0;padding:9px 10px;border:1px solid #e1e9e5;border-radius:10px;background:#fff;color:#33564f;text-align:left;cursor:pointer;transition:border-color .16s ease,background .16s ease,transform .16s ease}
+.finland-water-scene-tabs button:hover{transform:translateY(-1px);border-color:#91b9af}
+.finland-water-scene-tabs button[aria-pressed=true]{border-color:#68a094;background:#edf6f1;box-shadow:inset 0 0 0 1px #68a094}
+.finland-water-scene-tabs strong,.finland-water-scene-tabs small{display:block}
+.finland-water-scene-tabs strong{font-size:9px;line-height:1.4}
+.finland-water-scene-tabs small{margin-top:3px;color:#71867f;font-size:8px}
+.finland-water-scene-detail{display:grid;grid-template-columns:minmax(130px,.4fr) minmax(0,1.6fr);overflow:hidden;border:1px solid #e1e9e5;border-radius:13px;background:#fff}
+.finland-water-scene-art{position:relative;display:grid;min-height:100%;min-height:210px;place-items:center;overflow:hidden;background:linear-gradient(165deg,#c7e1e8,#e8e8d1 64%,#8cb6ac)}
+.finland-water-scene-art:before,.finland-water-scene-art:after{position:absolute;bottom:-15px;width:145px;height:120px;border-radius:55% 55% 0 0;background:#537760;content:""}
+.finland-water-scene-art:before{left:-18px;transform:rotate(-8deg)}
+.finland-water-scene-art:after{right:-24px;background:#355c49;transform:rotate(9deg)}
+.finland-water-art-harbour{background:linear-gradient(165deg,#badbe8,#e7e5d2 66%,#9cb4b3)}
+.finland-water-art-water{background:linear-gradient(165deg,#c0dfe9,#e8e9d5 62%,#73a8a5)}
+.finland-water-scene-icon{position:relative;z-index:1;display:grid;width:54px;height:54px;place-items:center;border:1px solid #ffffffad;border-radius:18px;background:#ffffffdf;box-shadow:0 7px 19px #21483925;font-size:29px}
+.finland-water-scene-art>span{position:absolute;z-index:2;right:8px;bottom:8px;color:#f6fbf3;font-size:7px;font-weight:800;letter-spacing:.6px;text-shadow:0 1px 4px #183c30;text-transform:uppercase}
+.finland-water-scene-copy{padding:13px 15px}
+.finland-water-scene-copy h4{margin:3px 0 6px;color:#1e443f;font:700 14px var(--heading,Inter,sans-serif)}
+.finland-water-scene-copy>p{margin:5px 0;color:#68776e;font-size:9px;line-height:1.6}
+.finland-water-scene-copy>p[lang=bn]{color:#536e5f}
+.finland-water-phrase{margin-top:9px;padding:10px 11px;border-left:3px solid #70a99b;border-radius:9px;background:#edf5f1}
+.finland-water-phrase strong,.finland-water-phrase span,.finland-water-phrase small{display:block}
+.finland-water-phrase strong{color:#1e695c;font-size:11px;line-height:1.45}
+.finland-water-phrase span,.finland-water-phrase small{margin-top:3px;color:#64766d;font-size:8px;line-height:1.5}
+.finland-water-phrase button,.finland-water-word button,.finland-water-place button,.finland-water-step button{margin-top:7px;border:1px solid #dce8e1;border-radius:7px;background:#fff;padding:5px 8px;color:#467668;font-size:8px;font-weight:750;cursor:pointer}
+.finland-water-dialogue{overflow:hidden;margin-top:9px;border:1px solid #e4eae6;border-radius:10px;background:#fff}
+.finland-water-dialogue-line{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px}
+.finland-water-dialogue-line+.finland-water-dialogue-line{border-top:1px solid #edf0eb}
+.finland-water-dialogue-line>div{min-width:0}
+.finland-water-dialogue-line>div>span{display:block;color:#789083;font-size:7px;font-weight:800;letter-spacing:.6px}
+.finland-water-dialogue-line strong{display:block;margin-top:3px;color:#1d594d;font-size:9px;line-height:1.45}
+.finland-water-dialogue-line p,.finland-water-dialogue-line small{display:block;margin:2px 0 0;color:#68796f;font-size:8px;line-height:1.4}
+.finland-water-dialogue-line small{color:#536e5f}
+.finland-water-dialogue-line button{flex:none;width:28px;height:28px;border:1px solid #e3eae3;border-radius:9px;background:#f8faf7;color:#467668;font-size:10px;cursor:pointer}
+.finland-water-scene-link{display:inline-block;margin-top:8px;color:#477a6b;font-size:8px;font-weight:800;text-decoration:none}
+.finland-water-scene-link:hover,.finland-water-sources a:hover,.finland-water-place>a:hover{text-decoration:underline}
+.finland-water-word-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.finland-water-word{min-width:0;padding:9px;border:1px solid #e5ebe7;border-radius:10px;background:#fff}
+.finland-water-word strong{display:block;overflow-wrap:anywhere;color:#193d38;font-size:10px}
+.finland-water-word span,.finland-water-word small{display:block;margin-top:3px;color:#68796f;font-size:8px;line-height:1.4}
+.finland-water-word button{padding:4px 7px}
+.finland-water-word-note,.finland-water-sources{margin:8px 0 0;color:#78857c;font-size:8px;line-height:1.65}
+.finland-water-word-note strong{color:#315b51}
+.finland-water-place-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.finland-water-place{display:flex;min-width:0;flex-direction:column;padding:11px;border:1px solid #e2ebe5;border-radius:12px;background:linear-gradient(160deg,#f3f8f4,#fff 70%)}
+.finland-water-place:nth-child(2){background:linear-gradient(160deg,#f3f7f5,#fff 70%)}
+.finland-water-place:nth-child(3){background:linear-gradient(160deg,#f3f7f0,#fff 70%)}
+.finland-water-place>span{color:#6f8977;font-size:7px;font-weight:800;letter-spacing:.6px}
+.finland-water-place h4{margin:6px 0 2px;color:#244b40;font:700 12px var(--heading,Inter,sans-serif)}
+.finland-water-place>b{color:#51826c;font-size:8px}
+.finland-water-place>p{flex:1;margin:7px 0;color:#68796f;font-size:8px;line-height:1.5}
+.finland-water-place>strong{margin-top:4px;color:#276459;font-size:9px;line-height:1.45}
+.finland-water-place>small{margin-top:3px;color:#68796f;font-size:8px;line-height:1.4}
+.finland-water-place>small[lang=bn]{color:#536e5f}
+.finland-water-place>a{margin-top:8px;color:#477a6b;font-size:8px;font-weight:750;text-decoration:none}
+.finland-water-step-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.finland-water-step{display:flex;align-items:center;gap:9px;min-width:0;padding:9px;border:1px solid #e4ebe6;border-radius:10px;background:#fff}
+.finland-water-step>span{flex:none;display:grid;width:27px;height:27px;place-items:center;border-radius:9px;background:#edf5f0;color:#4f806b;font-size:8px;font-weight:800}
+.finland-water-step>div{min-width:0;flex:1}
+.finland-water-step strong,.finland-water-step b,.finland-water-step small{display:block}
+.finland-water-step strong{color:#6c7a71;font-size:8px;line-height:1.35}
+.finland-water-step b{margin-top:3px;color:#315b51;font-size:9px}
+.finland-water-step small{margin-top:2px;color:#536e5f;font-size:8px}
+.finland-water-step button{flex:none;width:28px;height:28px;margin-top:0;border-radius:9px;font-size:10px}
+.finland-water-safety{margin:9px 0 0;padding:10px 11px;border:1px solid #dae7df;border-radius:10px;background:#f1f7f0;color:#667366;font-size:8px;line-height:1.6}
+.finland-water-safety strong{color:#365e4b}
+.finland-water-safety small{display:block;margin-top:5px;color:#536e5f;font-size:8px;line-height:1.5}
+.finland-water-safety a{display:inline-block;margin-top:5px;color:#477a6b;font-weight:750;text-decoration:none}
+.finland-water-service-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.finland-water-service{display:flex;min-width:0;flex-direction:column;padding:10px;border:1px solid #e3eae4;border-radius:11px;background:#fff;text-decoration:none;transition:transform .18s ease,border-color .18s ease}
+.finland-water-service:hover{transform:translateY(-2px);border-color:#8eb8a7}
+.finland-water-service>span{color:#6f8977;font-size:7px;font-weight:800;letter-spacing:.6px;line-height:1.4}
+.finland-water-service>strong{margin-top:6px;color:#244a3b;font-size:9px;line-height:1.4}
+.finland-water-service p{flex:1;margin:5px 0;color:#68796f;font-size:8px;line-height:1.5}
+.finland-water-service>b{margin-top:5px;color:#467568;font-size:8px}
+.finland-water-media{padding:12px;border:1px solid #e2eae4;border-radius:12px;background:linear-gradient(120deg,#eef4ec,#f5f8f5)}
+.finland-water-media h3{margin:3px 0;color:#244a3b;font:700 13px var(--heading,Inter,sans-serif)}
+.finland-water-media p{margin:4px 0;color:#68796f;font-size:8px;line-height:1.5}
+.finland-water-media>a{color:#477a6b;font-size:8px;font-weight:750;text-decoration:none}
+.finland-water-sources a{color:#527a63;font-weight:700;text-decoration:none}
+@media(max-width:980px){.finland-water-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.finland-water-hero{grid-template-columns:1fr}.finland-water-hero-copy{padding:18px 18px 12px}.finland-water-hero-art,.finland-water-hero-art svg{min-height:150px}.finland-water-scene-detail{grid-template-columns:minmax(100px,.38fr) minmax(0,1.62fr)}.finland-water-place-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.finland-water-journey{padding:11px}.finland-water-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-water-heading-row>span{text-align:left}.finland-water-scene-tabs{grid-template-columns:1fr}.finland-water-scene-tabs button{padding:9px}.finland-water-scene-detail{grid-template-columns:1fr}.finland-water-scene-art{min-height:82px}.finland-water-scene-copy{padding:12px}.finland-water-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-water-step-grid,.finland-water-service-grid{grid-template-columns:1fr}.finland-water-dialogue-line{align-items:flex-start}}
+@media(max-width:390px){.finland-water-hero-copy h2{font-size:23px}.finland-water-word,.finland-water-service,.finland-water-place{padding:8px}}
