@@ -1,11 +1,12 @@
 // Local Finnish speech using Supertonic 3. Model files are fetched from the
 // pinned Hugging Face revision only after the learner asks to hear a phrase.
-import { loadTextToSpeech, loadVoiceStyle, writeWavFile } from "./supertonic-helper.js";
+import { loadTextToSpeech, loadVoiceStyle, writeWavFile } from "./supertonic-helper.js?v=2";
 
 const MODEL_ROOT = "https://huggingface.co/supertone-oss-archive/supertonic-3/resolve/aafc6e32416a594460b32413efc49d7fe4ce6d46";
 const ONNX_ROOT = `${MODEL_ROOT}/onnx`;
 const STYLE_ROOT = `${MODEL_ROOT}/voice_styles`;
-const MODEL_SIZE_LABEL = "about 398 MB";
+const QUANTIZED_ROOT = "https://huggingface.co/csukuangfj2/sherpa-onnx-supertonic-3-tts-int8-2026-05-11/resolve/cca5a0e6c96e1d2c720986bf7e75fcc81dee3ae4";
+const MODEL_SIZE_LABEL = "about 140 MB";
 let enginePromise = null;
 let engine = null;
 let stylePromises = new Map();
@@ -18,12 +19,12 @@ function loadEngine(onProgress) {
     const progress = (name, current, total) => onProgress?.({ phase: "loading", name, current, total });
     if ("gpu" in navigator) {
       try {
-        return await loadTextToSpeech(ONNX_ROOT, { executionProviders: ["webgpu"], graphOptimizationLevel: "all" }, progress);
+        return await loadTextToSpeech(QUANTIZED_ROOT, { executionProviders: ["webgpu"], graphOptimizationLevel: "all" }, progress, { modelSuffix: ".int8", textProcessorRoot: ONNX_ROOT });
       } catch (error) {
         console.info("WebGPU speech is unavailable; switching to WebAssembly.", error);
       }
     }
-    return loadTextToSpeech(ONNX_ROOT, { executionProviders: ["wasm"], graphOptimizationLevel: "all" }, progress);
+    return loadTextToSpeech(QUANTIZED_ROOT, { executionProviders: ["wasm"], graphOptimizationLevel: "all" }, progress, { modelSuffix: ".int8", textProcessorRoot: ONNX_ROOT });
   })().then((loaded) => {
     engine = loaded.textToSpeech;
     return loaded;

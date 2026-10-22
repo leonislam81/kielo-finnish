@@ -272,7 +272,7 @@ The research, responsive mockup, and first live implementation are in place. The
 
 Daily 100 now offers a device-saved **Recall first** preference. It hides English and Bangla meanings on the cards until the learner reveals each one; switching sets or language hides them again. This supports an active-recall attempt without changing the existing learned-word progress or quiz score.
 
-The free speech path now runs Supertonic 3 locally, with five female and five male styles, so it works even when the browser has no installed Finnish voice and needs no API key. Its pinned model files total about 398 MB on first use; after download, synthesis runs on the learner’s device. The optional hosted Azure path remains disabled until `AZURE_SPEECH_KEY` (secret), `AZURE_SPEECH_REGION`, and `KIELO_NEURAL_VOICE_DAILY_CHAR_CAP` are configured. It stores aggregate character totals only and caps the Site-wide budget at 10,000 characters per Helsinki day; learners share that configured quota. No resource key or paid Azure resource was created in this iteration.
+The free speech path now runs Supertonic 3 locally, with five female and five male styles, so it works even when the browser has no installed Finnish voice and needs no API key. The pinned int8 ONNX models published by sherpa-onnx total about 140 MB on first use; after download, synthesis runs on the learner’s device. The optional hosted Azure path remains disabled until `AZURE_SPEECH_KEY` (secret), `AZURE_SPEECH_REGION`, and `KIELO_NEURAL_VOICE_DAILY_CHAR_CAP` are configured. It stores aggregate character totals only and caps the Site-wide budget at 10,000 characters per Helsinki day; learners share that configured quota. No resource key or paid Azure resource was created in this iteration.
 
 ### People, languages and society chapter (checked 2026-10-23)
 
@@ -348,7 +348,7 @@ Research supports current-source routing. Finferries publishes its route list, t
 
 ### Voice Studio
 
-The Voice & audio page is reachable from the persistent top bar and Skill Labs navigation; the shared free voice selector is also available on Daily 100 and above Dictionary search. Learners choose among five female and five male on-device Finnish styles, adjust speaking pace, and preview a bilingual sample. The same saved selection is used throughout lessons and vocabulary practice. The first Supertonic 3 setup downloads about 398 MB; after that, speech is synthesized locally. Installed browser voices remain optional, while hosted Azure voices appear only when the owner configures the service. The page explains the model download, device-local preferences, and that spoken practice is not recorded.
+The Voice & audio page is reachable from the persistent top bar and Skill Labs navigation; the shared free voice selector is also available on Daily 100 and above Dictionary search. Learners choose among five female and five male on-device Finnish styles, adjust speaking pace, and preview a bilingual sample. The same saved selection is used throughout lessons and vocabulary practice. The first Supertonic 3 setup downloads about 140 MB; after that, speech is synthesized locally. Installed browser voices remain optional, while hosted Azure voices appear only when the owner configures the service. The page explains the model download, device-local preferences, and that spoken practice is not recorded.
 
 ### Finland Explorer vocabulary and spaced review
 

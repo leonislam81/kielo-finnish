@@ -437,15 +437,16 @@ export async function loadOnnx(onnxPath, options) {
 /**
  * Load all TTS components
  */
-export async function loadTextToSpeech(onnxDir, sessionOptions = {}, progressCallback = null) {
+export async function loadTextToSpeech(onnxDir, sessionOptions = {}, progressCallback = null, modelOptions = {}) {
     console.log('Using WebAssembly/WebGPU for inference');
     
     const cfgs = await loadCfgs(onnxDir);
+    const modelSuffix = modelOptions.modelSuffix || '';
     
-    const dpPath = `${onnxDir}/duration_predictor.onnx`;
-    const textEncPath = `${onnxDir}/text_encoder.onnx`;
-    const vectorEstPath = `${onnxDir}/vector_estimator.onnx`;
-    const vocoderPath = `${onnxDir}/vocoder.onnx`;
+    const dpPath = `${onnxDir}/duration_predictor${modelSuffix}.onnx`;
+    const textEncPath = `${onnxDir}/text_encoder${modelSuffix}.onnx`;
+    const vectorEstPath = `${onnxDir}/vector_estimator${modelSuffix}.onnx`;
+    const vocoderPath = `${onnxDir}/vocoder${modelSuffix}.onnx`;
     
     const modelPaths = [
         { name: 'Duration Predictor', path: dpPath },
@@ -465,7 +466,7 @@ export async function loadTextToSpeech(onnxDir, sessionOptions = {}, progressCal
     
     const [dpOrt, textEncOrt, vectorEstOrt, vocoderOrt] = sessions;
     
-    const textProcessor = await loadTextProcessor(onnxDir);
+    const textProcessor = await loadTextProcessor(modelOptions.textProcessorRoot || onnxDir);
     const textToSpeech = new TextToSpeech(cfgs, textProcessor, dpOrt, textEncOrt, vectorEstOrt, vocoderOrt);
     
     return { textToSpeech, cfgs };

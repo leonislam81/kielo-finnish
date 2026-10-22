@@ -233,19 +233,19 @@
       if (currentPlaybackId !== playbackId) return false;
       const firstUse = !localSpeechModule;
       showMessage(firstUse
-        ? `Preparing a free Finnish voice on this device. First use downloads ${"about 398 MB"}; your text stays on this device.`
+        ? `Preparing a free Finnish voice on this device. First use downloads ${"about 140 MB"}; your text stays on this device.`
         : "Creating Finnish speech on this device…", true);
       try {
-        localSpeechModule ||= import("./supertonic-speech.js?v=2");
+        localSpeechModule ||= import("./supertonic-speech.js?v=3");
         const localSpeech = await localSpeechModule;
         if (currentPlaybackId !== playbackId) return false;
-        if (!localSpeech.isReady()) showMessage("Preparing the free Finnish voice model. First use may download about 398 MB; text stays on this device.", true);
+        if (!localSpeech.isReady()) showMessage("Preparing the free Finnish voice model. First use may download about 140 MB; text stays on this device.", true);
         const synthesisSpeed = rate < 0.78 ? 1.28 : rate > 0.93 ? 0.96 : 1.08;
         const blob = await localSpeech.synthesize(text.trim(), style, synthesisSpeed, (progress) => {
           if (currentPlaybackId !== playbackId) return;
           if (progress.phase === "loading") {
             const stage = progress.current ? ` · model ${progress.current} of ${progress.total}` : "";
-            showMessage(`Preparing the free Finnish voice${stage}. First use downloads about 398 MB; text stays on this device.`, true);
+            showMessage(`Preparing the free Finnish voice${stage}. First use downloads about 140 MB; text stays on this device.`, true);
           } else {
             showMessage(`Generating Finnish speech · ${progress.current} of ${progress.total}`, true);
           }
