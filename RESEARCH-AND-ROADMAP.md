@@ -82,6 +82,7 @@ The C1 Writing Lab completes the four-skills practice path through C1. Three str
 
 - Keep the core navigation and controls in English; offer Bangla/English lesson hints as a learner setting.
 - Keep Finnish visible beside its translation. Use short sentences, one concept at a time, audio playback, image prompts, and immediate answer feedback.
+- Make the daily word an easy retrieval-practice moment: offer three beginner-level meaning choices in the selected English or Bangla help language, then reveal both translations and the contextual sentence after the learner answers. Keep this daily self-check temporary rather than adding a score to saved progress.
 - Use a progression that includes listening, speaking, reading, and writing. Speaking prompts are practice prompts, not an automated pronunciation score.
 - Use learner-created examples and link to Yle for third-party video. External video availability and captions can change, so media cards identify their source and open the official material.
 - Save lesson completion, conversation completion, and vocabulary review to this browser with `localStorage`; no account or server is needed for the first release.

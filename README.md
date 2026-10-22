@@ -17,6 +17,7 @@ Lesson completion, review words and their due dates, language preference, writin
 Use the **K** profile button to download a JSON backup or restore one on another device. Restore combines lesson completion, known words, review dates, practice completion, and drafts with the current browser; the current device's version wins if the same draft or review schedule exists in both. Backup files stay on your device unless you choose to move or share them.
 
 The home dashboard also shows a weekly study rhythm and consecutive-day streak. A study date is saved locally when you practise, review a word, or work on a writing draft; switching the help language or course level does not add a study day. Streak dates are included in progress backups.
+The daily Finnish word also offers an optional three-choice meaning check in your selected English or Bangla help language. After you answer, both translations appear with the example sentence; the daily quiz answer is kept only in the current page session and is not added to your learning backup.
 
 The Spoken Finnish lab compares five common informal phrases with standard written Finnish. Learners hear each phrase, choose its standard equivalent, and reveal an English or Bangla explanation. Completion is saved on this device and included in progress backups. The examples follow Aalto OpenLearning beginner dialogue material; spoken forms vary by speaker and region.
 
