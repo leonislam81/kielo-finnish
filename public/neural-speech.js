@@ -296,7 +296,10 @@
     }
     if (currentPlaybackId !== playbackId) return false;
     const deviceVoices = "speechSynthesis" in window ? window.speechSynthesis.getVoices() : [];
-    if (voice === "device" && deviceVoices.length) {
+    const hasFinnishVoice = deviceVoices.some((item) => item.lang?.toLowerCase().startsWith("fi"));
+    const selectedDeviceName = localStorage.getItem("kielo-finnish-voice") || "";
+    const hasSelectedDeviceVoice = selectedDeviceName && deviceVoices.some((item) => item.name === selectedDeviceName);
+    if (voice === "device" && (hasFinnishVoice || hasSelectedDeviceVoice)) {
       const played = await speakOnDevice(text.trim(), normalizedRate, currentPlaybackId, true);
       if (played || currentPlaybackId !== playbackId) return played;
     }

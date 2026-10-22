@@ -1056,3 +1056,66 @@
 .finland-region-word-list li .finland-extra-word-actions{margin-top:3px}
 #toast{width:min(460px,calc(100vw - 28px));text-align:center;line-height:1.5}
 @media(max-width:560px){.finland-daily-goal{grid-template-columns:1fr;padding:12px}.finland-daily-goal>label{grid-column:1;max-width:none}.finland-daily-goal-meter{grid-column:1}.finland-daily-goal h2{font-size:13px}}
+.finland-people-experience{display:grid;gap:15px;margin:14px 0;padding:14px;border:1px solid #e4e8de;border-radius:19px;background:linear-gradient(180deg,#f7f7f1,#fff 40%)}
+.finland-people-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(220px,.9fr);overflow:hidden;border:1px solid #e2e9df;border-radius:17px;background:#fff}
+.finland-people-hero-copy{align-self:center;padding:21px 23px}
+.finland-people-hero-copy h2{max-width:510px;margin:7px 0;color:#263f37;font:750 25px/1.15 var(--heading,Inter,sans-serif);letter-spacing:-.65px}
+.finland-people-hero-copy p{max-width:480px;margin:7px 0;color:#6d786e;font-size:10px;line-height:1.65}
+.finland-people-hero-copy>span:last-child{display:inline-block;margin-top:6px;color:#806a3f;font-size:9px;font-weight:750}
+.finland-people-hero-art{position:relative;min-height:175px;overflow:hidden;background:#e5eee5}
+.finland-people-hero-art svg{display:block;width:100%;height:100%;min-height:175px}
+.finland-people-hero-art>span{position:absolute;right:11px;bottom:10px;padding:5px 8px;border:1px solid #ffffffad;border-radius:20px;background:#ffffffdf;color:#52654f;font-size:8px;font-weight:750}
+.finland-people-overview,.finland-people-languages,.finland-people-atlas,.finland-people-sources{padding:15px;border:1px solid #e6e9e1;border-radius:15px;background:#fff}
+.finland-people-overview-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:10px}
+.finland-people-overview-heading h3{margin:3px 0 0;color:#30453a;font:700 15px/1.25 var(--heading,Inter,sans-serif)}
+.finland-people-overview-heading>span{color:#748077;font-size:8px;text-align:right}
+.finland-people-stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.finland-people-stat-grid article{display:grid;gap:5px;min-height:82px;padding:11px;border:1px solid #e8ece4;border-radius:11px;background:#fafbf8}
+.finland-people-stat-grid article>span{color:#748077;font-size:9px;font-weight:700}
+.finland-people-stat-grid article>strong{color:#284b3e;font-size:19px;letter-spacing:-.4px}
+.finland-people-stat-grid article>small{color:#7c857c;font-size:8px}
+.finland-people-language-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.finland-people-language-card{display:grid;gap:5px;min-width:0;padding:11px;border:1px solid #e6ebe3;border-radius:11px;background:#fbfcf9}
+.finland-people-language-card>span{color:#65736a;font-size:9px;font-weight:700}
+.finland-people-language-card>strong{color:#284b3e;font-size:17px;letter-spacing:-.35px}
+.finland-people-language-card>small{color:#78837a;font-size:8px}
+.finland-people-language-card.finnish{border-top:3px solid #587e69}.finland-people-language-card.swedish{border-top:3px solid #d1ad69}.finland-people-language-card.sami{border-top:3px solid #b47b65}.finland-people-language-card.other{border-top:3px solid #8096a1}
+.finland-people-language-bar{display:flex;height:12px;overflow:hidden;margin:11px 0 8px;border-radius:10px;background:#edf1eb}
+.finland-people-language-bar span{display:block;min-width:2px}.finland-people-language-bar .finnish{background:#587e69}.finland-people-language-bar .swedish{background:#d1ad69}.finland-people-language-bar .sami{background:#b47b65}.finland-people-language-bar .other{background:#8096a1}
+.finland-people-note,.finland-people-source-note{margin:8px 0 0;color:#69766d;font-size:9px;line-height:1.65}
+.finland-people-atlas-intro{margin:0 0 11px;color:#6e786f;font-size:10px;line-height:1.55}
+.finland-people-region-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.finland-people-region-card{display:grid;gap:3px;min-width:0;padding:9px 10px;border:1px solid #e4e9e1;border-radius:10px;background:#fcfcfa;color:#3f5448;text-align:left;cursor:pointer;transition:border-color .15s ease,background .15s ease,transform .15s ease}
+.finland-people-region-card:hover{transform:translateY(-1px);border-color:#a9b9a9}
+.finland-people-region-card.is-selected{border-color:#547b66;background:#edf5ee;box-shadow:inset 0 0 0 1px #547b66}
+.finland-people-region-card>span{overflow:hidden;color:#334b3d;font-size:9px;font-weight:750;text-overflow:ellipsis;white-space:nowrap}
+.finland-people-region-card>small{overflow:hidden;color:#78847b;font-size:8px;text-overflow:ellipsis;white-space:nowrap}
+.finland-people-region-card>strong{margin-top:2px;color:#416b58;font-size:11px}
+.finland-people-region-card:focus-visible,.finland-people-phrase button:focus-visible{outline:3px solid #315f52;outline-offset:2px}
+.finland-people-region-detail{display:grid;gap:12px;margin-top:11px;padding:13px;border:1px solid #e3e9e1;border-radius:13px;background:#fbfcf9}
+.finland-people-region-main{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.finland-people-region-main h4{margin:4px 0;color:#30453a;font:750 17px/1.2 var(--heading,Inter,sans-serif)}
+.finland-people-region-main p{margin:4px 0 0;color:#69766d;font-size:9px}
+.finland-people-population{text-align:right}
+.finland-people-population strong{display:block;color:#315d50;font-size:20px;letter-spacing:-.4px}
+.finland-people-population span{color:#78847b;font-size:8px}
+.finland-people-region-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.finland-people-region-stats>div{display:grid;gap:3px;padding:9px;border-radius:9px;background:#f0f4ef}
+.finland-people-region-stats span{color:#748077;font-size:8px}.finland-people-region-stats strong{color:#354e40;font-size:12px}
+.finland-people-region-languages{display:grid;gap:7px}
+.finland-people-language-row>div:first-child{display:flex;justify-content:space-between;gap:8px;color:#56685b;font-size:9px}
+.finland-people-language-row>div:first-child strong{color:#344d40}
+.finland-people-meter{height:7px;overflow:hidden;margin-top:4px;border-radius:8px;background:#e9eee7}
+.finland-people-meter span{display:block;height:100%;min-width:2px;border-radius:8px;background:var(--people-color,#587e69)}
+.finland-people-region-languages>small{color:#78847b;font-size:8px;line-height:1.5}
+.finland-people-phrase{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border:1px solid #e5e8df;border-radius:10px;background:#f5f5ee}
+.finland-people-phrase>div{min-width:0}.finland-people-phrase>div>span{display:block;color:#8b826c;font-size:7px;font-weight:800;letter-spacing:.55px}
+.finland-people-phrase strong{display:block;margin-top:4px;color:#31483b;font-size:11px;line-height:1.5}
+.finland-people-phrase p,.finland-people-phrase small{display:block;margin:3px 0 0;color:#6c796e;font-size:8px;line-height:1.5}
+.finland-people-phrase button{flex:none;padding:8px 10px;border:1px solid #d9e3d9;border-radius:9px;background:#fff;color:#315f52;font-size:9px;font-weight:700;cursor:pointer}
+.finland-people-source-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.finland-people-source-grid a{display:grid;gap:6px;padding:10px;border:1px solid #e6eae2;border-radius:10px;background:#fbfcf9;color:#3e5548;text-decoration:none}
+.finland-people-source-grid a:hover{border-color:#aebdaa;background:#f2f7f1}
+.finland-people-source-grid a strong{font-size:9px}.finland-people-source-grid a span{color:#718076;font-size:8px;line-height:1.55}
+@media(max-width:760px){.finland-people-hero{grid-template-columns:1fr}.finland-people-hero-art{min-height:145px}.finland-people-stat-grid,.finland-people-language-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-people-region-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.finland-people-source-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.finland-people-experience{padding:10px}.finland-people-hero-copy{padding:16px}.finland-people-hero-copy h2{font-size:21px}.finland-people-overview,.finland-people-languages,.finland-people-atlas,.finland-people-sources{padding:11px}.finland-people-region-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-people-region-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-people-region-detail{padding:10px}.finland-people-region-main{align-items:flex-start}.finland-people-population strong{font-size:16px}.finland-people-overview-heading{align-items:flex-start}.finland-people-overview-heading>span{max-width:125px}.finland-people-phrase{align-items:flex-start}}
