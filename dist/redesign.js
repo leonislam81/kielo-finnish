@@ -291,22 +291,23 @@
     dailyQuiz={day:helsinkiDayKey(),language,group:activeGroup,questions,questionIndex:0,score:0,answered:false,chosen:"",missed:[],scope:questionSet?"missed":"set"};
   }
   function dictionaryItems(query="",pageIndex=0){
-    const needle=query.trim().toLocaleLowerCase();
+    const needle=dictionaryFold(query.trim());
     const isBangla=/[\u0980-\u09ff]/.test(query);
     if(fullDictionaryEntries&&needle&&!isBangla){
       const matches=[];
-      for(const entry of fullDictionaryEntries)if((entry[0]+" "+entry[1]).toLocaleLowerCase().includes(needle))matches.push(entry);
+      for(const entry of fullDictionaryEntries)if(dictionaryFold(entry[0]+" "+entry[1]).includes(needle))matches.push(entry);
       const escaped=needle.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),wholeMeaning=new RegExp("(^|[^\\p{L}\\p{N}])"+escaped+"($|[^\\p{L}\\p{N}])","iu");
       matches.sort((a,b)=>{
-        const rank=entry=>{const fi=entry[0].toLocaleLowerCase(),en=entry[1].toLocaleLowerCase();if(fi===needle&&wholeMeaning.test(en))return 0;if(wholeMeaning.test(en))return 1;if(fi===needle)return 2;if(fi.startsWith(needle))return 3;return 4};
+        const rank=entry=>{const fi=dictionaryFold(entry[0]),en=dictionaryFold(entry[1]);if(fi===needle)return 0;if(fi.startsWith(needle))return 1;if(wholeMeaning.test(en))return 2;return 3};
         const difference=rank(a)-rank(b);if(difference)return difference;
         return Number(b[2]||0)-Number(a[2]||0)||a[0].localeCompare(b[0]);
       });
       return {items:matches.slice(pageIndex*60,(pageIndex+1)*60).map(entry=>({fi:entry[0],en:entry[1],bn:"",level:"Finnish–English",topic:entry[2]?Number(entry[2]).toLocaleString()+" Yle news tokens":"Open dictionary",source:"open"})),total:matches.length,full:true};
     }
-    const items=dailyVocabulary(false),filtered=needle?items.filter(word=>(word.fi+" "+word.en+" "+word.bn+" "+word.topic).toLocaleLowerCase().includes(needle)):items;
+    const items=dailyVocabulary(false),filtered=needle?items.filter(word=>dictionaryFold(word.fi+" "+word.en+" "+word.bn+" "+word.topic).includes(needle)):items;
     return {items:filtered.slice(pageIndex*60,(pageIndex+1)*60),total:filtered.length,full:false};
   }
+  function dictionaryFold(value){return String(value??"").normalize("NFC").toLocaleLowerCase().replace(/[äå]/g,"a").replace(/ö/g,"o")}
   function dictionaryCards(query="",pageIndex=0){
     const result=dictionaryItems(query,pageIndex);
     if(!result.items.length)return '<div class="finland-dictionary-empty">No word found. Try a Finnish spelling, English meaning, or Bangla translation.</div>';
@@ -402,7 +403,7 @@
     const count=dailyVocabulary(false).length;
     page.innerHTML=customPageTitle("Finnish dictionary","Search Finnish, English, or Bangla in the learner list, then open the wider Finnish–English headword collection when you need it.","Words for real life")+
       '<div class="finland-dictionary-note"><strong>'+count+' curated trilingual learner words are ready immediately.</strong> These course and daily words include Finnish, English, Bangla, level and topic. Kotus publishes a Finnish headword list with more than 100,000 entries, but that list itself has no English or Bangla definitions. <a href="https://kotus.fi/sanakirjat/kielitoimiston-sanakirja/" target="_blank" rel="noreferrer">Open Kotus usage dictionary ↗</a></div>'+
-      '<div class="finland-dictionary-tools"><input class="finland-dictionary-search" id="finland-dictionary-search" type="search" placeholder="Search suomi / English / বাংলা" autocomplete="off" aria-label="Search Finnish dictionary"><span class="finland-word-level" id="finland-dictionary-count"></span></div>'+
+      '<div class="finland-dictionary-tools"><input class="finland-dictionary-search" id="finland-dictionary-search" type="search" placeholder="Search järvi or jarvi / English / বাংলা" autocomplete="off" aria-label="Search Finnish dictionary; Finnish ä, ö, and å can be typed as a, o, and a"><span class="finland-word-level" id="finland-dictionary-count"></span></div>'+
       '<section class="finland-dictionary-results" id="finland-dictionary-results" aria-live="polite">'+dictionaryCards("")+'</section><button class="button-secondary" id="finland-dictionary-more" type="button" data-dictionary-more hidden>Show more matches</button>'+
       '<div class="finland-dictionary-load"><div><strong>Wider Finnish–English dictionary</strong><br>254,435 source headwords · approximately 11.6 MiB compressed · downloaded only when you choose it, then saved on this device for offline search when storage allows. The source reports a translation for 82.78% of entries; other entries may be English definitions. Bangla meanings remain in the curated learner list above.</div><button id="finland-load-full-dictionary" type="button">Load wider dictionary</button></div><p class="finland-dictionary-status" id="finland-dictionary-status" role="status" aria-live="polite">Your search and learning progress stay in this browser. The wider open dataset downloads only if you choose it.</p>'+
       '<div class="finland-dictionary-source">The wider dictionary is an open Finnish–English compilation from FinnWordNet / Open Multilingual Wordnet, Princeton WordNet 3.0 and English Wiktionary via kaikki.org. This compact version searches headwords, not every inflected Finnish form. Source notices and licence are included in <a href="data/fi-en-ATTRIBUTION.txt" target="_blank" rel="noreferrer">Kielo’s attribution file ↗</a>. <a href="https://danielgregorini.github.io/koreader-dicts/fr/fi-en/" target="_blank" rel="noreferrer">Dataset coverage and licence ↗</a> · Kotus’ word list is not a complete list of every Finnish word.</div>'+
