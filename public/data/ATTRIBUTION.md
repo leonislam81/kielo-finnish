@@ -27,8 +27,11 @@ Kielo’s word list and study activities are original learner materials; they do
 
 ## Guided Finnish inflection examples
 
-Kielo's curated learner guide contains noun examples and 14 present-tense verb tables. Verb forms are checked against Aalto OpenLearning's Finnish grammar, which describes the five main verb types, personal endings, and context-dependent present tense. The Aalto course content is available under CC BY 4.0; the app links to the source. The noun examples are a selected practice set informed by Kotus guidance on Finnish inflection. These tables are not a complete morphological dictionary or analyzer.
+Kielo's curated learner guide contains noun examples and present and simple-past tables for 14 everyday verbs. Present and past forms are checked against Aalto OpenLearning's Finnish grammar and beginner materials; Kotus guidance informs the explanation of the simple-past -i-/-si- marker. The positive past forms of *voida* match its present forms, so the learner guide labels both readings and explains that context distinguishes the tense. The Aalto course content is available under CC BY 4.0; the app links to the sources. The noun examples are a selected practice set informed by Kotus guidance on Finnish inflection. These tables are not a complete morphological dictionary or analyzer.
 
 - Aalto OpenLearning — Finnish verb grammar: <https://openlearning.aalto.fi/mod/book/tool/print/index.php?id=10299>
+- Aalto OpenLearning — positive simple past: <https://openlearning.aalto.fi/mod/book/view.php?id=10295>
+- Aalto OpenLearning — beginner example *Mä asuin*: <https://openlearning.aalto.fi/mod/page/view.php?id=17004>
+- Kotus — simple-past marker in *kosketin*: <https://kotus.fi/tulin-nain-kosketin-ja-soitin/>
 - Aalto OpenLearning course content licence: <https://creativecommons.org/licenses/by/4.0/>
 - Kotus — marking and explaining inflection: <https://kotus.fi/sana/taivutuksen-merkitseminen/>

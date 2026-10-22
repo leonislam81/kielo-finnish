@@ -428,25 +428,49 @@
     case:"Present tense · "+dictionaryVerbPersons[index].fi+" ("+dictionaryVerbPersons[index].en+")",
     gloss:dictionaryVerbPersons[index].en+" "+group.english[index],bn:dictionaryVerbPersons[index].bn+" "+group.bengali[index]
   })));
-  const dictionaryGuidedExamples=dictionaryFormExamples.concat(dictionaryVerbExamples);
+  const dictionaryVerbPastForms={
+    olla:{forms:["olin","olit","oli","olimme","olitte","olivat"],english:["was","were","was","were","were","were"],bengali:["ছিলাম","ছিলে","ছিল","ছিলাম","ছিলেন","ছিল"]},
+    asua:{forms:["asuin","asuit","asui","asuimme","asuitte","asuivat"],english:["lived","lived","lived","lived","lived","lived"],bengali:["থাকতাম","থাকতে","থাকত","থাকতাম","থাকতেন","থাকত"]},
+    puhua:{forms:["puhuin","puhuit","puhui","puhuimme","puhuitte","puhuivat"],english:["spoke","spoke","spoke","spoke","spoke","spoke"],bengali:["কথা বলেছিলাম","কথা বলেছিলে","কথা বলেছিল","কথা বলেছিলাম","কথা বলেছিলেন","কথা বলেছিল"]},
+    opiskella:{forms:["opiskelin","opiskelit","opiskeli","opiskelimme","opiskelitte","opiskelivat"],english:["studied","studied","studied","studied","studied","studied"],bengali:["পড়াশোনা করেছিলাম","পড়াশোনা করেছিলে","পড়াশোনা করেছিল","পড়াশোনা করেছিলাম","পড়াশোনা করেছিলেন","পড়াশোনা করেছিল"]},
+    tehdä:{forms:["tein","teit","teki","teimme","teitte","tekivät"],english:["did","did","did","did","did","did"],bengali:["করেছিলাম","করেছিলে","করেছিল","করেছিলাম","করেছিলেন","করেছিল"]},
+    syödä:{forms:["söin","söit","söi","söimme","söitte","söivät"],english:["ate","ate","ate","ate","ate","ate"],bengali:["খেয়েছিলাম","খেয়েছিলে","খেয়েছিল","খেয়েছিলাম","খেয়েছিলেন","খেয়েছিল"]},
+    juoda:{forms:["join","joit","joi","joimme","joitte","joivat"],english:["drank","drank","drank","drank","drank","drank"],bengali:["পান করেছিলাম","পান করেছিলে","পান করেছিল","পান করেছিলাম","পান করেছিলেন","পান করেছিল"]},
+    mennä:{forms:["menin","menit","meni","menimme","menitte","menivät"],english:["went","went","went","went","went","went"],bengali:["গিয়েছিলাম","গিয়েছিলে","গিয়েছিল","গিয়েছিলাম","গিয়েছিলেন","গিয়েছিল"]},
+    tulla:{forms:["tulin","tulit","tuli","tulimme","tulitte","tulivat"],english:["came","came","came","came","came","came"],bengali:["এসেছিলাম","এসেছিলে","এসেছিল","এসেছিলাম","এসেছিলেন","এসেছিল"]},
+    käydä:{forms:["kävin","kävit","kävi","kävimme","kävitte","kävivät"],english:["visited / went","visited / went","visited / went","visited / went","visited / went","visited / went"],bengali:["ঘুরে এসেছিলাম","ঘুরে এসেছিলে","ঘুরে এসেছিল","ঘুরে এসেছিলাম","ঘুরে এসেছিলেন","ঘুরে এসেছিল"]},
+    haluta:{forms:["halusin","halusit","halusi","halusimme","halusitte","halusivat"],english:["wanted","wanted","wanted","wanted","wanted","wanted"],bengali:["চেয়েছিলাম","চেয়েছিলে","চেয়েছিল","চেয়েছিলাম","চেয়েছিলেন","চেয়েছিল"]},
+    voida:{forms:["voin","voit","voi","voimme","voitte","voivat"],english:["could","could","could","could","could","could"],bengali:["পারতাম","পারতে","পারত","পারতাম","পারতেন","পারত"]},
+    nähdä:{forms:["näin","näit","näki","näimme","näitte","näkivät"],english:["saw","saw","saw","saw","saw","saw"],bengali:["দেখেছিলাম","দেখেছিলে","দেখেছিল","দেখেছিলাম","দেখেছিলেন","দেখেছিল"]},
+    kirjoittaa:{forms:["kirjoitin","kirjoitit","kirjoitti","kirjoitimme","kirjoititte","kirjoittivat"],english:["wrote","wrote","wrote","wrote","wrote","wrote"],bengali:["লিখেছিলাম","লিখেছিলে","লিখেছিল","লিখেছিলাম","লিখেছিলেন","লিখেছিল"]}
+  };
+  const dictionaryVerbPastGroups=dictionaryVerbGroups.map(group=>({...group,...dictionaryVerbPastForms[group.lemma]}));
+  const dictionaryVerbPastExamples=dictionaryVerbPastGroups.flatMap(group=>group.forms.map((form,index)=>({
+    lemma:group.lemma,form,kind:"verb-past",personLabel:dictionaryVerbPersons[index].fi+" · "+dictionaryVerbPersons[index].en,
+    case:"Simple past · "+dictionaryVerbPersons[index].fi+" ("+dictionaryVerbPersons[index].en+")",
+    gloss:dictionaryVerbPersons[index].en+" "+group.english[index],bn:dictionaryVerbPersons[index].bn+" "+group.bengali[index]
+  })));
+  const dictionaryGuidedExamples=dictionaryFormExamples.concat(dictionaryVerbExamples,dictionaryVerbPastExamples);
   function dictionaryFormGroupCards(groups,examples,kind){
     return groups.map(group=>'<section><h3 lang="fi">'+esc(group.lemma)+' <span>'+esc(group.en)+' · '+esc(group.bn)+'</span></h3><div>'+examples.filter(item=>item.lemma===group.lemma&&(kind?item.kind===kind:!item.kind)).map(item=>'<button type="button" data-dictionary-form="'+esc(item.form)+'"><span lang="fi">'+esc(item.form)+'</span><small>'+esc(item.personLabel||item.case.split(" · ")[0])+'</small></button>').join("")+'</div></section>').join("");
   }
   function dictionaryFormExplorer(){
-    return '<details class="finland-form-explorer"><summary>Explore '+dictionaryGuidedExamples.length+' guided word forms</summary><p>Search an example to see its base word, Finnish case or person, and English and Bangla meanings. This guide includes '+dictionaryFormExamples.length+' noun forms across '+dictionaryFormGroups.length+' nouns and '+dictionaryVerbExamples.length+' present-tense forms across '+dictionaryVerbGroups.length+' everyday verbs. Present-tense meaning depends on context and can describe a habit, an action now, or a future event.</p><h3 class="finland-form-section-title">Noun forms</h3><div class="finland-form-groups finland-form-groups--nouns">'+dictionaryFormGroupCards(dictionaryFormGroups,dictionaryFormExamples)+ '</div><h3 class="finland-form-section-title">Present-tense verbs · all six persons</h3><div class="finland-form-groups finland-form-groups--verbs">'+dictionaryFormGroupCards(dictionaryVerbGroups,dictionaryVerbExamples,"verb")+'</div><p class="finland-form-source">The noun examples follow <a href="https://kotus.fi/sana/taivutuksen-merkitseminen/" target="_blank" rel="noreferrer">Kotus guidance on Finnish inflection ↗</a>. Verb forms are checked against <a href="https://openlearning.aalto.fi/mod/book/tool/print/index.php?id=10299" target="_blank" rel="noreferrer">Aalto OpenLearning’s Finnish verb grammar ↗</a> (CC BY 4.0). These curated examples support lookup; they are not a complete morphology analyzer.</p></details>';
+    return '<details class="finland-form-explorer"><summary>Explore '+dictionaryGuidedExamples.length+' guided word forms</summary><p>Search an example to see its base word, tense or noun case, person, and English and Bangla meanings. This guide includes '+dictionaryFormExamples.length+' noun forms, '+dictionaryVerbExamples.length+' present-tense forms, and '+dictionaryVerbPastExamples.length+' simple-past forms across '+dictionaryVerbGroups.length+' everyday verbs. The Finnish imperfect describes past events or states; many stems change before -i, so learn each verb’s forms. For <i>voida</i>, positive past and present forms look the same, so context gives the time.</p><h3 class="finland-form-section-title">Noun forms</h3><div class="finland-form-groups finland-form-groups--nouns">'+dictionaryFormGroupCards(dictionaryFormGroups,dictionaryFormExamples)+ '</div><h3 class="finland-form-section-title">Present-tense verbs · all six persons</h3><div class="finland-form-groups finland-form-groups--verbs">'+dictionaryFormGroupCards(dictionaryVerbGroups,dictionaryVerbExamples,"verb")+'</div><h3 class="finland-form-section-title">Simple-past verbs · all six persons</h3><div class="finland-form-groups finland-form-groups--verbs">'+dictionaryFormGroupCards(dictionaryVerbPastGroups,dictionaryVerbPastExamples,"verb-past")+'</div><p class="finland-form-source">The noun examples follow <a href="https://kotus.fi/sana/taivutuksen-merkitseminen/" target="_blank" rel="noreferrer">Kotus guidance on Finnish inflection ↗</a>. Past-tense examples follow <a href="https://openlearning.aalto.fi/mod/book/view.php?id=10295" target="_blank" rel="noreferrer">Aalto’s positive simple-past lesson ↗</a> and <a href="https://openlearning.aalto.fi/mod/page/view.php?id=17004" target="_blank" rel="noreferrer">beginner examples of <i>asuin</i> ↗</a>; Kotus explains the -i-/-si- marker with <a href="https://kotus.fi/tulin-nain-kosketin-ja-soitin/" target="_blank" rel="noreferrer"><i>kosketin</i> ↗</a>. Verb tables are curated lookup examples, not a complete morphology analyzer.</p></details>';
   }
-  function findDictionaryForm(needle){
-    const example=dictionaryGuidedExamples.find(item=>dictionaryFold(item.form)===needle);
-    if(!example)return null;
-    const base=dailyVocabulary(false).find(word=>dictionaryFold(word.fi)===dictionaryFold(example.lemma));
-    const group=(example.kind==="verb"?dictionaryVerbGroups:dictionaryFormGroups).find(item=>item.lemma===example.lemma);
-    return {...(base||{fi:example.lemma,en:group?.en||"",bn:group?.bn||""}),displayFi:example.form,formCase:example.case,formGloss:example.gloss,formBangla:example.bn,source:"guided-form",level:"Guided form",topic:example.kind==="verb"?"Finnish verb forms":"Finnish word forms"};
+  function findDictionaryForms(needle){
+    const examples=dictionaryGuidedExamples.filter(item=>dictionaryFold(item.form)===needle);
+    return examples.map(example=>{
+      const base=dailyVocabulary(false).find(word=>dictionaryFold(word.fi)===dictionaryFold(example.lemma));
+      const groups=example.kind?.startsWith("verb")?[...dictionaryVerbGroups,...dictionaryVerbPastGroups]:dictionaryFormGroups;
+      const group=groups.find(item=>item.lemma===example.lemma);
+      return {...(base||{fi:example.lemma,en:group?.en||"",bn:group?.bn||""}),displayFi:example.form,formCase:example.case,formGloss:example.gloss,formBangla:example.bn,source:"guided-form",level:"Guided form",topic:example.kind?.startsWith("verb")?"Finnish verb forms":"Finnish word forms"};
+    });
   }
   function dictionaryItems(query="",pageIndex=0){
     const needle=dictionaryFold(query.trim());
     const isBangla=/[\u0980-\u09ff]/.test(query);
-    const guidedForm=needle?findDictionaryForm(needle):null;
-    if(guidedForm)return {items:[guidedForm],total:1,full:false,guidedForm:true};
+    const guidedForms=needle?findDictionaryForms(needle):[];
+    if(guidedForms.length)return {items:guidedForms,total:guidedForms.length,full:false,guidedForm:true};
     if(fullDictionaryEntries&&needle&&!isBangla){
       const matches=[];
       for(const entry of fullDictionaryEntries)if(dictionaryFold(entry[0]+" "+entry[1]).includes(needle))matches.push(entry);
@@ -479,7 +503,7 @@
     if(!result)return;
     const state=dictionaryItems(query,dictionaryPage);
     result.innerHTML=dictionaryCards(query,dictionaryPage);
-    if(count)count.textContent=state.total.toLocaleString()+" "+(state.guidedForm?"guided word form":state.full?"Finnish–English matches":"learner words")+(state.total>60?" · showing "+Math.min((dictionaryPage+1)*60,state.total).toLocaleString():"");
+    if(count)count.textContent=state.total.toLocaleString()+" "+(state.guidedForm?"guided word form"+(state.total===1?"":"s"):state.full?"Finnish–English matches":"learner words")+(state.total>60?" · showing "+Math.min((dictionaryPage+1)*60,state.total).toLocaleString():"");
     if(more)more.hidden=(dictionaryPage+1)*60>=state.total;
   }
   function openDictionaryCache(){
