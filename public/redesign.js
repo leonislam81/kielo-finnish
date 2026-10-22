@@ -399,15 +399,48 @@
     {lemma:"meri",en:"sea",bn:"সমুদ্র"},
     {lemma:"vesi",en:"water",bn:"পানি"}
   ];
+  const dictionaryVerbPersons=[
+    {fi:"minä",en:"I",bn:"আমি"},
+    {fi:"sinä",en:"you (singular)",bn:"তুমি"},
+    {fi:"hän",en:"he / she",bn:"সে"},
+    {fi:"me",en:"we",bn:"আমরা"},
+    {fi:"te",en:"you (polite / plural)",bn:"আপনি / আপনারা"},
+    {fi:"he",en:"they",bn:"তারা"}
+  ];
+  const dictionaryVerbGroups=[
+    {lemma:"olla",en:"to be",bn:"হওয়া",forms:["olen","olet","on","olemme","olette","ovat"],english:["am","are","is","are","are","are"],bengali:["আছি","আছো","আছে","আছি","আছেন","আছে"]},
+    {lemma:"asua",en:"to live",bn:"থাকা",forms:["asun","asut","asuu","asumme","asutte","asuvat"],english:["live","live","lives","live","live","live"],bengali:["থাকি","থাকো","থাকে","থাকি","থাকেন","থাকে"]},
+    {lemma:"puhua",en:"to speak",bn:"কথা বলা",forms:["puhun","puhut","puhuu","puhumme","puhutte","puhuvat"],english:["speak","speak","speaks","speak","speak","speak"],bengali:["কথা বলি","কথা বলো","কথা বলে","কথা বলি","কথা বলেন","কথা বলে"]},
+    {lemma:"opiskella",en:"to study",bn:"পড়াশোনা করা",forms:["opiskelen","opiskelet","opiskelee","opiskelemme","opiskelette","opiskelevat"],english:["study","study","studies","study","study","study"],bengali:["পড়াশোনা করি","পড়াশোনা করো","পড়াশোনা করে","পড়াশোনা করি","পড়াশোনা করেন","পড়াশোনা করে"]},
+    {lemma:"tehdä",en:"to do",bn:"করা",forms:["teen","teet","tekee","teemme","teette","tekevät"],english:["do","do","does","do","do","do"],bengali:["করি","করো","করে","করি","করেন","করে"]},
+    {lemma:"syödä",en:"to eat",bn:"খাওয়া",forms:["syön","syöt","syö","syömme","syötte","syövät"],english:["eat","eat","eats","eat","eat","eat"],bengali:["খাই","খাও","খায়","খাই","খান","খায়"]},
+    {lemma:"juoda",en:"to drink",bn:"পান করা",forms:["juon","juot","juo","juomme","juotte","juovat"],english:["drink","drink","drinks","drink","drink","drink"],bengali:["পান করি","পান করো","পান করে","পান করি","পান করেন","পান করে"]},
+    {lemma:"mennä",en:"to go",bn:"যাওয়া",forms:["menen","menet","menee","menemme","menette","menevät"],english:["go","go","goes","go","go","go"],bengali:["যাই","যাও","যায়","যাই","যান","যায়"]},
+    {lemma:"tulla",en:"to come",bn:"আসা",forms:["tulen","tulet","tulee","tulemme","tulette","tulevat"],english:["come","come","comes","come","come","come"],bengali:["আসি","আসো","আসে","আসি","আসেন","আসে"]},
+    {lemma:"käydä",en:"to visit / go somewhere",bn:"যাওয়া / ঘুরে আসা",forms:["käyn","käyt","käy","käymme","käytte","käyvät"],english:["visit / go","visit / go","visits / goes","visit / go","visit / go","visit / go"],bengali:["যাই / ঘুরে আসি","যাও / ঘুরে আসো","যায় / ঘুরে আসে","যাই / ঘুরে আসি","যান / ঘুরে আসেন","যায় / ঘুরে আসে"]},
+    {lemma:"haluta",en:"to want",bn:"চাওয়া",forms:["haluan","haluat","haluaa","haluamme","haluatte","haluavat"],english:["want","want","wants","want","want","want"],bengali:["চাই","চাও","চায়","চাই","চান","চায়"]},
+    {lemma:"voida",en:"to be able to",bn:"পারা",forms:["voin","voit","voi","voimme","voitte","voivat"],english:["can","can","can","can","can","can"],bengali:["পারি","পারো","পারে","পারি","পারেন","পারে"]},
+    {lemma:"nähdä",en:"to see",bn:"দেখা",forms:["näen","näet","näkee","näemme","näette","näkevät"],english:["see","see","sees","see","see","see"],bengali:["দেখি","দেখো","দেখে","দেখি","দেখেন","দেখে"]},
+    {lemma:"kirjoittaa",en:"to write",bn:"লেখা",forms:["kirjoitan","kirjoitat","kirjoittaa","kirjoitamme","kirjoitatte","kirjoittavat"],english:["write","write","writes","write","write","write"],bengali:["লিখি","লেখো","লেখে","লিখি","লেখেন","লেখে"]}
+  ];
+  const dictionaryVerbExamples=dictionaryVerbGroups.flatMap(group=>group.forms.map((form,index)=>({
+    lemma:group.lemma,form,kind:"verb",personLabel:dictionaryVerbPersons[index].fi+" · "+dictionaryVerbPersons[index].en,
+    case:"Present tense · "+dictionaryVerbPersons[index].fi+" ("+dictionaryVerbPersons[index].en+")",
+    gloss:dictionaryVerbPersons[index].en+" "+group.english[index],bn:dictionaryVerbPersons[index].bn+" "+group.bengali[index]
+  })));
+  const dictionaryGuidedExamples=dictionaryFormExamples.concat(dictionaryVerbExamples);
+  function dictionaryFormGroupCards(groups,examples,kind){
+    return groups.map(group=>'<section><h3 lang="fi">'+esc(group.lemma)+' <span>'+esc(group.en)+' · '+esc(group.bn)+'</span></h3><div>'+examples.filter(item=>item.lemma===group.lemma&&(kind?item.kind===kind:!item.kind)).map(item=>'<button type="button" data-dictionary-form="'+esc(item.form)+'"><span lang="fi">'+esc(item.form)+'</span><small>'+esc(item.personLabel||item.case.split(" · ")[0])+'</small></button>').join("")+'</div></section>').join("");
+  }
   function dictionaryFormExplorer(){
-    return '<details class="finland-form-explorer"><summary>Explore '+dictionaryFormExamples.length+' guided word forms</summary><p>Search an example to see its base word, case name and a short meaning. These examples cover four useful forms for '+dictionaryFormGroups.length+' everyday nouns. Finnish endings can change the word stem; this is a guided set, not an automatic analyzer.</p><div class="finland-form-groups">'+dictionaryFormGroups.map(group=>'<section><h3 lang="fi">'+esc(group.lemma)+' <span>'+esc(group.en)+' · '+esc(group.bn)+'</span></h3><div>'+dictionaryFormExamples.filter(item=>item.lemma===group.lemma).map(item=>'<button type="button" data-dictionary-form="'+esc(item.form)+'"><span lang="fi">'+esc(item.form)+'</span><small>'+esc(item.case.split(" · ")[0])+'</small></button>').join("")+'</div></section>').join("")+'</div><p class="finland-form-source">Kotus explains Finnish inflection types and consonant gradation, including stem changes such as <span lang="fi">kukka : kukan</span>. <a href="https://kotus.fi/sana/taivutuksen-merkitseminen/" target="_blank" rel="noreferrer">Read the Kotus guide ↗</a></p></details>';
+    return '<details class="finland-form-explorer"><summary>Explore '+dictionaryGuidedExamples.length+' guided word forms</summary><p>Search an example to see its base word, Finnish case or person, and English and Bangla meanings. This guide includes '+dictionaryFormExamples.length+' noun forms across '+dictionaryFormGroups.length+' nouns and '+dictionaryVerbExamples.length+' present-tense forms across '+dictionaryVerbGroups.length+' everyday verbs. Present-tense meaning depends on context and can describe a habit, an action now, or a future event.</p><h3 class="finland-form-section-title">Noun forms</h3><div class="finland-form-groups finland-form-groups--nouns">'+dictionaryFormGroupCards(dictionaryFormGroups,dictionaryFormExamples)+ '</div><h3 class="finland-form-section-title">Present-tense verbs · all six persons</h3><div class="finland-form-groups finland-form-groups--verbs">'+dictionaryFormGroupCards(dictionaryVerbGroups,dictionaryVerbExamples,"verb")+'</div><p class="finland-form-source">The noun examples follow <a href="https://kotus.fi/sana/taivutuksen-merkitseminen/" target="_blank" rel="noreferrer">Kotus guidance on Finnish inflection ↗</a>. Verb forms are checked against <a href="https://openlearning.aalto.fi/mod/book/tool/print/index.php?id=10299" target="_blank" rel="noreferrer">Aalto OpenLearning’s Finnish verb grammar ↗</a> (CC BY 4.0). These curated examples support lookup; they are not a complete morphology analyzer.</p></details>';
   }
   function findDictionaryForm(needle){
-    const example=dictionaryFormExamples.find(item=>dictionaryFold(item.form)===needle);
+    const example=dictionaryGuidedExamples.find(item=>dictionaryFold(item.form)===needle);
     if(!example)return null;
     const base=dailyVocabulary(false).find(word=>dictionaryFold(word.fi)===dictionaryFold(example.lemma));
-    const group=dictionaryFormGroups.find(item=>item.lemma===example.lemma);
-    return {...(base||{fi:example.lemma,en:group?.en||"",bn:group?.bn||""}),displayFi:example.form,formCase:example.case,formGloss:example.gloss,formBangla:example.bn,source:"guided-form",level:"Guided form",topic:"Finnish word forms"};
+    const group=(example.kind==="verb"?dictionaryVerbGroups:dictionaryFormGroups).find(item=>item.lemma===example.lemma);
+    return {...(base||{fi:example.lemma,en:group?.en||"",bn:group?.bn||""}),displayFi:example.form,formCase:example.case,formGloss:example.gloss,formBangla:example.bn,source:"guided-form",level:"Guided form",topic:example.kind==="verb"?"Finnish verb forms":"Finnish word forms"};
   }
   function dictionaryItems(query="",pageIndex=0){
     const needle=dictionaryFold(query.trim());
@@ -528,7 +561,7 @@
       '<div class="finland-dictionary-tools"><input class="finland-dictionary-search" id="finland-dictionary-search" type="search" placeholder="Search järvi or jarvi / English / বাংলা" autocomplete="off" aria-label="Search Finnish dictionary; Finnish ä, ö, and å can be typed as a, o, and a"><span class="finland-word-level" id="finland-dictionary-count"></span></div>'+dictionaryFormExplorer()+
       '<section class="finland-dictionary-results" id="finland-dictionary-results" aria-live="polite">'+dictionaryCards("")+'</section><button class="button-secondary" id="finland-dictionary-more" type="button" data-dictionary-more hidden>Show more matches</button>'+
       '<div class="finland-dictionary-load"><div><strong>Wider Finnish–English dictionary</strong><br>254,435 source headwords · approximately 11.6 MiB compressed · downloaded only when you choose it, then saved on this device for offline search when storage allows. The source reports a translation for 82.78% of entries; other entries may be English definitions. Bangla meanings remain in the curated learner list above.</div><button id="finland-load-full-dictionary" type="button">Load wider dictionary</button></div><p class="finland-dictionary-status" id="finland-dictionary-status" role="status" aria-live="polite">Your search and learning progress stay in this browser. The wider open dataset downloads only if you choose it.</p>'+
-      '<div class="finland-dictionary-source">The wider dictionary is an open Finnish–English compilation from FinnWordNet / Open Multilingual Wordnet, Princeton WordNet 3.0 and English Wiktionary via kaikki.org. Search supports exact headwords, plus the 16 guided Finnish forms above; it is not a full inflection analyzer. Source notices and licence are included in <a href="data/fi-en-ATTRIBUTION.txt" target="_blank" rel="noreferrer">Kielo’s attribution file ↗</a>. <a href="https://danielgregorini.github.io/koreader-dicts/fr/fi-en/" target="_blank" rel="noreferrer">Dataset coverage and licence ↗</a> · Kotus’ word list is not a complete list of every Finnish word.</div>'+
+      '<div class="finland-dictionary-source">The wider dictionary is an open Finnish–English compilation from FinnWordNet / Open Multilingual Wordnet, Princeton WordNet 3.0 and English Wiktionary via kaikki.org. Search supports exact headwords and '+dictionaryGuidedExamples.length+' guided noun and verb forms above; this is not a full inflection analyzer. Source notices and licence are included in <a href="data/fi-en-ATTRIBUTION.txt" target="_blank" rel="noreferrer">Kielo’s attribution file ↗</a>. <a href="https://danielgregorini.github.io/koreader-dicts/fr/fi-en/" target="_blank" rel="noreferrer">Dataset coverage and licence ↗</a> · Kotus’ word list is not a complete list of every Finnish word.</div>'+
       '<div class="finland-page-footer"><p>Finnish audio uses a free on-device female or male voice, or an installed browser voice.</p><button class="button-primary" type="button" data-redesign-page="daily">Study today’s 100 words →</button></div>';
     setActiveCustomPage("dictionary");
     if(fullDictionaryEntries)showDictionaryReady(fullDictionaryEntries,fullDictionarySavedOffline);

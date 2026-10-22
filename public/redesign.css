@@ -106,6 +106,9 @@
 .finland-form-groups button:focus-visible{outline:2px solid #315f52;outline-offset:2px}
 .finland-form-groups button span{color:#315f52;font-size:9px;font-weight:750}
 .finland-form-groups button small{color:#8a978e;font-size:7px}
+.finland-form-section-title{margin:11px 0 6px;color:#36594b;font-size:10px;font-weight:800}
+.finland-form-groups--verbs button{min-width:78px;flex:1}
+.finland-form-groups--verbs button small{line-height:1.25}
 .finland-form-source a{color:#316d59}
 .finland-word-form-hint{display:grid;gap:2px;margin:7px 0;padding:7px 8px;border-radius:8px;background:#f2f6f1;color:#587565;font-size:9px}
 .finland-word-form-hint strong{font-size:8px;color:#6d8174}

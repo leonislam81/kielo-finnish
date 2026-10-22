@@ -24,3 +24,11 @@ The dictionary contains both translations and English-only definitions. An Engli
 The Daily 100 picker uses the frequency list to draw a different date-seeded set from 9,910 exact headword matches. The frequency counts come from Finnish Yle news archives from 2011–2024; they are not a universal ranking of everyday speech.
 
 Kielo’s word list and study activities are original learner materials; they do not reproduce the full upstream datasets in their original format.
+
+## Guided Finnish inflection examples
+
+Kielo's curated learner guide contains noun examples and 14 present-tense verb tables. Verb forms are checked against Aalto OpenLearning's Finnish grammar, which describes the five main verb types, personal endings, and context-dependent present tense. The Aalto course content is available under CC BY 4.0; the app links to the source. The noun examples are a selected practice set informed by Kotus guidance on Finnish inflection. These tables are not a complete morphological dictionary or analyzer.
+
+- Aalto OpenLearning — Finnish verb grammar: <https://openlearning.aalto.fi/mod/book/tool/print/index.php?id=10299>
+- Aalto OpenLearning course content licence: <https://creativecommons.org/licenses/by/4.0/>
+- Kotus — marking and explaining inflection: <https://kotus.fi/sana/taivutuksen-merkitseminen/>
