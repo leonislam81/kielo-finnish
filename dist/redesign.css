@@ -1,0 +1,113 @@
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.finland-status-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:12px;margin:0 0 22px}
+.finland-status-card{background:#fff;border:1px solid var(--line,#e4eae4);border-radius:16px;padding:14px 16px;min-width:0}
+.finland-status-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.finland-status-label{display:flex;align-items:center;gap:8px;color:#788880;font-size:9px;letter-spacing:1px;font-weight:800;text-transform:uppercase}
+.finland-status-label .status-icon{font-size:16px}
+.finland-live{display:inline-flex;align-items:center;gap:5px;color:#668c70;font-size:8px;font-weight:700;letter-spacing:.4px}
+.finland-live:before{content:"";width:6px;height:6px;background:#6ba278;border-radius:100%}
+.finland-clock-line{display:flex;align-items:baseline;gap:9px;margin-top:5px}
+.finland-clock{font:750 28px/1 var(--heading,Inter,sans-serif);letter-spacing:-1px;color:#19362e}
+.finland-timezone{font-size:9px;color:#829087}
+.finland-clock-date{font-size:9px;color:#829087;margin-top:5px}
+.finland-weather-main{display:flex;align-items:center;gap:10px;margin-top:4px}
+.finland-weather-icon{font-size:26px}
+.finland-temperature{font:750 23px/1.1 var(--heading,Inter,sans-serif);letter-spacing:-.7px;color:#19362e}
+.finland-weather-copy{font-size:9px;color:#6e8077;margin-top:3px}
+.finland-weather-facts{margin-left:auto;text-align:right;font-size:9px;line-height:1.7;color:#809087;white-space:nowrap}
+.finland-weather-tools{display:flex;align-items:center;gap:6px}
+.finland-city-select{max-width:135px;border:1px solid #e4ebe4;background:#fbfcfa;color:#52655c;border-radius:8px;padding:6px 8px;font:600 9px inherit}
+.finland-refresh{border:1px solid #e5ebe5;background:#fff;border-radius:8px;width:28px;height:28px;color:#547b67;cursor:pointer}
+.finland-weather-credit{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #eef1ed;padding-top:7px;margin-top:8px;color:#98a39c;font-size:8px}
+.finland-weather-credit a{color:#638474;text-decoration:none}
+.finland-weather-credit a:hover{text-decoration:underline}
+.finland-daily-promo{background:#fff;border:1px solid var(--line,#e4eae4);border-radius:15px;padding:14px 17px;margin:13px 0 22px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.finland-daily-promo h2{font:700 14px var(--heading,Inter,sans-serif);margin:3px 0}
+.finland-daily-promo p{font-size:9px;color:#7e8d85;margin:0}
+.finland-daily-promo .daily-pips{display:flex;gap:4px;margin-top:8px}
+.finland-daily-promo .daily-pips i{height:5px;width:18px;border-radius:5px;background:#e9eeea}
+.finland-daily-promo .daily-pips i:first-child{background:#709b78}
+.finland-daily-progress{text-align:right;color:#1c6553;font-weight:800;font-size:19px}
+.finland-daily-progress small{font-size:9px;color:#8d9992;font-weight:500}
+.finland-daily-open{border:0;background:none;padding:3px 0;color:#1c6553;font-size:9px;font-weight:750;cursor:pointer}
+.finland-custom-page .page-title-row{margin-bottom:16px}
+.finland-daily-overview{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:17px;background:#e8f0e8;border-radius:16px;margin-bottom:14px}
+.finland-daily-overview h2{font:700 16px var(--heading,Inter,sans-serif);margin:0 0 4px}
+.finland-daily-overview p{font-size:10px;color:#718178;margin:0}
+.finland-daily-counter{text-align:right;font-weight:800;font-size:21px;color:#1c6553}
+.finland-daily-counter small{font-size:10px;font-weight:500;color:#809087}
+.finland-groups{display:grid;grid-template-columns:repeat(10,minmax(28px,1fr));gap:5px;margin:14px 0}
+.finland-group-button{border:1px solid #e2e9e2;background:white;border-radius:8px;padding:7px 3px;color:#7d8b83;font-size:9px;cursor:pointer}
+.finland-group-button.active{background:#1c6553;border-color:#1c6553;color:#fff}
+.finland-group-button.done{background:#e6f1e7;border-color:#d7e7d8;color:#497b55}
+.finland-word-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.finland-word-card{border:1px solid #e3eae3;background:white;border-radius:13px;padding:12px 13px;min-width:0}
+.finland-word-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.finland-word-card h3{font:700 17px var(--heading,Inter,sans-serif);margin:0;letter-spacing:-.3px}
+.finland-word-level{color:#839188;font-size:8px;white-space:nowrap}
+.finland-word-translation{font-size:10px;color:#50645a;margin:3px 0}
+.finland-word-bn{font-size:9px;color:#74847b;margin:0}
+.finland-word-actions{display:flex;justify-content:space-between;align-items:center;margin-top:9px}
+.finland-word-actions button{border:1px solid #e4ebe4;background:#fbfcfa;border-radius:8px;padding:6px 9px;color:#557961;font-size:9px;cursor:pointer}
+.finland-word-actions button.learned{background:#e8f2e8;border-color:#d8e7d8;color:#44764e}
+.finland-page-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:13px 0}
+.finland-page-footer p{font-size:9px;color:#829087}
+.finland-voice-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin:13px 0;padding:12px;background:#fff;border:1px solid #e4eae4;border-radius:12px}
+.finland-voice-tools label{display:grid;gap:4px;color:#73837a;font-size:8px;font-weight:700}
+.finland-voice-tools select{min-width:150px;border:1px solid #e1e8e1;background:#fbfcfa;border-radius:8px;padding:7px;color:#40584d;font-size:9px}
+.finland-meaning-tools{display:flex;align-items:center;gap:12px;margin:12px 0;padding:10px 12px;background:#fff;border:1px solid #e4eae4;border-radius:12px}
+.finland-meaning-tools label{display:grid;gap:4px;color:#73837a;font-size:9px;font-weight:700}
+.finland-meaning-tools select{min-width:210px;border:1px solid #e1e8e1;background:#fbfcfa;border-radius:8px;padding:7px;color:#40584d;font-size:10px}
+.finland-meaning-tools span{font-size:9px;color:#819087}
+.finland-voice-note{font-size:8px;color:#8b9890;margin:0 0 12px}
+.finland-dictionary-tools{display:flex;gap:9px;align-items:center;margin:14px 0}
+.finland-dictionary-search{flex:1;min-width:170px;border:1px solid #dfe7df;background:white;border-radius:11px;padding:10px 12px;font-size:11px}
+.finland-dictionary-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.finland-dictionary-note{background:#f1f5ef;border-radius:13px;padding:12px 14px;margin:12px 0;color:#728078;font-size:9px;line-height:1.6}
+.finland-dictionary-note a{color:#316d59}
+.finland-dictionary-empty{grid-column:1/-1;text-align:center;padding:26px;color:#7e8c84;font-size:11px}
+.finland-definition-details{margin:5px 0;color:#638074;font-size:9px}
+.finland-definition-details summary{cursor:pointer;font-weight:700}
+.finland-definition-details p{margin:6px 0;color:#5e7067;line-height:1.55}
+.finland-chapters{margin:22px 0}
+.finland-chapters-intro{margin-bottom:12px}
+.finland-chapters-intro h2{font:700 18px var(--heading,Inter,sans-serif);margin:0}
+.finland-chapters-intro p{font-size:10px;color:#819087;margin:4px 0 0}
+.finland-chapter-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.finland-chapter{display:flex;flex-direction:column;border:1px solid #e3eae3;border-radius:14px;background:#fff;padding:12px;text-decoration:none;color:inherit;min-height:120px;transition:transform .15s,box-shadow .15s}
+.finland-chapter{align-items:stretch}
+.finland-chapter:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(29,57,49,.07)}
+.finland-chapter-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:9px}
+.finland-chapter-actions button,.finland-chapter-actions a{border:0;background:none;padding:0;color:#316d59;font:inherit;font-size:9px;font-weight:700;text-decoration:none;cursor:pointer}
+.finland-chapter-actions button:hover,.finland-chapter-actions a:hover{text-decoration:underline}
+.finland-topic-panel{background:#fff;border:1px solid var(--line,#e4eae4);border-radius:17px;padding:18px;margin:10px 0 16px}
+.finland-topic-panel h2{font:700 18px var(--heading,Inter,sans-serif);margin:0 0 6px;color:#19362e}
+.finland-topic-panel>p{font-size:11px;line-height:1.65;color:#64766d;max-width:760px}
+.finland-topic-vocab{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}
+.finland-topic-word{padding:11px;border:1px solid #e5ebe5;border-radius:12px;background:#fbfcfa}
+.finland-topic-word strong{display:block;font-size:15px;color:#19362e}
+.finland-topic-word span,.finland-topic-word small{display:block;margin-top:3px;color:#6d7d74;font-size:10px}
+.finland-topic-word button{margin-top:8px;border:1px solid #e3eae3;border-radius:8px;background:white;padding:5px 8px;color:#547961;font-size:9px;cursor:pointer}
+.finland-topic-phrase{padding:13px;border-radius:12px;background:#edf4ec;margin:12px 0}
+.finland-topic-phrase strong{display:block;font-size:14px;color:#1c6553}
+.finland-topic-phrase span,.finland-topic-phrase small{display:block;margin-top:4px;color:#64766d;font-size:10px}
+.finland-topic-quiz{padding:13px;border:1px solid #e5ebe5;border-radius:12px;margin:12px 0}
+.finland-topic-quiz h3{font-size:12px;margin:0 0 8px}
+.finland-topic-quiz button{margin:3px 5px 3px 0;border:1px solid #e2e8e2;background:#fff;border-radius:8px;padding:7px 10px;color:#456457;font-size:10px;cursor:pointer}
+.finland-topic-quiz button.correct{background:#e9f4e8;border-color:#c8dec8}.finland-topic-quiz button.incorrect{background:#fff2ed;border-color:#f0d5cb}
+.finland-topic-feedback{min-height:16px;color:#698174;font-size:10px;margin:5px 0}
+.finland-topic-source{color:#316d59;font-size:10px;font-weight:700}
+.finland-dictionary-load{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid #dde8dd;border-radius:12px;background:#f4f7f2;margin:12px 0;color:#66786e;font-size:10px}
+.finland-dictionary-load button{flex:none;border:0;background:#1c6553;color:white;border-radius:9px;padding:9px 12px;font-size:10px;font-weight:750;cursor:pointer}
+.finland-dictionary-load button:disabled{opacity:.65;cursor:wait}
+.finland-dictionary-status{min-height:16px;color:#6c8075;font-size:10px;margin:5px 0}
+.finland-dictionary-source{font-size:9px;color:#7c8982;line-height:1.6;margin-top:10px}
+.finland-chapter-icon{font-size:19px}
+.finland-chapter h3{font:700 11px var(--heading,Inter,sans-serif);margin:5px 0 3px}
+.finland-chapter p{font-size:8.5px;line-height:1.45;color:#809087;margin:0}
+.finland-chapter-foot{display:flex;justify-content:space-between;align-items:center;gap:5px;margin-top:auto;padding-top:7px;color:#658274;font-size:8px}
+.finland-chapter-words{font-style:italic}
+.finland-data-note{font-size:8px;color:#94a098;margin-top:10px}
+@media(max-width:920px){.finland-chapter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-dictionary-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.finland-status-grid{grid-template-columns:1fr;gap:8px;margin-bottom:16px}.finland-clock{font-size:26px}.finland-daily-promo{padding:12px;gap:7px}.finland-daily-overview{grid-template-columns:1fr auto}.finland-word-grid{grid-template-columns:1fr}.finland-dictionary-results{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-chapter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-groups{grid-template-columns:repeat(5,1fr)}.finland-voice-tools select{min-width:125px}.finland-topic-vocab{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-dictionary-load{align-items:flex-start;flex-direction:column}.finland-meaning-tools{align-items:flex-start;flex-direction:column}}
+@media(max-width:390px){.finland-dictionary-results,.finland-chapter-grid{grid-template-columns:1fr}.finland-status-head{align-items:flex-start}.finland-weather-credit{font-size:7px}.finland-city-select{max-width:118px}.finland-chapter{min-height:105px}}

@@ -17,7 +17,7 @@
   function updateConnection(){
     const offline=!navigator.onLine;
     document.documentElement.classList.toggle("is-offline",offline);
-    if(connectionLabel)connectionLabel.textContent=offline?"Offline · lessons available":offlineReady?"Lessons ready offline":"Learning from everywhere";
+    if(connectionLabel)connectionLabel.textContent=offline?"Offline · Finland time available":offlineReady?"Lessons ready offline":"Finland · Europe/Helsinki";
   }
   updateConnection();
   window.addEventListener("online",updateConnection);

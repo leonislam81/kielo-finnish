@@ -25,11 +25,14 @@
     <link rel="stylesheet" href="pwa.css?v=1" />
     <link rel="stylesheet" href="backup.css?v=1" />
     <link rel="stylesheet" href="rhythm.css?v=7" />
+    <link rel="stylesheet" href="redesign.css?v=4" />
     <link rel="stylesheet" href="finnish-keys.css?v=2" />
     <script src="curriculum.js" defer></script>
     <script src="advanced-vocabulary.js" defer></script>
+    <script src="daily-vocabulary.js?v=1" defer></script>
     <script src="pwa.js?v=1" defer></script>
-    <script src="app.js?v=69" defer></script>
+    <script src="app.js?v=71" defer></script>
+    <script src="redesign.js?v=5" defer></script>
   </head>
   <body>
     <div class="app-shell">
@@ -39,22 +42,29 @@
           <span><strong>Kielo</strong><small>Learn Finnish, gently</small></span>
         </a>
 
-        <div class="sidebar-caption">YOUR SPACE</div>
-        <nav class="primary-nav" aria-label="Main navigation">
+        <div class="sidebar-caption">LEARN FINNISH</div>
+        <nav class="primary-nav" aria-label="Finnish learning">
           <button class="nav-link active" data-page="home"><span class="nav-icon">⌂</span><span>Home</span></button>
           <button class="nav-link" data-page="path"><span class="nav-icon">↗</span><span>Learning path</span></button>
-          <button class="nav-link" data-page="sounds"><span class="nav-icon">♫</span><span>Sound lab</span></button>
+          <button class="nav-link" data-redesign-page="daily"><span class="nav-icon">◉</span><span>Daily 100</span></button>
+          <button class="nav-link" data-redesign-page="dictionary"><span class="nav-icon">⌕</span><span>Dictionary</span></button>
+          <button class="nav-link" data-page="practice"><span class="nav-icon">✳</span><span>Practice</span><span class="nav-count" id="word-count">0</span></button>
+        </nav>
+        <div class="sidebar-caption">SKILL LABS</div>
+        <nav class="primary-nav" aria-label="Finnish skill labs">
+          <button class="nav-link" data-page="sounds"><span class="nav-icon">♫</span><span>Pronunciation</span></button>
           <button class="nav-link" data-page="listening"><span class="nav-icon">◖</span><span>Listening</span></button>
           <button class="nav-link" data-page="spoken"><span class="nav-icon">〝</span><span>Spoken Finnish</span></button>
           <button class="nav-link" data-page="speaking"><span class="nav-icon">◉</span><span>Speaking</span></button>
           <button class="nav-link" data-page="reading"><span class="nav-icon">▤</span><span>Reading</span></button>
           <button class="nav-link" data-page="writing"><span class="nav-icon">✎</span><span>Writing</span></button>
           <button class="nav-link" data-page="grammar"><span class="nav-icon">⌘</span><span>Grammar lab</span></button>
-          <button class="nav-link" data-page="practice"><span class="nav-icon">✳</span><span>Practice</span><span class="nav-count" id="word-count">0</span></button>
           <button class="nav-link" data-page="cafe"><span class="nav-icon">☕</span><span>Conversation</span></button>
-          <button class="nav-link" data-page="culture"><span class="nav-icon">◌</span><span>Finland & media</span></button>
         </nav>
-
+        <div class="sidebar-caption">FINLAND</div>
+        <nav class="primary-nav" aria-label="Explore Finland">
+          <button class="nav-link" data-page="culture"><span class="nav-icon">⌖</span><span>Finland Explorer</span></button>
+        </nav>
         <div class="sidebar-card">
           <span class="sidebar-card-icon">✿</span>
           <p class="eyebrow">A little, often</p>
@@ -68,7 +78,7 @@
       <div class="app-main">
         <header class="topbar">
           <button class="mobile-menu" id="mobile-menu" aria-label="Open navigation">☰</button>
-          <div class="topbar-context"><span class="weather-dot" aria-hidden="true"></span><span id="connection-label" role="status" aria-live="polite">Learning from everywhere</span></div>
+          <div class="topbar-context"><span class="weather-dot" aria-hidden="true"></span><span id="connection-label" role="status" aria-live="polite">Finland · Europe/Helsinki</span></div>
           <div class="topbar-actions">
             <button id="install-app" class="pwa-install-button" type="button" aria-label="Install Kielo"><span aria-hidden="true">↓</span><span class="install-label">Install app</span></button>
             <div class="help-language"><span>Lesson help</span><button id="language-toggle" class="language-toggle" aria-label="Change lesson help language"><span data-lang-label="en">EN</span><span class="language-divider">/</span><span data-lang-label="bn">বাংলা</span></button></div>

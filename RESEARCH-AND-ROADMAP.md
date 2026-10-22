@@ -193,3 +193,72 @@ The home dashboard now sends learners directly to a spaced-review session when s
 ## Finnish word of the day
 
 The home page selects one existing Pre-A1 or A1 course word for each local calendar day. The stable daily rotation uses beginner words that appear in their lesson phrase, pairs each word and sentence with English and Bangla meanings and the lesson’s Finland scene, and offers normal-speed word audio plus normal and slower playback for the example sentence. The meanings start hidden for an optional active-recall pause and are revealed on demand in English and Bangla. A learner can speak the word before listening and mark the self-check complete; the practice is self-reported, uses no microphone, and is not stored. They can also add or remove the word from the existing local spaced-review shelf; the recall state is temporary and no additional learner data is stored.
+
+## Kielo A–Z redesign plan (2026-10-22)
+
+### Product promise
+
+Make Finnish useful by teaching it through everyday life in Finland. Keep the interface in English, offer English and Bangla learning support, and connect each language unit to a real place, institution, season, or activity. The learning path runs from Pre-A1 to C2 and develops listening, speaking, reading, writing, grammar, vocabulary, and cultural understanding together.
+
+### Information architecture
+
+1. **Home** — Finnish local time and date first; current weather and city selector beside it; today's 100-word study plan; continue course; review due words; progress; one Finland fact or scene.
+2. **Learn Finnish** — Pre-A1–C2 sequence; four skills; pronunciation and grammar; themed lessons; dialogues; daily review; saved vocabulary.
+3. **Daily 100** — a dated, deterministic set of 100 distinct words; ten short groups of ten; beginner-to-advanced level labels; Finnish audio, English meaning, Bangla support where curated, examples when available, save/review, session progress, and download/print later. The set changes on the Finnish calendar date. Do not present a word-list lemma as a translation or a definition.
+4. **Dictionary** — Finnish-to-English lookup and English-to-Finnish lookup over licensed open lexical data; search Finnish inflected forms when the source corpus supports them; show source, part of speech, and inflection notes when available; mark unreviewed machine-derived or community definitions clearly; retain curated English/Bangla learner entries as a higher-confidence layer. Link to Kotus for authoritative usage guidance. The app will say "open learner dictionary" and disclose corpus coverage; no finite list is described as every Finnish word.
+5. **Explore Finland** — connected language-and-place chapters: Finnish history; regions and geography; people, languages and society; government and public services; seasons, climate and weather; forests and wildlife; lakes, Baltic Sea and archipelago; transport and road safety; universities and study; jobs and work life; food, markets and daily shopping; cities, landmarks and travel; sauna, holidays and media. Each chapter combines a short factual overview, vocabulary, useful phrases, an image or licensed/official media link, and a source/last-checked date.
+6. **Practice** — spaced repetition; picture and listening activities; phrase building; conversation role-play; writing and reading labs; progress and export.
+
+### Home mockup and layout direction
+
+The first viewport is a compact Finland status strip: **Helsinki local time/date**, city selector, current temperature/condition, feels-like/wind, updated time, refresh and data attribution. Below it: a calm Finnish landscape hero; the Daily 100 card (0/100 with ten small session groups); a clear Continue learning button; and a three-column Explorer preview. On mobile, time and weather stack before the lesson card. The status strip remains first in reading order; the city is an explicit preference, and location is never requested automatically.
+
+### Research decisions and data rules
+
+- Course progression continues to use OPH/YKI and Council of Europe CEFR guidance; lessons remain original practice, not official examination material.
+- Use the Nykysuomen sanalista as a licensed Finnish headword and inflection resource, not as a source of English/Bangla definitions. It has over 100,000 entries, is not exhaustive or normative, is updated periodically, and is CC BY 4.0.
+- For a broad Finnish–English lookup, evaluate an openly licensed compiled corpus based on FinnWordNet and Wiktionary. Preserve its included attribution, CC BY-SA terms, source/version date, and modification notice. Search coverage and definitions vary; Kotus remains the usage authority. Add Bangla translations and learner examples as original editorial content, not as if Kotus supplied them.
+- Finnish civil and population facts are dated and link to Statistics Finland and official Finland sources. Weather is transient and can fail independently of learning content.
+- Use `Europe/Helsinki` for time and the same zone for date-based daily sets. Weather starts at Helsinki and offers a hand-picked Finnish city selector; no browser geolocation prompt. Show attribution and a human-readable last-updated state; refresh on an interval, with a manual refresh and cached last result. If the request fails, keep the clock/course working and show the last weather update or an unavailable state.
+- Open-Meteo's free API is restricted to non-commercial use and requires CC BY 4.0 attribution. The public Pages/Sites build is treated as a non-commercial educational project for this iteration. If the site is monetized, change to an appropriately licensed commercial endpoint before that use.
+- Browser speech voices are supplied by the user's browser/device and vary by installation. The Web Speech voice interface exposes a voice name and language but no reliable gender field. Offer a Finnish voice picker and comfortable pace/pitch controls; offer male/female labels only where a provider actually documents them. Natural neural male/female recordings require a licensed voice provider and its credentials, so that is a later integration decision, not a promise that device speech can always meet.
+- Use official/rights-cleared images and video links. Link to Yle and official institutions instead of copying or rehosting their media.
+- Account-free progress stays in local storage. Weather city, course progress, saved words, and activity history remain on that device. Any future account/cloud sync requires a separate privacy design.
+
+### Delivery phases
+
+**Phase 0 — Research, plan, mockup (this iteration):** update this document, create a responsive visual mockup, and review it in the browser before changing the live product.
+
+**Phase 1 — Foundation:** reorganize navigation; add the Helsinki clock/date and live weather panel; make city selection, loading/error/offline states, accessibility and attribution work; give Explore Finland its own chapter directory.
+
+**Phase 2 — Words and speech:** build the date-rotating 100-word experience in ten sets; add the broader searchable Finnish–English corpus and source/credit page; polish Finnish audio selection, pace, and voice availability messaging; keep Bangla support in curated learning content.
+
+**Phase 3 — Finland atlas:** write and source original chapters for history, geography, people, state/services, seasons, nature, water/sea, transport, study, work, markets, cities and culture. Add dated facts, pictures, maps and licensed/official media. Connect every chapter to vocabulary and a short language task.
+
+**Phase 4 — Advanced product:** add user-selectable daily goals, saved learning lists, review reminders, offline dictionary packs, stronger accessibility, shareable progress/exports, and (only with a deliberate provider choice) natural recorded voices and accounts/sync.
+
+**Phase 5 — Review and delivery:** visually inspect desktop and mobile, verify the important flows and data/error states, update documentation/credits, publish the public Sites version and GitHub Pages build, and share both links.
+
+### Research sources
+
+- [Finnish National Agency for Education — Education system](https://www.oph.fi/en/education-system)
+- [Council of Europe — CEFR Companion Volume](https://www.coe.int/en/web/common-european-framework-reference-languages)
+- [Statistics Finland — Population statistics](https://stat.fi/en/statistics/pop)
+- [Finland Toolbox — Facts about Finland](https://toolbox.finland.fi/life-society/finfo-facts-about-finland-2/)
+- [Kotus — Nykysuomen sanalista, scope, download and CC BY 4.0](https://kotus.fi/sanakirjat/kielitoimiston-sanakirja/nykysuomen-sana-aineistot/nykysuomen-sanalista/)
+- [Open Finnish–English dictionary dataset — coverage, components and CC BY-SA 4.0 notices](https://danielgregorini.github.io/koreader-dicts/fr/fi-en/)
+- [Finnish Meteorological Institute — seasons in Finland](https://en.ilmatieteenlaitos.fi/seasons-in-finland)
+- [Open-Meteo Forecast API documentation](https://open-meteo.com/en/docs)
+- [Open-Meteo use terms](https://open-meteo.com/en/terms) and [commercial plans](https://open-meteo.com/en/pricing)
+- [Web Speech API specification](https://dvcs.w3.org/hg/speech-api/raw-file/tip/webspeechapi)
+- [Finnish Government education agency — study portal](https://studyinfo.fi/)
+- [Work in Finland — international talent and jobs](https://www.workinfinland.com/en/)
+- [Traficom — digital transport data and access points](https://traficom.fi/en/transport-system/transport-system-data-services-and-interface-information/digital-data-services-transport-system)
+- [Natural Resources Institute Finland (Luke)](https://www.luke.fi/en/)
+- [Yle — Finnish learning resources](https://yle.fi/aihe/oppiminen)
+
+### Implementation note — daily vocabulary language support
+
+The research, responsive mockup, and first live implementation are in place. The homepage surfaces a Europe/Helsinki clock plus a manually selected city’s Open-Meteo weather. Daily 100 uses Finland’s date and ten sets of ten. English mode draws from 9,910 exact Finnish headword matches in Yle’s CC BY 4.0 top-10,000 frequency list plus course vocabulary, for a 9,930-word pool. Bangla mode selects 100 words each day from a separate pool of 273 curated words with both English and Bangla meanings; progress is stored separately for each language. The frequency figures describe a Finnish news corpus, not a universal spoken-word ranking. The full Finnish–English source dataset is an optional compressed browser download; attribution and licence notices are preserved in `dist/data/`. It is not a complete Finnish dictionary, does not provide inflection lookup in this compact version, and has no Bangla translations. Twelve Finland chapters include original bilingual-support vocabulary, a phrase and a short check, with official reading links.
+
+The existing device speech engine remains the no-account option. It can select among installed `fi` voices but browser APIs do not give dependable gender labels; the current environment has no listed Finnish voice. A genuine male/female neural voice feature needs a licensed provider and credentials, so the interface identifies that limitation instead of presenting device speech as a studio voice. A later phase can add that provider after choosing its licence, price and privacy terms.

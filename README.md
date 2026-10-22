@@ -57,3 +57,17 @@ In conversation practice, learners can either choose a response or write a Finni
 
 
 Open-response scenes now include optional contextual word hints in English or Bangla. Learners can use them to build a reply before revealing the example; hints and typed answers remain temporary.
+
+## Finland A–Z and daily vocabulary
+
+The home page places a Europe/Helsinki clock and current weather at the top. Weather is fetched for the learner’s selected Finnish city, refreshed periodically, and attributed to Open-Meteo. The free API is for non-commercial use under CC BY 4.0; a commercial or ad-supported version would need a paid commercial licence. Weather can be temporarily unavailable without interrupting the lessons.
+
+Daily 100 is date-seeded to Finland’s local date and divided into ten sets. English mode uses a pool of 9,930 Finnish words: 9,910 headwords matched between a Yle News Archive frequency list (2011–2024) and the Finnish–English dictionary, plus curated course words. The frequency figures describe a news corpus, not a universal ranking of spoken Finnish. Bangla mode uses a separate curated pool of 273 words with Bangla and English meanings, so it still provides 100 words each day without guessing translations from the English-only corpus. The daily set and learning progress are kept separately by language.
+
+The Dictionary starts with 273 curated course and learner entries, searchable in Finnish, English, and Bangla. Learners can choose to load a wider 254,435-entry Finnish–English headword dictionary (about 11.6 MiB compressed). Its source reports translations for 82.78% of entries; some remaining entries are English definitions rather than direct translations, and the compact file does not include inflected-form lookup. The wider dataset is downloaded only on request and carries its own licence and attribution notes in [dist/data/ATTRIBUTION.md](dist/data/ATTRIBUTION.md). No single finite word list is described as every Finnish word.
+
+Finland Explorer has twelve short bilingual-support learning chapters: history, public services, people and languages, climate, forests, sea and lakes, transport, education, work, markets, places, and sauna/culture. Each adds Finnish vocabulary, a sentence, audio controls and a quick meaning check, then links to a source for further reading.
+
+Finnish speech uses voices installed in the learner’s browser/device. The browser reports voice names and languages but does not provide reliable male/female labels. The app explains when this device has no Finnish voice and links to Yle’s authentic learning clips. Natural recorded male/female voices require a documented, licensed speech provider; they are not claimed as a capability of device speech synthesis.
+
+The research plan and responsive mockup are in [RESEARCH-AND-ROADMAP.md](RESEARCH-AND-ROADMAP.md) and [docs/redesign-mockup.html](docs/redesign-mockup.html).
