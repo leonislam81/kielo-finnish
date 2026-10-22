@@ -408,9 +408,15 @@
     if(fullDictionaryEntries)showDictionaryReady(fullDictionaryEntries,fullDictionarySavedOffline);
     updateDictionaryResults("");
   }
+  function renderVoiceSettings(){
+    const page=document.getElementById("page-content");if(!page)return;
+    page.innerHTML=customPageTitle("Voice & audio","Choose how Finnish sounds during lessons, role-plays, word practice and listening previews.","Your Finnish voice studio")+
+      '<section class="finland-voice-studio"><div class="finland-voice-studio-hero"><div class="finland-voice-studio-copy"><span class="finland-voice-studio-kicker">LISTEN · REPEAT · FIND YOUR PACE</span><h2>Make every Finnish phrase easier to hear.</h2><p>Your choices apply throughout Kielo on this device. Pick a Finnish voice when your browser offers one, set a comfortable pace, then preview a phrase before returning to a lesson.</p><div class="finland-voice-studio-links"><button class="button-primary" type="button" data-page="sounds">Open pronunciation lab →</button><button class="button-secondary" type="button" data-redesign-page="daily">Practice today’s words →</button></div></div><div class="finland-voice-studio-art" aria-hidden="true"><span class="finland-voice-art-label">SUOMI · ÄÄNTEET</span><div class="finland-voice-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><b>ää öy</b><small>Listen for long and short sounds</small></div></div><div class="finland-voice-settings-card"><div class="finland-voice-settings-heading"><div><span class="page-kicker">VOICE SETTINGS</span><h3>Choose a voice and pace</h3><p>Preview text uses Finnish with English and Bangla meanings.</p></div><span class="finland-voice-settings-mark" aria-hidden="true">♫</span></div>'+voiceTools()+'</div><div class="finland-voice-studio-guides"><article><span>01 · AVAILABLE VOICES</span><h3>Male and female options</h3><p>Neural voices by Selma, Noora and Harri appear when the Site speech service is configured. Otherwise, this list shows Finnish voices installed by your browser or device.</p></article><article><span>02 · YOUR SETTINGS</span><h3>Saved on this device</h3><p>Voice choice and pace stay in this browser. Device speech is generated locally when supported; neural speech sends a phrase for synthesis only after you choose it and press a listen button.</p></article><article><span>03 · LEARN THE SOUNDS</span><h3>Use a phrase in context</h3><p>Listen once, repeat aloud, then try the same sound in a lesson or role-play. A voice preview is practice audio, not a pronunciation score.</p></article></div><p class="finland-voice-studio-footnote">Voice availability varies by browser, operating system and configured services. Kielo never records your spoken practice.</p></section>';
+    setActiveCustomPage("voice");setVoiceSelection();
+  }
   function renderCustom(page){
     const target=document.getElementById("page-content");if(!target)return;
-    if(page==="daily")renderDaily();else if(page==="dictionary")renderDictionary();
+    if(page==="daily")renderDaily();else if(page==="dictionary")renderDictionary();else if(page==="voice")renderVoiceSettings();
     document.getElementById("sidebar")?.classList.remove("open");
     window.scrollTo({top:0,behavior:"smooth"});
   }

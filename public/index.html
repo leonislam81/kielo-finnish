@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="pwa.css?v=1" />
     <link rel="stylesheet" href="backup.css?v=1" />
     <link rel="stylesheet" href="rhythm.css?v=7" />
-    <link rel="stylesheet" href="redesign.css?v=24" />
+    <link rel="stylesheet" href="redesign.css?v=25" />
     <link rel="stylesheet" href="finnish-keys.css?v=2" />
     <script src="curriculum.js" defer></script>
     <script src="advanced-vocabulary.js" defer></script>
@@ -33,7 +33,7 @@
     <script src="pwa.js?v=1" defer></script>
     <script src="neural-speech.js?v=1" defer></script>
     <script src="app.js?v=73" defer></script>
-    <script src="redesign.js?v=25" defer></script>
+    <script src="redesign.js?v=26" defer></script>
   </head>
   <body>
     <div class="app-shell">
@@ -61,6 +61,7 @@
           <button class="nav-link" data-page="writing"><span class="nav-icon">✎</span><span>Writing</span></button>
           <button class="nav-link" data-page="grammar"><span class="nav-icon">⌘</span><span>Grammar lab</span></button>
           <button class="nav-link" data-page="cafe"><span class="nav-icon">☕</span><span>Conversation</span></button>
+          <button class="nav-link" data-redesign-page="voice"><span class="nav-icon">♫</span><span>Voice & audio</span></button>
         </nav>
         <div class="sidebar-caption">FINLAND</div>
         <nav class="primary-nav" aria-label="Explore Finland">
@@ -81,6 +82,7 @@
           <button class="mobile-menu" id="mobile-menu" aria-label="Open navigation">☰</button>
           <div class="topbar-context"><span class="weather-dot" aria-hidden="true"></span><span id="connection-label" role="status" aria-live="polite">Finland · Europe/Helsinki</span></div>
           <div class="topbar-actions">
+            <button class="voice-shortcut" type="button" data-redesign-page="voice" aria-label="Open Finnish voice settings" title="Voice & audio"><span aria-hidden="true">♫</span><span>Voice</span></button>
             <button id="install-app" class="pwa-install-button" type="button" aria-label="Install Kielo"><span aria-hidden="true">↓</span><span class="install-label">Install app</span></button>
             <div class="help-language"><span>Lesson help</span><button id="language-toggle" class="language-toggle" aria-label="Change lesson help language"><span data-lang-label="en">EN</span><span class="language-divider">/</span><span data-lang-label="bn">বাংলা</span></button></div>
             <button class="avatar" id="profile-button" type="button" aria-label="Open learner profile and data tools">K</button>
