@@ -12,7 +12,7 @@ let stylePromises = new Map();
 const audioCache = new Map();
 
 function loadEngine(onProgress) {
-  if (engine) return Promise.resolve(engine);
+  if (engine) return Promise.resolve({ textToSpeech: engine });
   if (enginePromise) return enginePromise;
   enginePromise = (async () => {
     const progress = (name, current, total) => onProgress?.({ phase: "loading", name, current, total });
