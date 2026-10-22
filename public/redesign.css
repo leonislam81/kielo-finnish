@@ -570,3 +570,82 @@
 @media(max-width:760px){.finland-culture-hero{grid-template-columns:1fr}.finland-culture-hero-copy{padding:18px 18px 12px}.finland-culture-hero-art,.finland-culture-hero-art svg{min-height:150px}.finland-culture-scene-detail{grid-template-columns:minmax(100px,.38fr) minmax(0,1.62fr)}}
 @media(max-width:560px){.finland-culture-journey{padding:11px}.finland-culture-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-culture-scene-tabs{grid-template-columns:1fr}.finland-culture-scene-tabs button{padding:9px}.finland-culture-scene-detail{grid-template-columns:1fr}.finland-culture-scene-art{min-height:82px;flex-direction:row;gap:10px}.finland-culture-scene-art>span{width:39px;height:39px;border-radius:14px;font-size:22px}.finland-culture-scene-copy{padding:12px}.finland-culture-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-culture-step-grid,.finland-culture-media-grid{grid-template-columns:1fr}.finland-culture-dialogue-line{align-items:flex-start}}
 @media(max-width:390px){.finland-culture-hero-copy h2{font-size:23px}.finland-culture-word{padding:8px}.finland-culture-media-card{padding:9px}}
+
+.finland-transport-journey{display:grid;gap:16px;margin:14px 0;padding:14px;border:1px solid #e3ebe4;border-radius:18px;background:linear-gradient(180deg,#f5f8f3,#fff 34%)}
+.finland-transport-hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(220px,.88fr);overflow:hidden;border:1px solid #e4ebe5;border-radius:16px;background:#fff}
+.finland-transport-hero-copy{align-self:center;padding:20px 22px}
+.finland-transport-hero-copy h2{max-width:520px;margin:7px 0;color:#1b3b33;font:750 26px/1.16 var(--heading,Inter,sans-serif);letter-spacing:-.7px}
+.finland-transport-hero-copy p{max-width:510px;margin:7px 0;color:#65766c;font-size:10px;line-height:1.65}
+.finland-transport-hero-copy>span:last-child{display:inline-block;margin-top:6px;color:#3f7661;font-size:9px;font-weight:750;letter-spacing:.4px}
+.finland-transport-hero-art{position:relative;min-height:175px;background:#d5e5df}
+.finland-transport-hero-art svg{display:block;width:100%;height:100%;min-height:175px}
+.finland-transport-hero-art>span{position:absolute;right:11px;bottom:10px;padding:5px 8px;border:1px solid #ffffffad;border-radius:20px;background:#ffffffdf;color:#365849;font-size:8px;font-weight:750}
+.finland-transport-heading-row{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:8px}
+.finland-transport-heading-row h3{margin:3px 0 0;color:#1d4035;font:700 15px/1.25 var(--heading,Inter,sans-serif)}
+.finland-transport-heading-row>span{color:#78857d;font-size:8px;text-align:right}
+.finland-transport-scene-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:9px}
+.finland-transport-scene-tabs button{min-width:0;padding:9px 10px;border:1px solid #e1e9e1;border-radius:10px;background:#fff;color:#335548;text-align:left;cursor:pointer;transition:border-color .16s ease,background .16s ease,transform .16s ease}
+.finland-transport-scene-tabs button:hover{transform:translateY(-1px);border-color:#9ebca4}
+.finland-transport-scene-tabs button[aria-pressed=true]{border-color:#77a28a;background:#edf5ec;box-shadow:inset 0 0 0 1px #77a28a}
+.finland-transport-scene-tabs strong,.finland-transport-scene-tabs small{display:block}
+.finland-transport-scene-tabs strong{font-size:9px;line-height:1.4}
+.finland-transport-scene-tabs small{margin-top:3px;color:#718478;font-size:8px}
+.finland-transport-scene-detail{overflow:hidden;border:1px solid #e2e9e2;border-radius:13px;background:#fff}
+.finland-transport-scene-art{position:relative;display:grid;min-height:96px;place-items:center;overflow:hidden;background:linear-gradient(165deg,#c5dfeb,#eff1dd 65%,#d8c9a5)}
+.finland-transport-scene-art:before,.finland-transport-scene-art:after{position:absolute;bottom:-13px;width:150px;height:90px;border-radius:55% 55% 0 0;background:#47755e;content:""}
+.finland-transport-scene-art:before{left:-12px;transform:rotate(-8deg)}
+.finland-transport-scene-art:after{right:-10px;background:#315b49;transform:rotate(8deg)}
+.finland-transport-art-rail{background:linear-gradient(165deg,#b9d7e6,#e6e8d5 66%,#aebeb4)}
+.finland-transport-art-road{background:linear-gradient(165deg,#b7d4e5,#e8e5ca 65%,#c4d4c5)}
+.finland-transport-scene-art .finland-transport-sky{position:relative;z-index:1;display:grid;width:46px;height:46px;place-items:center;border:1px solid #ffffffa8;border-radius:16px;background:#ffffffdb;box-shadow:0 6px 16px #21483924;font-size:25px}
+.finland-transport-scene-art>small{position:absolute;z-index:2;right:9px;bottom:8px;color:#f6fbf3;font-size:7px;font-weight:800;letter-spacing:.7px;text-shadow:0 1px 4px #183c30;text-transform:uppercase}
+.finland-transport-scene-copy{padding:13px 15px}
+.finland-transport-scene-copy h4{margin:3px 0 6px;color:#1e4236;font:700 14px var(--heading,Inter,sans-serif)}
+.finland-transport-scene-copy>p{margin:5px 0;color:#68776e;font-size:9px;line-height:1.6}
+.finland-transport-scene-copy>p[lang=bn]{color:#536e5f}
+.finland-transport-phrase{margin-top:9px;padding:10px 11px;border-left:3px solid #78a887;border-radius:9px;background:#edf4ec}
+.finland-transport-phrase strong,.finland-transport-phrase span,.finland-transport-phrase small{display:block}
+.finland-transport-phrase strong{color:#1c6553;font-size:11px;line-height:1.45}
+.finland-transport-phrase span,.finland-transport-phrase small{margin-top:3px;color:#64766d;font-size:8px;line-height:1.5}
+.finland-transport-phrase button,.finland-transport-word button,.finland-transport-step button{margin-top:7px;border:1px solid #dce8de;border-radius:7px;background:#fff;padding:5px 8px;color:#46715c;font-size:8px;font-weight:750;cursor:pointer}
+.finland-transport-dialogue{overflow:hidden;margin-top:9px;border:1px solid #e4eae4;border-radius:10px;background:#fff}
+.finland-transport-dialogue-line{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px}
+.finland-transport-dialogue-line+.finland-transport-dialogue-line{border-top:1px solid #edf0eb}
+.finland-transport-dialogue-line>div{min-width:0}
+.finland-transport-dialogue-line>div>span{display:block;color:#789083;font-size:7px;font-weight:800;letter-spacing:.6px}
+.finland-transport-dialogue-line strong{display:block;margin-top:3px;color:#1d5946;font-size:9px;line-height:1.45}
+.finland-transport-dialogue-line p,.finland-transport-dialogue-line small{display:block;margin:2px 0 0;color:#68796f;font-size:8px;line-height:1.4}
+.finland-transport-dialogue-line small{color:#536e5f}
+.finland-transport-dialogue-line button{flex:none;width:28px;height:28px;border:1px solid #e3eae3;border-radius:9px;background:#f8faf7;color:#46715c;font-size:10px;cursor:pointer}
+.finland-transport-scene-link{display:inline-block;margin-top:8px;color:#47755e;font-size:8px;font-weight:800;text-decoration:none}
+.finland-transport-scene-link:hover,.finland-transport-sources a:hover{text-decoration:underline}
+.finland-transport-word-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.finland-transport-word{min-width:0;padding:9px;border:1px solid #e5ebe5;border-radius:10px;background:#fff}
+.finland-transport-word strong{display:block;overflow-wrap:anywhere;color:#193b31;font-size:10px}
+.finland-transport-word span,.finland-transport-word small{display:block;margin-top:3px;color:#68796f;font-size:8px;line-height:1.4}
+.finland-transport-word button{padding:4px 7px}
+.finland-transport-note,.finland-transport-sources{margin:8px 0 0;color:#78857c;font-size:8px;line-height:1.65}
+.finland-transport-note strong{color:#315744}
+.finland-transport-step-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.finland-transport-step{display:flex;align-items:center;gap:9px;min-width:0;padding:9px;border:1px solid #e4ebe4;border-radius:10px;background:#fff}
+.finland-transport-step>span{flex:none;display:grid;width:27px;height:27px;place-items:center;border-radius:9px;background:#edf4ec;color:#4f7c60;font-size:8px;font-weight:800}
+.finland-transport-step>div{min-width:0;flex:1}
+.finland-transport-step strong,.finland-transport-step b,.finland-transport-step small{display:block}
+.finland-transport-step strong{color:#6c7a71;font-size:8px;line-height:1.35}
+.finland-transport-step b{margin-top:3px;color:#315744;font-size:9px}
+.finland-transport-step small{margin-top:2px;color:#536e5f;font-size:8px}
+.finland-transport-step button{flex:none;width:28px;height:28px;margin-top:0;border-radius:9px;font-size:10px}
+.finland-transport-live-note{margin:9px 0 0;padding:10px 11px;border:1px solid #eadfc9;border-radius:10px;background:#fbf7ec;color:#716958;font-size:8px;line-height:1.6}
+.finland-transport-live-note strong{color:#6d5632}
+.finland-transport-live-note small{display:block;margin-top:5px;color:#536e5f;font-size:8px;line-height:1.5}
+.finland-transport-service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.finland-transport-service{display:flex;min-width:0;flex-direction:column;padding:11px;border:1px solid #e3eae3;border-radius:11px;background:#fff;text-decoration:none;transition:transform .18s ease,border-color .18s ease}
+.finland-transport-service:hover{transform:translateY(-2px);border-color:#93b19a}
+.finland-transport-service>span{color:#6f8977;font-size:7px;font-weight:800;letter-spacing:.6px}
+.finland-transport-service>strong{margin-top:6px;color:#244a3b;font-size:10px;line-height:1.4}
+.finland-transport-service p{flex:1;margin:5px 0;color:#68796f;font-size:8px;line-height:1.5}
+.finland-transport-service>b{margin-top:5px;color:#46715c;font-size:8px}
+.finland-transport-sources a{color:#527a63;font-weight:700;text-decoration:none}
+@media(max-width:760px){.finland-transport-hero{grid-template-columns:1fr}.finland-transport-hero-copy{padding:18px 18px 12px}.finland-transport-hero-art,.finland-transport-hero-art svg{min-height:150px}.finland-transport-service-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.finland-transport-journey{padding:11px}.finland-transport-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-transport-heading-row>span{text-align:left}.finland-transport-scene-tabs{grid-template-columns:1fr}.finland-transport-scene-tabs button{padding:9px}.finland-transport-scene-art{min-height:82px}.finland-transport-scene-copy{padding:12px}.finland-transport-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-transport-step-grid{grid-template-columns:1fr}.finland-transport-dialogue-line{align-items:flex-start}}
+@media(max-width:390px){.finland-transport-hero-copy h2{font-size:23px}.finland-transport-word{padding:8px}.finland-transport-service{padding:9px}}
