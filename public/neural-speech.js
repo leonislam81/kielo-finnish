@@ -130,16 +130,12 @@
     }
     const voices = window.speechSynthesis.getVoices();
     const finnish = voices.filter((voice) => voice.lang?.toLowerCase().startsWith("fi"));
-    if (!finnish.length) {
-      if (!quietIfMissing) showMessage("No Finnish voice is installed in this browser. Try an online Finnish voice or open a Yle learning clip.");
-      return Promise.resolve(false);
-    }
     const selectedName = localStorage.getItem("kielo-finnish-voice") || "";
-    const selected = finnish.find((voice) => voice.name === selectedName) || finnish[0];
+    const selected = voices.find((voice) => voice.name === selectedName) || finnish[0] || voices.find((voice) => voice.default) || voices[0];
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "fi-FI";
+    utterance.lang = selected?.lang || "fi-FI";
     utterance.rate = rate;
-    utterance.voice = selected;
+    if (selected) utterance.voice = selected;
     return new Promise((resolve) => {
       let settled = false;
       const finish = (played) => {
@@ -150,7 +146,12 @@
       };
       activeFinish = finish;
       utterance.onend = () => finish(true);
-      utterance.onerror = () => finish(false);
+      utterance.onerror = (event) => {
+        if (!quietIfMissing && event?.error !== "canceled" && event?.error !== "interrupted") {
+          showMessage("This device could not play that voice. Choose another device voice in Voice & audio settings.");
+        }
+        finish(false);
+      };
       if (currentPlaybackId !== playbackId) {
         finish(false);
         return;
@@ -184,7 +185,7 @@
     }
     if (currentPlaybackId !== playbackId) return false;
     const played = await speakOnDevice(text.trim(), normalizedRate, currentPlaybackId, onlineVoiceFailed);
-    if (!played && onlineVoiceFailed) showMessage("The online Finnish voice could not connect, and this browser has no Finnish voice installed. Check the voice service or open a Yle clip.");
+    if (!played && onlineVoiceFailed) showMessage("The online Finnish voice could not connect, and the selected device voice could not play either. Choose another device voice or try again later.");
     return played;
   }
 
