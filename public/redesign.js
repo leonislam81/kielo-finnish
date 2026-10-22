@@ -6,12 +6,25 @@
   const dailyProgressKey="kielo-daily-100-progress-v1";
   const dailyTargetKey="kielo-daily-word-target-v1";
   const cities=[
-    {id:"helsinki",name:"Helsinki",lat:60.1699,lon:24.9384},
-    {id:"tampere",name:"Tampere",lat:61.4978,lon:23.7610},
-    {id:"turku",name:"Turku",lat:60.4518,lon:22.2666},
-    {id:"oulu",name:"Oulu",lat:65.0121,lon:25.4651},
-    {id:"rovaniemi",name:"Rovaniemi",lat:66.5039,lon:25.7294},
-    {id:"kuopio",name:"Kuopio",lat:62.8924,lon:27.6770}
+    {id:"helsinki",name:"Helsinki",region:"Uusimaa",lat:60.16952,lon:24.93545},
+    {id:"turku",name:"Turku",region:"Southwest Finland",lat:60.45148,lon:22.26869},
+    {id:"pori",name:"Pori",region:"Satakunta",lat:61.48072,lon:21.78518},
+    {id:"hamenlinna",name:"Hämeenlinna",region:"Kanta-Häme",lat:60.99596,lon:24.46434},
+    {id:"tampere",name:"Tampere",region:"Pirkanmaa",lat:61.49911,lon:23.78712},
+    {id:"lahti",name:"Lahti",region:"Päijät-Häme",lat:60.98267,lon:25.66151},
+    {id:"kotka",name:"Kotka",region:"Kymenlaakso",lat:60.46640,lon:26.94582},
+    {id:"lappeenranta",name:"Lappeenranta",region:"South Karelia",lat:61.05871,lon:28.18871},
+    {id:"mikkeli",name:"Mikkeli",region:"South Savo",lat:61.68857,lon:27.27227},
+    {id:"kuopio",name:"Kuopio",region:"North Savo",lat:62.89238,lon:27.67703},
+    {id:"joensuu",name:"Joensuu",region:"North Karelia",lat:62.60118,lon:29.76316},
+    {id:"jyvaskyla",name:"Jyväskylä",region:"Central Finland",lat:62.24147,lon:25.72088},
+    {id:"seinajoki",name:"Seinäjoki",region:"South Ostrobothnia",lat:62.79446,lon:22.82822},
+    {id:"vaasa",name:"Vaasa",region:"Ostrobothnia",lat:63.09600,lon:21.61577},
+    {id:"kokkola",name:"Kokkola",region:"Central Ostrobothnia",lat:63.83847,lon:23.13066},
+    {id:"oulu",name:"Oulu",region:"North Ostrobothnia",lat:65.01236,lon:25.46816},
+    {id:"kajaani",name:"Kajaani",region:"Kainuu",lat:64.22728,lon:27.72846},
+    {id:"rovaniemi",name:"Rovaniemi",region:"Lapland",lat:66.49897,lon:25.68867},
+    {id:"mariehamn",name:"Mariehamn",region:"Åland",lat:60.09726,lon:19.93481}
   ];
   const topics=[
     {icon:"🕰️",title:"History & independence",text:"Trace Finland’s changing status, cultural milestones and independence through a sourced timeline.",fi:"historia · itsenäisyys",url:"https://finland.fi/life-society/main-outlines-of-finnish-history/",source:"This is Finland"},
@@ -109,7 +122,8 @@
   function statusMarkup(){
     const city=cityNow(),weather=cachedWeather?.cityId===city.id?cachedWeather:null;
     const current=weather?.current,conditions=current?weatherLabel(Number(current.weather_code)):null;
-    const cityOptions=cities.map(item=>'<option value="'+item.id+'" '+(item.id===city.id?"selected":"")+'>'+item.name+"</option>").join("");
+    const regionCount=cities.length;
+    const cityOptions=cities.map(item=>'<option value="'+item.id+'" '+(item.id===city.id?"selected":"")+'>'+item.name+' · '+item.region+"</option>").join("");
     const temperature=current?Math.round(Number(current.temperature_2m))+"°C":"—";
     const apparent=current?Math.round(Number(current.apparent_temperature))+"°":"";
     const summary=current?conditions[0]:(lastWeatherMessage||"Loading current conditions…");
@@ -118,7 +132,7 @@
     const humidity=current?Math.round(Number(current.relative_humidity_2m))+"%":"—";
     return '<section class="finland-status-grid" id="finland-status" aria-label="Finland local time and weather">'+
       '<article class="finland-status-card"><div class="finland-status-head"><div class="finland-status-label"><span class="status-icon" aria-hidden="true">◷</span> Finland local time</div><span class="finland-live">LIVE CLOCK</span></div><div class="finland-clock-line"><time class="finland-clock" id="finland-clock" aria-label="Current time in Finland">—:—:—</time><span class="finland-timezone" id="finland-timezone"></span></div><div class="finland-clock-date" id="finland-date"></div></article>'+
-      '<article class="finland-status-card"><div class="finland-status-head"><div class="finland-status-label"><span class="status-icon" aria-hidden="true">☁</span> Current weather</div><div class="finland-weather-tools"><label class="sr-only" for="finland-city">Choose a Finnish city</label><select class="finland-city-select" id="finland-city" aria-label="Choose a Finnish city">'+cityOptions+'</select><button class="finland-refresh" type="button" data-weather-refresh aria-label="Refresh weather" title="Refresh weather">↻</button></div></div><div class="finland-weather-main" id="finland-weather-content"><span class="finland-weather-icon" aria-hidden="true">'+icon+'</span><div><div class="finland-temperature">'+esc(temperature)+' <span class="finland-weather-copy">'+esc(summary)+'</span></div><div class="finland-weather-copy">'+(current?"Feels like "+esc(apparent):"Weather can take a few seconds to load")+'</div></div><div class="finland-weather-facts">Wind '+esc(wind)+'<br>Humidity '+esc(humidity)+'</div></div><div class="finland-weather-credit"><span id="finland-weather-updated">'+esc(localUpdated(weather?.updatedAt))+'</span><a href="https://open-meteo.com/en/terms" target="_blank" rel="noreferrer" title="Free API use is for non-commercial purposes and requires CC BY 4.0 attribution">Weather by Open-Meteo · CC BY 4.0 ↗</a></div></article></section>';
+      '<article class="finland-status-card"><div class="finland-status-head"><div class="finland-status-label"><span class="status-icon" aria-hidden="true">☁</span> Current weather <span class="finland-region-count">'+regionCount+' regions</span></div><div class="finland-weather-tools"><label class="sr-only" for="finland-city">Choose weather for one of Finland’s '+regionCount+' regions</label><select class="finland-city-select" id="finland-city" aria-label="Choose weather for one of Finland’s '+regionCount+' regions">'+cityOptions+'</select><button class="finland-refresh" type="button" data-weather-refresh aria-label="Refresh weather" title="Refresh weather">↻</button></div></div><div class="finland-weather-main" id="finland-weather-content"><span class="finland-weather-icon" aria-hidden="true">'+icon+'</span><div><div class="finland-temperature">'+esc(temperature)+' <span class="finland-weather-copy">'+esc(summary)+'</span></div><div class="finland-weather-copy">'+(current?"Feels like "+esc(apparent):"Weather can take a few seconds to load")+'</div></div><div class="finland-weather-facts">Wind '+esc(wind)+'<br>Humidity '+esc(humidity)+'</div></div><div class="finland-weather-credit"><span id="finland-weather-updated">'+esc(localUpdated(weather?.updatedAt))+'</span><a href="https://open-meteo.com/en/terms" target="_blank" rel="noreferrer" title="Free API use is for non-commercial purposes and requires CC BY 4.0 attribution">Weather by Open-Meteo · CC BY 4.0 ↗</a></div></article></section>';
   }
   function refreshStatusContent(){
     const card=document.getElementById("finland-status");if(!card)return;
