@@ -161,6 +161,8 @@
     (window.KIELO_LEVELS||[]).forEach(level=>(level.lessons||[]).forEach(lesson=>(lesson.words||[]).forEach(word=>add(word[0],word[1],word[2],level.label,lesson.title))));
     (window.KIELO_ADVANCED_WORDS||[]).forEach(word=>add(word.fi,word.en,word.bn,word.level,word.topic));
     (window.KIELO_DAILY_WORDS||[]).forEach(word=>add(word.fi,word.en,word.bn,word.level,word.topic));
+    chapterLearning.forEach((chapter,index)=>(chapter.words||[]).forEach(([fi,en,bn])=>add(fi,en,bn,"Finland",topics[index]?.title||"Finland")));
+    travelRegions.forEach(region=>(region.words||[]).forEach(([fi,en,bn])=>add(fi,en,bn,"Finland",region.title)));
     if(includeFrequency)(window.KIELO_FREQUENT_WORDS||[]).forEach(([fi,en,frequency])=>{
       add(fi,en,"","News corpus","Yle · "+new Intl.NumberFormat("en",{notation:"compact",maximumFractionDigits:1}).format(Number(frequency||0))+" occurrences");
     });
