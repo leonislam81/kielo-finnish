@@ -24,7 +24,7 @@ Open the URL printed by Wrangler (usually `http://127.0.0.1:8787`). The browser 
 
 ## Optional natural Finnish voices
 
-The Worker supports Microsoft Azure Speech's documented Finnish standard neural voices: female Selma and Noora, and male Harri. The browser picker keeps them disabled until the Site has all three of these runtime values:
+The Worker supports Microsoft Azure Speech's documented Finnish standard neural voices: female Selma and Noora, and male Harri. A short Finnish/English/Bangla sample lets learners audition the voice they selected, including Finnish voices installed by their browser or device. The browser picker keeps the neural options disabled until the Site has all three of these runtime values:
 
 - `AZURE_SPEECH_KEY` — secret Speech resource key.
 - `AZURE_SPEECH_REGION` — the resource's region identifier, such as `northeurope`.
