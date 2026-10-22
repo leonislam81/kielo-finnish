@@ -935,3 +935,12 @@
 @media(prefers-reduced-motion:reduce){.finland-voice-wave i{animation:none}}
 @media(max-width:800px){.finland-voice-studio-hero{grid-template-columns:1fr}.finland-voice-studio-art{min-height:150px}.finland-voice-studio-guides{grid-template-columns:1fr}}
 @media(max-width:560px){.voice-shortcut{padding:7px 8px}.voice-shortcut>span:last-child{display:none}.finland-voice-studio-hero{padding:19px}.finland-voice-settings-card{padding:15px}.finland-voice-studio-links>*{flex:1;justify-content:center}}
+
+.finland-extra-word-actions{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
+.finland-extra-word-actions button{margin:0!important;border:1px solid #e3eae3;border-radius:8px;background:#fff;padding:5px 8px;color:#547961;font-size:9px;font-weight:700;line-height:1.2;cursor:pointer}
+.finland-extra-word-actions button:hover{background:#f1f6f0}
+.finland-extra-word-actions .finland-review-word.is-saved{border-color:#d4e5d6;background:#eaf4eb;color:#2f6c4d}
+.finland-extra-word-actions button:focus-visible{outline:3px solid #315f52;outline-offset:2px}
+.finland-region-word-list li{display:grid;grid-template-columns:minmax(0,1fr);align-items:start}
+.finland-region-word-list li>span{min-width:0}
+.finland-region-word-list li .finland-extra-word-actions{margin-top:3px}

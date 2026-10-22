@@ -448,6 +448,13 @@
     const phrase="Tarvitsen terveyspalveluja. Mihin otan yhteyttä?";
     return '<section class="finland-civic-map" aria-labelledby="finland-civic-heading"><div class="finland-civic-heading"><div><span class="page-kicker">EVERYDAY FINLAND · 22 OCT 2026</span><h3 id="finland-civic-heading">Who handles which service?</h3><p>Learn three useful words, then check the official source for your area.</p></div><span>National · municipal · regional</span></div><div class="finland-civic-grid">'+cards+'</div><div class="finland-civic-phrase"><div><span>ASK ABOUT A SERVICE</span><strong lang="fi">'+esc(phrase)+'</strong><p>“I need health services. Who should I contact?”</p><small lang="bn">“আমি স্বাস্থ্যসেবা চাই। কার সঙ্গে যোগাযোগ করব?”</small></div><button type="button" data-topic-speak="'+esc(phrase)+'">▶ Hear Finnish</button></div></section>';
   }
+  function finlandReviewButtonMarkup(fi,en,bn,topic){
+    const saved=window.kieloIsReviewWord?.(fi)===true;
+    return '<button type="button" class="finland-review-word '+(saved?'is-saved':'')+'" data-topic-review data-review-fi="'+esc(fi)+'" data-review-en="'+esc(en)+'" data-review-bn="'+esc(bn)+'" data-review-topic="'+esc(topic)+'" aria-pressed="'+saved+'">'+(saved?'✓ Saved':'＋ Review')+'</button>';
+  }
+  function finlandWordActionsMarkup(fi,en,bn,topic,speak=fi,label="▶ Listen"){
+    return '<div class="finland-extra-word-actions"><button type="button" data-topic-speak="'+esc(speak)+'" aria-label="Hear '+esc(fi)+' in Finnish">'+esc(label)+'</button>'+finlandReviewButtonMarkup(fi,en,bn,topic)+'</div>';
+  }
   function regionDetailMarkup(region){
     const art=region.art.map(icon=>'<span aria-hidden="true">'+icon+'</span>').join("");
     const words=region.words.map(([fi,en,bn])=>'<li><button type="button" data-topic-speak="'+esc(fi)+'" aria-label="Hear '+esc(fi)+' in Finnish">▶</button><span><strong lang="fi">'+esc(fi)+'</strong><small>'+esc(en)+' · <span lang="bn">'+esc(bn)+'</span></small></span></li>').join("");
@@ -471,7 +478,7 @@
   function waterExperienceMarkup(){
     const scenes=[["archipelago","Take a ferry to an island","lautta · saari · aikataulu"],["harbour","Find a passenger harbour","laiva · satama · lähtö"],["water","Check the water and wildlife","järvi · meri · sinilevä"]];
     const sceneButtons=scenes.map(([id,title,words])=>'<button type="button" data-water-scene="'+esc(id)+'" aria-pressed="'+(activeWaterScene===id)+'"><strong>'+esc(title)+'</strong><small lang="fi">'+esc(words)+'</small></button>').join("");
-    const words=[["meri","sea","সমুদ্র"],["järvi","lake","হ্রদ"],["vesistö","body of water","জলভূমি"],["saari","island","দ্বীপ"],["saaristo","archipelago","দ্বীপপুঞ্জ"],["lautta","ferry","ফেরি"],["laiva","ship","জাহাজ"],["satama","harbour / port","বন্দর"],["rannikko","coast","উপকূল"],["reitti","route","রুট"],["aikataulu","timetable","সময়সূচি"],["sinilevä","blue-green algae · cyanobacteria","নীল-সবুজ শৈবাল · সায়ানোব্যাকটেরিয়া"]].map(([fi,en,bn])=>'<article class="finland-water-word"><strong lang="fi">'+esc(fi)+'</strong><span>'+esc(en)+'</span><small lang="bn">'+esc(bn)+'</small><button type="button" data-topic-speak="'+esc(fi)+'" aria-label="Hear '+esc(fi)+' in Finnish">▶ Listen</button></article>').join("");
+    const words=[["meri","sea","সমুদ্র"],["järvi","lake","হ্রদ"],["vesistö","body of water","জলভূমি"],["saari","island","দ্বীপ"],["saaristo","archipelago","দ্বীপপুঞ্জ"],["lautta","ferry","ফেরি"],["laiva","ship","জাহাজ"],["satama","harbour / port","বন্দর"],["rannikko","coast","উপকূল"],["reitti","route","রুট"],["aikataulu","timetable","সময়সূচি"],["sinilevä","blue-green algae · cyanobacteria","নীল-সবুজ শৈবাল · সায়ানোব্যাকটেরিয়া"]].map(([fi,en,bn])=>'<article class="finland-water-word"><strong lang="fi">'+esc(fi)+'</strong><span>'+esc(en)+'</span><small lang="bn">'+esc(bn)+'</small>'+finlandWordActionsMarkup(fi,en,bn,topics[5].title)+'</article>').join("");
     const places=[["HELSINKI ARCHIPELAGO","Suomenlinna","saari · lautta","A city-to-island scene: ask about the ferry and find Finnish place words.","https://www.visitfinland.com/en/articles/10-islands-to-visit-in-finnish-archipelago/","Kysyn lautan aikataulua.","I ask about the ferry timetable.","ফেরির সময়সূচি জিজ্ঞেস করি।","🏰"],["TURKU ARCHIPELAGO","Nauvo · Nagu","saaristo · satama","A coastal stop for island routes, harbours and everyday travel vocabulary.","https://www.visitfinland.com/en/articles/10-islands-to-visit-in-finnish-archipelago/","Nauvo on saaristossa.","Nauvo is in the archipelago.","নাউভো দ্বীপপুঞ্জে অবস্থিত।","⛵"],["LAKELAND","Saimaa","järvi · laiva","Move inland from the coast and notice Finnish words for lake journeys and water landscapes.","https://www.visitfinland.com/en/practical-tips/getting-around/","Saimaa on suuri järvialue.","Saimaa is a large lake region.","সাইমা একটি বড় হ্রদ-অঞ্চল।","🛶"]].map(([tag,title,words,description,url,phrase,en,bn,icon])=>'<article class="finland-water-place"><span>'+icon+' '+esc(tag)+'</span><h4>'+esc(title)+'</h4><b lang="fi">'+esc(words)+'</b><p>'+esc(description)+'</p><strong lang="fi">'+esc(phrase)+'</strong><small>'+esc(en)+'</small><small lang="bn">'+esc(bn)+'</small><button type="button" data-topic-speak="'+esc(phrase)+'">▶ Hear this Finnish phrase</button><a href="'+url+'" target="_blank" rel="noreferrer">Explore the destination ↗</a></article>').join("");
     const steps=[["01","Choose a destination and route","Valitsen paikan ja reitin.","বেড়ানোর জায়গা ও পথ বেছে নিই।"],["02","Check the ferry or ship timetable","Tarkistan lautta-aikataulun.","ফেরির সময়সূচি যাচাই করি।"],["03","Read traffic notices and safety signs","Luen tiedotteet ja ohjeet.","যাতায়াতের নোটিশ ও নিরাপত্তা-নির্দেশনা পড়ি।"],["04","Check the local water information","Katson vesitiedot.","স্থানীয় পানির তথ্য দেখি।"]].map(([number,en,fi,bn])=>'<article class="finland-water-step"><span>'+number+'</span><div><strong>'+esc(en)+'</strong><b lang="fi">'+esc(fi)+'</b><small lang="bn">'+esc(bn)+'</small></div><button type="button" data-topic-speak="'+esc(fi)+'" aria-label="Hear '+esc(fi)+' in Finnish">▶</button></article>').join("");
     const services=[["FERRY ROUTES","Finferries routes and timetables","Search route notices, schedules, bookings and ferry locations.","https://www.finferries.fi/en/ferry-traffic/ferries-and-schedules.html","Find a route ↗","⛴"],["LIVE MARITIME INFORMATION","Fintraffic Traffic Situation","Open the map for current traffic information, marine incidents and navigation warnings.","https://liikennetilanne.fintraffic.fi/?lang=en","Check marine traffic ↗","⚓"],["WATER OBSERVATIONS","Vesi.fi blue-green algae map","Read local observations. Water conditions can change quickly, so check current notices.","https://www.vesi.fi/en/blue-green-algae-situation/","Check water observations ↗","🌿"],["SEA RESEARCH","Finnish Environment Institute","Explore monitoring and current information about the Baltic Sea and Finland’s waters.","https://www.ymparisto.fi/en/state-environment/water/state-baltic-sea","Learn about the Baltic Sea ↗","🌊"]].map(([tag,title,description,url,label,icon])=>'<a class="finland-water-service" href="'+url+'" target="_blank" rel="noreferrer"><span>'+icon+' '+esc(tag)+'</span><strong>'+esc(title)+'</strong><p>'+esc(description)+'</p><b>'+esc(label)+'</b></a>').join("");
@@ -660,8 +667,48 @@
     const intro=page.querySelector(".page-title-row p");if(intro)intro.textContent="Learn Finnish through Finland’s history, people, climate, forests, waters, transport, education, work, housing, health services and culture.";
     hero.insertAdjacentHTML("afterend",chapterMarkup());
   }
+  function enhanceFinlandReviewWords(){
+    const page=document.getElementById("page-content");if(!page)return;
+    const groups=[
+      [".finland-water-word",topics[5].title],[".finland-transport-word",topics[6].title],
+      [".finland-study-word",topics[7].title],[".finland-jobs-word",topics[8].title],
+      [".finland-market-word, .finland-market-season-word",topics[9].title],
+      [".finland-culture-word",topics[11].title],[".finland-housing-word",topics[12].title],
+      [".finland-health-word",topics[13].title]
+    ];
+    groups.forEach(([selector,topic])=>page.querySelectorAll(selector).forEach(card=>{
+      if(card.querySelector("[data-topic-review]"))return;
+      const fi=card.querySelector(":scope > [lang='fi']")?.textContent?.trim();
+      const en=card.querySelector(":scope > span")?.textContent?.trim();
+      const bn=card.querySelector(":scope > small[lang='bn']")?.textContent?.trim();
+      if(!fi||!en)return;
+      const actions=document.createElement("div");actions.className="finland-extra-word-actions";
+      const listen=card.querySelector(":scope > button[data-topic-speak]");if(listen)actions.append(listen);
+      const review=document.createElement("button"),saved=window.kieloIsReviewWord?.(fi)===true;
+      review.type="button";review.className="finland-review-word"+(saved?" is-saved":"");
+      review.dataset.topicReview="";review.dataset.reviewFi=fi;review.dataset.reviewEn=en;
+      review.dataset.reviewBn=bn||"";review.dataset.reviewTopic=topic;
+      review.setAttribute("aria-pressed",String(saved));review.textContent=saved?"✓ Saved":"＋ Review";
+      actions.append(review);card.append(actions);
+    }));
+    page.querySelectorAll(".finland-region-word-list li").forEach(card=>{
+      if(card.querySelector("[data-topic-review]"))return;
+      const fi=card.querySelector("strong[lang='fi']")?.textContent?.trim();
+      const translation=card.querySelector("small"),en=translation?.childNodes?.[0]?.textContent?.split("·")[0]?.trim();
+      const bn=translation?.querySelector("[lang='bn']")?.textContent?.trim();
+      if(!fi||!en)return;
+      const actions=document.createElement("div");actions.className="finland-extra-word-actions";
+      const listen=card.querySelector(":scope > button[data-topic-speak]");if(listen)actions.append(listen);
+      const review=document.createElement("button"),saved=window.kieloIsReviewWord?.(fi)===true;
+      review.type="button";review.className="finland-review-word"+(saved?" is-saved":"");
+      review.dataset.topicReview="";review.dataset.reviewFi=fi;review.dataset.reviewEn=en;
+      review.dataset.reviewBn=bn||"";review.dataset.reviewTopic=topics[10].title;
+      review.setAttribute("aria-pressed",String(saved));review.textContent=saved?"✓ Saved":"＋ Review";
+      actions.append(review);card.append(actions);
+    });
+  }
   function enhance(){
-    enhanceHome();enhanceExplorer();
+    enhanceHome();enhanceExplorer();enhanceFinlandReviewWords();
     const top=document.getElementById("connection-label");if(top)top.textContent="Finland · Europe/Helsinki";
   }
   document.addEventListener("click",event=>{

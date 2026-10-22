@@ -343,4 +343,4 @@ The Voice & audio page is reachable from the persistent top bar and Skill Labs n
 
 ### Finland Explorer vocabulary and spaced review
 
-The core Finnish vocabulary cards in each Finland Explorer topic now include both a listen control and a save-for-review action. Saved items retain their English and Bangla meanings and join the learner's existing local spaced-review shelf, so place-based learning can feed later recall practice without requiring an account.
+The core Finnish vocabulary cards and the larger topic word grids in Finland Explorer now include both a listen control and a save-for-review action. Region vocabulary cards have the same action. Saved items retain their English and Bangla meanings and join the learner's existing local spaced-review shelf, so place-based learning can feed later recall practice without requiring an account.
