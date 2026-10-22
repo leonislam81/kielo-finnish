@@ -71,6 +71,27 @@
     {id:"lakeland",title:"Lakeland",icon:"🛶",art:["🌲","🏡","🛶"],scene:"Lakes, forest, cottages and year-round water activities shape this broad travel area.",bnScene:"হ্রদ, বন, কটেজ ও সারা বছরের জলকেন্দ্রিক কাজকর্ম এই বিস্তৃত ভ্রমণ-অঞ্চলকে চেনায়।",places:"Tampere · Kuopio · Savonlinna",url:"https://www.visitfinland.com/en/places-to-go/lakeland/",words:[["järvi","lake","হ্রদ"],["metsä","forest","বন"],["mökki","cottage","কটেজ"]],phrase:"Mökki on järven rannalla.",en:"The cottage is by the lake.",bn:"কটেজটি হ্রদের ধারে।"},
     {id:"lapland",title:"Lapland",icon:"🌌",art:["🌌","🌲","❄️"],scene:"Northern landscapes, Sámi culture, Arctic seasons, and distinct daylight rhythms make this a varied region. Follow local guidance when visiting nature areas.",bnScene:"উত্তরের ভূদৃশ্য, সামি সংস্কৃতি, আর্কটিক ঋতু ও দিনের আলোর ভিন্ন ছন্দ—সব মিলিয়ে এই অঞ্চল বৈচিত্র্যময়। প্রকৃতিতে গেলে স্থানীয় নির্দেশনা মানুন।",places:"Rovaniemi · Inari · Levi",url:"https://www.visitfinland.com/en/places-to-go/lapland/",words:[["pohjoinen","north","উত্তর"],["tunturi","fell","উত্তরের গোলাকার পাহাড়"],["revontulet","Northern Lights","মেরুজ্যোতি"]],phrase:"Revontulet näkyvät Lapissa talvella.",en:"The Northern Lights are visible in Lapland in winter.",bn:"শীতকালে ল্যাপল্যান্ডে মেরুজ্যোতি দেখা যায়।"}
   ];
+  const finlandRegionsGuide=[
+    {code:"MK01",fi:"Uusimaa",locative:"Uudellamaalla",icon:"🏙️",words:[["pääkaupunki","capital city","রাজধানী"],["rannikko","coast","উপকূল"],["kaupunki","city","শহর"]]},
+    {code:"MK02",fi:"Varsinais-Suomi",locative:"Varsinais-Suomessa",icon:"⛵",words:[["joki","river","নদী"],["saari","island","দ্বীপ"],["linna","castle","দুর্গ"]]},
+    {code:"MK04",fi:"Satakunta",locative:"Satakunnassa",icon:"⚓",words:[["meri","sea","সমুদ্র"],["ranta","shore","তীর"],["laiva","ship","জাহাজ"]]},
+    {code:"MK05",fi:"Kanta-Häme",locative:"Kanta-Hämeessä",icon:"🏰",words:[["linna","castle","দুর্গ"],["järvi","lake","হ্রদ"],["historia","history","ইতিহাস"]]},
+    {code:"MK06",fi:"Pirkanmaa",locative:"Pirkanmaalla",icon:"🎭",words:[["kaupunki","city","শহর"],["järvi","lake","হ্রদ"],["sauna","sauna","সাউনা"]]},
+    {code:"MK07",fi:"Päijät-Häme",locative:"Päijät-Hämeessä",icon:"🎶",words:[["järvi","lake","হ্রদ"],["satama","harbour","বন্দর"],["konsertti","concert","কনসার্ট"]]},
+    {code:"MK08",fi:"Kymenlaakso",locative:"Kymenlaaksossa",icon:"🚢",words:[["joki","river","নদী"],["satama","harbour","বন্দর"],["metsä","forest","বন"]]},
+    {code:"MK09",fi:"Etelä-Karjala",locative:"Etelä-Karjalassa",icon:"🏞️",words:[["järvi","lake","হ্রদ"],["linnoitus","fortress","দুর্গ"],["raja","border","সীমান্ত"]]},
+    {code:"MK10",fi:"Etelä-Savo",locative:"Etelä-Savossa",icon:"🛶",words:[["mökki","cottage","কটেজ"],["järvi","lake","হ্রদ"],["metsä","forest","বন"]]},
+    {code:"MK11",fi:"Pohjois-Savo",locative:"Pohjois-Savossa",icon:"🍲",words:[["tori","market square","বাজার চত্বর"],["kala","fish","মাছ"],["näkymä","view","দৃশ্য"]]},
+    {code:"MK12",fi:"Pohjois-Karjala",locative:"Pohjois-Karjalassa",icon:"🥧",words:[["kansallispuisto","national park","জাতীয় উদ্যান"],["harju","ridge","শৈলশিরা"],["piirakka","pie","পাই"]]},
+    {code:"MK13",fi:"Keski-Suomi",locative:"Keski-Suomessa",icon:"⛰️",words:[["mäki","hill","পাহাড়"],["yliopisto","university","বিশ্ববিদ্যালয়"],["tapahtuma","event","অনুষ্ঠান"]]},
+    {code:"MK14",fi:"Etelä-Pohjanmaa",locative:"Etelä-Pohjanmaalla",icon:"🌾",words:[["lakeus","open plain","সমতলভূমি"],["tapahtuma","event","অনুষ্ঠান"],["ruoka","food","খাবার"]]},
+    {code:"MK15",fi:"Pohjanmaa",locative:"Pohjanmaalla",icon:"🌊",words:[["ruotsin kieli","Swedish language","সুইডিশ ভাষা"],["rannikko","coast","উপকূল"],["saaristo","archipelago","দ্বীপপুঞ্জ"]]},
+    {code:"MK16",fi:"Keski-Pohjanmaa",locative:"Keski-Pohjanmaalla",icon:"🪕",words:[["käsityö","handicraft","হস্তশিল্প"],["meri","sea","সমুদ্র"],["satama","harbour","বন্দর"]]},
+    {code:"MK17",fi:"Pohjois-Pohjanmaa",locative:"Pohjois-Pohjanmaalla",icon:"🌲",words:[["luonto","nature","প্রকৃতি"],["joki","river","নদী"],["tiedekeskus","science centre","বিজ্ঞান কেন্দ্র"]]},
+    {code:"MK18",fi:"Kainuu",locative:"Kainuussa",icon:"🏕️",words:[["erämaa","wilderness","বন্য প্রকৃতি"],["metsä","forest","বন"],["järvi","lake","হ্রদ"]]},
+    {code:"MK19",fi:"Lappi",locative:"Lapissa",icon:"🌌",words:[["tunturi","fell","উত্তরের গোলাকার পাহাড়"],["revontulet","Northern Lights","মেরুজ্যোতি"],["poro","reindeer","বলগাহরিণ"]]},
+    {code:"MK21",fi:"Ahvenanmaa",locative:"Ahvenanmaalla",icon:"⛴️",words:[["saaristo","archipelago","দ্বীপপুঞ্জ"],["purjehdus","sailing","পালতোলা"],["ruotsi","Swedish","সুইডিশ"]]}
+  ];
   const finlandFacts=[
     {icon:"👥",value:"5,652,881",label:"people",meta:"31 December 2025",fi:"väestö",en:"population",bn:"জনসংখ্যা",url:"https://stat.fi/en/statistics/vaerak",source:"Statistics Finland"},
     {icon:"🧓",value:"23.8%",label:"aged 65 or over",meta:"2025",fi:"ikä",en:"age",bn:"বয়স",url:"https://stat.fi/en/statistics/vaerak",source:"Statistics Finland"},
@@ -106,6 +127,7 @@
     {id:"money",topic:topics[15].title,words:[["pankki","bank","ব্যাংক"],["pankkitili","bank account","ব্যাংক অ্যাকাউন্ট"],["henkilöllisyystodistus","proof of identity","পরিচয়পত্র"],["pankkikortti","bank card","ব্যাংক কার্ড"],["palkka","wage / salary","বেতন"],["palkkalaskelma","payslip","বেতনের হিসাবপত্র"],["tilisiirto","bank transfer","ব্যাংক ট্রান্সফার"],["lasku","bill / invoice","বিল"],["verokortti","tax card","ট্যাক্স কার্ড"],["vero","tax","কর"],["veroprosentti","tax rate","করের হার"],["tuloraja","income ceiling","আয়ের সীমা"]]}
   ];
   finlandTopicWordGroups.push({id:"people",topic:topics[2].title,words:[["asukas","resident","বাসিন্দা"],["asukasluku","population count","জনসংখ্যার সংখ্যা"],["äidinkieli","registered first language","নিবন্ধিত প্রথম ভাষা"],["suomenkielinen","Finnish-speaking","ফিনিশভাষী"],["ruotsinkielinen","Swedish-speaking","সুইডিশভাষী"],["saamen kieli","Sámi language","সামি ভাষা"],["saamelainen","Sámi person","সামি জনগোষ্ঠীর মানুষ"],["kaksikielinen","bilingual","দ্বিভাষিক"],["monikielinen","multilingual","বহুভাষিক"],["maakunta","region","অঞ্চল"],["väkiluku","population","জনসংখ্যা"],["ikärakenne","age structure","বয়সের গঠন"],["väestönkasvu","population growth","জনসংখ্যা বৃদ্ধি"],["vähemmistö","minority","সংখ্যালঘু"],["kansalaisuus","citizenship","নাগরিকত্ব"],["muuttoliike","migration","অভিবাসন"],["tilasto","statistic","পরিসংখ্যান"]]});
+  finlandTopicWordGroups.push({id:"regions",topic:topics[10].title,words:[...new Map(finlandRegionsGuide.flatMap(region=>region.words).map(word=>[word[0],word])).values()]});
   function topicWords(groupId){return finlandTopicWordGroups.find(group=>group.id===groupId)?.words||[]}
   const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
   function readJSON(key,fallback){try{return JSON.parse(localStorage.getItem(key)||"null")??fallback}catch(_error){return fallback}}
@@ -238,7 +260,7 @@
     const key=helsinkiDayKey(),hash=key.split("").reduce((total,char)=>Math.imul(total^char.charCodeAt(0),16777619),2166136261)>>>0;
     return dailyShuffle(dailyBank(language),hash).slice(0,100);
   }
-  let activeGroup=0,activeTopicIndex=-1,activeRegionId="helsinki",activePeopleRegion="MK01",activeStudyRoute="university",activeJobPath="application",activeMarketScene="tori",activeFoodSeason="early-summer",activeCultureScene="invitation",activeTransportScene="city",activeWaterScene="archipelago",activeHousingScene="search",activeHealthScene="appointment",activeHolidayScene="vappu",activeMoneyScene="bank",dailyQuiz=null,dailyRecallMode=localStorage.getItem("kielo-daily-recall-mode")==="true",dailyRevealed=new Set();
+  let activeGroup=0,activeTopicIndex=-1,activeRegionId="helsinki",activePeopleRegion="MK01",activeFinlandRegionCode="MK01",activeStudyRoute="university",activeJobPath="application",activeMarketScene="tori",activeFoodSeason="early-summer",activeCultureScene="invitation",activeTransportScene="city",activeWaterScene="archipelago",activeHousingScene="search",activeHealthScene="appointment",activeHolidayScene="vappu",activeMoneyScene="bank",dailyQuiz=null,dailyRecallMode=localStorage.getItem("kielo-daily-recall-mode")==="true",dailyRevealed=new Set();
   function dailyProgress(dateKey=helsinkiDayKey(),language=selectedDailyLanguage()){
     const saved=readJSON(language==="bn"?dailyProgressKey+"-bn":dailyProgressKey,{});
     const values=Array.isArray(saved[dateKey])?saved[dateKey]:[];
@@ -722,7 +744,22 @@
   function regionExperienceMarkup(){
     const active=travelRegions.find(region=>region.id===activeRegionId)||travelRegions[0];
     const choices=travelRegions.map(region=>'<button type="button" class="finland-region-choice '+(region.id===active.id?'active':'')+'" data-region-select="'+esc(region.id)+'" aria-pressed="'+(region.id===active.id)+'"><span class="finland-region-choice-icon" aria-hidden="true">'+region.icon+'</span><span><strong>'+esc(region.title)+'</strong><small lang="fi">'+esc(region.words[0][0])+' · '+esc(region.words[1][0])+'</small></span></button>').join("");
-    return '<section class="finland-region-explorer" aria-labelledby="finland-region-heading"><div class="finland-region-heading"><div><span class="page-kicker">TRAVEL THROUGH FINLAND</span><h3 id="finland-region-heading">Four destination regions</h3><p>Choose a region to explore places and learn useful Finnish.</p></div><span class="finland-region-count">4 postcards</span></div><div class="finland-region-choices" role="group" aria-label="Choose a Finnish destination region">'+choices+'</div><div id="finland-region-detail">'+regionDetailMarkup(active)+'</div><p class="finland-region-note">These are Visit Finland’s travel regions, not administrative boundaries. For official statistical regions, see <a href="https://stat.fi/en/luokitukset/maakunta/maakunta_1_20260101" target="_blank" rel="noreferrer">Statistics Finland · Regions 2026 ↗</a>. <a href="https://www.visitfinland.com/en/places-to-go/" target="_blank" rel="noreferrer">All Finland destinations ↗</a></p></section>';
+    return '<section class="finland-region-explorer" aria-labelledby="finland-region-heading"><div class="finland-region-heading"><div><span class="page-kicker">TRAVEL THROUGH FINLAND</span><h3 id="finland-region-heading">Four Visit Finland travel regions</h3><p>Choose a travel region for a visual story, useful places and Finnish phrases.</p></div><span class="finland-region-count">4 postcards</span></div><div class="finland-region-choices" role="group" aria-label="Choose a Finnish destination region">'+choices+'</div><div id="finland-region-detail">'+regionDetailMarkup(active)+'</div><p class="finland-region-note">These are Visit Finland’s travel regions, not administrative boundaries. For official statistical regions, see <a href="https://stat.fi/en/luokitukset/maakunta/maakunta_1_20260101" target="_blank" rel="noreferrer">Statistics Finland · Regions 2026 ↗</a>. <a href="https://www.visitfinland.com/en/places-to-go/" target="_blank" rel="noreferrer">All Finland destinations ↗</a></p></section>';
+  }
+  function regionDirectoryDetailMarkup(region){
+    const guide=finlandRegionsGuide.find(item=>item.code===region.code)||finlandRegionsGuide[0];
+    const city=cities.find(item=>item.name===region.city)||cities[0];
+    const phrase=city.name+" sijaitsee "+guide.locative+".";
+    const words=guide.words.map(([fi,en,bn])=>'<li><span><strong lang="fi">'+esc(fi)+'</strong><small>'+esc(en)+' · <span lang="bn">'+esc(bn)+'</span></small></span>'+finlandWordActionsMarkup(fi,en,bn,topics[10].title)+'</li>').join("");
+    return '<article class="finland-region-directory-detail"><div class="finland-region-directory-art" aria-hidden="true"><span>'+guide.icon+'</span><small>'+esc(guide.fi)+' · '+esc(region.code)+'</small></div><div class="finland-region-directory-copy"><span class="page-kicker">A CITY IN THIS REGION · EXAMPLE</span><h4>'+esc(city.name)+' · '+esc(region.name)+'</h4><p>Start your visit in '+esc(city.name)+'. The regional population was '+region.population.toLocaleString("en-US")+' on 31 December 2025.</p><div class="finland-region-directory-phrase"><strong lang="fi">'+esc(phrase)+'</strong><span>'+esc(city.name)+' is located in '+esc(region.name)+'.</span><small lang="bn">'+esc(city.name)+' '+esc(region.name)+' অঞ্চলে অবস্থিত।</small><button type="button" class="button-secondary" data-topic-speak="'+esc(phrase)+'">▶ Hear this phrase</button></div><div class="finland-region-directory-word-wrap"><span class="page-kicker">WORDS FOR YOUR JOURNEY</span><ul class="finland-region-word-list">'+words+'</ul></div><div class="finland-region-directory-actions"><button type="button" class="button-secondary" data-directory-weather="'+esc(city.id)+'">Use '+esc(city.name)+' for Home weather</button><button type="button" class="link-button" data-page="home">Open Home weather →</button></div><p class="finland-region-directory-status" data-region-weather-status role="status" aria-live="polite"></p></div></article>';
+  }
+  function regionDirectoryMarkup(){
+    const selected=peopleRegions.find(region=>region.code===activeFinlandRegionCode)||peopleRegions[0];
+    const buttons=peopleRegions.slice().sort((a,b)=>a.name.localeCompare(b.name,"en")).map(region=>{
+      const guide=finlandRegionsGuide.find(item=>item.code===region.code)||finlandRegionsGuide[0];
+      return '<button type="button" class="finland-region-directory-card '+(region.code===selected.code?"is-selected":"")+'" data-region-directory-select="'+esc(region.code)+'" data-region-search="'+esc((region.name+" "+guide.fi+" "+region.city).toLowerCase())+'" aria-pressed="'+(region.code===selected.code)+'"><span class="finland-region-directory-card-icon" aria-hidden="true">'+guide.icon+'</span><span class="finland-region-directory-card-copy"><strong>'+esc(region.name)+'</strong><small lang="fi">'+esc(guide.fi)+'</small><small>'+esc(region.city)+' · '+region.population.toLocaleString("en-US")+'</small></span></button>';
+    }).join("");
+    return '<section class="finland-region-directory" aria-labelledby="finland-region-directory-title"><div class="finland-region-directory-heading"><div><span class="page-kicker">ALL 19 OFFICIAL REGIONS · MAAKUNNAT</span><h3 id="finland-region-directory-title">Explore Finland, one region at a time</h3><p>Find a city in each region, practise its Finnish place name, and set its weather for Home.</p></div><span class="finland-region-directory-count">19 regions · 19 city examples</span></div><label class="finland-region-directory-search" for="finland-region-search"><span>Search a region or city</span><input type="search" id="finland-region-search" placeholder="Try Lapland, Lappi, or Rovaniemi" autocomplete="off"></label><div class="finland-region-directory-grid" id="finland-region-directory-grid" role="group" aria-label="Choose one of Finland’s 19 official regions">'+buttons+'</div><p class="finland-region-directory-results" id="finland-region-directory-results" role="status" aria-live="polite">Showing all 19 regions.</p><div id="finland-region-directory-detail">'+regionDirectoryDetailMarkup(selected)+'</div><p class="finland-region-directory-source">Region names and boundaries follow Statistics Finland’s 2026 classification. Population values are dated 31 December 2025. <a href="https://stat.fi/en/luokitukset/maakunta/maakunta_1_20260101" target="_blank" rel="noreferrer">Statistics Finland · Regions 2026 ↗</a> · <a href="https://www.visitfinland.com/en/places-to-go/" target="_blank" rel="noreferrer">Visit Finland · Destinations ↗</a></p></section>';
   }
   function waterSceneMarkup(sceneId=activeWaterScene){
     const scenes={
@@ -934,7 +971,7 @@
     const words=lesson.words.map(([fi,en,bn])=>{const saved=window.kieloIsReviewWord?.(fi)===true;return '<article class="finland-topic-word"><strong lang="fi">'+esc(fi)+'</strong><span>'+esc(en)+'</span><small lang="bn">'+esc(bn)+'</small><div class="finland-topic-word-actions"><button type="button" data-topic-speak="'+esc(fi)+'" aria-label="Hear '+esc(fi)+' in Finnish">▶ Listen</button><button type="button" class="finland-review-word '+(saved?'is-saved':'')+'" data-topic-review data-review-fi="'+esc(fi)+'" data-review-en="'+esc(en)+'" data-review-bn="'+esc(bn)+'" data-review-topic="'+esc(topic.title)+'" aria-pressed="'+saved+'">'+(saved?'✓ Saved':'＋ Review')+'</button></div></article>'}).join("");
     const options=lesson.options.map((option,choice)=>'<button type="button" data-topic-answer="'+choice+'">'+esc(option)+'</button>').join("");
     page.innerHTML=customPageTitle(topic.title,"Connect Finnish to a real part of Finland. Read, listen, say a phrase, and check one meaning.","Finland learning chapter")+
-      '<section class="finland-topic-panel"><h2>Finland note</h2><p>'+esc(lesson.fact)+'</p>'+(index===0?historyTimelineMarkup():index===1?civicGuideMarkup():index===2?peopleExperienceMarkup():index===5?waterExperienceMarkup():index===6?transportExperienceMarkup():index===7?studyPathMarkup():index===8?jobsPathMarkup():index===9?marketExperienceMarkup():index===10?regionExperienceMarkup():index===11?cultureExperienceMarkup():index===12?housingExperienceMarkup():index===13?healthExperienceMarkup():index===14?holidayExperienceMarkup():index===15?moneyExperienceMarkup():"")+'<h2>Useful words</h2><p class="finland-topic-review-intro">Save a chapter word for spaced review. Its English and Bangla meanings stay with it.</p><section class="finland-topic-vocab" aria-label="Finnish vocabulary">'+words+'</section><div class="finland-topic-phrase"><span>TRY THIS SENTENCE</span><strong lang="fi">'+esc(lesson.phrase)+'</strong><span>'+esc(lesson.en)+'</span><small lang="bn">'+esc(lesson.bn)+'</small><button type="button" class="button-secondary" data-topic-speak="'+esc(lesson.phrase)+'">▶ Hear the sentence</button></div><section class="finland-topic-quiz"><h3>'+esc(lesson.question)+'</h3>'+options+'<p class="finland-topic-feedback" id="finland-topic-feedback" role="status" aria-live="polite"></p></section><p class="finland-topic-source">Further reading: <a href="'+esc(topic.url)+'" target="_blank" rel="noreferrer">'+esc(topic.source)+' ↗</a></p><button class="button-secondary" type="button" data-page="culture">← All Finland chapters</button></section>';
+      '<section class="finland-topic-panel"><h2>Finland note</h2><p>'+esc(lesson.fact)+'</p>'+(index===0?historyTimelineMarkup():index===1?civicGuideMarkup():index===2?peopleExperienceMarkup():index===5?waterExperienceMarkup():index===6?transportExperienceMarkup():index===7?studyPathMarkup():index===8?jobsPathMarkup():index===9?marketExperienceMarkup():index===10?regionExperienceMarkup()+regionDirectoryMarkup():index===11?cultureExperienceMarkup():index===12?housingExperienceMarkup():index===13?healthExperienceMarkup():index===14?holidayExperienceMarkup():index===15?moneyExperienceMarkup():"")+'<h2>Useful words</h2><p class="finland-topic-review-intro">Save a chapter word for spaced review. Its English and Bangla meanings stay with it.</p><section class="finland-topic-vocab" aria-label="Finnish vocabulary">'+words+'</section><div class="finland-topic-phrase"><span>TRY THIS SENTENCE</span><strong lang="fi">'+esc(lesson.phrase)+'</strong><span>'+esc(lesson.en)+'</span><small lang="bn">'+esc(lesson.bn)+'</small><button type="button" class="button-secondary" data-topic-speak="'+esc(lesson.phrase)+'">▶ Hear the sentence</button></div><section class="finland-topic-quiz"><h3>'+esc(lesson.question)+'</h3>'+options+'<p class="finland-topic-feedback" id="finland-topic-feedback" role="status" aria-live="polite"></p></section><p class="finland-topic-source">Further reading: <a href="'+esc(topic.url)+'" target="_blank" rel="noreferrer">'+esc(topic.source)+' ↗</a></p><button class="button-secondary" type="button" data-page="culture">← All Finland chapters</button></section>';
     window.scrollTo({top:0,behavior:"smooth"});
   }
   function enhanceHome(){
@@ -1075,6 +1112,25 @@
     const refresh=event.target.closest("[data-weather-refresh]");
     if(refresh){loadWeather(true);return}
   },true);
+  document.addEventListener("click",event=>{
+    const regionChoice=event.target.closest("[data-region-directory-select]");
+    if(regionChoice){
+      activeFinlandRegionCode=regionChoice.dataset.regionDirectorySelect;
+      const directory=regionChoice.closest(".finland-region-directory"),region=peopleRegions.find(item=>item.code===activeFinlandRegionCode);
+      if(!directory||!region)return;
+      directory.querySelectorAll("[data-region-directory-select]").forEach(button=>{const selected=button.dataset.regionDirectorySelect===activeFinlandRegionCode;button.classList.toggle("is-selected",selected);button.setAttribute("aria-pressed",String(selected))});
+      const detail=directory.querySelector("#finland-region-directory-detail");if(detail)detail.innerHTML=regionDirectoryDetailMarkup(region);
+      directory.querySelector('[data-region-directory-select="'+activeFinlandRegionCode+'"]')?.focus({preventScroll:true});return;
+    }
+    const weatherChoice=event.target.closest("[data-directory-weather]");
+    if(weatherChoice){
+      const city=cities.find(item=>item.id===weatherChoice.dataset.directoryWeather);if(!city)return;
+      localStorage.setItem(cityKey,city.id);cachedWeather=null;lastWeatherMessage="Loading current conditions…";
+      const citySelect=document.getElementById("finland-city");if(citySelect)citySelect.value=city.id;
+      updateClock();refreshStatusContent();loadWeather(true);
+      const status=weatherChoice.closest(".finland-region-directory-detail")?.querySelector("[data-region-weather-status]");if(status)status.textContent="Home weather city set to "+city.name+". Open Home to see its current conditions.";return;
+    }
+  },true);
   document.addEventListener("change",event=>{
     if(event.target?.id==="finland-meaning-language"){
       localStorage.setItem("kielo-daily-meaning-language",event.target.value==="bn"?"bn":"en");activeGroup=0;dailyQuiz=null;dailyRevealed.clear();renderDaily();
@@ -1101,6 +1157,13 @@
       const query=event.target.value;dictionaryPage=0;window.clearTimeout(dictionarySearchTimer);
       dictionarySearchTimer=window.setTimeout(()=>updateDictionaryResults(query),120);
     }
+  });
+  document.addEventListener("input",event=>{
+    if(event.target?.id!=="finland-region-search")return;
+    const directory=event.target.closest(".finland-region-directory"),grid=directory?.querySelector("#finland-region-directory-grid"),results=directory?.querySelector("#finland-region-directory-results");if(!grid||!results)return;
+    const query=event.target.value.trim().toLocaleLowerCase("en"),buttons=[...grid.querySelectorAll("[data-region-search]")];
+    const visible=buttons.reduce((count,button)=>{const matches=!query||button.dataset.regionSearch.includes(query);button.hidden=!matches;return count+(matches?1:0)},0);
+    results.textContent=visible===0?"No region or city matches. Try another search.":"Showing "+visible+" of 19 regions.";
   });
   const content=document.getElementById("page-content");
   if(content)new MutationObserver(enhance).observe(content,{childList:true});

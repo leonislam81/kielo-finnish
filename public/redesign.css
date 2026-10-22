@@ -1117,5 +1117,48 @@
 .finland-people-source-grid a{display:grid;gap:6px;padding:10px;border:1px solid #e6eae2;border-radius:10px;background:#fbfcf9;color:#3e5548;text-decoration:none}
 .finland-people-source-grid a:hover{border-color:#aebdaa;background:#f2f7f1}
 .finland-people-source-grid a strong{font-size:9px}.finland-people-source-grid a span{color:#718076;font-size:8px;line-height:1.55}
+.finland-region-directory{margin:14px 0 20px;padding:15px;border:1px solid #dfe8df;border-radius:16px;background:linear-gradient(145deg,#f2f7f3,#fff 68%)}
+.finland-region-directory-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:12px}
+.finland-region-directory-heading h3{font:700 18px var(--heading,Inter,sans-serif);margin:3px 0;color:#19362e}
+.finland-region-directory-heading p{font-size:10px;line-height:1.5;color:#718178;margin:4px 0 0}
+.finland-region-directory-count{font-size:8px;color:#718178;white-space:nowrap}
+.finland-region-directory-search{display:grid;gap:5px;max-width:380px;margin:0 0 10px;color:#64766d;font-size:9px;font-weight:700}
+.finland-region-directory-search input{width:100%;min-height:38px;padding:8px 11px;border:1px solid #dce5dc;border-radius:10px;background:#fff;color:#244536;font:inherit;font-weight:400}
+.finland-region-directory-search input:focus{outline:2px solid #397a62;outline-offset:2px}
+.finland-region-directory-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.finland-region-directory-card{display:flex;align-items:center;gap:8px;min-width:0;padding:9px;border:1px solid #e2e9e0;border-radius:11px;background:#fff;color:#405b4b;text-align:left;cursor:pointer;transition:border-color .15s,background .15s,transform .15s}
+.finland-region-directory-card:hover{transform:translateY(-1px);border-color:#a9c2a9}
+.finland-region-directory-card:focus-visible{outline:2px solid #397a62;outline-offset:2px}
+.finland-region-directory-card.is-selected{border-color:#397a62;background:#eaf2e9;box-shadow:inset 0 0 0 1px #397a62}
+.finland-region-directory-card[hidden]{display:none}
+.finland-region-directory-card-icon{flex:none;font-size:20px}
+.finland-region-directory-card-copy{display:grid;gap:2px;min-width:0}
+.finland-region-directory-card-copy strong,.finland-region-directory-card-copy small{overflow-wrap:anywhere}
+.finland-region-directory-card-copy strong{font-size:9px;line-height:1.3}
+.finland-region-directory-card-copy small{font-size:7.5px;color:#78877e;line-height:1.35}
+.finland-region-directory-results{min-height:14px;margin:7px 1px;color:#78877e;font-size:8px}
+.finland-region-directory-detail{display:grid;grid-template-columns:minmax(125px,.58fr) minmax(0,1.7fr);overflow:hidden;border:1px solid #e3eae3;border-radius:14px;background:#fff}
+.finland-region-directory-art{display:flex;min-height:240px;flex-direction:column;align-items:center;justify-content:center;gap:15px;padding:16px;color:#fff;background:linear-gradient(180deg,#bfded9 0%,#e4ead0 48%,#819e79 49%,#54745c 100%);text-shadow:0 2px 12px rgba(25,54,46,.3)}
+.finland-region-directory-art>span{font-size:clamp(32px,5vw,52px)}
+.finland-region-directory-art small{padding:6px 10px;border:1px solid rgba(255,255,255,.42);border-radius:999px;background:rgba(25,54,46,.24);font-size:9px;font-weight:800;text-align:center}
+.finland-region-directory-copy{min-width:0;padding:14px}
+.finland-region-directory-copy h4{font:700 16px var(--heading,Inter,sans-serif);margin:3px 0 6px;color:#19362e}
+.finland-region-directory-copy>p{font-size:9px;line-height:1.5;color:#64766d;margin:5px 0}
+.finland-region-directory-phrase{margin-top:9px;padding:10px;border-left:3px solid #78a887;border-radius:8px;background:#edf4ec}
+.finland-region-directory-phrase strong,.finland-region-directory-phrase span,.finland-region-directory-phrase small{display:block}
+.finland-region-directory-phrase strong{font-size:11px;line-height:1.45;color:#1c6553}
+.finland-region-directory-phrase span,.finland-region-directory-phrase small{margin-top:3px;font-size:8px;line-height:1.45;color:#64766d}
+.finland-region-directory-phrase button{margin-top:7px}
+.finland-region-directory-word-wrap{margin-top:10px}
+.finland-region-directory-word-wrap>.page-kicker{font-size:7px}
+.finland-region-directory-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+.finland-region-directory-actions .button-secondary{font-size:8px;padding:8px 10px}
+.finland-region-directory-status{min-height:13px;color:#397a62;font-size:8px}
+.finland-region-directory-source{margin:10px 0 0;color:#78877e;font-size:8px;line-height:1.5}
+.finland-region-directory-source a{color:#316d59;font-weight:700}
+@media(max-width:920px){.finland-region-directory-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.finland-region-directory-detail{grid-template-columns:minmax(110px,.55fr) minmax(0,1.3fr)}.finland-region-directory-art{min-height:205px}}
+@media(max-width:560px){.finland-region-directory{padding:11px}.finland-region-directory-heading{align-items:flex-start;flex-direction:column;gap:4px}.finland-region-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-region-directory-detail{grid-template-columns:1fr}.finland-region-directory-art{min-height:125px;gap:10px}.finland-region-directory-art>span{font-size:31px}.finland-region-directory-copy{padding:11px}}
+@media(max-width:390px){.finland-region-directory-grid{gap:5px}.finland-region-directory-card{padding:7px;gap:6px}.finland-region-directory-card-icon{font-size:17px}.finland-region-directory-card-copy strong{font-size:8px}.finland-region-directory-card-copy small{font-size:7px}}
 @media(max-width:760px){.finland-people-hero{grid-template-columns:1fr}.finland-people-hero-art{min-height:145px}.finland-people-stat-grid,.finland-people-language-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-people-region-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.finland-people-source-grid{grid-template-columns:1fr}}
 @media(max-width:560px){.finland-people-experience{padding:10px}.finland-people-hero-copy{padding:16px}.finland-people-hero-copy h2{font-size:21px}.finland-people-overview,.finland-people-languages,.finland-people-atlas,.finland-people-sources{padding:11px}.finland-people-region-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-people-region-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-people-region-detail{padding:10px}.finland-people-region-main{align-items:flex-start}.finland-people-population strong{font-size:16px}.finland-people-overview-heading{align-items:flex-start}.finland-people-overview-heading>span{max-width:125px}.finland-people-phrase{align-items:flex-start}}
