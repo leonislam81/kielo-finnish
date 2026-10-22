@@ -334,16 +334,56 @@
     {lemma:"järvi",form:"järven",case:"Genitive · belonging / possession",gloss:"of the lake / the lake’s",bn:"হ্রদের"},
     {lemma:"järvi",form:"järvessä",case:"Inessive · inside / in",gloss:"in the lake",bn:"হ্রদে"},
     {lemma:"järvi",form:"järvestä",case:"Elative · out of / from",gloss:"from the lake",bn:"হ্রদ থেকে"},
-    {lemma:"järvi",form:"järveen",case:"Illative · into",gloss:"into the lake",bn:"হ্রদে / হ্রদের ভেতরে"}
+    {lemma:"järvi",form:"järveen",case:"Illative · into",gloss:"into the lake",bn:"হ্রদে / হ্রদের ভেতরে"},
+    {lemma:"koti",form:"kodin",case:"Genitive · belonging / possession",gloss:"of the home / the home’s",bn:"বাড়ির"},
+    {lemma:"koti",form:"kodissa",case:"Inessive · inside / in",gloss:"in the home",bn:"বাড়িতে"},
+    {lemma:"koti",form:"kodista",case:"Elative · out of / from",gloss:"from the home",bn:"বাড়ি থেকে"},
+    {lemma:"koti",form:"kotiin",case:"Illative · into",gloss:"home / into the home",bn:"বাড়িতে / বাড়ির ভেতরে"},
+    {lemma:"koulu",form:"koulun",case:"Genitive · belonging / possession",gloss:"of the school / the school’s",bn:"স্কুলের"},
+    {lemma:"koulu",form:"koulussa",case:"Inessive · inside / in",gloss:"at / in the school",bn:"স্কুলে"},
+    {lemma:"koulu",form:"koulusta",case:"Elative · out of / from",gloss:"from the school",bn:"স্কুল থেকে"},
+    {lemma:"koulu",form:"kouluun",case:"Illative · into",gloss:"to / into the school",bn:"স্কুলে / স্কুলের ভেতরে"},
+    {lemma:"auto",form:"auton",case:"Genitive · belonging / possession",gloss:"of the car / the car’s",bn:"গাড়ির"},
+    {lemma:"auto",form:"autossa",case:"Inessive · inside / in",gloss:"in the car",bn:"গাড়িতে"},
+    {lemma:"auto",form:"autosta",case:"Elative · out of / from",gloss:"from the car",bn:"গাড়ি থেকে"},
+    {lemma:"auto",form:"autoon",case:"Illative · into",gloss:"into the car",bn:"গাড়িতে / গাড়ির ভেতরে"},
+    {lemma:"sauna",form:"saunan",case:"Genitive · belonging / possession",gloss:"of the sauna / the sauna’s",bn:"সাউনার"},
+    {lemma:"sauna",form:"saunassa",case:"Inessive · inside / in",gloss:"in the sauna",bn:"সাউনায়"},
+    {lemma:"sauna",form:"saunasta",case:"Elative · out of / from",gloss:"from the sauna",bn:"সাউনা থেকে"},
+    {lemma:"sauna",form:"saunaan",case:"Illative · into",gloss:"into the sauna",bn:"সাউনায় / সাউনায় ভেতরে"},
+    {lemma:"kaupunki",form:"kaupungin",case:"Genitive · belonging / possession",gloss:"of the city / the city’s",bn:"শহরের"},
+    {lemma:"kaupunki",form:"kaupungissa",case:"Inessive · inside / in",gloss:"in the city",bn:"শহরে"},
+    {lemma:"kaupunki",form:"kaupungista",case:"Elative · out of / from",gloss:"from the city",bn:"শহর থেকে"},
+    {lemma:"kaupunki",form:"kaupunkiin",case:"Illative · into",gloss:"to / into the city",bn:"শহরে / শহরের ভেতরে"},
+    {lemma:"työ",form:"työn",case:"Genitive · belonging / possession",gloss:"of the work / the work’s",bn:"কাজের"},
+    {lemma:"työ",form:"työssä",case:"Inessive · inside / in",gloss:"at / in work",bn:"কাজে"},
+    {lemma:"työ",form:"työstä",case:"Elative · out of / from",gloss:"from the work",bn:"কাজ থেকে"},
+    {lemma:"työ",form:"työhön",case:"Illative · into",gloss:"to / into work",bn:"কাজে / কাজে যোগ দিতে"},
+    {lemma:"meri",form:"meren",case:"Genitive · belonging / possession",gloss:"of the sea / the sea’s",bn:"সমুদ্রের"},
+    {lemma:"meri",form:"meressä",case:"Inessive · inside / in",gloss:"in the sea",bn:"সমুদ্রে"},
+    {lemma:"meri",form:"merestä",case:"Elative · out of / from",gloss:"from the sea",bn:"সমুদ্র থেকে"},
+    {lemma:"meri",form:"mereen",case:"Illative · into",gloss:"into the sea",bn:"সমুদ্রে / সমুদ্রের ভেতরে"},
+    {lemma:"vesi",form:"veden",case:"Genitive · belonging / possession",gloss:"of the water / the water’s",bn:"পানির"},
+    {lemma:"vesi",form:"vedessä",case:"Inessive · inside / in",gloss:"in the water",bn:"পানিতে"},
+    {lemma:"vesi",form:"vedestä",case:"Elative · out of / from",gloss:"from the water",bn:"পানি থেকে"},
+    {lemma:"vesi",form:"veteen",case:"Illative · into",gloss:"into the water",bn:"পানিতে / পানির ভেতরে"}
   ];
   const dictionaryFormGroups=[
     {lemma:"talo",en:"house",bn:"বাড়ি"},
     {lemma:"metsä",en:"forest",bn:"বন"},
     {lemma:"kauppa",en:"shop",bn:"দোকান"},
-    {lemma:"järvi",en:"lake",bn:"হ্রদ"}
+    {lemma:"järvi",en:"lake",bn:"হ্রদ"},
+    {lemma:"koti",en:"home",bn:"বাড়ি"},
+    {lemma:"koulu",en:"school",bn:"স্কুল"},
+    {lemma:"auto",en:"car",bn:"গাড়ি"},
+    {lemma:"sauna",en:"sauna",bn:"সাউনা"},
+    {lemma:"kaupunki",en:"city",bn:"শহর"},
+    {lemma:"työ",en:"work",bn:"কাজ"},
+    {lemma:"meri",en:"sea",bn:"সমুদ্র"},
+    {lemma:"vesi",en:"water",bn:"পানি"}
   ];
   function dictionaryFormExplorer(){
-    return '<details class="finland-form-explorer"><summary>Explore 16 guided word forms</summary><p>Search an example to see its base word, case name and a short meaning. Finnish endings can change the word stem; these are guided examples, not an automatic analyzer.</p><div class="finland-form-groups">'+dictionaryFormGroups.map(group=>'<section><h3 lang="fi">'+esc(group.lemma)+' <span>'+esc(group.en)+' · '+esc(group.bn)+'</span></h3><div>'+dictionaryFormExamples.filter(item=>item.lemma===group.lemma).map(item=>'<button type="button" data-dictionary-form="'+esc(item.form)+'"><span lang="fi">'+esc(item.form)+'</span><small>'+esc(item.case.split(" · ")[0])+'</small></button>').join("")+'</div></section>').join("")+'</div><p class="finland-form-source">Kotus explains that Finnish words follow inflection types and some forms include consonant gradation. <a href="https://kotus.fi/sana/taivutuksen-merkitseminen/" target="_blank" rel="noreferrer">Read the Kotus guide ↗</a></p></details>';
+    return '<details class="finland-form-explorer"><summary>Explore '+dictionaryFormExamples.length+' guided word forms</summary><p>Search an example to see its base word, case name and a short meaning. These examples cover four useful forms for '+dictionaryFormGroups.length+' everyday nouns. Finnish endings can change the word stem; this is a guided set, not an automatic analyzer.</p><div class="finland-form-groups">'+dictionaryFormGroups.map(group=>'<section><h3 lang="fi">'+esc(group.lemma)+' <span>'+esc(group.en)+' · '+esc(group.bn)+'</span></h3><div>'+dictionaryFormExamples.filter(item=>item.lemma===group.lemma).map(item=>'<button type="button" data-dictionary-form="'+esc(item.form)+'"><span lang="fi">'+esc(item.form)+'</span><small>'+esc(item.case.split(" · ")[0])+'</small></button>').join("")+'</div></section>').join("")+'</div><p class="finland-form-source">Kotus explains Finnish inflection types and consonant gradation, including stem changes such as <span lang="fi">kukka : kukan</span>. <a href="https://kotus.fi/sana/taivutuksen-merkitseminen/" target="_blank" rel="noreferrer">Read the Kotus guide ↗</a></p></details>';
   }
   function findDictionaryForm(needle){
     const example=dictionaryFormExamples.find(item=>dictionaryFold(item.form)===needle);
