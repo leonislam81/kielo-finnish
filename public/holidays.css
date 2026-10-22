@@ -1,0 +1,38 @@
+.finland-holiday-experience{margin:18px 0 24px;padding:clamp(16px,2.8vw,25px);border:1px solid #e3ebe1;border-radius:19px;background:linear-gradient(145deg,#fbfcf8,#f2f6ef);box-shadow:0 10px 28px rgba(43,73,53,.045)}
+.finland-holiday-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:15px}
+.finland-holiday-heading h3{margin:5px 0;color:#1d3e32;font:750 clamp(18px,2vw,23px)/1.2 var(--heading,Inter,sans-serif);letter-spacing:-.55px}
+.finland-holiday-heading p{margin:0;color:#748178;font-size:11px;line-height:1.6}
+.finland-holiday-heading>span{flex:0 0 auto;padding:7px 9px;border:1px solid #e3e9df;border-radius:999px;background:#fff;color:#718177;font-size:9px}
+.finland-holiday-calendar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.finland-holiday-calendar button{display:grid;grid-template-columns:29px minmax(0,1fr);grid-template-rows:auto auto;align-items:center;column-gap:8px;min-height:58px;padding:9px 10px;border:1px solid #e1e8de;border-radius:12px;background:rgba(255,255,255,.78);text-align:left;cursor:pointer;transition:border-color .15s,background .15s,transform .15s}
+.finland-holiday-calendar button:hover{transform:translateY(-1px);border-color:#b4c8b1;background:#fff}
+.finland-holiday-calendar button[aria-pressed="true"]{border-color:#759982;background:#eaf2e9;box-shadow:inset 0 0 0 1px #759982}
+.finland-holiday-calendar button:focus-visible,.finland-holiday-phrase button:focus-visible{outline:3px solid #83a68c;outline-offset:2px}
+.finland-holiday-calendar button>span{grid-row:1/3;display:grid;place-items:center;width:29px;height:29px;border-radius:9px;background:#f4f5e9;font-size:17px}
+.finland-holiday-calendar button strong{overflow:hidden;color:#355442;font:700 10px/1.35 var(--heading,Inter,sans-serif);text-overflow:ellipsis}
+.finland-holiday-calendar button small{margin-top:2px;color:#879189;font-size:8px;letter-spacing:.6px}
+.finland-holiday-feature{display:grid;grid-template-columns:minmax(155px,.37fr) minmax(0,1fr);overflow:hidden;border:1px solid #e2e9df;border-radius:15px;background:#fff}
+.finland-holiday-art{display:flex;min-height:220px;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;background:radial-gradient(circle at 78% 24%,rgba(255,255,255,.85) 0 8%,transparent 8.5%),linear-gradient(155deg,#dceae1 0%,#f2e5cd 54%,#d0dce0 100%);text-align:center}
+.finland-holiday-art>span{padding:5px 8px;border:1px solid rgba(65,97,77,.16);border-radius:999px;background:rgba(255,255,255,.62);color:#496c58;font-size:8px;font-weight:800;letter-spacing:1px}
+.finland-holiday-art>b{font-size:clamp(48px,7vw,76px);line-height:1;filter:drop-shadow(0 7px 9px rgba(46,72,54,.13))}
+.finland-holiday-art>small{max-width:100%;color:#45614f;font:700 11px/1.45 var(--heading,Inter,sans-serif)}
+.finland-holiday-copy{min-width:0;padding:clamp(15px,2.5vw,22px)}
+.finland-holiday-copy h4{margin:5px 0 7px;color:#244637;font:750 17px/1.3 var(--heading,Inter,sans-serif);letter-spacing:-.3px}
+.finland-holiday-copy>p,.finland-holiday-copy>small{display:block;margin:0;color:#6e7b71;font-size:10px;line-height:1.65}
+.finland-holiday-copy>small{margin-top:5px;color:#77857a}
+.finland-holiday-phrase{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:13px;padding:12px 13px;border:1px solid #e4eade;border-radius:12px;background:#f8faf5}
+.finland-holiday-phrase>div{min-width:0}
+.finland-holiday-phrase>div>span{display:block;margin-bottom:4px;color:#829184;font-size:8px;font-weight:800;letter-spacing:.9px}
+.finland-holiday-phrase strong{display:block;color:#2b4e3c;font:700 15px/1.4 var(--heading,Inter,sans-serif)}
+.finland-holiday-phrase p,.finland-holiday-phrase small{display:block;margin:3px 0 0;color:#758277;font-size:9px;line-height:1.5}
+.finland-holiday-phrase small{color:#829087}
+.finland-holiday-phrase button{flex:0 0 auto;min-height:37px;padding:8px 11px;border:1px solid #d9e3d8;border-radius:9px;background:#fff;color:#41664f;font-size:9px;font-weight:700;cursor:pointer}
+.finland-holiday-note{display:flex;gap:10px;margin:11px 0 0;padding:11px 12px;border:1px solid #e8e7d8;border-radius:11px;background:#fbfaf3;color:#778070}
+.finland-holiday-note>span{color:#bf8760;font-size:15px}
+.finland-holiday-note p{margin:0;font-size:9px;line-height:1.6}
+.finland-holiday-note strong{color:#50634f}
+.finland-holiday-sources{display:flex;flex-wrap:wrap;gap:8px 15px;margin:11px 0 0}
+.finland-holiday-sources a{color:#557963;font-size:9px;font-weight:700;text-decoration:underline;text-decoration-color:#c6d4c4;text-underline-offset:3px}
+.finland-holiday-source-note{margin:8px 0 0;color:#929b92;font-size:8px;line-height:1.55}
+@media(max-width:680px){.finland-holiday-heading{align-items:flex-start;flex-direction:column;gap:8px}.finland-holiday-calendar{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-holiday-feature{grid-template-columns:1fr}.finland-holiday-art{min-height:130px;flex-direction:row;justify-content:center}.finland-holiday-art>b{font-size:50px}}
+@media(max-width:390px){.finland-holiday-calendar{gap:6px}.finland-holiday-calendar button{grid-template-columns:25px minmax(0,1fr);gap:6px;padding:8px}.finland-holiday-calendar button>span{width:25px;height:25px}.finland-holiday-phrase{align-items:flex-start;flex-direction:column}}
