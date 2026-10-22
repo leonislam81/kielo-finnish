@@ -1,6 +1,6 @@
 // Local Finnish speech using Supertonic 3. Model files are fetched from the
 // pinned Hugging Face revision only after the learner asks to hear a phrase.
-import { loadTextToSpeech, loadVoiceStyle, writeWavFile } from "./supertonic-helper.js?v=2";
+import { loadTextToSpeech, loadVoiceStyle, writeWavFile } from "./supertonic-helper.js?v=3";
 
 const MODEL_ROOT = "https://huggingface.co/supertone-oss-archive/supertonic-3/resolve/aafc6e32416a594460b32413efc49d7fe4ce6d46";
 const ONNX_ROOT = `${MODEL_ROOT}/onnx`;

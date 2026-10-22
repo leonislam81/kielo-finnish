@@ -236,7 +236,7 @@
         ? `Preparing a free Finnish voice on this device. First use downloads ${"about 140 MB"}; your text stays on this device.`
         : "Creating Finnish speech on this device…", true);
       try {
-        localSpeechModule ||= import("./supertonic-speech.js?v=4");
+        localSpeechModule ||= import("./supertonic-speech.js?v=5");
         const localSpeech = await localSpeechModule;
         if (currentPlaybackId !== playbackId) return false;
         if (!localSpeech.isReady()) showMessage("Preparing the free Finnish voice model. First use may download about 140 MB; text stays on this device.", true);
@@ -260,7 +260,12 @@
         if (currentPlaybackId !== playbackId) return false;
         localSpeechModule = null;
         clearMessage();
-        const detail = String(error?.message || "").slice(0, 120);
+        const detail = String(error?.message || "").toLowerCase();
+        const failureMessage = /memory|allocation|out of memory|oom/.test(detail)
+          ? "This device ran short of browser memory while preparing the free Finnish voice. Close unused tabs and try again."
+          : /fetch|network|cors|load failed|timeout|failed to load/.test(detail)
+            ? "The free Finnish voice download was interrupted. Reconnect and tap Preview again; your text stays on this device."
+            : "The free Finnish voice could not finish setup. Check your connection and browser memory, then tap Preview again.";
         const hasFinnishDeviceVoice = "speechSynthesis" in window && window.speechSynthesis.getVoices().some((item) => item.lang?.toLowerCase().startsWith("fi"));
         if (hasFinnishDeviceVoice) {
           showMessage("The free voice could not load. Trying your installed Finnish voice…", true);
@@ -269,7 +274,7 @@
             return true;
           }
         }
-        showMessage(`Free Finnish voice could not load. Check your connection and try again${detail ? ` (${detail})` : ""}.`);
+        showMessage(failureMessage);
         return false;
       }
     };

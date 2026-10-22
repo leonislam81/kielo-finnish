@@ -291,18 +291,36 @@
     const automatic=finnish.length?"Automatic · prefer a Finnish voice":"Automatic · free Finnish voice";
     return '<option value="">'+automatic+'</option>'+(finnish.length?'<optgroup label="Finnish device voices">'+options(finnish)+"</optgroup>":"")+(other.length?'<optgroup label="Other free device voices · accent may vary">'+options(other)+"</optgroup>":"")||'<option value="" disabled>No device voices reported</option>';
   }
+  let speechApiLoader=null;
+  function loadKieloSpeech(){
+    if(window.KieloSpeech?.speak)return Promise.resolve(window.KieloSpeech);
+    if(speechApiLoader)return speechApiLoader;
+    speechApiLoader=new Promise((resolve,reject)=>{
+      const script=document.createElement("script");
+      script.src=new URL("./neural-speech.js?v=10",document.baseURI).href;
+      script.async=true;
+      script.addEventListener("load",()=>window.KieloSpeech?.speak?resolve(window.KieloSpeech):reject(new Error("The free voice player did not start.")),{once:true});
+      script.addEventListener("error",()=>reject(new Error("The free voice player could not load.")),{once:true});
+      document.head.append(script);
+    }).catch(error=>{speechApiLoader=null;throw error});
+    return speechApiLoader;
+  }
   function speakFinnish(text){
-    if(!window.KieloSpeech)return Promise.resolve(false);
     const status=document.getElementById("finland-voice-playback-status");
-    if(status){status.textContent="Starting Finnish audio…";status.classList.add("is-busy")}
-    const playback=window.KieloSpeech.speak(text,Number(localStorage.getItem("kielo-finnish-rate")||".86"));
-    Promise.resolve(playback).then(played=>{
+    if(status){status.textContent="Starting a free Finnish voice…";status.classList.add("is-busy");status.classList.remove("is-error")}
+    return loadKieloSpeech().then(speech=>speech.speak(text,Number(localStorage.getItem("kielo-finnish-rate")||".86"))).then(played=>{
       if(status?.isConnected){
-        status.textContent=played?"Playback finished. Select any Finnish word to hear it again.":"Voice playback stopped or could not start. Check the status above, then try again.";
-        status.classList.remove("is-busy");
+        status.textContent=played?"Playback finished. Choose a female or male voice to hear another style.":"The voice did not play. Check the connection, then tap Preview again.";
+        status.classList.remove("is-busy");status.classList.toggle("is-error",!played);
       }
+      return played;
+    }).catch(()=>{
+      const message="Free Finnish voices could not load. Check your internet connection and tap Preview again; no Finnish device voice or API key is needed.";
+      if(status?.isConnected){status.textContent=message;status.classList.remove("is-busy");status.classList.add("is-error")}
+      const toast=document.getElementById("toast");
+      if(toast){toast.textContent=message;toast.classList.add("visible");window.clearTimeout(toast.kieloTimer);toast.kieloTimer=window.setTimeout(()=>toast.classList.remove("visible"),5000)}
+      return false;
     });
-    return playback;
   }
   function setActiveCustomPage(page){
     document.querySelectorAll(".nav-link").forEach(button=>button.classList.toggle("active",button.dataset.redesignPage===page||(page==="home"&&button.dataset.page==="home")));
@@ -311,7 +329,26 @@
     return '<div class="page-title-row finland-custom-page"><div><div class="page-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(description)+'</p></div></div>';
   }
   function voiceTools(){return '<div class="finland-voice-tools"><label for="finnish-neural-voice">Free Finnish voice<select id="finnish-neural-voice"><optgroup label="Free Finnish voices · generated on this device"><option value="local:F1">Female · voice 1</option><option value="local:F2">Female · voice 2</option><option value="local:F3">Female · voice 3</option><option value="local:F4">Female · voice 4</option><option value="local:F5">Female · voice 5</option><option value="local:M1">Male · voice 1</option><option value="local:M2">Male · voice 2</option><option value="local:M3">Male · voice 3</option><option value="local:M4">Male · voice 4</option><option value="local:M5">Male · voice 5</option></optgroup><option value="device">Installed browser voice · automatic</option><option value="gemini-Aoede" data-neural disabled>Online · Female · Aoede</option><option value="gemini-Charon" data-neural disabled>Online · Male · Charon</option><option value="fi-FI-SelmaNeural" data-neural disabled>Online · Female · Selma</option><option value="fi-FI-NooraNeural" data-neural disabled>Online · Female · Noora</option><option value="fi-FI-HarriNeural" data-neural disabled>Online · Male · Harri</option></select></label><label for="finnish-voice-select">Installed device voice<select id="finnish-voice-select">'+voiceOptions()+'</select></label><label for="finnish-rate-select">Speaking pace<select id="finnish-rate-select"><option value=".72">Slow</option><option value=".86" selected>Steady</option><option value="1">Natural</option></select></label><div class="finland-voice-sample"><div><span>TRY THE SELECTED VOICE</span><strong lang="fi">Hei! Harjoitellaan suomea yhdessä.</strong><p>Hi! Let’s practise Finnish together.<small lang="bn">হেই! চল একসঙ্গে Finnish অনুশীলন করি।</small></p></div><button class="button-secondary finland-voice-preview" type="button" data-topic-speak="Hei! Harjoitellaan suomea yhdessä." aria-label="Preview the selected Finnish voice">▶ Preview voice</button></div><p id="finland-voice-playback-status" class="finland-voice-playback-status" role="status" aria-live="polite">Tap Preview voice. First setup downloads the free Finnish voice model (about 140 MB); keep this tab open while it loads.</p></div><p class="finland-voice-note" role="status" aria-live="polite"></p>'}
-  async function updateNeuralVoiceUi(){const select=document.getElementById("finnish-neural-voice");if(!select||!window.KieloSpeech)return;const note=document.querySelector(".finland-voice-note");const status=await window.KieloSpeech.getStatus();const available=new Set((status.voices||[]).map(voice=>voice.id));const options=select.querySelectorAll("option[data-neural]");options.forEach(option=>{const enabled=status.enabled&&available.has(option.value);option.hidden=!enabled;option.disabled=!enabled});if(!status.enabled&&!select.value.startsWith("local:")&&select.value!=="device"){select.value="local:F1";localStorage.setItem("kielo-neural-voice","local:F1")}if(note){const voices=getVoices(),finnish=getFinnishVoices();const local=finnish.length?"Choose a free female or male neural voice to generate Finnish on this device, or use an installed browser voice. The first setup downloads about 140 MB and may take several minutes on a slow connection; keep this tab open. After setup, your text stays on this device.":voices.length?"This browser has free speech voices but no Finnish one. Female and male neural Finnish voices run on this device; their model downloads about 140 MB on first use and may take several minutes on a slow connection. Keep this tab open; your text stays on this device.":"This browser reports no installed voices. A free female or male Finnish neural voice is ready here; its model downloads about 140 MB on first use. Your text stays on this device.";const online=status.provider==="gemini"&&status.enabled?" Optional hosted Finnish voices are connected; their text is sent for synthesis only after you choose one and press play.":status.provider==="azure"&&status.enabled?" Optional hosted Finnish voices are connected; their text is sent for synthesis only after you choose one and press play.":" Free neural voices work without a Site API key.";note.innerHTML=local+online+' Model: <a href="https://huggingface.co/supertone-oss-archive/supertonic-3" target="_blank" rel="noreferrer">Supertonic 3 ↗</a> · <a href="https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet" target="_blank" rel="noreferrer">Yle learning clips ↗</a>.'}}
+  async function updateNeuralVoiceUi(){
+    const select=document.getElementById("finnish-neural-voice");
+    if(!select)return;
+    const note=document.querySelector(".finland-voice-note");
+    if(!window.KieloSpeech){
+      if(note)note.textContent="Free female and male Finnish voices are available on this device. Tap Preview to load the voice player; a Finnish system voice and API key are not required.";
+      return;
+    }
+    const status=await window.KieloSpeech.getStatus();
+    const available=new Set((status.voices||[]).map(voice=>voice.id));
+    const options=select.querySelectorAll("option[data-neural]");
+    options.forEach(option=>{const enabled=status.enabled&&available.has(option.value);option.hidden=!enabled;option.disabled=!enabled});
+    if(!status.enabled&&!select.value.startsWith("local:")&&select.value!=="device"){select.value="local:F1";localStorage.setItem("kielo-neural-voice","local:F1")}
+    if(note){
+      const voices=getVoices(),finnish=getFinnishVoices();
+      const local=finnish.length?"Choose a free female or male neural voice to generate Finnish on this device, or use an installed browser voice. The first setup downloads about 140 MB and may take several minutes on a slow connection; keep this tab open. After setup, your text stays on this device.":voices.length?"This browser has free speech voices but no Finnish one. Female and male neural Finnish voices run on this device; their model downloads about 140 MB on first use and may take several minutes on a slow connection. Keep this tab open; your text stays on this device.":"This browser reports no installed voices. A free female or male Finnish neural voice is ready here; its model downloads about 140 MB on first use. Your text stays on this device.";
+      const online=status.provider==="gemini"&&status.enabled?" Optional hosted Finnish voices are connected; their text is sent for synthesis only after you choose one and press play.":status.provider==="azure"&&status.enabled?" Optional hosted Finnish voices are connected; their text is sent for synthesis only after you choose one and press play.":" Free neural voices work without a Site API key.";
+      note.innerHTML=local+online+' Model: <a href="https://huggingface.co/supertone-oss-archive/supertonic-3" target="_blank" rel="noreferrer">Supertonic 3 ↗</a> · <a href="https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet" target="_blank" rel="noreferrer">Yle learning clips ↗</a>.';
+    }
+  }
   function meaningLanguageTools(language){
     const bn=language==="bn";
     return '<div class="finland-meaning-tools"><label for="finland-meaning-language">Daily meanings<select id="finland-meaning-language"><option value="en" '+(language==="en"?"selected":"")+'>English · wide word bank</option><option value="bn" '+(bn?"selected":"")+'>Bangla · curated word bank</option></select></label><span>'+(bn?"বাংলা অর্থসহ বাছাই করা শব্দ দেখানো হচ্ছে। ইংরেজি মোডে আরও বড় শব্দভান্ডার আছে।":"Bangla mode includes only words with a curated Bangla meaning. English mode adds the wider frequency bank.")+'</span><button class="button-secondary finland-recall-toggle" type="button" data-daily-recall-toggle aria-pressed="'+dailyRecallMode+'">'+(bn?(dailyRecallMode?"✓ আগে মনে করার মোড চালু":"আগে মনে করো · অর্থ লুকাও"):(dailyRecallMode?"✓ Recall first is on":"Recall first · hide meanings"))+'</button></div>';
