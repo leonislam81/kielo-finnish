@@ -9,6 +9,7 @@
 .finland-live:before{content:"";width:6px;height:6px;background:#6ba278;border-radius:100%}
 .finland-clock-line{display:flex;align-items:baseline;gap:9px;margin-top:5px}
 .finland-clock{font:750 28px/1 var(--heading,Inter,sans-serif);letter-spacing:-1px;color:#19362e}
+.finland-clock-period{font:700 13px/1 var(--body,Inter,sans-serif);letter-spacing:.02em;color:#607b70}
 .finland-timezone{font-size:9px;color:#829087}
 .finland-clock-date{font-size:9px;color:#829087;margin-top:5px}
 .finland-weather-main{display:flex;align-items:center;gap:10px;margin-top:4px}

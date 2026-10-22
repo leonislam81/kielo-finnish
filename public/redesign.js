@@ -151,9 +151,12 @@
   function updateClock(){
     const clock=document.getElementById("finland-clock");if(!clock)return;
     const now=new Date();
-    const time=new Intl.DateTimeFormat("en-US",{timeZone:HELSINKI_ZONE,hour:"numeric",minute:"2-digit",second:"2-digit",hourCycle:"h12"}).format(now);
-    clock.textContent=time;
-    clock.setAttribute("aria-label","Current Finland local time: "+time);
+    const parts=new Intl.DateTimeFormat("en-US",{timeZone:HELSINKI_ZONE,hour:"numeric",minute:"2-digit",second:"2-digit",hour12:true}).formatToParts(now);
+    const part=type=>parts.find(item=>item.type===type)?.value||"";
+    const time=part("hour")+":"+part("minute")+":"+part("second");
+    const period=part("dayPeriod").toUpperCase();
+    clock.innerHTML='<span>'+time+'</span><span class="finland-clock-period">'+period+'</span>';
+    clock.setAttribute("aria-label","Current Finland local time: "+time+" "+period);
     const zone=new Intl.DateTimeFormat("en-US",{timeZone:HELSINKI_ZONE,timeZoneName:"short"}).formatToParts(now).find(item=>item.type==="timeZoneName")?.value||"Europe/Helsinki";
     const tz=document.getElementById("finland-timezone");if(tz)tz.textContent=zone+" · "+HELSINKI_ZONE;
     const date=document.getElementById("finland-date");if(date)date.textContent=cityNow().name+" · "+formattedHelsinkiDate(now);
