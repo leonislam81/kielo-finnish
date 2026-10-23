@@ -144,3 +144,5 @@ The Places chapter now includes an interactive map of all 19 Finnish statistical
 ## Video lessons
 
 Open **Video lessons** for seven official Yle collections grouped by level and everyday Finland topics, from first Finnish phrases through C1–C2 comprehension practice. Filter to a learning stage, read a short English or Bangla viewing prompt, hear a Finnish sample in Kielo, and add one useful word to review. The videos stay on Yle; captions and playback availability vary by programme and location. The library was checked against Yle's Finnish-learning index and Areena pages on 23 October 2026. See the source notes in [RESEARCH-AND-ROADMAP.md](RESEARCH-AND-ROADMAP.md).
+
+The People, Languages & Society chapter now includes a bilingual-supported lesson about Sápmi, the three endangered Sámi languages spoken in Finland, Sámi language rights, and respectful visiting. Official Sámi Parliament and visitor-guidance sources are linked in the lesson; Finnish vocabulary also joins the dictionary, daily words, audio, and review.
