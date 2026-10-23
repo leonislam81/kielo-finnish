@@ -1,7 +1,7 @@
 (() => {
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
-  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=7";
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=8";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
   const decodedLocalBuffers = new Map();
@@ -140,9 +140,10 @@ function localAudioKey(text, style, speed) {
 
   function scheduleBackgroundWarmup() {
     if (!selectedLocalStyle() || isDataSaver()) return;
-    const run = () => startBackgroundWarmup();
-    if ("requestIdleCallback" in window) window.requestIdleCallback(run, { timeout: 500 });
-    else window.setTimeout(run, 500);
+  // Start fetching the voice as soon as the page is ready, while the learner
+  // is reading. Waiting for an idle callback meant a quick first tap could be
+  // the event that began the large model download.
+  startBackgroundWarmup();
   }
 
   function apiBase() {
