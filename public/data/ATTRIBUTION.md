@@ -35,3 +35,12 @@ Kielo's curated learner guide contains noun examples and present and simple-past
 - Kotus — simple-past marker in *kosketin*: <https://kotus.fi/tulin-nain-kosketin-ja-soitin/>
 - Aalto OpenLearning course content licence: <https://creativecommons.org/licenses/by/4.0/>
 - Kotus — marking and explaining inflection: <https://kotus.fi/sana/taivutuksen-merkitseminen/>
+
+## Finland regional boundaries
+
+`finland-regions-2026.geojson` contains the 19 regional boundary features from Statistics Finland's `maakunta4500k_2026` WFS layer, downloaded on 23 October 2026 in GeoJSON / EPSG:4326. Statistics Finland provides the geographic data under its CC BY 4.0 open-data licence. Kielo projects the source geometry for an interactive SVG map; regional names and the population facts shown beside it are maintained as separate, dated lesson data.
+
+- Statistics Finland — municipality-based statistical units and boundary interfaces: <https://stat.fi/en/services/statistical-data-services/geographic-data/statistical-areas/municipality-based-statistical-units>
+- Statistics Finland — interface use of geographic data and CC BY 4.0: <https://stat.fi/en/services/statistical-data-services/open-data-and-interfaces/interface-use-of-geographic-data>
+- Statistics Finland — 2026 region classification: <https://stat.fi/en/luokitukset/maakunta/maakunta_1_20260101>
+- CC BY 4.0: <https://creativecommons.org/licenses/by/4.0/>

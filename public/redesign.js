@@ -284,6 +284,7 @@
     return dailyShuffle(dailyBank(language),hash).slice(0,100);
   }
   let activeGroup=0,activeTopicIndex=-1,activeRegionId="helsinki",activePeopleRegion="MK01",activeFinlandRegionCode="MK01",activeStudyRoute="university",activeJobPath="application",activeMarketScene="tori",activeFoodSeason="early-summer",activeCultureScene="invitation",activeTransportScene="city",activeWaterScene="archipelago",activeHousingScene="search",activeHealthScene="appointment",activeHolidayScene="vappu",activeMoneyScene="bank",dailyQuiz=null,dailyRecallMode=localStorage.getItem("kielo-daily-recall-mode")==="true",dailyRevealed=new Set();
+  let regionBoundaryPromise=null;
   function dailyProgress(dateKey=helsinkiDayKey(),language=selectedDailyLanguage()){
     const saved=readJSON(language==="bn"?dailyProgressKey+"-bn":dailyProgressKey,{});
     const values=Array.isArray(saved[dateKey])?saved[dateKey]:[];
@@ -872,13 +873,41 @@
     const destination='<section class="finland-region-destination" aria-label="Explore '+esc(place.name)+'"><div class="finland-region-destination-head"><span class="page-kicker">A PLACE TO DISCOVER</span><span aria-hidden="true">'+place.icon+'</span></div><h5>'+esc(place.name)+'</h5><p>'+esc(place.fact)+'</p><p class="finland-region-destination-bn" lang="bn">'+esc(place.factBn)+'</p><div class="finland-region-destination-phrase"><strong lang="fi">'+esc(place.phraseFi)+'</strong><span>'+esc(place.phraseEn)+'</span><small lang="bn">'+esc(place.phraseBn)+'</small><button type="button" class="button-secondary" data-topic-speak="'+esc(place.phraseFi)+'">▶ Hear the place phrase</button></div><div class="finland-region-destination-word"><span><small class="page-kicker">SPOT WORD</small><strong lang="fi">'+esc(place.word[0])+'</strong><small>'+esc(place.word[1])+' · <span lang="bn">'+esc(place.word[2])+'</span></small></span>'+finlandWordActionsMarkup(place.word[0],place.word[1],place.word[2],topics[10].title)+'</div><a class="finland-region-destination-source" href="'+esc(place.url)+'" target="_blank" rel="noopener noreferrer">'+esc(place.source)+' · Official place guide ↗</a></section>';
     return '<article class="finland-region-directory-detail"><div class="finland-region-directory-art" aria-hidden="true"><span>'+guide.icon+'</span><small>'+esc(guide.fi)+' · '+esc(region.code)+'</small></div><div class="finland-region-directory-copy"><span class="page-kicker">A CITY IN THIS REGION · EXAMPLE</span><h4>'+esc(city.name)+' · '+esc(region.name)+'</h4><p>Start your visit in '+esc(city.name)+'. The regional population was '+region.population.toLocaleString("en-US")+' on 31 December 2025.</p><div class="finland-region-directory-phrase"><strong lang="fi">'+esc(phrase)+'</strong><span>'+esc(city.name)+' is located in '+esc(region.name)+'.</span><small lang="bn">'+esc(city.name)+' '+esc(region.name)+' অঞ্চলে অবস্থিত।</small><button type="button" class="button-secondary" data-topic-speak="'+esc(phrase)+'">▶ Hear this phrase</button></div>'+destination+'<div class="finland-region-directory-word-wrap"><span class="page-kicker">WORDS FOR YOUR JOURNEY</span><ul class="finland-region-word-list">'+words+'</ul></div><div class="finland-region-directory-actions"><button type="button" class="button-secondary" data-directory-weather="'+esc(city.id)+'">Use '+esc(city.name)+' for Home weather</button><button type="button" class="link-button" data-page="home">Open Home weather →</button></div><p class="finland-region-directory-status" data-region-weather-status role="status" aria-live="polite"></p></div></article>';
   }
+  function regionBoundaryData(){
+    if(!regionBoundaryPromise)regionBoundaryPromise=fetch(new URL("data/finland-regions-2026.geojson",document.baseURI),{cache:"force-cache"}).then(response=>{if(!response.ok)throw new Error("Region boundaries are unavailable.");return response.json()}).then(data=>{if(data.features?.length!==19)throw new Error("Expected 19 official regions.");return data}).catch(error=>{regionBoundaryPromise=null;throw error});
+    return regionBoundaryPromise;
+  }
+  function regionFeatureRings(feature){
+    return feature.geometry.type==="Polygon"?feature.geometry.coordinates:feature.geometry.coordinates.flat();
+  }
+  function regionMapMarkup(data){
+    const features=data.features.filter(feature=>peopleRegions.some(region=>region.code==="MK"+feature.properties.maakunta));
+    const points=features.flatMap(feature=>regionFeatureRings(feature).flat());
+    const latitudeScale=Math.cos(64*Math.PI/180),xs=points.map(point=>point[0]*latitudeScale),ys=points.map(point=>point[1]);
+    const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys),width=420,height=520,pad=12;
+    const scale=Math.min((width-pad*2)/(maxX-minX),(height-pad*2)/(maxY-minY)),offsetX=(width-(maxX-minX)*scale)/2,offsetY=(height-(maxY-minY)*scale)/2;
+    const project=point=>[offsetX+(point[0]*latitudeScale-minX)*scale,height-offsetY-(point[1]-minY)*scale];
+    const paths=features.map(feature=>{
+      const code="MK"+feature.properties.maakunta,region=peopleRegions.find(item=>item.code===code),guide=finlandRegionsGuide.find(item=>item.code===code);
+      if(!region)return "";
+      const d=regionFeatureRings(feature).map(ring=>ring.map((point,index)=>{const [x,y]=project(point);return (index?"L":"M")+x.toFixed(1)+" "+y.toFixed(1)}).join(" ")+" Z").join(" ");
+      const selected=code===activeFinlandRegionCode,label=region.name+" · "+(guide?.fi||feature.properties.name);
+      return '<path class="finland-region-map-shape '+(selected?"is-selected":"")+'" data-region-map-select="'+esc(code)+'" d="'+d+'" role="button" tabindex="0" aria-label="Select '+esc(label)+'" aria-pressed="'+selected+'"><title>'+esc(label)+'</title></path>';
+    }).join("");
+    return '<svg class="finland-region-map-svg" viewBox="0 0 '+width+' '+height+'" role="group" aria-label="Interactive map of all 19 regions of Finland">'+paths+'</svg>';
+  }
+  function hydrateFinlandRegionMap(map){
+    if(!map||map.dataset.mapState==="loading"||map.dataset.mapState==="ready")return;
+    map.dataset.mapState="loading";map.innerHTML='<p class="finland-region-map-message" role="status">Loading the official Finland region map…</p>';
+    regionBoundaryData().then(data=>{if(!map.isConnected)return;map.innerHTML=regionMapMarkup(data);map.dataset.mapState="ready"}).catch(()=>{if(!map.isConnected)return;map.dataset.mapState="error";map.innerHTML='<div class="finland-region-map-error" role="status"><p>The boundary map could not load. The searchable 19-region list below is still available.</p><button type="button" class="link-button" data-region-map-retry>Try the map again</button></div>'});
+  }
   function regionDirectoryMarkup(){
     const selected=peopleRegions.find(region=>region.code===activeFinlandRegionCode)||peopleRegions[0];
     const buttons=peopleRegions.slice().sort((a,b)=>a.name.localeCompare(b.name,"en")).map(region=>{
       const guide=finlandRegionsGuide.find(item=>item.code===region.code)||finlandRegionsGuide[0];
       return '<button type="button" class="finland-region-directory-card '+(region.code===selected.code?"is-selected":"")+'" data-region-directory-select="'+esc(region.code)+'" data-region-search="'+esc((region.name+" "+guide.fi+" "+region.city+" "+guide.place.name+" "+guide.place.word[0]).toLowerCase())+'" aria-pressed="'+(region.code===selected.code)+'"><span class="finland-region-directory-card-icon" aria-hidden="true">'+guide.icon+'</span><span class="finland-region-directory-card-copy"><strong>'+esc(region.name)+'</strong><small lang="fi">'+esc(guide.fi)+'</small><small>'+esc(region.city)+' · '+region.population.toLocaleString("en-US")+'</small></span></button>';
     }).join("");
-    return '<section class="finland-region-directory" aria-labelledby="finland-region-directory-title"><div class="finland-region-directory-heading"><div><span class="page-kicker">ALL 19 OFFICIAL REGIONS · MAAKUNNAT</span><h3 id="finland-region-directory-title">Explore Finland, one region at a time</h3><p>Find a city and a researched place in each region, practise Finnish in context, and set its weather for Home.</p></div><span class="finland-region-directory-count">19 regions · 19 place guides</span></div><label class="finland-region-directory-search" for="finland-region-search"><span>Search a region, city, or place</span><input type="search" id="finland-region-search" placeholder="Try Lapland, Lappi, Koli, or Rovaniemi" autocomplete="off"></label><div class="finland-region-directory-grid" id="finland-region-directory-grid" role="group" aria-label="Choose one of Finland’s 19 official regions">'+buttons+'</div><p class="finland-region-directory-results" id="finland-region-directory-results" role="status" aria-live="polite">Showing all 19 regions.</p><div id="finland-region-directory-detail">'+regionDirectoryDetailMarkup(selected)+'</div><p class="finland-region-directory-source">Region names and boundaries follow Statistics Finland’s 2026 classification. Population values are dated 31 December 2025. <a href="https://stat.fi/en/luokitukset/maakunta/maakunta_1_20260101" target="_blank" rel="noreferrer">Statistics Finland · Regions 2026 ↗</a> · <a href="https://www.visitfinland.com/en/places-to-go/" target="_blank" rel="noreferrer">Visit Finland · Destinations ↗</a></p></section>';
+    return '<section class="finland-region-directory" aria-labelledby="finland-region-directory-title"><div class="finland-region-directory-heading"><div><span class="page-kicker">ALL 19 OFFICIAL REGIONS · MAAKUNNAT</span><h3 id="finland-region-directory-title">Explore Finland, one region at a time</h3><p>Find a city and a researched place in each region, practise Finnish in context, and set its weather for Home.</p></div><span class="finland-region-directory-count">19 regions · 19 place guides</span></div><label class="finland-region-directory-search" for="finland-region-search"><span>Search a region, city, or place</span><input type="search" id="finland-region-search" placeholder="Try Lapland, Lappi, Koli, or Rovaniemi" autocomplete="off"></label><div class="finland-region-directory-explorer"><figure class="finland-region-map-card"><figcaption><span class="page-kicker">A MAP OF FINLAND</span><strong>Choose a region on the map</strong><small>Click a region to see its city, place and Finnish phrase.</small></figcaption><div class="finland-region-map" id="finland-region-map" data-map-state="idle" aria-live="polite"><p class="finland-region-map-message">The official map will appear here.</p></div><p class="finland-region-map-selected" id="finland-region-map-selected" aria-live="polite">Selected: '+esc(selected.name)+' · <span lang="fi">'+esc((finlandRegionsGuide.find(item=>item.code===selected.code)||finlandRegionsGuide[0]).fi)+'</span></p></figure><div class="finland-region-picker"><div class="finland-region-directory-grid" id="finland-region-directory-grid" role="group" aria-label="Choose one of Finland’s 19 official regions">'+buttons+'</div><p class="finland-region-directory-results" id="finland-region-directory-results" role="status" aria-live="polite">Showing all 19 regions.</p></div></div><div id="finland-region-directory-detail">'+regionDirectoryDetailMarkup(selected)+'</div><p class="finland-region-directory-source">Region names and boundaries follow Statistics Finland’s 2026 classification. Population values are dated 31 December 2025. Map boundaries use Statistics Finland’s open GeoJSON. <a href="https://stat.fi/en/luokitukset/maakunta/maakunta_1_20260101" target="_blank" rel="noreferrer">Statistics Finland · Regions 2026 ↗</a> · <a href="https://stat.fi/en/services/statistical-data-services/open-data-and-interfaces/interface-use-of-geographic-data" target="_blank" rel="noreferrer">Geographic data and licence ↗</a> · <a href="https://www.visitfinland.com/en/places-to-go/" target="_blank" rel="noreferrer">Visit Finland · Destinations ↗</a></p></section>';
   }
   function waterSceneMarkup(sceneId=activeWaterScene){
     const scenes={
@@ -1158,6 +1187,7 @@
   }
   function enhance(){
     enhanceHome();enhanceExplorer();enhanceFinlandReviewWords();
+    const regionMap=document.getElementById("finland-region-map");if(regionMap)hydrateFinlandRegionMap(regionMap);
     const top=document.getElementById("connection-label");if(top)top.textContent="Finland · Europe/Helsinki";
   }
   document.addEventListener("click",event=>{
@@ -1242,14 +1272,19 @@
     if(refresh){loadWeather(true);return}
   },true);
   document.addEventListener("click",event=>{
-    const regionChoice=event.target.closest("[data-region-directory-select]");
-    if(regionChoice){
-      activeFinlandRegionCode=regionChoice.dataset.regionDirectorySelect;
-      const directory=regionChoice.closest(".finland-region-directory"),region=peopleRegions.find(item=>item.code===activeFinlandRegionCode);
+    const mapRetry=event.target.closest("[data-region-map-retry]");
+    if(mapRetry){const map=mapRetry.closest(".finland-region-map");if(map){regionBoundaryPromise=null;map.dataset.mapState="idle";hydrateFinlandRegionMap(map)}return}
+    const mapChoice=event.target.closest("[data-region-map-select]"),regionChoice=event.target.closest("[data-region-directory-select]");
+    if(mapChoice||regionChoice){
+      const code=mapChoice?.dataset.regionMapSelect||regionChoice?.dataset.regionDirectorySelect,directory=(mapChoice||regionChoice).closest(".finland-region-directory"),region=peopleRegions.find(item=>item.code===code);
       if(!directory||!region)return;
-      directory.querySelectorAll("[data-region-directory-select]").forEach(button=>{const selected=button.dataset.regionDirectorySelect===activeFinlandRegionCode;button.classList.toggle("is-selected",selected);button.setAttribute("aria-pressed",String(selected))});
+      activeFinlandRegionCode=code;
+      directory.querySelectorAll("[data-region-directory-select]").forEach(button=>{const selected=button.dataset.regionDirectorySelect===code;button.classList.toggle("is-selected",selected);button.setAttribute("aria-pressed",String(selected));if(mapChoice)button.hidden=false});
+      directory.querySelectorAll("[data-region-map-select]").forEach(shape=>{const selected=shape.dataset.regionMapSelect===code;shape.classList.toggle("is-selected",selected);shape.setAttribute("aria-pressed",String(selected))});
+      if(mapChoice){const search=directory.querySelector("#finland-region-search"),results=directory.querySelector("#finland-region-directory-results");if(search)search.value="";if(results)results.textContent="Showing all 19 regions."}
+      const guide=finlandRegionsGuide.find(item=>item.code===code)||finlandRegionsGuide[0],selectedLabel=directory.querySelector("#finland-region-map-selected");if(selectedLabel)selectedLabel.innerHTML="Selected: "+esc(region.name)+" · <span lang=\"fi\">"+esc(guide.fi)+"</span>";
       const detail=directory.querySelector("#finland-region-directory-detail");if(detail)detail.innerHTML=regionDirectoryDetailMarkup(region);
-      directory.querySelector('[data-region-directory-select="'+activeFinlandRegionCode+'"]')?.focus({preventScroll:true});return;
+      if(regionChoice)directory.querySelector('[data-region-directory-select="'+code+'"]')?.focus({preventScroll:true});return;
     }
     const weatherChoice=event.target.closest("[data-directory-weather]");
     if(weatherChoice){
@@ -1260,6 +1295,10 @@
       const status=weatherChoice.closest(".finland-region-directory-detail")?.querySelector("[data-region-weather-status]");if(status)status.textContent="Home weather city set to "+city.name+". Open Home to see its current conditions.";return;
     }
   },true);
+  document.addEventListener("keydown",event=>{
+    const regionShape=event.target.closest?.("[data-region-map-select]");
+    if(regionShape&&(event.key==="Enter"||event.key===" ")){event.preventDefault();regionShape.click()}
+  });
   document.addEventListener("change",event=>{
     if(event.target?.id==="finland-video-filter"){
       const selected=event.target.value,cards=[...document.querySelectorAll(".finland-video-card")];

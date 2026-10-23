@@ -131,6 +131,10 @@ The optional neural voice path offers Gemini free-tier Finnish voices Aoede and 
 
 The research plan and responsive mockup are in [RESEARCH-AND-ROADMAP.md](RESEARCH-AND-ROADMAP.md) and [docs/redesign-mockup.html](docs/redesign-mockup.html).
 
+## Finland regional map
+
+The Places chapter now includes an interactive map of all 19 Finnish statistical regions. Select a map shape or a region card to open its example city, researched destination, Finnish location phrase, English/Bangla meanings, and weather shortcut. The map uses Statistics Finland’s 2026 open GeoJSON boundaries, is cached for offline use, and keeps the full searchable region list as a keyboard-accessible alternative. Source and CC BY 4.0 attribution are included in [public/data/ATTRIBUTION.md](public/data/ATTRIBUTION.md).
+
 ## Video lessons
 
 Open **Video lessons** for seven official Yle collections grouped by level and everyday Finland topics, from first Finnish phrases through C1–C2 comprehension practice. Filter to a learning stage, read a short English or Bangla viewing prompt, hear a Finnish sample in Kielo, and add one useful word to review. The videos stay on Yle; captions and playback availability vary by programme and location. The library was checked against Yle's Finnish-learning index and Areena pages on 23 October 2026. See the source notes in [RESEARCH-AND-ROADMAP.md](RESEARCH-AND-ROADMAP.md).
