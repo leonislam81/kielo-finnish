@@ -5,6 +5,7 @@
   const weatherKey="kielo-finland-weather-v1";
   const dailyProgressKey="kielo-daily-100-progress-v1";
   const dailyTargetKey="kielo-daily-word-target-v1";
+  const dailyFocusKey="kielo-daily-word-focus-v1";
   const cities=[
     {id:"helsinki",name:"Helsinki",region:"Uusimaa",lat:60.16952,lon:24.93545},
     {id:"turku",name:"Turku",region:"Southwest Finland",lat:60.45148,lon:22.26869},
@@ -253,15 +254,21 @@
     return weatherRequest;
   }
   function dailyVocabulary(includeFrequency=true){
-    const result=[],seen=new Set();
-    const add=(fi,en,bn,level,topic)=>{
-      if(!fi||seen.has(String(fi).toLocaleLowerCase("fi")))return;
-      seen.add(String(fi).toLocaleLowerCase("fi"));
-      result.push({fi:String(fi),en:String(en||""),bn:String(bn||""),level:String(level||"A1"),topic:String(topic||"Everyday Finnish")});
+    const result=[],seen=new Map();
+    const add=(fi,en,bn,level,topic,exampleFi="",exampleEn="",exampleBn="")=>{
+      if(!fi)return;
+      const key=String(fi).toLocaleLowerCase("fi");
+      if(seen.has(key)){
+        const existing=result[seen.get(key)];
+        if(!existing.exampleFi&&exampleFi){existing.exampleFi=String(exampleFi);existing.exampleEn=String(exampleEn||"");existing.exampleBn=String(exampleBn||"")}
+        return;
+      }
+      seen.set(key,result.length);
+      result.push({fi:String(fi),en:String(en||""),bn:String(bn||""),level:String(level||"A1"),topic:String(topic||"Everyday Finnish"),exampleFi:String(exampleFi||""),exampleEn:String(exampleEn||""),exampleBn:String(exampleBn||"")});
     };
     (window.KIELO_LEVELS||[]).forEach(level=>(level.lessons||[]).forEach(lesson=>(lesson.words||[]).forEach(word=>add(word[0],word[1],word[2],level.label,lesson.title))));
-    (window.KIELO_ADVANCED_WORDS||[]).forEach(word=>add(word.fi,word.en,word.bn,word.level,word.topic));
-    (window.KIELO_DAILY_WORDS||[]).forEach(word=>add(word.fi,word.en,word.bn,word.level,word.topic));
+    (window.KIELO_ADVANCED_WORDS||[]).forEach(word=>add(word.fi,word.en,word.bn,word.level,word.topic,word.exampleFi,word.exampleEn,word.exampleBn));
+    (window.KIELO_DAILY_WORDS||[]).forEach(word=>add(word.fi,word.en,word.bn,word.level,word.topic,word.exampleFi,word.exampleEn,word.exampleBn));
     chapterLearning.forEach((chapter,index)=>(chapter.words||[]).forEach(([fi,en,bn])=>add(fi,en,bn,"Finland",topics[index]?.title||"Finland")));
     travelRegions.forEach(region=>(region.words||[]).forEach(([fi,en,bn])=>add(fi,en,bn,"Finland",region.title)));
     finlandTopicWordGroups.forEach(group=>group.words.forEach(([fi,en,bn])=>add(fi.split(" / ")[0],en,bn,"Finland",group.topic)));
@@ -276,19 +283,35 @@
     const out=[...items];for(let i=out.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[out[i],out[j]]=[out[j],out[i]]}return out;
   }
   function selectedDailyLanguage(){return localStorage.getItem("kielo-daily-meaning-language")||"en"}
-  function dailyBank(language=selectedDailyLanguage()){
-    return dailyVocabulary(language==="en").filter(word=>language!=="bn"||Boolean(word.bn?.trim()));
+  function selectedDailyFocus(language=selectedDailyLanguage()){
+    const value=localStorage.getItem(dailyFocusKey)||"foundation";
+    const allowed=["foundation","everyday","advanced","finland","all","news"];
+    if(!allowed.includes(value)||language==="bn"&&value==="news")return "foundation";
+    return value;
   }
-  function dayWords(language=selectedDailyLanguage()){
-    const key=helsinkiDayKey(),hash=key.split("").reduce((total,char)=>Math.imul(total^char.charCodeAt(0),16777619),2166136261)>>>0;
-    return dailyShuffle(dailyBank(language),hash).slice(0,100);
+  function dailyBank(language=selectedDailyLanguage(),focus=selectedDailyFocus(language)){
+    const words=dailyVocabulary(language==="en").filter(word=>language!=="bn"||Boolean(word.bn?.trim()));
+    if(focus==="foundation")return words.filter(word=>word.level==="Pre-A1"||word.level==="A1");
+    if(focus==="everyday")return words.filter(word=>word.level==="A2"||word.level==="B1");
+    if(focus==="advanced")return words.filter(word=>["B2","C1","C2"].includes(word.level));
+    if(focus==="finland")return words.filter(word=>word.level==="Finland");
+    if(focus==="news")return words.filter(word=>word.level==="News corpus");
+    return words.filter(word=>word.level!=="News corpus");
   }
-  let activeGroup=0,activeTopicIndex=-1,activeRegionId="helsinki",activePeopleRegion="MK01",activeFinlandRegionCode="MK01",activeStudyRoute="university",activeJobPath="application",activeMarketScene="tori",activeFoodSeason="early-summer",activeCultureScene="invitation",activeTransportScene="city",activeWaterScene="archipelago",activeHousingScene="search",activeHealthScene="appointment",activeHolidayScene="vappu",activeMoneyScene="bank",dailyQuiz=null,dailyRecallMode=localStorage.getItem("kielo-daily-recall-mode")==="true",dailyRevealed=new Set();
+  function dayWords(language=selectedDailyLanguage(),focus=selectedDailyFocus(language)){
+    const key=helsinkiDayKey()+":"+language+":"+focus,hash=key.split("").reduce((total,char)=>Math.imul(total^char.charCodeAt(0),16777619),2166136261)>>>0;
+    return dailyShuffle(dailyBank(language,focus),hash).slice(0,100);
+  }
+  let activeGroup=0,activeTopicIndex=-1,activeRegionId="helsinki",activePeopleRegion="MK01",activeFinlandRegionCode="MK01",activeStudyRoute="university",activeJobPath="application",activeMarketScene="tori",activeFoodSeason="early-summer",activeCultureScene="invitation",activeTransportScene="city",activeWaterScene="archipelago",activeHousingScene="search",activeHealthScene="appointment",activeHolidayScene="vappu",activeMoneyScene="bank",dailyQuiz=null,dailyNewsFallback=false,dailyRecallMode=localStorage.getItem("kielo-daily-recall-mode")==="true",dailyRevealed=new Set();
   let regionBoundaryPromise=null;
   function dailyProgress(dateKey=helsinkiDayKey(),language=selectedDailyLanguage()){
     const saved=readJSON(language==="bn"?dailyProgressKey+"-bn":dailyProgressKey,{});
     const values=Array.isArray(saved[dateKey])?saved[dateKey]:[];
     return new Set(values);
+  }
+  function dailyLearnedCount(items=dayWords(),dateKey=helsinkiDayKey(),language=selectedDailyLanguage()){
+    const learned=dailyProgress(dateKey,language);
+    return items.reduce((count,word)=>count+(learned.has(word.fi)?1:0),0);
   }
   function storeDailyProgress(set,dateKey=helsinkiDayKey(),language=selectedDailyLanguage()){
     const key=language==="bn"?dailyProgressKey+"-bn":dailyProgressKey,saved=readJSON(key,{});
@@ -297,7 +320,7 @@
     try{localStorage.setItem(key,JSON.stringify(keep))}catch(_error){}
   }
   function dailyTarget(){const saved=Number(localStorage.getItem(dailyTargetKey));return [10,30,100].includes(saved)?saved:100}
-  function dailyTargetMarkup(dateKey=helsinkiDayKey(),language=selectedDailyLanguage(),learnedCount=dailyProgress(dateKey,language).size){
+  function dailyTargetMarkup(dateKey=helsinkiDayKey(),language=selectedDailyLanguage(),learnedCount=dailyLearnedCount(dayWords(language),dateKey,language)){
     const target=dailyTarget(),progress=Math.min(target,learnedCount),percent=Math.round(progress/target*100),complete=learnedCount>=target;
     return '<section class="finland-daily-goal" aria-labelledby="finland-daily-goal-title"><div class="finland-daily-goal-copy"><span class="page-kicker">YOUR DAILY COMMITMENT</span><h2 id="finland-daily-goal-title">Choose a daily word goal</h2><p>All 100 words stay available. This target tracks a personal aim on this device.</p></div><label for="finland-daily-target">Words per Finland day<select id="finland-daily-target"><option value="10" '+(target===10?"selected":"")+'>10 · one set</option><option value="30" '+(target===30?"selected":"")+'>30 · three sets</option><option value="100" '+(target===100?"selected":"")+'>100 · all ten sets</option></select></label><div class="finland-daily-goal-meter"><div class="finland-daily-goal-count">'+progress+' / '+target+' words</div><div class="finland-daily-goal-progress" role="progressbar" aria-label="Daily word goal progress" aria-valuemin="0" aria-valuemax="'+target+'" aria-valuenow="'+progress+'" aria-valuetext="'+progress+' of '+target+' words"><span style="width:'+percent+'%"></span></div><p role="status" aria-live="polite">'+(complete?"Today’s goal reached. The full daily set remains ready whenever you want to continue.":"Progress resets at midnight in Finland · Europe/Helsinki.")+'</p></div></section>';
   }
@@ -352,7 +375,7 @@
   function customPageTitle(title,description,kicker){
     return '<div class="page-title-row finland-custom-page"><div><div class="page-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(description)+'</p></div></div>';
   }
-  function voiceTools(){return '<div class="finland-voice-tools"><label for="finnish-neural-voice">Free Finnish voice<select id="finnish-neural-voice"><optgroup label="Free Finnish voices · generated on this device"><option value="local:F1">Female · voice 1</option><option value="local:F2">Female · voice 2</option><option value="local:F3">Female · voice 3</option><option value="local:F4">Female · voice 4</option><option value="local:F5">Female · voice 5</option><option value="local:M1">Male · voice 1</option><option value="local:M2">Male · voice 2</option><option value="local:M3">Male · voice 3</option><option value="local:M4">Male · voice 4</option><option value="local:M5">Male · voice 5</option></optgroup><option value="device">Installed browser voice · automatic</option><option value="gemini-Aoede" data-neural disabled>Online · Female · Aoede</option><option value="gemini-Charon" data-neural disabled>Online · Male · Charon</option><option value="fi-FI-SelmaNeural" data-neural disabled>Online · Female · Selma</option><option value="fi-FI-NooraNeural" data-neural disabled>Online · Female · Noora</option><option value="fi-FI-HarriNeural" data-neural disabled>Online · Male · Harri</option></select></label><label for="finnish-voice-select">Installed device voice<select id="finnish-voice-select">'+voiceOptions()+'</select></label><label for="finnish-rate-select">Speaking pace<select id="finnish-rate-select"><option value=".72">Slow</option><option value=".86" selected>Steady</option><option value="1">Natural</option></select></label><div class="finland-voice-sample"><div><span>TRY THE SELECTED VOICE</span><strong lang="fi">Hei! Harjoitellaan suomea yhdessä.</strong><p>Hi! Let’s practise Finnish together.<small lang="bn">হেই! চল একসঙ্গে Finnish অনুশীলন করি।</small></p></div><button class="button-secondary finland-voice-preview" type="button" data-topic-speak="Hei! Harjoitellaan suomea yhdessä." aria-label="Preview the selected Finnish voice">▶ Preview voice</button></div><p id="finland-voice-playback-status" class="finland-voice-playback-status" role="status" aria-live="polite">Tap Preview voice. First setup downloads the free Finnish voice model (about 140 MB); keep this tab open while it loads.</p></div><p class="finland-voice-note" role="status" aria-live="polite"></p>'}
+  function voiceTools(){return '<div class="finland-voice-tools"><label for="finnish-neural-voice">Free Finnish voice<select id="finnish-neural-voice"><optgroup label="Free female Finnish voices · on this device"><option value="local:F1">Female · voice 1</option><option value="local:F2">Female · voice 2</option><option value="local:F3">Female · voice 3</option><option value="local:F4">Female · voice 4</option><option value="local:F5">Female · voice 5</option></optgroup><optgroup label="Free male Finnish voices · on this device"><option value="local:M1">Male · voice 1</option><option value="local:M2">Male · voice 2</option><option value="local:M3">Male · voice 3</option><option value="local:M4">Male · voice 4</option><option value="local:M5">Male · voice 5</option></optgroup><option value="device">Installed browser voice · automatic</option><option value="gemini-Aoede" data-neural disabled>Online · Female · Aoede</option><option value="gemini-Charon" data-neural disabled>Online · Male · Charon</option><option value="fi-FI-SelmaNeural" data-neural disabled>Online · Female · Selma</option><option value="fi-FI-NooraNeural" data-neural disabled>Online · Female · Noora</option><option value="fi-FI-HarriNeural" data-neural disabled>Online · Male · Harri</option></select></label><label for="finnish-voice-select">Installed device voice<select id="finnish-voice-select">'+voiceOptions()+'</select></label><label for="finnish-rate-select">Speaking pace<select id="finnish-rate-select"><option value=".72">Slow</option><option value=".86" selected>Steady</option><option value="1">Natural</option></select></label><div class="finland-voice-sample"><div><span>TRY THE SELECTED VOICE</span><strong lang="fi">Hei! Harjoitellaan suomea yhdessä.</strong><p>Hi! Let’s practise Finnish together.<small lang="bn">হেই! চল একসঙ্গে Finnish অনুশীলন করি।</small></p></div><button class="button-secondary finland-voice-preview" type="button" data-topic-speak="Hei! Harjoitellaan suomea yhdessä." aria-label="Preview the selected Finnish voice">▶ Preview voice</button></div><p id="finland-voice-playback-status" class="finland-voice-playback-status" role="status" aria-live="polite">Tap Preview voice. First setup downloads the free Finnish voice model (about 140 MB); keep this tab open while it loads.</p></div><p class="finland-voice-note" role="status" aria-live="polite"></p>'}
   async function updateNeuralVoiceUi(){
     const select=document.getElementById("finnish-neural-voice");
     if(!select)return;
@@ -375,7 +398,24 @@
   }
   function meaningLanguageTools(language){
     const bn=language==="bn";
-    return '<div class="finland-meaning-tools"><label for="finland-meaning-language">Daily meanings<select id="finland-meaning-language"><option value="en" '+(language==="en"?"selected":"")+'>English · wide word bank</option><option value="bn" '+(bn?"selected":"")+'>Bangla · curated word bank</option></select></label><span>'+(bn?"বাংলা অর্থসহ বাছাই করা শব্দ দেখানো হচ্ছে। ইংরেজি মোডে আরও বড় শব্দভান্ডার আছে।":"Bangla mode includes only words with a curated Bangla meaning. English mode adds the wider frequency bank.")+'</span><button class="button-secondary finland-recall-toggle" type="button" data-daily-recall-toggle aria-pressed="'+dailyRecallMode+'">'+(bn?(dailyRecallMode?"✓ আগে মনে করার মোড চালু":"আগে মনে করো · অর্থ লুকাও"):(dailyRecallMode?"✓ Recall first is on":"Recall first · hide meanings"))+'</button></div>';
+    const focus=selectedDailyFocus(language),focusOptions=[
+      ["foundation","Foundation · Pre-A1 / A1"],
+      ["everyday","Everyday · A2 / B1"],
+      ["advanced","Advanced · B2 / C1 / C2"],
+      ["finland","Finland topics · curated"],
+      ["all","All curated levels · mixed"]
+    ];
+    if(language==="en")focusOptions.push(["news","Finnish news · level not assigned"]);
+    const focusHelp={
+      foundation:bn?"শুরু করার জন্য Pre-A1/A1-এর বাছাই করা শব্দ। স্তরগুলো Kielo-এর অনুশীলন গাইড, সরকারি CEFR শব্দ-গ্রেড নয়।":"A gentle starting set with curated Pre-A1/A1 words. Kielo’s bands guide practice; they are not official CEFR word grades.",
+      everyday:bn?"A2/B1-এর দৈনন্দিন Finnish। প্রতিদিনের সেটে ইংরেজি ও বাংলা অর্থ থাকবে।":"Everyday A2/B1 Finnish, with an English and Bangla meaning for every curated word.",
+      advanced:bn?"B2–C2-এর উন্নত শব্দ, ছোট উদাহরণসহ। স্তরগুলো পাঠ-সহায়ক অনুশীলন ব্যান্ড।":"Advanced B2–C2 words with short example sentences. The level bands are learning guidance.",
+      finland:bn?"ফিনল্যান্ডের অঞ্চল, প্রকৃতি, কাজ, পড়াশোনা ও সংস্কৃতির শব্দ।":"Vocabulary from Finland’s regions, nature, work, study, services and culture.",
+      all:bn?"সব স্তরের বাছাই করা শব্দ ও Finland Explorer-এর শব্দ একসঙ্গে।":"A mixed set of curated course words and Finland Explorer vocabulary.",
+      news:"Yle news-archive words have English source meanings. Their source does not assign CEFR levels, and it does not provide Bangla translations."
+    };
+    const optionMarkup=focusOptions.map(([value,label])=>'<option value="'+value+'" '+(focus===value?"selected":"")+'>'+label+'</option>').join("");
+    return '<div class="finland-meaning-tools"><label for="finland-meaning-language">Daily meanings<select id="finland-meaning-language"><option value="en" '+(language==="en"?"selected":"")+'>English · curated bank</option><option value="bn" '+(bn?"selected":"")+'>Bangla · curated word bank</option></select></label><label for="finland-daily-focus">Study level<select id="finland-daily-focus">'+optionMarkup+'</select></label><span lang="'+(bn?"bn":"en")+'">'+focusHelp[focus]+'</span><button class="button-secondary finland-recall-toggle" type="button" data-daily-recall-toggle aria-pressed="'+dailyRecallMode+'">'+(bn?(dailyRecallMode?"✓ আগে মনে করার মোড চালু":"আগে মনে করো · অর্থ লুকাও"):(dailyRecallMode?"✓ Recall first is on":"Recall first · hide meanings"))+'</button></div>';
   }
   function setVoiceSelection(){
     const voice=document.getElementById("finnish-voice-select"),rate=document.getElementById("finnish-rate-select"),neural=document.getElementById("finnish-neural-voice");
@@ -404,10 +444,12 @@
     if(frequentWordPromise)return frequentWordPromise;
     frequentWordPromise=fetchGzipJson("data/fi-en-frequent.json.gz?v=3").then(items=>{
       window.KIELO_FREQUENT_WORDS=items;frequentWordsReady=true;frequentWordsError="";
+      dailyNewsFallback=false;
       if(document.getElementById("finland-daily-loading"))renderDaily();
       return items;
     }).catch(error=>{
       frequentWordsError=error?.message||"The expanded word list is temporarily unavailable.";
+      dailyNewsFallback=true;
       frequentWordPromise=null;
       if(document.getElementById("finland-daily-loading"))renderDaily();
       return [];
@@ -416,14 +458,16 @@
   }
   function renderDaily(){
     const page=document.getElementById("page-content");if(!page)return;
-    const language=selectedDailyLanguage();
-    if(language==="en"&&!frequentWordsReady&&!frequentWordsError){
+    const language=selectedDailyLanguage(),focus=selectedDailyFocus(language);
+    if(language==="en"&&focus==="news"&&frequentWordsError){localStorage.setItem(dailyFocusKey,"all");dailyNewsFallback=true;return renderDaily()}
+    if(language==="en"&&focus==="news"&&!frequentWordsReady&&!frequentWordsError){
       page.innerHTML=customPageTitle("Daily 100","A Finnish date, a fresh set of 100 words, and ten manageable groups of ten.","Learn through everyday Finland")+
-        '<section class="finland-daily-overview"><div><h2>Preparing today’s 100 words</h2><p>Loading the frequency-based Finnish word collection. Your search and progress stay in this browser.</p></div><span class="finland-daily-counter" aria-hidden="true">100</span></section>'+dailyTargetMarkup(helsinkiDayKey(),language)+meaningLanguageTools(language)+voiceTools()+'<p class="finland-dictionary-status" id="finland-daily-loading" role="status" aria-live="polite">Opening the Finnish word collection…</p>';
+        '<section class="finland-daily-overview"><div><h2>Preparing today’s Finnish news words</h2><p>Loading the wider English-meaning collection. This optional source bank has no CEFR level labels; your search and progress stay in this browser.</p></div><span class="finland-daily-counter" aria-hidden="true">100</span></section>'+dailyTargetMarkup(helsinkiDayKey(),language)+meaningLanguageTools(language)+voiceTools()+'<p class="finland-dictionary-status" id="finland-daily-loading" role="status" aria-live="polite">Opening the Finnish word collection…</p>';
       setActiveCustomPage("daily");setVoiceSelection();loadFrequentWords();return;
     }
-    const day=helsinkiDayKey(),items=dayWords(language),availableWords=dailyBank(language).length,learned=dailyProgress(day,language),start=activeGroup*10,group=items.slice(start,start+10);
-    const dailySourceCopy=language==="bn"?"This Bangla-enabled set uses curated course and learner words, so each entry has English and Bangla meanings.":frequentWordsReady?"This set changes at midnight in Finland and is drawn from a frequency-ranked Finnish news corpus plus Kielo’s lesson words.":"The expanded word bank is unavailable right now, so this set uses Kielo’s built-in learner vocabulary.";
+    const resolvedFocus=focus;
+    const day=helsinkiDayKey(),items=dayWords(language,resolvedFocus),availableWords=dailyBank(language,resolvedFocus).length,learned=dailyProgress(day,language),learnedCount=dailyLearnedCount(items,day,language),start=activeGroup*10,group=items.slice(start,start+10);
+    const dailySourceCopy=dailyNewsFallback&&focus==="all"?"The Finnish news bank did not load, so today uses the full curated learner bank instead.":focus==="news"?"This optional set uses Finnish Yle news-archive terms. Its source gives English meanings and frequency counts, not CEFR levels or Bangla translations.":focus==="foundation"?"Start with curated Pre-A1 and A1 course words.":focus==="everyday"?"Practise curated A2 and B1 everyday vocabulary.":focus==="advanced"?"Explore curated B2–C2 words with short example sentences.":focus==="finland"?"Learn vocabulary from Finland’s regions, nature, public services, work, study and culture.":"Mix curated words from the full course path and Finland Explorer.";
     const groupButtons=Array.from({length:10},(_,index)=>{
       const count=items.slice(index*10,index*10+10).filter(word=>learned.has(word.fi)).length;
       return '<button class="finland-group-button '+(index===activeGroup?"active ":"")+(count===10?"done":"")+'" type="button" data-daily-group="'+index+'" aria-label="Word set '+(index+1)+', '+count+' of 10 learned" aria-pressed="'+(index===activeGroup)+'">'+(count===10?"✓":index+1)+'</button>';
@@ -434,19 +478,20 @@
       const revealed=dailyRevealed.has(overall),recall=dailyRecallMode;
       const meanings=recall&&!revealed?'<div class="finland-recall-hidden" lang="'+(language==="bn"?"bn":"en")+'">'+(language==="bn"?"অর্থ প্রকাশের আগে একটু থামুন, মনে করার চেষ্টা করুন।":"Pause and recall the meaning before revealing it.")+'</div>':'<p class="finland-word-translation" lang="'+(language==="bn"?"bn":"en")+'">'+esc(primary)+'</p><p class="finland-word-bn" lang="'+(language==="bn"?"en":"bn")+'">'+esc(secondary)+'</p>';
       const revealControl=recall?'<button class="finland-word-reveal" type="button" data-daily-meaning-toggle="'+overall+'" aria-expanded="'+revealed+'">'+(language==="bn"?(revealed?"অর্থ লুকাও":"অর্থ দেখাও"):(revealed?"Hide meaning":"Reveal meaning"))+'</button>':'';
-      return '<article class="finland-word-card"><div class="finland-word-top"><h3 lang="fi">'+esc(word.fi)+'</h3><span class="finland-word-level">'+esc(word.level)+' · '+esc(word.topic)+'</span></div><div class="finland-word-meaning-area">'+meanings+revealControl+'</div><div class="finland-word-actions"><button type="button" data-daily-speak="'+overall+'" aria-label="Hear '+esc(word.fi)+' in Finnish">▶ Listen</button><button type="button" class="'+(done?"learned":"")+'" data-daily-learn="'+overall+'" aria-pressed="'+done+'">'+(done?"✓ Learned":"Mark learned")+'</button></div></article>';
+      const example=word.exampleFi?'<details class="finland-daily-example"><summary>'+(language==="bn"?"বাক্যে দেখুন":"See it in a sentence")+'</summary><p lang="fi">'+esc(word.exampleFi)+'</p><small lang="en">'+esc(word.exampleEn)+'</small>'+(word.exampleBn?'<small lang="bn">'+esc(word.exampleBn)+'</small>':'')+'</details>':'';
+      return '<article class="finland-word-card"><div class="finland-word-top"><h3 lang="fi">'+esc(word.fi)+'</h3><span class="finland-word-level">'+esc(word.level)+' · '+esc(word.topic)+'</span></div><div class="finland-word-meaning-area">'+meanings+revealControl+'</div>'+example+'<div class="finland-word-actions"><button type="button" data-daily-speak="'+overall+'" aria-label="Hear '+esc(word.fi)+' in Finnish">▶ Listen</button><button type="button" class="'+(done?"learned":"")+'" data-daily-learn="'+overall+'" aria-pressed="'+done+'">'+(done?"✓ Learned":"Mark learned")+'</button></div></article>';
     }).join("");
     page.innerHTML=customPageTitle("Daily 100","A Finnish date, a fresh set of 100 words, and ten manageable groups of ten.","Learn through everyday Finland")+
-      '<section class="finland-daily-overview"><div><h2>Today’s Finnish word journey</h2><p>'+esc(formattedHelsinkiDate())+' · Europe/Helsinki · '+esc(dailySourceCopy)+' 100 daily words from a pool of '+availableWords.toLocaleString()+'.</p></div><div class="finland-daily-counter">'+Math.min(100,learned.size)+' <small>/ 100 in today’s set</small></div></section>'+dailyTargetMarkup(day,language,learned.size)+
+      '<section class="finland-daily-overview"><div><h2>Today’s Finnish word journey</h2><p>'+esc(formattedHelsinkiDate())+' · Europe/Helsinki · '+esc(dailySourceCopy)+' 100 daily words from a pool of '+availableWords.toLocaleString()+'.</p></div><div class="finland-daily-counter">'+learnedCount+' <small>/ 100 in today’s set</small></div></section>'+dailyTargetMarkup(day,language,learnedCount)+
       meaningLanguageTools(language)+voiceTools()+'<div class="finland-groups" role="group" aria-label="Choose one of ten word sets">'+groupButtons+'</div>'+
       '<div class="finland-page-footer"><p>Set '+(activeGroup+1)+' of 10 · words '+(start+1)+'–'+(start+group.length)+'</p><div><button class="button-secondary" type="button" data-daily-prev '+(activeGroup===0?"disabled":"")+'>← Previous set</button> <button class="button-primary" type="button" data-daily-next '+(activeGroup===9?"disabled":"")+'>Next set →</button></div></div>'+
-      '<section class="finland-word-grid" aria-label="Finnish words in set '+(activeGroup+1)+'">'+cards+'</section>'+dailyQuizMarkup(language,items)+
+      '<section class="finland-word-grid" aria-label="Finnish words in set '+(activeGroup+1)+'">'+cards+'</section>'+dailyQuizMarkup(language,items,resolvedFocus)+
       '<div class="finland-page-footer"><p>Saved learning progress stays on this device. '+(frequentWordsError?'<button class="link-button" type="button" data-frequency-retry>Try loading the larger word bank again</button> · ':'')+(frequentWordsReady?'Frequency counts come from Finnish Yle news (2011–2024), not a universal ranking of spoken words. ':'')+'<a href="data/ATTRIBUTION.md" target="_blank" rel="noreferrer">Sources ↗</a></p><button class="link-button" type="button" data-page="home">← Back to home</button></div>';
     setActiveCustomPage("daily");setVoiceSelection();
   }
-  function dailyQuizMarkup(language,items){
+  function dailyQuizMarkup(language,items,focus=selectedDailyFocus(language)){
     const day=helsinkiDayKey();
-    if(dailyQuiz&&(dailyQuiz.language!==language||dailyQuiz.group!==activeGroup||dailyQuiz.day!==day))dailyQuiz=null;
+    if(dailyQuiz&&(dailyQuiz.language!==language||dailyQuiz.focus!==focus||dailyQuiz.group!==activeGroup||dailyQuiz.day!==day))dailyQuiz=null;
     const labels=language==="bn";
     const heading="Quick check · Set "+(activeGroup+1);
     if(!dailyQuiz)return '<section class="finland-daily-quiz" aria-labelledby="finland-daily-quiz-title"><div><span class="finland-quiz-kicker">RECALL · 10 QUESTIONS</span><h2 id="finland-daily-quiz-title">'+heading+'</h2><p>'+(labels?"প্রতিটি অর্থের সঙ্গে সঠিক Finnish শব্দটি মেলাও। এই সেটের ১০টি শব্দই একবার করে আসবে।":"Match each meaning to its Finnish word. All 10 words in this set appear once.")+'</p></div><button class="button-primary" type="button" data-daily-quiz-start>'+(labels?"শুরু করি →":"Start quick check →")+'</button></section>';
@@ -463,8 +508,8 @@
     const total=dailyQuiz.questions.length,completed=dailyQuiz.questionIndex+(answered?1:0),progress=Math.round(completed/total*100);
     return '<section class="finland-daily-quiz" aria-labelledby="finland-daily-quiz-title"><div class="finland-quiz-heading"><div><span class="finland-quiz-kicker">'+(dailyQuiz.scope==="missed"?(labels?"ভুল হওয়া শব্দ":"MISSED WORDS"):(labels?"দৈনিক অনুশীলন":"DAILY PRACTICE"))+' · '+(dailyQuiz.questionIndex+1)+' / '+total+'</span><h2 id="finland-daily-quiz-title">'+heading+'</h2></div><span class="finland-quiz-score">'+(labels?"স্কোর ":"Score ")+dailyQuiz.score+'</span></div><div class="finland-quiz-progress" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="'+total+'" aria-valuenow="'+completed+'"><span style="width:'+progress+'%"></span></div><p class="finland-quiz-prompt">'+(labels?"Finnish-এ কী হবে:":"What is the Finnish word for:")+' <strong lang="'+(labels?"bn":"en")+'">'+esc(question.meaning)+'</strong></p><div class="finland-quiz-choices" role="group" aria-label="Choose the Finnish word">'+choices+'</div><p class="finland-quiz-feedback" id="finland-daily-quiz-feedback" role="status" aria-live="polite" tabindex="-1">'+esc(feedback)+'</p>'+(answered?'<button class="button-primary" type="button" data-daily-quiz-next>'+(dailyQuiz.questionIndex===total-1?(labels?"ফলাফল দেখো →":"See results →"):(labels?"পরের প্রশ্ন →":"Next question →"))+'</button>':'')+'</section>';
   }
-  function startDailyQuiz(language=selectedDailyLanguage(),questionSet=null){
-    const items=dayWords(language),group=items.slice(activeGroup*10,activeGroup*10+10),seedText=helsinkiDayKey()+":"+language+":"+activeGroup;
+  function startDailyQuiz(language=selectedDailyLanguage(),questionSet=null,focus=selectedDailyFocus(language)){
+    const items=dayWords(language,focus),group=items.slice(activeGroup*10,activeGroup*10+10),seedText=helsinkiDayKey()+":"+language+":"+focus+":"+activeGroup;
     const seed=seedText.split("").reduce((total,char)=>Math.imul(total^char.charCodeAt(0),16777619),2166136261)>>>0;
     const questions=questionSet?dailyShuffle(questionSet,seed):dailyShuffle(group,seed).map((word,position)=>{
       const meaning=language==="bn"?(word.bn||""):word.en;
@@ -474,7 +519,7 @@
       while(alternatives.length<3&&fallback.length)alternatives.push(fallback.shift());
       return {word,meaning,choices:dailyShuffle([word,...alternatives],seed+position+101)};
     });
-    dailyQuiz={day:helsinkiDayKey(),language,group:activeGroup,questions,questionIndex:0,score:0,answered:false,chosen:"",missed:[],scope:questionSet?"missed":"set"};
+    dailyQuiz={day:helsinkiDayKey(),language,focus,group:activeGroup,questions,questionIndex:0,score:0,answered:false,chosen:"",missed:[],scope:questionSet?"missed":"set"};
   }
   const dictionaryFormExamples=[
     {lemma:"talo",form:"talon",case:"Genitive · belonging / possession",gloss:"of the house / the house’s",bn:"বাড়ির"},
@@ -712,7 +757,7 @@
       }catch(error){
         fullDictionaryError=error?.message||"The full dictionary could not be loaded.";
         if(button){button.disabled=false;button.textContent="Try loading the Finnish–English dictionary again";}
-        if(status)status.textContent=fullDictionaryError+" The 273-word trilingual learner list still works.";
+        if(status)status.textContent=fullDictionaryError+" The "+dailyVocabulary(false).length.toLocaleString()+" curated trilingual learner words still work.";
         fullDictionaryPromise=null;return [];
       }
     })();
@@ -1128,7 +1173,7 @@
     if(!page.querySelector("#finland-status"))page.insertAdjacentHTML("afterbegin",statusMarkup());
     if(!page.querySelector(".finland-daily-promo")){
       const promo=document.createElement("section");promo.className="finland-daily-promo";
-      const date=formattedHelsinkiDate(),learned=dailyProgress().size,target=dailyTarget(),complete=learned>=target;
+      const date=formattedHelsinkiDate(),learned=dailyLearnedCount(),target=dailyTarget(),complete=learned>=target;
       promo.innerHTML='<div><div class="page-kicker">TODAY IN FINLAND · '+esc(date.toUpperCase())+'</div><h2>100 useful Finnish words, in ten calm sets.</h2><p>'+esc(complete?"Today’s "+target+"-word aim is complete. The full set is still ready.":"Your daily goal is "+target+" words. The full 100-word set stays available.")+'</p><div class="daily-pips" aria-hidden="true">'+Array.from({length:target/10},(_,index)=>'<i class="'+(learned>=(index+1)*10?"done":(learned>index*10?"partial":""))+'" '+(learned>index*10&&learned<(index+1)*10?'style="--progress:'+((learned-index*10)*10)+'%"':"")+'></i>').join("")+'</div></div><div><div class="finland-daily-progress" aria-label="'+Math.min(target,learned)+' of '+target+' daily goal words">'+Math.min(target,learned)+' <small>/ '+target+' goal</small></div><button class="finland-daily-open" type="button" data-redesign-page="daily">Start today’s words →</button></div>';
       const existing=page.querySelector(".daily-word-card");if(existing)existing.insertAdjacentElement("afterend",promo);else page.appendChild(promo);
     }
@@ -1307,7 +1352,14 @@
       if(results)results.textContent=selected==="all"?"Showing all "+visible+" collections.":"Showing "+visible+" collections for this stage.";
     }
     if(event.target?.id==="finland-meaning-language"){
-      localStorage.setItem("kielo-daily-meaning-language",event.target.value==="bn"?"bn":"en");activeGroup=0;dailyQuiz=null;dailyRevealed.clear();renderDaily();
+      const language=event.target.value==="bn"?"bn":"en";
+      localStorage.setItem("kielo-daily-meaning-language",language);
+      if(language==="bn"&&localStorage.getItem(dailyFocusKey)==="news")localStorage.setItem(dailyFocusKey,"foundation");
+      activeGroup=0;dailyQuiz=null;dailyNewsFallback=false;dailyRevealed.clear();renderDaily();
+    }
+    if(event.target?.id==="finland-daily-focus"){
+      const focus=event.target.value,allowed=["foundation","everyday","advanced","finland","all","news"];
+      if(allowed.includes(focus)&&(focus!=="news"||selectedDailyLanguage()==="en")){localStorage.setItem(dailyFocusKey,focus);activeGroup=0;dailyQuiz=null;dailyNewsFallback=false;dailyRevealed.clear();renderDaily();document.getElementById("finland-daily-focus")?.focus({preventScroll:true})}
     }
     if(event.target?.id==="finland-daily-target"){
       const target=Number(event.target.value);
