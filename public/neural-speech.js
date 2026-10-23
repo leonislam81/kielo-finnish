@@ -11,6 +11,7 @@
   let activeAudio = null;
   let activeFinish = null;
   let activeSource = null;
+  let activeUtterance = null;
   let audioContext = null;
   let localSpeechModule = null;
   let localPreparation = null;
@@ -232,6 +233,8 @@ function localAudioKey(text, style, speed) {
   }
 
   function stop() {
+    const speechSynthesis = window.speechSynthesis;
+    const cancelSpeech = Boolean(speechSynthesis && (activeUtterance || speechSynthesis.speaking || speechSynthesis.pending));
     playbackId += 1;
     if (activeAudio) {
       activeAudio.pause();
@@ -248,8 +251,12 @@ function localAudioKey(text, style, speed) {
       activeFinish = null;
       finish(false);
     }
-    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    // Calling cancel() when speech is already idle can reset Chromium's speech
+    // service just before the next utterance is submitted. Leave an idle
+    // service alone so a fresh tap can start in the same click task.
+    if (cancelSpeech) speechSynthesis.cancel();
     clearMessage();
+    return cancelSpeech;
   }
 
   function paceName(rate) {
@@ -349,7 +356,7 @@ function localAudioKey(text, style, speed) {
     return decodeLocalAudio(blob, cacheKey).then((audioBuffer) => playLocalBuffer(audioBuffer, currentPlaybackId)).catch(() => false);
   }
 
-  function speakOnDevice(text, rate, currentPlaybackId, quietIfMissing = false) {
+  function speakOnDevice(text, rate, currentPlaybackId, quietIfMissing = false, afterCancel = false) {
     if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
       showMessage("Audio playback is not available in this browser.");
       return Promise.resolve(false);
@@ -372,7 +379,10 @@ function localAudioKey(text, style, speed) {
     const utterance = new SpeechSynthesisUtterance(text);
     // Keep Finnish as the requested language even if the quick preview has to
     // borrow an installed system voice with another language tag.
-    utterance.lang = "fi-FI";
+    // If the device has no Finnish voice, request the selected device voice's
+    // own language for the immediate preview. Some speech services delay or
+    // drop a Finnish-tagged utterance when no Finnish voice is installed.
+    utterance.lang = finnish.length ? "fi-FI" : selected?.lang || voices.find((voice) => voice.default)?.lang || voices[0]?.lang || navigator.language || "en-US";
     utterance.rate = rate;
     if (selected) utterance.voice = selected;
     return new Promise((resolve) => {
@@ -380,10 +390,15 @@ function localAudioKey(text, style, speed) {
       const finish = (played) => {
         if (settled) return;
         settled = true;
+        if (activeUtterance === utterance) activeUtterance = null;
         if (activeFinish === finish) activeFinish = null;
         resolve(played);
       };
       activeFinish = finish;
+      activeUtterance = utterance;
+      utterance.onstart = () => {
+        if (currentPlaybackId === playbackId) showMessage("Playing an immediate device preview…", true);
+      };
       utterance.onend = () => finish(true);
       utterance.onerror = (event) => {
         if (!quietIfMissing && event?.error !== "canceled" && event?.error !== "interrupted") {
@@ -395,14 +410,22 @@ function localAudioKey(text, style, speed) {
         finish(false);
         return;
       }
-      window.speechSynthesis.speak(utterance);
+      const begin = () => {
+        if (currentPlaybackId !== playbackId) return finish(false);
+        window.speechSynthesis.speak(utterance);
+      };
+      // Chromium can briefly keep the cancelled utterance in its queue. A
+      // zero-delay reset is only needed to interrupt active speech; idle taps
+      // submit the preview immediately without this extra turn.
+      if (afterCancel) window.setTimeout(begin, 0);
+      else begin();
     });
   }
 
   async function speak(text, rate = 0.86) {
     if (typeof text !== "string" || !text.trim()) return false;
     const phrase = text.trim();
-    stop();
+    const interruptedSpeech = stop();
     lastPlaybackMode = "selected";
     const currentPlaybackId = playbackId;
     const normalizedRate = Math.min(1.15, Math.max(0.6, Number(rate) || 0.86));
@@ -425,7 +448,7 @@ function localAudioKey(text, style, speed) {
     prepareAudioContext();
     const canTryDevicePreview = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
     const instantPreview = canTryDevicePreview
-      ? speakOnDevice(phrase, normalizedRate, currentPlaybackId, true)
+      ? speakOnDevice(phrase, normalizedRate, currentPlaybackId, true, interruptedSpeech)
       : null;
     if (instantPreview) {
       lastPlaybackMode = "device-preview";
