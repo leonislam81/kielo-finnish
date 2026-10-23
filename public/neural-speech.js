@@ -1,7 +1,9 @@
 (() => {
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=7";
   const audioCache = new Map();
+  const decodedLocalAudio = new WeakMap();
   let statusCache = null;
   let statusExpiresAt = 0;
   let statusRequest = null;
@@ -10,7 +12,121 @@
   let activeSource = null;
   let audioContext = null;
   let localSpeechModule = null;
+  let localPreparation = null;
+  let warmupStarted = false;
+  let speechObserver = null;
+  let speechContentObserver = null;
+  let scanTimer = 0;
+  let queuedPreloads = 0;
+  const MAX_BACKGROUND_PRELOADS = 8;
   let playbackId = 0;
+
+  function selectedLocalStyle() {
+    const voice = localStorage.getItem("kielo-neural-voice") || "local:F1";
+    if (voice.startsWith("local:")) return /^[FM][1-5]$/.test(voice.slice(6)) ? voice.slice(6) : "F1";
+    return "";
+  }
+
+  function synthesisSpeed(rate) {
+    return rate < 0.78 ? 1.28 : rate > 0.93 ? 0.96 : 1.08;
+  }
+
+  function localSpeech() {
+    localSpeechModule ||= import(LOCAL_SPEECH_URL).catch((error) => {
+      localSpeechModule = null;
+      throw error;
+    });
+    return localSpeechModule;
+  }
+
+  function isDataSaver() {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    return connection?.saveData === true || ["slow-2g", "2g"].includes(connection?.effectiveType);
+  }
+
+  function speechTextForButton(button) {
+    if (button.hasAttribute("data-speak")) return button.dataset.speak;
+    if (button.hasAttribute("data-topic-speak")) return button.dataset.topicSpeak;
+    if (button.hasAttribute("data-dictionary-speak")) return button.dataset.dictionarySpeak;
+    return "";
+  }
+
+  function speechRateForButton(button) {
+    if (button.dataset.speakRate) return Number(button.dataset.speakRate) || 0.78;
+    if (button.hasAttribute("data-speak")) return 0.78;
+    return Number(localStorage.getItem("kielo-finnish-rate") || "0.86");
+  }
+
+  function scheduleVisiblePreload(button) {
+    const text = speechTextForButton(button)?.trim();
+    const style = selectedLocalStyle();
+    if (!text || !style || !button.isConnected || !window.KieloSpeech) return;
+    const speed = synthesisSpeed(speechRateForButton(button));
+    const key = `${style}\u0000${speed}\u0000${text}`;
+    if (button.dataset.kieloPreloadKey === key || queuedPreloads >= MAX_BACKGROUND_PRELOADS) return;
+    button.dataset.kieloPreloadKey = key;
+    queuedPreloads += 1;
+    localSpeech().then(async (speech) => {
+      await speech.preload(text, style, speed);
+      if (speech.hasAudio(text, style, speed)) {
+        const blob = await speech.synthesize(text, style, speed);
+        void decodeLocalAudio(blob).catch(() => {});
+      } else if (button.dataset.kieloPreloadKey === key) delete button.dataset.kieloPreloadKey;
+    }).catch(() => {
+      if (button.dataset.kieloPreloadKey === key) delete button.dataset.kieloPreloadKey;
+    }).finally(() => {
+      queuedPreloads = Math.max(0, queuedPreloads - 1);
+      if (document.visibilityState !== "hidden") observeVisibleSpeech();
+    });
+  }
+
+  function observeVisibleSpeech() {
+    const content = document.getElementById("page-content");
+    if (!content || !selectedLocalStyle()) return;
+    const selector = "[data-speak],[data-topic-speak],[data-dictionary-speak]";
+    if (speechObserver) speechObserver.disconnect();
+    if ("IntersectionObserver" in window) {
+      speechObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            speechObserver.unobserve(entry.target);
+            scheduleVisiblePreload(entry.target);
+          }
+        }
+      }, { rootMargin: "240px 0px" });
+      content.querySelectorAll(selector).forEach((button) => speechObserver.observe(button));
+    } else {
+      content.querySelectorAll(selector).forEach((button) => {
+        const rect = button.getBoundingClientRect();
+        if (rect.bottom >= 0 && rect.top < window.innerHeight + 240) scheduleVisiblePreload(button);
+      });
+    }
+  }
+
+  function startBackgroundWarmup() {
+    if (warmupStarted || !selectedLocalStyle() || isDataSaver() || document.visibilityState === "hidden") return;
+    warmupStarted = true;
+    const style = selectedLocalStyle();
+    document.dispatchEvent(new CustomEvent("kielo-speech-preparation", { detail: { phase: "starting" } }));
+    localPreparation = localSpeech().then((speech) => speech.prepare(style, (progress) => {
+      document.dispatchEvent(new CustomEvent("kielo-speech-preparation", { detail: progress }));
+    })).then(() => {
+      document.dispatchEvent(new CustomEvent("kielo-speech-preparation", { detail: { phase: "ready" } }));
+      if (selectedLocalStyle()) observeVisibleSpeech();
+    }).catch(() => {
+      warmupStarted = false;
+      document.dispatchEvent(new CustomEvent("kielo-speech-preparation", { detail: { phase: "failed" } }));
+    }).finally(() => {
+      localPreparation = null;
+    });
+  }
+
+  function scheduleBackgroundWarmup() {
+    if (!selectedLocalStyle() || isDataSaver()) return;
+    const run = () => startBackgroundWarmup();
+    if ("requestIdleCallback" in window) window.requestIdleCallback(run, { timeout: 4500 });
+    else window.setTimeout(run, 1800);
+  }
 
   function apiBase() {
     const host = window.location.hostname;
@@ -75,6 +191,22 @@
     } catch {
       return null;
     }
+  }
+
+  function decodeLocalAudio(blob) {
+    const context = prepareAudioContext();
+    if (!context || !blob) return Promise.reject(new Error("Audio decoding is unavailable."));
+    let decoded = decodedLocalAudio.get(blob);
+    if (!decoded) {
+      decoded = blob.arrayBuffer().then((buffer) => context.decodeAudioData(buffer));
+      decodedLocalAudio.set(blob, decoded);
+      decoded.catch(() => decodedLocalAudio.delete(blob));
+    }
+    return decoded;
+  }
+
+  function playbackStarted() {
+    showMessage("Playing Finnish voice…", true);
   }
 
   function stop() {
@@ -148,7 +280,9 @@
         finish(false);
         return;
       }
-      audio.play().catch(() => finish(false));
+      Promise.resolve(audio.play()).then(() => {
+        if (currentPlaybackId === playbackId) playbackStarted();
+      }).catch(() => finish(false));
     });
   }
 
@@ -168,7 +302,7 @@
       activeFinish = finish;
       (async () => {
         try {
-          const audioBuffer = await context.decodeAudioData(await blob.arrayBuffer());
+          const audioBuffer = await decodeLocalAudio(blob);
           if (currentPlaybackId !== playbackId) return finish(false);
           source = context.createBufferSource();
           source.buffer = audioBuffer;
@@ -178,6 +312,7 @@
           if (context.state === "suspended") await context.resume();
           if (currentPlaybackId !== playbackId) return finish(false);
           source.start(0);
+          playbackStarted();
         } catch {
           finish(false);
         }
@@ -231,17 +366,19 @@
     const style = voice.startsWith("local:") ? voice.slice(6) : localStorage.getItem("kielo-supertonic-style") || "F1";
     const localFallback = async () => {
       if (currentPlaybackId !== playbackId) return false;
-      const firstUse = !localSpeechModule;
-      showMessage(firstUse
-        ? `Preparing a free Finnish voice on this device. First use downloads ${"about 140 MB"}; your text stays on this device.`
-        : "Creating Finnish speech on this device…", true);
       try {
-        localSpeechModule ||= import("./supertonic-speech.js?v=6");
-        const localSpeech = await localSpeechModule;
+        const speechPromise = localSpeech();
+        const speechApi = await speechPromise;
         if (currentPlaybackId !== playbackId) return false;
-        if (!localSpeech.isReady()) showMessage("Preparing the free Finnish voice model. First use may download about 140 MB; text stays on this device.", true);
-        const synthesisSpeed = rate < 0.78 ? 1.28 : rate > 0.93 ? 0.96 : 1.08;
-        const blob = await localSpeech.synthesize(text.trim(), style, synthesisSpeed, (progress) => {
+        const synthesisSpeedValue = synthesisSpeed(normalizedRate);
+        const hasCachedAudio = speechApi.hasAudio(text.trim(), style, synthesisSpeedValue);
+        if (!hasCachedAudio) {
+          const modelReady = speechApi.isReady();
+          showMessage(modelReady
+            ? "Creating Finnish speech on this device…"
+            : `Preparing the free Finnish voice model. First setup downloads about 140 MB; text stays on this device.`, true);
+        }
+        const blob = await speechApi.synthesize(text.trim(), style, synthesisSpeedValue, (progress) => {
           if (currentPlaybackId !== playbackId) return;
           if (progress.phase === "loading") {
             const stage = progress.current ? ` · model ${progress.current} of ${progress.total}` : "";
@@ -251,7 +388,6 @@
           }
         });
         if (currentPlaybackId !== playbackId) return false;
-        showMessage("Playing Finnish voice…", true);
         const played = await playLocalAudio(blob, currentPlaybackId);
         clearMessage();
         if (!played && currentPlaybackId === playbackId) showMessage("The Finnish voice is ready. Tap Preview voice again if this browser blocked audio playback.");
@@ -311,6 +447,38 @@
     return localFallback();
   }
 
-  window.KieloSpeech = { getStatus, speak, stop };
+  function localVoiceStatus() {
+    return localSpeechModule ? localSpeechModule.then((speech) => ({
+      modelReady: speech.isReady(),
+      preparing: speech.isPreparing?.() === true || Boolean(localPreparation),
+      dataSaver: isDataSaver(),
+    })).catch(() => ({ modelReady: false, preparing: false, dataSaver: isDataSaver() }))
+      : Promise.resolve({ modelReady: false, preparing: Boolean(localPreparation), dataSaver: isDataSaver() });
+  }
+
+  window.KieloSpeech = { getStatus, getLocalStatus: localVoiceStatus, speak, stop };
+  const pageContent = document.getElementById("page-content");
+  if (pageContent) {
+    speechContentObserver = new MutationObserver(() => {
+      if (!warmupStarted || localPreparation || !selectedLocalStyle()) return;
+      window.clearTimeout(scanTimer);
+      scanTimer = window.setTimeout(observeVisibleSpeech, 110);
+    });
+    speechContentObserver.observe(pageContent, { childList: true, subtree: true });
+  }
+  document.addEventListener("change", (event) => {
+    if (event.target?.id !== "finnish-neural-voice") return;
+    window.setTimeout(() => {
+      if (!selectedLocalStyle()) return;
+      warmupStarted = false;
+      startBackgroundWarmup();
+    }, 0);
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && !warmupStarted) scheduleBackgroundWarmup();
+  });
+  const scheduleWarmupAfterPageLoad = () => window.setTimeout(scheduleBackgroundWarmup, 800);
+  if (document.readyState === "complete") scheduleWarmupAfterPageLoad();
+  else window.addEventListener("load", scheduleWarmupAfterPageLoad, { once: true });
   window.addEventListener("pagehide", stop);
 })();
