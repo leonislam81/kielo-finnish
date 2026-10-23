@@ -557,10 +557,50 @@
 .finland-market-return p small{display:block;margin-top:5px;color:#536e5f;font-size:8px;line-height:1.5}
 .finland-market-source-note{margin:9px 0 0;color:#7d8981;font-size:8px;line-height:1.65}
 .finland-market-source-note a{margin-top:0;color:#527a63}
+.finland-farm-to-table{margin-top:18px;padding:13px;border:1px solid #dfe9df;border-radius:14px;background:linear-gradient(145deg,#f3f7ef,#fff 72%)}
+.finland-farm-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.finland-farm-heading h3{margin:3px 0 4px;color:#19362e;font:700 16px var(--heading,Inter,sans-serif)}
+.finland-farm-heading p,.finland-farm-heading small{display:block;margin:3px 0 0;color:#66766c;font-size:9px;line-height:1.55}
+.finland-farm-heading small{color:#536e5f}
+.finland-farm-date{flex:none;padding:5px 7px;border:1px solid #dde8da;border-radius:999px;background:#fff;color:#67806e;font-size:7px;font-weight:800;letter-spacing:.06em}
+.finland-farm-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:10px}
+.finland-farm-facts article{min-width:0;padding:9px;border:1px solid #e3ebe0;border-radius:10px;background:rgba(255,255,255,.9)}
+.finland-farm-facts article>span{display:block;color:#78877d;font-size:7px;font-weight:800;letter-spacing:.06em}
+.finland-farm-facts article>strong{display:block;margin-top:4px;color:#275b46;font-size:14px;line-height:1.2}
+.finland-farm-facts article>small{display:block;margin-top:4px;color:#718078;font-size:8px;line-height:1.4}
+.finland-farm-crops{display:grid;grid-template-columns:minmax(120px,.65fr) minmax(0,1.35fr);gap:10px;align-items:center;margin-top:9px;padding:9px 10px;border:1px solid #e5ebe2;border-radius:10px;background:#fff}
+.finland-farm-crops>div:first-child p{margin:4px 0 0;color:#768279;font-size:8px;line-height:1.5}
+.finland-farm-crop-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.finland-farm-crop{position:relative;min-width:0;padding:7px 22px 7px 7px;border-radius:8px;background:#f5f8f2}
+.finland-farm-crop strong,.finland-farm-crop span,.finland-farm-crop b{display:block;overflow-wrap:anywhere}
+.finland-farm-crop strong{color:#275b46;font-size:10px}
+.finland-farm-crop span{margin-top:2px;color:#718078;font-size:7px}
+.finland-farm-crop b{margin-top:5px;color:#475d4e;font-size:8px;line-height:1.35}
+.finland-farm-crop button{position:absolute;top:6px;right:5px;width:22px;height:22px;border:1px solid #e0e8de;border-radius:7px;background:#fff;color:#3c765b;font-size:8px;cursor:pointer}
+.finland-farm-journey{margin-top:10px;padding:9px;border:1px solid #e5ebe2;border-radius:10px;background:#fff}
+.finland-farm-stage-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:7px}
+.finland-farm-stage{min-width:0;padding:8px;border:1px solid #e8ede6;border-radius:9px;background:#fafbf8}
+.finland-farm-stage>span{display:block;color:#829086;font-size:7px;font-weight:800}
+.finland-farm-stage>strong,.finland-farm-stage>small{display:block;margin-top:4px;line-height:1.45}
+.finland-farm-stage>strong{color:#275b46;font-size:9px;overflow-wrap:anywhere}
+.finland-farm-stage>small{color:#6d7b72;font-size:7px}
+.finland-farm-stage>small[lang=bn]{color:#536e5f}
+.finland-farm-stage button{margin-top:6px;border:1px solid #dfe8dc;border-radius:7px;background:#fff;padding:4px 6px;color:#3e7156;font-size:7px;font-weight:700;cursor:pointer}
+.finland-farm-quiz{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:center;margin-top:9px;padding:9px 10px;border:1px solid #dce8d9;border-radius:10px;background:#edf4e9}
+.finland-farm-quiz>div:first-child strong,.finland-farm-quiz>div:first-child small{display:block;margin-top:4px;color:#355a47;font-size:9px;line-height:1.45}
+.finland-farm-quiz>div:first-child small{color:#536e5f}
+.finland-farm-answers{display:flex;flex-wrap:wrap;gap:5px}
+.finland-farm-answers button{border:1px solid #d7e3d5;border-radius:8px;background:#fff;padding:6px 8px;color:#3d614c;font-size:8px;font-weight:700;cursor:pointer}
+.finland-farm-answers button:focus-visible,.finland-farm-crop button:focus-visible,.finland-farm-stage button:focus-visible{outline:2px solid #397a62;outline-offset:2px}
+.finland-farm-answers button.is-correct{border-color:#43805a;background:#e0f0df;color:#205638}
+.finland-farm-answers button.is-incorrect{border-color:#cb8573;background:#fff0eb;color:#8b4635}
+.finland-farm-quiz>p{grid-column:1/-1;margin:0;color:#66766c;font-size:8px;line-height:1.45}
+.finland-farm-source{margin:8px 0 0;color:#7d8981;font-size:8px;line-height:1.6}
+.finland-farm-source a{color:#527a63}
 @media(max-width:920px){.finland-market-word-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){.finland-market-hero{grid-template-columns:1fr}.finland-market-hero-copy{padding:18px 18px 12px}.finland-market-hero-art{min-height:150px}.finland-market-hero-art svg{min-height:150px}.finland-market-scene-detail{grid-template-columns:minmax(110px,.55fr) minmax(0,1.3fr)}.finland-market-scene-art{min-height:220px}}
-@media(max-width:560px){.finland-market-journey{padding:11px}.finland-market-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-market-route-tabs{grid-template-columns:1fr}.finland-market-route-tabs button{padding:9px}.finland-market-scene-detail{grid-template-columns:1fr}.finland-market-scene-art{min-height:90px;flex-direction:row;gap:10px}.finland-market-scene-art>span{width:39px;height:39px;border-radius:14px;font-size:22px}.finland-market-scene-copy{padding:12px}.finland-market-season-detail{grid-template-columns:1fr}.finland-market-season-words{grid-template-columns:repeat(3,minmax(0,1fr))}.finland-market-region-grid{grid-template-columns:1fr}.finland-market-region-card{padding:9px}.finland-market-dialogue-line{align-items:flex-start}}
-@media(max-width:390px){.finland-market-hero-copy h2{font-size:23px}.finland-market-word-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.finland-market-word{padding:8px}.finland-market-season-word{padding:7px}.finland-market-season-tabs{gap:5px}.finland-market-season-tabs button{padding:8px 5px;font-size:7px}}
+@media(max-width:560px){.finland-market-journey{padding:11px}.finland-market-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-market-route-tabs{grid-template-columns:1fr}.finland-market-route-tabs button{padding:9px}.finland-market-scene-detail{grid-template-columns:1fr}.finland-market-scene-art{min-height:90px;flex-direction:row;gap:10px}.finland-market-scene-art>span{width:39px;height:39px;border-radius:14px;font-size:22px}.finland-market-scene-copy{padding:12px}.finland-market-season-detail{grid-template-columns:1fr}.finland-market-season-words{grid-template-columns:repeat(3,minmax(0,1fr))}.finland-market-region-grid{grid-template-columns:1fr}.finland-market-region-card{padding:9px}.finland-market-dialogue-line{align-items:flex-start}.finland-farm-facts{grid-template-columns:1fr}.finland-farm-crops{grid-template-columns:1fr}.finland-farm-crop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-farm-stage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-farm-quiz{grid-template-columns:1fr}.finland-farm-answers{grid-column:1}}
+@media(max-width:390px){.finland-market-hero-copy h2{font-size:23px}.finland-market-word-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.finland-market-word{padding:8px}.finland-market-season-word{padding:7px}.finland-market-season-tabs{gap:5px}.finland-market-season-tabs button{padding:8px 5px;font-size:7px}.finland-farm-heading{flex-direction:column;gap:5px}.finland-farm-crop-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-farm-stage-grid{grid-template-columns:1fr}}
 
 .finland-culture-journey{margin:18px 0;padding:16px;border:1px solid #dfe7e5;border-radius:18px;background:linear-gradient(145deg,#f6f8f5,#fff 64%)}
 .finland-culture-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(220px,.95fr);min-height:190px;overflow:hidden;border-radius:14px;background:#e8efed}
