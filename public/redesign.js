@@ -354,7 +354,7 @@
     if(speechApiLoader)return speechApiLoader;
     speechApiLoader=new Promise((resolve,reject)=>{
       const script=document.createElement("script");
-      script.src=new URL("./neural-speech.js?v=10",document.baseURI).href;
+      script.src=new URL("./neural-speech.js?v=12",document.baseURI).href;
       script.async=true;
       script.addEventListener("load",()=>window.KieloSpeech?.speak?resolve(window.KieloSpeech):reject(new Error("The free voice player did not start.")),{once:true});
       script.addEventListener("error",()=>reject(new Error("The free voice player could not load.")),{once:true});
@@ -404,6 +404,17 @@
       const local=finnish.length?"Choose a free female or male neural voice to generate Finnish on this device, or use an installed browser voice. The first setup downloads about 140 MB and may take several minutes on a slow connection; keep this tab open. After setup, your text stays on this device.":voices.length?"This browser has free speech voices but no Finnish one. Female and male neural Finnish voices run on this device; their model downloads about 140 MB on first use and may take several minutes on a slow connection. Keep this tab open; your text stays on this device.":"This browser reports no installed voices. A free female or male Finnish neural voice is ready here; its model downloads about 140 MB on first use. Your text stays on this device.";
       const online=status.provider==="gemini"&&status.enabled?" Optional hosted Finnish voices are connected; their text is sent for synthesis only after you choose one and press play.":status.provider==="azure"&&status.enabled?" Optional hosted Finnish voices are connected; their text is sent for synthesis only after you choose one and press play.":" Free neural voices work without a Site API key.";
       note.innerHTML=local+online+' Model: <a href="https://huggingface.co/supertone-oss-archive/supertonic-3" target="_blank" rel="noreferrer">Supertonic 3 ↗</a> · <a href="https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet" target="_blank" rel="noreferrer">Yle learning clips ↗</a>.';
+    }
+    const playbackStatus=document.getElementById("finland-voice-playback-status");
+    if(playbackStatus&&!playbackStatus.classList.contains("is-busy")){
+      const localVoice=await window.KieloSpeech.getLocalStatus?.()||{};
+      playbackStatus.textContent=localVoice.dataSaver
+        ? "Data Saver is on, so the 140 MB voice model waits until you ask to hear Finnish. Your text stays on this device."
+        : localVoice.modelReady
+          ? "Finnish voice is ready. Audio for words near the screen is prepared ahead for quick playback."
+          : localVoice.preparing
+            ? "Preparing the free Finnish voice in the background · about 140 MB on first setup. Your text stays on this device."
+            : "Free Finnish voice prepares in the background · about 140 MB on first setup. Nearby words are prepared ahead for quick playback.";
     }
   }
   function meaningLanguageTools(language){
@@ -1472,6 +1483,16 @@
     const message=event.detail?.message;
     if(message){status.textContent=message;status.classList.toggle("is-busy",event.detail?.persistent===true)}
     else status.classList.remove("is-busy");
+  });
+  document.addEventListener("kielo-speech-preparation",event=>{
+    const status=document.getElementById("finland-voice-playback-status");
+    if(!status||status.classList.contains("is-busy"))return;
+    const detail=event.detail||{};
+    if(detail.phase==="loading"){
+      const step=detail.current?` · model ${detail.current} of ${detail.total}`:"";
+      status.textContent=`Preparing the Finnish voice in the background${step} · first setup downloads about 140 MB.`;
+    }else if(detail.phase==="ready")status.textContent="Finnish voice is ready. Audio for words near the screen is prepared ahead for quick playback.";
+    else if(detail.phase==="failed")status.textContent="Background preparation paused. Tap a Finnish speaker when you are ready; the text stays on this device.";
   });
   setInterval(updateClock,1000);
   window.setTimeout(enhance,0);

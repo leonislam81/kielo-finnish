@@ -11,6 +11,9 @@ let enginePromise = null;
 let engine = null;
 let stylePromises = new Map();
 const audioCache = new Map();
+const synthesisJobs = new Map();
+const synthesisQueue = [];
+let synthesisActive = false;
 
 function loadEngine(onProgress) {
   if (engine) return Promise.resolve({ textToSpeech: engine });
@@ -40,26 +43,97 @@ function loadStyle(styleId) {
   return stylePromises.get(styleId);
 }
 
-export async function synthesize(text, styleId = "F1", speed = 1.05, onProgress) {
-  const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
-  const cacheKey = `${safeStyle}\u0000${speed}\u0000${text}`;
-  if (audioCache.has(cacheKey)) return audioCache.get(cacheKey);
+function synthesisKey(text, styleId, speed) {
+  return `${styleId}\u0000${speed}\u0000${text}`;
+}
 
-  onProgress?.({ phase: "loading", current: 0, total: 4, size: MODEL_SIZE_LABEL });
-  const [{ textToSpeech }, style] = await Promise.all([loadEngine(onProgress), loadStyle(safeStyle)]);
-  onProgress?.({ phase: "generating", current: 0, total: 8 });
-  const { wav, duration } = await textToSpeech.call(text, "fi", style, 8, speed, 0.18, (current, total) => {
-    onProgress?.({ phase: "generating", current, total });
+export function hasAudio(text, styleId = "F1", speed = 1.05) {
+  const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
+  return audioCache.has(synthesisKey(String(text).trim(), safeStyle, Number(speed) || 1.05));
+}
+
+export async function prepare(styleId = "F1", onProgress) {
+  const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
+  await Promise.all([loadEngine(onProgress), loadStyle(safeStyle)]);
+  return true;
+}
+
+function runSynthesisQueue() {
+  if (synthesisActive || !synthesisQueue.length) return;
+  synthesisQueue.sort((a, b) => b.priority - a.priority || a.order - b.order);
+  const job = synthesisQueue.shift();
+  synthesisActive = true;
+  job.started = true;
+  (async () => {
+    const [{ textToSpeech }, style] = await Promise.all([loadEngine((progress) => job.report(progress)), loadStyle(job.styleId)]);
+    job.report({ phase: "generating", current: 0, total: 8 });
+    const { wav, duration } = await textToSpeech.call(job.text, "fi", style, 8, job.speed, 0.18, (current, total) => {
+      job.report({ phase: "generating", current, total });
+    });
+    const sampleCount = Math.floor(textToSpeech.sampleRate * duration[0]);
+    const wavBuffer = writeWavFile(wav.slice(0, sampleCount), textToSpeech.sampleRate);
+    const result = new Blob([wavBuffer], { type: "audio/wav" });
+    audioCache.set(job.key, result);
+    while (audioCache.size > 50) audioCache.delete(audioCache.keys().next().value);
+    return result;
+  })().then(job.resolve, job.reject).finally(() => {
+    synthesisJobs.delete(job.key);
+    synthesisActive = false;
+    runSynthesisQueue();
   });
-  const sampleCount = Math.floor(textToSpeech.sampleRate * duration[0]);
-  const wavBuffer = writeWavFile(wav.slice(0, sampleCount), textToSpeech.sampleRate);
-  const result = new Blob([wavBuffer], { type: "audio/wav" });
-  audioCache.set(cacheKey, result);
-  while (audioCache.size > 50) audioCache.delete(audioCache.keys().next().value);
-  return result;
+}
+
+function queueSynthesis(text, styleId, speed, priority, onProgress) {
+  const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
+  const normalizedSpeed = Math.min(1.4, Math.max(0.6, Number(speed) || 1.05));
+  const normalizedText = String(text).trim();
+  const key = synthesisKey(normalizedText, safeStyle, normalizedSpeed);
+  if (audioCache.has(key)) return Promise.resolve(audioCache.get(key));
+  const pending = synthesisJobs.get(key);
+  if (pending) {
+    if (onProgress) pending.listeners.add(onProgress);
+    if (!pending.started && priority > pending.priority) pending.priority = priority;
+    runSynthesisQueue();
+    return pending.promise;
+  }
+
+  let resolve;
+  let reject;
+  const promise = new Promise((resolvePromise, rejectPromise) => {
+    resolve = resolvePromise;
+    reject = rejectPromise;
+  });
+  const job = {
+    key, text: normalizedText, styleId: safeStyle, speed: normalizedSpeed, priority,
+    order: synthesisJobs.size, started: false, resolve, reject, promise,
+    listeners: new Set(onProgress ? [onProgress] : []),
+    report(progress) {
+      for (const listener of this.listeners) {
+        try { listener(progress); } catch {}
+      }
+    },
+  };
+  synthesisJobs.set(key, job);
+  synthesisQueue.push(job);
+  runSynthesisQueue();
+  return promise;
+}
+
+export function synthesize(text, styleId = "F1", speed = 1.05, onProgress) {
+  const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
+  onProgress?.({ phase: "loading", current: 0, total: 4, size: MODEL_SIZE_LABEL });
+  return queueSynthesis(text, safeStyle, speed, 2, onProgress);
+}
+
+export function preload(text, styleId = "F1", speed = 1.05) {
+  return queueSynthesis(text, styleId, speed, 0).catch(() => null);
 }
 
 export const modelDownloadLabel = MODEL_SIZE_LABEL;
 export function isReady() {
   return Boolean(engine);
+}
+
+export function isPreparing() {
+  return Boolean(enginePromise && !engine);
 }
