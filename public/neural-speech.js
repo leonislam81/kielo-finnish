@@ -4,6 +4,7 @@
   const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=7";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
+  const decodedLocalBuffers = new Map();
   let statusCache = null;
   let statusExpiresAt = 0;
   let statusRequest = null;
@@ -18,6 +19,7 @@
   let speechContentObserver = null;
   let scanTimer = 0;
   let queuedPreloads = 0;
+  let installedSpeechVoices = [];
   // Keep only a tiny audio queue ahead of the learner. A long queue competes
   // with a newly requested phrase and makes the first tap feel unresponsive.
   const MAX_BACKGROUND_PRELOADS = 2;
@@ -32,6 +34,17 @@
 
   function synthesisSpeed(rate) {
     return rate < 0.78 ? 1.28 : rate > 0.93 ? 0.96 : 1.08;
+  }
+
+function localAudioKey(text, style, speed) {
+  return `${style}\u0000${speed}\u0000${String(text).trim()}`;
+}
+
+  function deviceVoices() {
+    if (!("speechSynthesis" in window)) return installedSpeechVoices;
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length) installedSpeechVoices = voices;
+    return voices.length ? voices : installedSpeechVoices;
   }
 
   function localSpeech() {
@@ -73,7 +86,7 @@
       await speech.preload(text, style, speed);
       if (speech.hasAudio(text, style, speed)) {
         const blob = await speech.synthesize(text, style, speed);
-        void decodeLocalAudio(blob).catch(() => {});
+        void decodeLocalAudio(blob, key).catch(() => {});
       } else if (button.dataset.kieloPreloadKey === key) delete button.dataset.kieloPreloadKey;
     }).catch(() => {
       if (button.dataset.kieloPreloadKey === key) delete button.dataset.kieloPreloadKey;
@@ -196,7 +209,7 @@
     }
   }
 
-  function decodeLocalAudio(blob) {
+  function decodeLocalAudio(blob, cacheKey = "") {
     const context = prepareAudioContext();
     if (!context || !blob) return Promise.reject(new Error("Audio decoding is unavailable."));
     let decoded = decodedLocalAudio.get(blob);
@@ -204,6 +217,12 @@
       decoded = blob.arrayBuffer().then((buffer) => context.decodeAudioData(buffer));
       decodedLocalAudio.set(blob, decoded);
       decoded.catch(() => decodedLocalAudio.delete(blob));
+    }
+    if (cacheKey) {
+      void decoded.then((audioBuffer) => {
+        decodedLocalBuffers.set(cacheKey, audioBuffer);
+        while (decodedLocalBuffers.size > VOICE_CACHE_LIMIT) decodedLocalBuffers.delete(decodedLocalBuffers.keys().next().value);
+      }).catch(() => {});
     }
     return decoded;
   }
@@ -289,9 +308,9 @@
     });
   }
 
-  function playLocalAudio(blob, currentPlaybackId) {
+  function playLocalBuffer(audioBuffer, currentPlaybackId) {
     const context = prepareAudioContext();
-    if (!context) return playAudio(blob, currentPlaybackId);
+    if (!context || !audioBuffer) return Promise.resolve(false);
     return new Promise((resolve) => {
       let settled = false;
       let source = null;
@@ -303,24 +322,31 @@
         resolve(played);
       };
       activeFinish = finish;
-      (async () => {
+      const start = () => {
         try {
-          const audioBuffer = await decodeLocalAudio(blob);
           if (currentPlaybackId !== playbackId) return finish(false);
           source = context.createBufferSource();
           source.buffer = audioBuffer;
           source.connect(context.destination);
           activeSource = source;
           source.onended = () => finish(currentPlaybackId === playbackId);
-          if (context.state === "suspended") await context.resume();
-          if (currentPlaybackId !== playbackId) return finish(false);
           source.start(0);
           playbackStarted();
         } catch {
           finish(false);
         }
-      })();
+      };
+      if (context.state === "suspended") void context.resume().then(start, () => finish(false));
+      else start();
     });
+  }
+
+  function playLocalAudio(blob, currentPlaybackId, cacheKey = "") {
+    const context = prepareAudioContext();
+    if (!context) return playAudio(blob, currentPlaybackId);
+    const cachedBuffer = cacheKey && decodedLocalBuffers.get(cacheKey);
+    if (cachedBuffer) return playLocalBuffer(cachedBuffer, currentPlaybackId);
+    return decodeLocalAudio(blob, cacheKey).then((audioBuffer) => playLocalBuffer(audioBuffer, currentPlaybackId)).catch(() => false);
   }
 
   function speakOnDevice(text, rate, currentPlaybackId, quietIfMissing = false) {
@@ -328,19 +354,19 @@
       showMessage("Audio playback is not available in this browser.");
       return Promise.resolve(false);
     }
-    const voices = window.speechSynthesis.getVoices();
+    const voices = deviceVoices();
     if (!voices.length) return Promise.resolve(false);
     const finnish = voices.filter((voice) => voice.lang?.toLowerCase().startsWith("fi"));
     const selectedName = localStorage.getItem("kielo-finnish-voice") || "";
     const neuralVoice = localStorage.getItem("kielo-neural-voice") || "local:F1";
-    const preferMale = /:M[1-5]$/.test(neuralVoice);
+    const preferMale = /:M[1-5]$|charon|harri/i.test(neuralVoice);
     const genderMatch = voices.find((voice) => {
       const name = String(voice.name || "").toLowerCase();
       const looksFemale = /female|woman|zira|samantha|victoria|karen|tessa|moira|fiona|heidi|selma|noora|jenny|aria|ava|emma|salli|joanna|kendra|michelle|linda|susan/.test(name);
       const looksMale = /(^|[^a-z])(male|man)([^a-z]|$)|\b(alex|daniel|fred|david|mark|george|james|harri|mikko|liam|guy|ryan|matthew|joey|justin|john|bruce|aaron|arthur|oliver)\b/.test(name);
       return preferMale ? looksMale : looksFemale;
     });
-    const selected = finnish[0] || voices.find((voice) => voice.name === selectedName) || genderMatch || voices.find((voice) => voice.default) || voices[0];
+    const selected = voices.find((voice) => voice.name === selectedName) || finnish[0] || genderMatch || voices.find((voice) => voice.default) || voices[0];
     const utterance = new SpeechSynthesisUtterance(text);
     // Keep Finnish as the requested language even if the quick preview has to
     // borrow an installed system voice with another language tag.
@@ -373,35 +399,45 @@
 
   async function speak(text, rate = 0.86) {
     if (typeof text !== "string" || !text.trim()) return false;
+    const phrase = text.trim();
     stop();
     lastPlaybackMode = "selected";
     const currentPlaybackId = playbackId;
     const normalizedRate = Math.min(1.15, Math.max(0.6, Number(rate) || 0.86));
     const voice = localStorage.getItem("kielo-neural-voice") || "local:F1";
     const style = voice.startsWith("local:") ? voice.slice(6) : localStorage.getItem("kielo-supertonic-style") || "F1";
+    const speed = synthesisSpeed(normalizedRate);
+    const localKey = localAudioKey(phrase, style, speed);
+    const neuralCacheKey = `${voice}\u0000${paceName(normalizedRate)}\u0000${phrase}`;
+
+    // Repeated taps on a prepared phrase start from its decoded buffer without
+    // waiting for model setup, audio decoding, or a network request.
+    const preparedBuffer = voice.startsWith("local:") && decodedLocalBuffers.get(localKey);
+    if (preparedBuffer) return playLocalBuffer(preparedBuffer, currentPlaybackId);
+    if (!voice.startsWith("local:") && voice !== "device" && audioCache.has(neuralCacheKey)) {
+      return playAudio(audioCache.get(neuralCacheKey), currentPlaybackId);
+    }
+
+    // Start the installed male/female device voice inside the click gesture,
+    // before any module import, model work, or API request can delay playback.
+    prepareAudioContext();
+    const availableDeviceVoices = deviceVoices();
+    const instantPreview = availableDeviceVoices.length
+      ? speakOnDevice(phrase, normalizedRate, currentPlaybackId, true)
+      : null;
+    if (instantPreview) {
+      lastPlaybackMode = "device-preview";
+      showMessage("Playing immediately with an installed voice. Your selected Finnish voice is preparing for quick repeats.", true);
+    }
+
     const localFallback = async () => {
       if (currentPlaybackId !== playbackId) return false;
+      let previewPlayed = false;
       try {
-        const speechPromise = localSpeech();
-        const speechApi = await speechPromise;
+        const speechApi = await localSpeech();
         if (currentPlaybackId !== playbackId) return false;
-        const synthesisSpeedValue = synthesisSpeed(normalizedRate);
-        const hasCachedAudio = speechApi.hasAudio(text.trim(), style, synthesisSpeedValue);
-        const canPlayQuickPreview = !hasCachedAudio && "speechSynthesis" in window && window.speechSynthesis.getVoices().length > 0;
-        const quickPreview = canPlayQuickPreview
-          ? speakOnDevice(text.trim(), normalizedRate, currentPlaybackId, true)
-          : null;
-        if (!hasCachedAudio && !quickPreview) {
-          const modelReady = speechApi.isReady();
-          showMessage(modelReady
-            ? "Creating Finnish speech on this device…"
-            : `Preparing the free Finnish voice model. First setup downloads about 140 MB; text stays on this device.`, true);
-        } else if (quickPreview) {
-          showMessage("Playing an instant device preview while your selected Finnish voice is prepared.", true);
-        }
-        const audioPromise = speechApi.synthesize(text.trim(), style, synthesisSpeedValue, (progress) => {
-          if (currentPlaybackId !== playbackId) return;
-          if (quickPreview) return;
+        const audioPromise = speechApi.synthesize(phrase, style, speed, (progress) => {
+          if (currentPlaybackId !== playbackId || instantPreview) return;
           if (progress.phase === "loading") {
             const stage = progress.current ? ` · model ${progress.current} of ${progress.total}` : "";
             showMessage(`Preparing the free Finnish voice${stage}. First use downloads about 140 MB; text stays on this device.`, true);
@@ -409,78 +445,75 @@
             showMessage(`Generating Finnish speech · ${progress.current} of ${progress.total}`, true);
           }
         });
-        if (quickPreview) {
-          const previewPlayed = await quickPreview;
-          if (previewPlayed && currentPlaybackId === playbackId) {
-            // Generate and decode the chosen neural voice in the background.
-            // Its next tap can then start from the audio cache immediately.
-            void audioPromise.then((blob) => decodeLocalAudio(blob)).then(() => {
-              if (currentPlaybackId === playbackId) showMessage("The selected Finnish voice is ready for quicker replay.");
-            }).catch(() => {
-              if (currentPlaybackId === playbackId) showMessage("The quick device preview played. The selected voice is still preparing; tap again to retry.");
-            });
-            lastPlaybackMode = "device-preview";
-            showMessage("Quick device preview played. Preparing your selected voice for faster replay.");
-            return true;
-          }
+        if (instantPreview) previewPlayed = await instantPreview;
+        if (previewPlayed && currentPlaybackId === playbackId) {
+          // Finish preparing this phrase silently; the next tap can play the
+          // selected Finnish voice from its decoded audio buffer immediately.
+          void audioPromise.then((blob) => decodeLocalAudio(blob, localKey)).then(() => {
+            if (currentPlaybackId === playbackId) showMessage("Your selected Finnish voice is ready for instant replay.");
+          }).catch(() => {
+            if (currentPlaybackId === playbackId) showMessage("The instant preview played. The selected Finnish voice is still preparing.");
+          });
+          return true;
+        }
+        if (!instantPreview) {
+          const modelReady = speechApi.isReady();
+          showMessage(modelReady
+            ? "Creating Finnish speech on this device…"
+            : "Preparing the free Finnish voice model. First setup downloads about 140 MB; text stays on this device.", true);
         }
         const blob = await audioPromise;
         if (currentPlaybackId !== playbackId) return false;
-        const played = await playLocalAudio(blob, currentPlaybackId);
+        const played = await playLocalAudio(blob, currentPlaybackId, localKey);
         clearMessage();
-        if (!played && currentPlaybackId === playbackId) showMessage("The Finnish voice is ready. Tap Preview voice again if this browser blocked audio playback.");
+        if (!played && currentPlaybackId === playbackId) showMessage("The Finnish voice is ready. Tap again if this browser blocked audio playback.");
         return played;
       } catch (error) {
         if (currentPlaybackId !== playbackId) return false;
         localSpeechModule = null;
         clearMessage();
+        if (instantPreview) {
+          previewPlayed = previewPlayed || await instantPreview;
+          if (previewPlayed) {
+            showMessage("The word played immediately. The selected Finnish voice could not finish preparing.");
+            return true;
+          }
+        }
         const detail = String(error?.message || "").toLowerCase();
         const failureMessage = /memory|allocation|out of memory|oom/.test(detail)
           ? "This device ran short of browser memory while preparing the free Finnish voice. Close unused tabs and try again."
           : /fetch|network|cors|load failed|timeout|failed to load/.test(detail)
             ? "The free Finnish voice download was interrupted. Reconnect and tap Preview again; your text stays on this device."
             : "The free Finnish voice could not finish setup. Check your connection and browser memory, then tap Preview again.";
-        const hasFinnishDeviceVoice = "speechSynthesis" in window && window.speechSynthesis.getVoices().some((item) => item.lang?.toLowerCase().startsWith("fi"));
-        if (hasFinnishDeviceVoice) {
-          showMessage("The free voice could not load. Trying your installed Finnish voice…", true);
-          if (await speakOnDevice(text.trim(), normalizedRate, currentPlaybackId)) {
-            clearMessage();
-            return true;
-          }
+        const hasFinnishDeviceVoice = deviceVoices().some((item) => item.lang?.toLowerCase().startsWith("fi"));
+        if (hasFinnishDeviceVoice && !instantPreview && await speakOnDevice(phrase, normalizedRate, currentPlaybackId)) {
+          clearMessage();
+          return true;
         }
         showMessage(failureMessage);
         return false;
       }
     };
-    if (voice.startsWith("local:")) {
-      prepareAudioContext();
-      return localFallback();
+
+    if (voice.startsWith("local:")) return localFallback();
+    if (voice === "device") return instantPreview || localFallback();
+
+    // Remote voice setup can take a network round trip. Keep that work in the
+    // background after the device preview so it never delays the first sound.
+    if (instantPreview) {
+      void getStatus().then((status) => status.enabled ? requestNeuralAudio(phrase, voice, paceName(normalizedRate)) : null).catch(() => {});
+      return instantPreview;
     }
-    let onlineVoiceFailed = false;
-    if (voice !== "device") {
-      const status = await getStatus();
-      if (currentPlaybackId !== playbackId) return false;
-      if (status.enabled) {
-        try {
-          const blob = await requestNeuralAudio(text.trim(), voice, paceName(normalizedRate));
-          if (currentPlaybackId !== playbackId) return false;
-          if (await playAudio(blob, currentPlaybackId)) return true;
-        } catch {
-          if (currentPlaybackId !== playbackId) return false;
-          onlineVoiceFailed = true;
-        }
-      } else {
-        onlineVoiceFailed = true;
-      }
-    }
+    const status = await getStatus();
     if (currentPlaybackId !== playbackId) return false;
-    const deviceVoices = "speechSynthesis" in window ? window.speechSynthesis.getVoices() : [];
-    const hasFinnishVoice = deviceVoices.some((item) => item.lang?.toLowerCase().startsWith("fi"));
-    const selectedDeviceName = localStorage.getItem("kielo-finnish-voice") || "";
-    const hasSelectedDeviceVoice = selectedDeviceName && deviceVoices.some((item) => item.name === selectedDeviceName);
-    if (voice === "device" && (hasFinnishVoice || hasSelectedDeviceVoice)) {
-      const played = await speakOnDevice(text.trim(), normalizedRate, currentPlaybackId, true);
-      if (played || currentPlaybackId !== playbackId) return played;
+    if (status.enabled) {
+      try {
+        const blob = await requestNeuralAudio(phrase, voice, paceName(normalizedRate));
+        if (currentPlaybackId !== playbackId) return false;
+        if (await playAudio(blob, currentPlaybackId)) return true;
+      } catch {
+        if (currentPlaybackId !== playbackId) return false;
+      }
     }
     return localFallback();
   }
@@ -495,6 +528,10 @@
   }
 
   window.KieloSpeech = { getStatus, getLocalStatus: localVoiceStatus, getLastPlaybackMode: () => lastPlaybackMode, speak, stop };
+  if ("speechSynthesis" in window) {
+    deviceVoices();
+    window.speechSynthesis.addEventListener?.("voiceschanged", deviceVoices);
+  }
   const pageContent = document.getElementById("page-content");
   if (pageContent) {
     speechContentObserver = new MutationObserver(() => {
