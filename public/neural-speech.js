@@ -18,8 +18,11 @@
   let speechContentObserver = null;
   let scanTimer = 0;
   let queuedPreloads = 0;
-  const MAX_BACKGROUND_PRELOADS = 8;
+  // Keep only a tiny audio queue ahead of the learner. A long queue competes
+  // with a newly requested phrase and makes the first tap feel unresponsive.
+  const MAX_BACKGROUND_PRELOADS = 2;
   let playbackId = 0;
+  let lastPlaybackMode = "selected";
 
   function selectedLocalStyle() {
     const voice = localStorage.getItem("kielo-neural-voice") || "local:F1";
@@ -124,8 +127,8 @@
   function scheduleBackgroundWarmup() {
     if (!selectedLocalStyle() || isDataSaver()) return;
     const run = () => startBackgroundWarmup();
-    if ("requestIdleCallback" in window) window.requestIdleCallback(run, { timeout: 4500 });
-    else window.setTimeout(run, 1800);
+    if ("requestIdleCallback" in window) window.requestIdleCallback(run, { timeout: 1400 });
+    else window.setTimeout(run, 500);
   }
 
   function apiBase() {
@@ -326,11 +329,22 @@
       return Promise.resolve(false);
     }
     const voices = window.speechSynthesis.getVoices();
+    if (!voices.length) return Promise.resolve(false);
     const finnish = voices.filter((voice) => voice.lang?.toLowerCase().startsWith("fi"));
     const selectedName = localStorage.getItem("kielo-finnish-voice") || "";
-    const selected = voices.find((voice) => voice.name === selectedName) || finnish[0] || voices.find((voice) => voice.default) || voices[0];
+    const neuralVoice = localStorage.getItem("kielo-neural-voice") || "local:F1";
+    const preferMale = /:M[1-5]$/.test(neuralVoice);
+    const genderMatch = voices.find((voice) => {
+      const name = String(voice.name || "").toLowerCase();
+      const looksFemale = /female|woman|zira|samantha|victoria|karen|tessa|moira|fiona|heidi|selma|noora|jenny|aria|ava|emma|salli|joanna|kendra|michelle|linda|susan/.test(name);
+      const looksMale = /(^|[^a-z])(male|man)([^a-z]|$)|\b(alex|daniel|fred|david|mark|george|james|harri|mikko|liam|guy|ryan|matthew|joey|justin|john|bruce|aaron|arthur|oliver)\b/.test(name);
+      return preferMale ? looksMale : looksFemale;
+    });
+    const selected = finnish[0] || voices.find((voice) => voice.name === selectedName) || genderMatch || voices.find((voice) => voice.default) || voices[0];
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = selected?.lang || "fi-FI";
+    // Keep Finnish as the requested language even if the quick preview has to
+    // borrow an installed system voice with another language tag.
+    utterance.lang = "fi-FI";
     utterance.rate = rate;
     if (selected) utterance.voice = selected;
     return new Promise((resolve) => {
@@ -360,6 +374,7 @@
   async function speak(text, rate = 0.86) {
     if (typeof text !== "string" || !text.trim()) return false;
     stop();
+    lastPlaybackMode = "selected";
     const currentPlaybackId = playbackId;
     const normalizedRate = Math.min(1.15, Math.max(0.6, Number(rate) || 0.86));
     const voice = localStorage.getItem("kielo-neural-voice") || "local:F1";
@@ -372,14 +387,21 @@
         if (currentPlaybackId !== playbackId) return false;
         const synthesisSpeedValue = synthesisSpeed(normalizedRate);
         const hasCachedAudio = speechApi.hasAudio(text.trim(), style, synthesisSpeedValue);
-        if (!hasCachedAudio) {
+        const canPlayQuickPreview = !hasCachedAudio && "speechSynthesis" in window && window.speechSynthesis.getVoices().length > 0;
+        const quickPreview = canPlayQuickPreview
+          ? speakOnDevice(text.trim(), normalizedRate, currentPlaybackId, true)
+          : null;
+        if (!hasCachedAudio && !quickPreview) {
           const modelReady = speechApi.isReady();
           showMessage(modelReady
             ? "Creating Finnish speech on this device…"
             : `Preparing the free Finnish voice model. First setup downloads about 140 MB; text stays on this device.`, true);
+        } else if (quickPreview) {
+          showMessage("Playing an instant device preview while your selected Finnish voice is prepared.", true);
         }
-        const blob = await speechApi.synthesize(text.trim(), style, synthesisSpeedValue, (progress) => {
+        const audioPromise = speechApi.synthesize(text.trim(), style, synthesisSpeedValue, (progress) => {
           if (currentPlaybackId !== playbackId) return;
+          if (quickPreview) return;
           if (progress.phase === "loading") {
             const stage = progress.current ? ` · model ${progress.current} of ${progress.total}` : "";
             showMessage(`Preparing the free Finnish voice${stage}. First use downloads about 140 MB; text stays on this device.`, true);
@@ -387,6 +409,22 @@
             showMessage(`Generating Finnish speech · ${progress.current} of ${progress.total}`, true);
           }
         });
+        if (quickPreview) {
+          const previewPlayed = await quickPreview;
+          if (previewPlayed && currentPlaybackId === playbackId) {
+            // Generate and decode the chosen neural voice in the background.
+            // Its next tap can then start from the audio cache immediately.
+            void audioPromise.then((blob) => decodeLocalAudio(blob)).then(() => {
+              if (currentPlaybackId === playbackId) showMessage("The selected Finnish voice is ready for quicker replay.");
+            }).catch(() => {
+              if (currentPlaybackId === playbackId) showMessage("The quick device preview played. The selected voice is still preparing; tap again to retry.");
+            });
+            lastPlaybackMode = "device-preview";
+            showMessage("Quick device preview played. Preparing your selected voice for faster replay.");
+            return true;
+          }
+        }
+        const blob = await audioPromise;
         if (currentPlaybackId !== playbackId) return false;
         const played = await playLocalAudio(blob, currentPlaybackId);
         clearMessage();
@@ -456,7 +494,7 @@
       : Promise.resolve({ modelReady: false, preparing: Boolean(localPreparation), dataSaver: isDataSaver() });
   }
 
-  window.KieloSpeech = { getStatus, getLocalStatus: localVoiceStatus, speak, stop };
+  window.KieloSpeech = { getStatus, getLocalStatus: localVoiceStatus, getLastPlaybackMode: () => lastPlaybackMode, speak, stop };
   const pageContent = document.getElementById("page-content");
   if (pageContent) {
     speechContentObserver = new MutationObserver(() => {
@@ -477,7 +515,7 @@
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible" && !warmupStarted) scheduleBackgroundWarmup();
   });
-  const scheduleWarmupAfterPageLoad = () => window.setTimeout(scheduleBackgroundWarmup, 800);
+  const scheduleWarmupAfterPageLoad = () => scheduleBackgroundWarmup();
   if (document.readyState === "complete") scheduleWarmupAfterPageLoad();
   else window.addEventListener("load", scheduleWarmupAfterPageLoad, { once: true });
   window.addEventListener("pagehide", stop);
