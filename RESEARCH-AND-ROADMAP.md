@@ -222,23 +222,34 @@ The first viewport is a compact Finland status strip: **Helsinki local time/date
 - Finnish civil and population facts are dated and link to Statistics Finland and official Finland sources. Weather is transient and can fail independently of learning content.
 - Use `Europe/Helsinki` for time and the same zone for date-based daily sets. Weather starts at Helsinki and offers one representative city for each of Finland's 19 official regions, labelled with both city and region; coordinates are resolved to Open-Meteo's Finnish settlement results. No browser geolocation prompt. Show attribution and a human-readable last-updated state; refresh on an interval, with a manual refresh and cached last result. If the request fails, keep the clock/course working and show the last weather update or an unavailable state. The selector covers regions, not every municipality.
 - Open-Meteo's free API is restricted to non-commercial use and requires CC BY 4.0 attribution. The public Pages/Sites build is treated as a non-commercial educational project for this iteration. If the site is monetized, change to an appropriately licensed commercial endpoint before that use.
-- Device voices remain a no-account fallback. The Web Speech API exposes a voice name and locale but no dependable gender field. The app now has an optional server-side Azure Speech path for documented Finnish neural voices; its female/male labels come from Microsoft’s voice table, not browser heuristics. A short bilingual sample lets learners audition the selected installed or neural voice before using it in lessons. The neural path stays off unless the Site owner provides a Speech resource key, matching region, and daily character cap.
+- Finnish speech has ten free, on-device neural presets (five female and five male) using pinned Supertonic 3 int8 model files; the first setup downloads about 140 MB. Speech runs locally and does not need a Site API key. Installed device voices remain an option, while optional hosted speech is disabled unless the Site owner configures a provider secret and a shared daily usage cap. Do not infer voice gender from the Web Speech API’s name or locale fields.
 - Use official/rights-cleared images and video links. Link to Yle and official institutions instead of copying or rehosting their media.
 - Account-free progress stays in local storage. Weather city, course progress, saved words, and activity history remain on that device. Any future account/cloud sync requires a separate privacy design.
 
+### Implementation update · 23 October 2026
+
+The responsive mockup and its major layout are live. The current public app has the 12-hour `Europe/Helsinki` clock, live weather for 19 representative regional cities, a changing 100-word Finland-date set, a large sourced Finnish–English dictionary with curated English/Bangla learner entries, ten free on-device male/female Finnish voice styles, and 16 bilingual Finland chapters. Home keeps weather and time first; the live mockup remains in `docs/redesign-mockup.html`.
+
+This iteration fills two thin spots in the Finland atlas with interactive climate and forest chapters:
+
+- **Climate & seasons:** the Finnish Meteorological Institute defines seasons using daily mean temperature; season lengths and arrival dates vary by year. The chapter compares south and Lapland, day length and seasonal vocabulary without turning climatology into a daily forecast. Current source: [FMI — Seasons in Finland](https://en.ilmatieteenlaitos.fi/seasons-in-finland), checked 23 October 2026.
+- **Forests & nature:** Luke’s latest Forest Accounts release is for 2024 and was published 14 October 2026: 22.4 million hectares of forest area, 2,652 million m³ of growing stock including deadwood, and 19.2 million hectares available for wood supply. Those are Forest Accounts categories, not a measure of public access. The tree mix uses a separate 2019–2023 National Forest Inventory estimate. Metsähallitus’ current Everyman’s rights guidance supplies the activity and protected-area caveats. Sources: [Luke — Forest Accounts 2024](https://www.luke.fi/en/statistics/forest-accounts/forest-accounts-2024), [Luke — National Forest Inventory 2019–2023](https://www.luke.fi/en/news/data-on-forest-resources-the-volume-of-the-growing-stock-continues-to-increase-even-though-the-annual-increment-has-decelerated), [Metsähallitus — Everyman’s rights](https://www.luontoon.fi/en/articles/everymans-rights).
+
+The next review should compare every chapter against the full Finland A–Z map, expand underrepresented everyday topics with authoritative sources, check the growing dictionary’s pronunciation and word senses, and inspect mobile layouts and offline behaviour before each public release.
+
 ### Delivery phases
 
-**Phase 0 — Research, plan, mockup (this iteration):** update this document, create a responsive visual mockup, and review it in the browser before changing the live product.
+**Phase 0 — Research, plan, mockup (complete):** maintain this research document, the complete information architecture, and the responsive browser-visible mockup at `docs/redesign-mockup.html`.
 
-**Phase 1 — Foundation:** reorganize navigation; add the Helsinki clock/date and live weather panel; make city selection, loading/error/offline states, accessibility and attribution work; give Explore Finland its own chapter directory.
+**Phase 1 — Foundation (implemented):** reorganized navigation; 12-hour Helsinki clock/date; live weather with region city selector, refresh, cached/error states and attribution; dedicated Finland Explorer chapter directory.
 
-**Phase 2 — Words and speech:** build the date-rotating 100-word experience in ten sets; add the broader searchable Finnish–English corpus and source/credit page; polish Finnish audio selection, pace, and voice availability messaging; keep Bangla support in curated learning content.
+**Phase 2 — Words and speech (implemented, continue auditing):** dated, level-aware Daily 100 in ten sets; searchable licensed Finnish–English corpus with source notes and curated Bangla entries; and ten free local Finnish neural voices with pace selection and first-use guidance.
 
-**Phase 3 — Finland atlas:** write and source original chapters for history, geography, people, state/services, seasons, nature, water/sea, transport, study, work, markets, cities and culture. Add dated facts, pictures, maps and licensed/official media. Connect every chapter to vocabulary and a short language task.
+**Phase 3 — Finland atlas (16 chapter set implemented, continue expanding):** history, government/services, people and languages, climate/seasons, forests/nature, water/sea, transport, study, jobs, markets, regions/places, culture, housing, health, holidays, and money. Chapters connect sourced facts to Finnish phrases, English/Bangla support, audio, vocabulary, and short practice. Keep current facts dated and improve gaps such as sport, energy, farming, and local government through further source review.
 
-**Phase 4 — Advanced product:** add user-selectable daily goals, saved learning lists, review reminders, offline dictionary packs, stronger accessibility, shareable progress/exports, and accounts/sync only after a separate privacy design. Neural voice provider selection is complete; actual speech stays disabled pending owner credentials and a usage cap.
+**Phase 4 — Advanced product (ongoing):** improve mobile and keyboard accessibility, expand offline dictionary packs, make daily goals and review routines easier to tailor, and strengthen learner progress exports. Accounts and cloud sync require a separate privacy design. Hosted voices stay disabled without owner credentials and a shared usage cap; device-generated neural voices are already available.
 
-**Phase 5 — Review and delivery:** visually inspect desktop and mobile, verify the important flows and data/error states, update documentation/credits, publish the public Sites version and GitHub Pages build, and share both links.
+**Phase 5 — Review and delivery (ongoing for each release):** inspect desktop and mobile, verify important flows and data/error states, update documentation/credits, publish the public Sites version and GitHub Pages build, and share both links.
 
 ### Research sources
 

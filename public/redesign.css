@@ -1322,3 +1322,64 @@
 .finland-placement-sources{margin-top:17px}
 @media(max-width:760px){.finland-placement-promo{grid-template-columns:42px minmax(0,1fr);gap:12px;padding:16px}.finland-placement-promo-mark{width:40px;height:40px}.finland-placement-promo-actions{grid-column:2;flex-direction:row;align-items:center;gap:12px;flex-wrap:wrap}.finland-placement-result{gap:13px;padding:20px}}
 @media(max-width:520px){.finland-placement-promo{grid-template-columns:1fr;gap:9px}.finland-placement-promo-mark{width:34px;height:34px;border-radius:11px;font-size:19px}.finland-placement-promo-actions{grid-column:1}.finland-placement-check{padding:15px}.finland-placement-finnish{padding:14px;flex-direction:column}.finland-placement-question h2{font-size:16px}.finland-placement-result{flex-direction:column;padding:17px}.finland-placement-result-mark{width:40px;height:40px;border-radius:13px;font-size:20px}.finland-placement-actions{align-items:flex-start;flex-direction:column}}
+
+/* Finland field notes: seasonal climate and forest-life chapters */
+.finland-climate-experience,.finland-nature-experience{margin:18px 0;padding:16px;border:1px solid #dfe9df;border-radius:18px;background:linear-gradient(145deg,#f7f9f5,#fff 64%)}
+.finland-climate-heading,.finland-nature-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:12px}
+.finland-climate-heading h3,.finland-nature-heading h3{margin:3px 0 5px;color:#19362e;font:700 clamp(19px,2.8vw,27px)/1.16 var(--heading,Inter,sans-serif);letter-spacing:-.03em}
+.finland-climate-heading p,.finland-nature-heading p{max-width:660px;margin:0;color:#66776d;font-size:10px;line-height:1.6}
+.finland-climate-heading>span,.finland-nature-heading>span{flex:none;padding:6px 9px;border:1px solid #e3e9df;border-radius:999px;background:#fff;color:#6e8175;font-size:8px;font-weight:750}
+.finland-climate-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-bottom:9px}
+.finland-climate-tabs button,.finland-nature-tabs button{display:flex;align-items:center;gap:8px;min-width:0;padding:9px 11px;border:1px solid #e2e9e0;border-radius:11px;background:#fff;color:#385a49;text-align:left;cursor:pointer}
+.finland-climate-tabs button[aria-pressed=true],.finland-nature-tabs button[aria-pressed=true]{border-color:#78a287;background:#edf4ec;box-shadow:inset 0 0 0 1px #78a287}
+.finland-climate-tabs button:focus-visible,.finland-nature-tabs button:focus-visible,.finland-climate-phrase button:focus-visible,.finland-nature-phrase button:focus-visible,.finland-climate-word button:focus-visible,.finland-nature-word button:focus-visible{outline:2px solid #397a62;outline-offset:2px}
+.finland-climate-tabs button>span,.finland-nature-tabs button>span{font-size:17px}
+.finland-climate-tabs button strong,.finland-nature-tabs button strong{font-size:9px;line-height:1.35}
+.finland-climate-season-detail{display:grid;grid-template-columns:minmax(130px,.45fr) minmax(0,1.15fr);gap:12px;overflow:hidden;padding:10px;border:1px solid #e3eae3;border-radius:13px;background:#fff}
+.finland-climate-season-art{display:flex;min-height:175px;flex-direction:column;align-items:center;justify-content:center;gap:8px;overflow:hidden;border-radius:10px;background:linear-gradient(180deg,#bcd8e2,#eaf1e9 63%,#879f8b 64%,#617b67);text-align:center;color:#fff;text-shadow:0 2px 8px #19362e55}
+.finland-climate-season-detail[data-season=snow] .finland-climate-season-art{background:linear-gradient(180deg,#9fc5df,#e8f2f1 64%,#c5d6d9 65%,#829aa0)}
+.finland-climate-season-detail[data-season=thaw] .finland-climate-season-art{background:linear-gradient(180deg,#c7dfe0,#edf0dd 62%,#afc090 63%,#738e70)}
+.finland-climate-season-detail[data-season=light] .finland-climate-season-art{background:linear-gradient(180deg,#9bc7d4,#f1e5bf 61%,#91ae76 62%,#517958)}
+.finland-climate-season-detail[data-season=ruska] .finland-climate-season-art{background:linear-gradient(180deg,#bfd7db,#efe4c7 61%,#bd9a66 62%,#725f50)}
+.finland-climate-season-art>span{font-size:37px;line-height:1}
+.finland-climate-season-art>small{max-width:95%;padding:5px 8px;border:1px solid #ffffff8c;border-radius:999px;background:#19362e38;font-size:7px;font-weight:800;letter-spacing:.7px}
+.finland-climate-season-art>b{font-size:12px}
+.finland-climate-season-copy{min-width:0;padding:4px 3px}
+.finland-climate-season-copy h4,.finland-nature-scene-copy h4{margin:3px 0 7px;color:#19362e;font:700 17px var(--heading,Inter,sans-serif)}
+.finland-climate-season-copy>p,.finland-nature-scene-copy>p{margin:6px 0;color:#62756a;font-size:9px;line-height:1.6}
+.finland-climate-phrase,.finland-nature-phrase{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;padding:9px 10px;border-left:3px solid #78a887;border-radius:8px;background:#edf4ec}
+.finland-climate-phrase>div,.finland-nature-phrase>div{min-width:0}
+.finland-climate-phrase>div>span,.finland-nature-phrase>div>span{display:block;color:#779081;font-size:7px;font-weight:800;letter-spacing:.7px}
+.finland-climate-phrase strong,.finland-nature-phrase strong{display:block;margin-top:4px;color:#1c6553;font-size:10px;line-height:1.5}
+.finland-climate-phrase small,.finland-nature-phrase small{display:block;margin-top:3px;color:#64766d;font-size:8px;line-height:1.5}
+.finland-climate-phrase button,.finland-nature-phrase button{flex:none;width:32px;height:32px;border:1px solid #dce8de;border-radius:9px;background:#fff;color:#46715c;font-size:11px;cursor:pointer}
+.finland-climate-word-grid{display:grid;grid-column:1/-1;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.finland-climate-word,.finland-nature-word{min-width:0;padding:9px;border:1px solid #e7ece5;border-radius:10px;background:#fbfcfa}
+.finland-climate-word>strong,.finland-nature-word>strong{display:block;color:#19362e;font-size:11px;overflow-wrap:anywhere}
+.finland-climate-word>span,.finland-nature-word>span,.finland-climate-word>small,.finland-nature-word>small{display:block;margin-top:3px;color:#68796f;font-size:8px;line-height:1.45}
+.finland-climate-word .finland-extra-word-actions,.finland-nature-word .finland-extra-word-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.finland-climate-word button,.finland-nature-word button{border:1px solid #e3eae3;border-radius:7px;background:#fff;padding:5px 7px;color:#46715c;font-size:7px;font-weight:700;cursor:pointer}
+.finland-climate-note,.finland-nature-rights{display:flex;gap:8px;margin-top:10px;padding:10px 11px;border:1px solid #e8e5d6;border-radius:10px;background:#fbf9f1;color:#6d6b58;font-size:8px;line-height:1.55}
+.finland-climate-note strong{flex:none;color:#61583c}
+.finland-climate-source,.finland-nature-source{display:flex;flex-wrap:wrap;gap:5px 12px;margin:8px 1px 0;color:#748179;font-size:8px;line-height:1.5}
+.finland-climate-source a,.finland-nature-source a{color:#47765e;font-weight:750;text-decoration:none}
+.finland-climate-source a:hover,.finland-nature-source a:hover{text-decoration:underline}
+.finland-nature-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0}
+.finland-nature-stats article{display:grid;gap:3px;padding:10px;border:1px solid #e3eae3;border-radius:10px;background:#fff}
+.finland-nature-stats strong{color:#315c45;font:700 15px var(--heading,Inter,sans-serif)}
+.finland-nature-stats span,.finland-nature-stat-note{color:#778279;font-size:8px;line-height:1.5}
+.finland-nature-stat-note{margin:0 1px 9px}
+.finland-nature-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:9px}
+.finland-nature-scene-detail{display:grid;grid-template-columns:minmax(120px,.42fr) minmax(0,1.58fr);gap:12px;overflow:hidden;padding:10px;border:1px solid #e3eae3;border-radius:13px;background:#fff}
+.finland-nature-art{display:flex;min-height:230px;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:10px;background:linear-gradient(180deg,#bcdde0 0%,#ebeee1 44%,#95aa7c 45%,#456b52 100%);color:#fff;text-shadow:0 2px 8px #19362e55}
+.finland-nature-art>span{font-size:38px}
+.finland-nature-art>small{padding:5px 8px;border:1px solid #ffffff8c;border-radius:999px;background:#19362e38;font-size:7px;font-weight:800;letter-spacing:.5px}
+.finland-nature-scene-copy{min-width:0;padding:3px}
+.finland-nature-scene-copy>.finland-nature-bn{display:block;color:#536e5f;font-size:8px;line-height:1.55}
+.finland-nature-word-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:9px}
+.finland-nature-rights{border-color:#dfe9df;background:#f4f8f1;color:#63756b}
+.finland-nature-rights>span{flex:none;font-size:17px;color:#4b815f}
+.finland-nature-rights strong{color:#315c45;font-size:9px}
+.finland-nature-rights p,.finland-nature-rights small{display:block;margin:3px 0 0;line-height:1.55}
+@media(max-width:760px){.finland-climate-season-detail{grid-template-columns:minmax(112px,.48fr) minmax(0,1.2fr)}.finland-nature-scene-detail{grid-template-columns:minmax(105px,.45fr) minmax(0,1.55fr)}.finland-nature-art{min-height:200px}}
+@media(max-width:520px){.finland-climate-experience,.finland-nature-experience{padding:11px}.finland-climate-heading,.finland-nature-heading{align-items:flex-start;flex-direction:column;gap:6px}.finland-climate-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-climate-season-detail,.finland-nature-scene-detail{grid-template-columns:1fr}.finland-climate-season-art{min-height:112px;flex-direction:row}.finland-climate-season-art>span{font-size:30px}.finland-climate-season-copy{padding:2px}.finland-climate-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-climate-note{flex-direction:column;gap:2px}.finland-nature-tabs{grid-template-columns:1fr}.finland-nature-tabs button{padding:8px}.finland-nature-art{min-height:105px;flex-direction:row}.finland-nature-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-nature-stats{grid-template-columns:1fr}.finland-nature-stats article{grid-template-columns:auto 1fr;align-items:center;gap:8px}}
