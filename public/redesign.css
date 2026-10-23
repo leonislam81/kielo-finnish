@@ -1383,3 +1383,82 @@
 .finland-nature-rights p,.finland-nature-rights small{display:block;margin:3px 0 0;line-height:1.55}
 @media(max-width:760px){.finland-climate-season-detail{grid-template-columns:minmax(112px,.48fr) minmax(0,1.2fr)}.finland-nature-scene-detail{grid-template-columns:minmax(105px,.45fr) minmax(0,1.55fr)}.finland-nature-art{min-height:200px}}
 @media(max-width:520px){.finland-climate-experience,.finland-nature-experience{padding:11px}.finland-climate-heading,.finland-nature-heading{align-items:flex-start;flex-direction:column;gap:6px}.finland-climate-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-climate-season-detail,.finland-nature-scene-detail{grid-template-columns:1fr}.finland-climate-season-art{min-height:112px;flex-direction:row}.finland-climate-season-art>span{font-size:30px}.finland-climate-season-copy{padding:2px}.finland-climate-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-climate-note{flex-direction:column;gap:2px}.finland-nature-tabs{grid-template-columns:1fr}.finland-nature-tabs button{padding:8px}.finland-nature-art{min-height:105px;flex-direction:row}.finland-nature-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-nature-stats{grid-template-columns:1fr}.finland-nature-stats article{grid-template-columns:auto 1fr;align-items:center;gap:8px}}
+
+/* Sámi people, languages, rights, and respectful visiting lesson */
+.finland-sami-experience{margin-top:18px;padding:clamp(14px,2.2vw,22px);border:1px solid #dfe8df;border-radius:20px;background:linear-gradient(145deg,#fbfcf8,#f1f6f1)}
+.finland-sami-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:15px}
+.finland-sami-heading .page-kicker{color:#65816d}
+.finland-sami-heading h3{margin:5px 0;color:#1d4037;font:750 clamp(20px,2.5vw,28px)/1.2 var(--heading,Inter,sans-serif);letter-spacing:-.55px}
+.finland-sami-heading p{max-width:690px;margin:7px 0 0;color:#66776c;font-size:11px;line-height:1.65}
+.finland-sami-heading-mark{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:14px;background:#e8f1e8;color:#3c7155;font-size:21px}
+.finland-sami-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.finland-sami-tab{display:flex;align-items:center;gap:8px;min-height:42px;padding:9px 11px;border:1px solid #dfe7df;border-radius:11px;background:#fff;color:#4c6355;font-size:10px;font-weight:750;text-align:left;cursor:pointer}
+.finland-sami-tab>span{color:#839489;font-size:8px;letter-spacing:.4px}
+.finland-sami-tab:hover,.finland-sami-tab.is-active{border-color:#83a58c;background:#eaf2e9;color:#28513e}
+.finland-sami-tab:focus-visible,.finland-sami-quiz-options button:focus-visible,.finland-sami-word button:focus-visible{outline:3px solid #39745b;outline-offset:2px}
+.finland-sami-scene-detail{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr);gap:13px;padding:12px;border:1px solid #e1e8e1;border-radius:15px;background:#fff}
+.finland-sami-scene-copy{min-width:0}
+.finland-sami-scene-copy>.page-kicker{color:#809185}
+.finland-sami-scene-copy h4{margin:5px 0 7px;color:#193c35;font:750 18px/1.3 var(--heading,Inter,sans-serif);letter-spacing:-.3px}
+.finland-sami-scene-copy>p{margin:6px 0;color:#5e7066;font-size:10px;line-height:1.7}
+.finland-sami-scene-copy>.finland-sami-bangla{color:#557364;font-size:9px}
+.finland-sami-journey,.finland-sami-language-visual,.finland-sami-care-visual{align-self:stretch;min-width:0;padding:13px;border:1px solid #e3eae2;border-radius:12px;background:linear-gradient(160deg,#eef5ef,#f7f6ec)}
+.finland-sami-route{display:grid;grid-template-columns:1fr 16px 1fr 16px 1fr 16px 1.25fr;align-items:center;gap:4px;min-height:48px}
+.finland-sami-route span{padding:7px 5px;border:1px solid #dce6dc;border-radius:8px;background:#fff;color:#496253;font-size:8px;font-weight:750;text-align:center}
+.finland-sami-route span.is-highlighted{border-color:#638c70;background:#dfeee0;color:#2e6549}
+.finland-sami-route i{height:1px;background:#9cb2a0}
+.finland-sami-journey>p{margin:8px 0;color:#586d60;font-size:8px;line-height:1.5}
+.finland-sami-places{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin-top:8px;padding-top:8px;border-top:1px solid #dfe8df}
+.finland-sami-places strong{flex:1 0 100%;color:#4c6655;font-size:8px}
+.finland-sami-places span{padding:4px 7px;border:1px solid #e2e9e0;border-radius:999px;background:#fff;color:#53695b;font-size:8px}
+.finland-sami-language-visual{display:grid;grid-template-columns:1fr;gap:6px}
+.finland-sami-language-visual article{display:grid;grid-template-columns:22px 1fr;align-items:center;gap:2px 7px;padding:7px 9px;border:1px solid #e1e9e1;border-radius:9px;background:#fff}
+.finland-sami-language-visual article>span{grid-row:span 2;color:#8a9a8d;font-size:8px}
+.finland-sami-language-visual article strong{color:#315644;font-size:10px}
+.finland-sami-language-visual article small{color:#708078;font-size:8px}
+.finland-sami-language-visual>p{margin:2px 0;color:#64786b;font-size:8px;line-height:1.5}
+.finland-sami-care-visual{display:flex;flex-direction:column;justify-content:center;gap:8px}
+.finland-sami-care-visual article{display:flex;align-items:center;gap:9px;padding:8px;border:1px solid #e1e9e1;border-radius:9px;background:#fff}
+.finland-sami-care-visual article>span{display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:9px;background:#ecf3e9;color:#4d7958}
+.finland-sami-care-visual article strong,.finland-sami-care-visual article small{display:block}
+.finland-sami-care-visual article strong{color:#395843;font-size:9px}
+.finland-sami-care-visual article small{margin-top:2px;color:#748078;font-size:7px;line-height:1.5}
+.finland-sami-care-visual>p{margin:0;color:#5e7665;font-size:8px}
+.finland-sami-phrase{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px;padding:9px 10px;border-left:3px solid #79a583;border-radius:8px;background:#f0f6ef}
+.finland-sami-phrase>div{min-width:0}
+.finland-sami-phrase>div>span{display:block;color:#778c7c;font-size:7px;font-weight:800;letter-spacing:.65px}
+.finland-sami-phrase strong,.finland-sami-phrase p,.finland-sami-phrase small{display:block;margin:4px 0 0;line-height:1.55}
+.finland-sami-phrase strong{color:#1e614c;font-size:10px}
+.finland-sami-phrase p{color:#64756b;font-size:8px}
+.finland-sami-phrase small{color:#52705e;font-size:8px}
+.finland-sami-phrase>button{flex:none;width:34px;height:34px;border:1px solid #d9e5da;border-radius:10px;background:#fff;color:#3e7358;font-size:11px;cursor:pointer}
+.finland-sami-word-grid{display:grid;grid-column:1/-1;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:7px}
+.finland-sami-word{min-width:0;padding:9px;border:1px solid #e5ebe4;border-radius:10px;background:#fbfcfa}
+.finland-sami-word>strong,.finland-sami-word>span,.finland-sami-word>small{display:block;overflow-wrap:anywhere}
+.finland-sami-word>strong{color:#254737;font-size:10px}
+.finland-sami-word>span,.finland-sami-word>small{margin-top:3px;color:#68796f;font-size:8px;line-height:1.45}
+.finland-sami-word>small{color:#58725f}
+.finland-sami-word>div{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.finland-sami-word>div button{min-height:27px;padding:5px 7px;border:1px solid #e0e8df;border-radius:7px;background:#fff;color:#47735a;font-size:7px;font-weight:750;cursor:pointer}
+.finland-sami-quiz{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(0,1.3fr);gap:10px 15px;align-items:center;margin-top:11px;padding:12px;border:1px solid #e1e8de;border-radius:12px;background:#f8f9f3}
+.finland-sami-quiz .page-kicker{color:#788b7c}
+.finland-sami-quiz h4{margin:5px 0;color:#30483b;font:700 13px/1.4 var(--heading,Inter,sans-serif)}
+.finland-sami-quiz p{margin:4px 0;color:#65766c;font-size:8px;line-height:1.5}
+.finland-sami-quiz-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.finland-sami-quiz-options button{min-height:38px;padding:7px 8px;border:1px solid #dfe7dc;border-radius:8px;background:#fff;color:#52665a;font-size:8px;font-weight:700;line-height:1.4;text-align:left;cursor:pointer}
+.finland-sami-quiz-options button:hover:not(:disabled){border-color:#7fa488;background:#eef5eb}
+.finland-sami-quiz-options button:disabled{cursor:default;opacity:.76}
+.finland-sami-quiz-options button.is-correct{border-color:#76a07a;background:#e8f4e8;color:#2d6544;opacity:1}
+.finland-sami-quiz-options button.is-incorrect{border-color:#c58e76;background:#fbefea;color:#814e40;opacity:1}
+.finland-sami-quiz .finland-sami-quiz-feedback{grid-column:1/-1;margin:0;padding:8px 10px;border-radius:8px;background:#edf4ea;color:#42634a;font-size:9px}
+.finland-sami-quiz-feedback:empty{display:none}
+.finland-sami-respect-note{display:grid;grid-template-columns:100px 1fr;gap:8px;margin-top:10px;padding:10px 11px;border:1px solid #e7e3d4;border-radius:10px;background:#fbf8ee;color:#655f4d;font-size:8px;line-height:1.6}
+.finland-sami-respect-note strong{color:#5c694c;font-size:9px}
+.finland-sami-respect-note p{margin:0}
+.finland-sami-respect-note span{color:#536b59}
+.finland-sami-sources{display:flex;flex-wrap:wrap;align-items:center;gap:6px 11px;margin:9px 1px 0;color:#7c8a7e;font-size:7px}
+.finland-sami-sources>span{flex:1 0 100%;font-weight:800;letter-spacing:.6px}
+.finland-sami-sources a{color:#487255;font-size:8px;font-weight:750;text-decoration:none}
+.finland-sami-sources a:hover{text-decoration:underline;text-underline-offset:2px}
+@media(max-width:760px){.finland-sami-scene-detail{grid-template-columns:1fr}.finland-sami-journey,.finland-sami-language-visual,.finland-sami-care-visual{min-height:0}.finland-sami-quiz{grid-template-columns:1fr}.finland-sami-quiz-options{grid-template-columns:1fr}}
+@media(max-width:520px){.finland-sami-experience{padding:11px}.finland-sami-heading{gap:9px}.finland-sami-heading-mark{width:35px;height:35px}.finland-sami-tabs{grid-template-columns:1fr}.finland-sami-tab{min-height:37px}.finland-sami-scene-detail{padding:9px}.finland-sami-route{grid-template-columns:1fr 10px 1fr 10px 1fr 10px 1.2fr;gap:2px}.finland-sami-route span{font-size:7px;padding:6px 2px}.finland-sami-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-sami-respect-note{grid-template-columns:1fr;gap:3px}}
