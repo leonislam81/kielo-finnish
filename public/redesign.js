@@ -357,7 +357,7 @@
     if(speechApiLoader)return speechApiLoader;
     speechApiLoader=new Promise((resolve,reject)=>{
       const script=document.createElement("script");
-      script.src=new URL("./neural-speech.js?v=14",document.baseURI).href;
+      script.src=new URL("./neural-speech.js?v=15",document.baseURI).href;
       script.async=true;
       script.addEventListener("load",()=>window.KieloSpeech?.speak?resolve(window.KieloSpeech):reject(new Error("The free voice player did not start.")),{once:true});
       script.addEventListener("error",()=>reject(new Error("The free voice player could not load.")),{once:true});
@@ -368,15 +368,23 @@
   function speakFinnish(text){
     const status=document.getElementById("finland-voice-playback-status");
     if(status){status.textContent="Starting a free Finnish voice…";status.classList.add("is-busy");status.classList.remove("is-error")}
-    return loadKieloSpeech().then(async speech=>{
-      const played=await speech.speak(text,Number(localStorage.getItem("kielo-finnish-rate")||".86"));
-      if(status?.isConnected){
-        const quickPreview=speech.getLastPlaybackMode?.()==="device-preview";
-        status.textContent=played?(quickPreview?"Quick device preview finished. Your selected free Finnish voice is preparing for faster replay.":"Playback finished. Choose a female or male voice to hear another style."):"The voice did not play. Check the connection, then tap Preview again.";
-        status.classList.remove("is-busy");status.classList.toggle("is-error",!played);
-      }
-      return played;
-    }).catch(()=>{
+    const startPlayback=speech=>{
+      // Call speak in the original click task whenever the engine is already
+      // loaded. Web Speech and AudioContext can then use the user's gesture
+      // without waiting for an unnecessary Promise turn.
+      let playback;
+      try{playback=speech.speak(text,Number(localStorage.getItem("kielo-finnish-rate")||".86"))}catch(_error){playback=false}
+      return Promise.resolve(playback).then(played=>{
+        if(status?.isConnected){
+          const quickPreview=speech.getLastPlaybackMode?.()==="device-preview";
+          status.textContent=played?(quickPreview?"Quick device preview finished. Your selected free Finnish voice is preparing for faster replay.":"Playback finished. Choose a female or male voice to hear another style."):"The voice did not play. Check the connection, then tap Preview again.";
+          status.classList.remove("is-busy");status.classList.toggle("is-error",!played);
+        }
+        return played;
+      });
+    };
+    if(window.KieloSpeech?.speak)return startPlayback(window.KieloSpeech);
+    return loadKieloSpeech().then(startPlayback).catch(()=>{
       const message="Free Finnish voices could not load. Check your internet connection and tap Preview again; no Finnish device voice or API key is needed.";
       if(status?.isConnected){status.textContent=message;status.classList.remove("is-busy");status.classList.add("is-error")}
       const toast=document.getElementById("toast");
@@ -390,7 +398,7 @@
   function customPageTitle(title,description,kicker){
     return '<div class="page-title-row finland-custom-page"><div><div class="page-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(description)+'</p></div></div>';
   }
-  function voiceTools(){return '<div class="finland-voice-tools"><label for="finnish-neural-voice">Free Finnish voice<select id="finnish-neural-voice"><optgroup label="Free female Finnish voices · on this device"><option value="local:F1">Female · voice 1</option><option value="local:F2">Female · voice 2</option><option value="local:F3">Female · voice 3</option><option value="local:F4">Female · voice 4</option><option value="local:F5">Female · voice 5</option></optgroup><optgroup label="Free male Finnish voices · on this device"><option value="local:M1">Male · voice 1</option><option value="local:M2">Male · voice 2</option><option value="local:M3">Male · voice 3</option><option value="local:M4">Male · voice 4</option><option value="local:M5">Male · voice 5</option></optgroup><option value="device">Installed browser voice · automatic</option><option value="gemini-Aoede" data-neural disabled>Online · Female · Aoede</option><option value="gemini-Charon" data-neural disabled>Online · Male · Charon</option><option value="fi-FI-SelmaNeural" data-neural disabled>Online · Female · Selma</option><option value="fi-FI-NooraNeural" data-neural disabled>Online · Female · Noora</option><option value="fi-FI-HarriNeural" data-neural disabled>Online · Male · Harri</option></select></label><label for="finnish-voice-select">Installed device voice<select id="finnish-voice-select">'+voiceOptions()+'</select></label><label for="finnish-rate-select">Speaking pace<select id="finnish-rate-select"><option value=".72">Slow</option><option value=".86" selected>Steady</option><option value="1">Natural</option></select></label><div class="finland-voice-sample"><div><span>TRY THE SELECTED VOICE</span><strong lang="fi">Hei! Harjoitellaan suomea yhdessä.</strong><p>Hi! Let’s practise Finnish together.<small lang="bn">হেই! চল একসঙ্গে Finnish অনুশীলন করি।</small></p></div><button class="button-secondary finland-voice-preview" type="button" data-topic-speak="Hei! Harjoitellaan suomea yhdessä." aria-label="Preview the selected Finnish voice">▶ Preview voice</button></div><p id="finland-voice-playback-status" class="finland-voice-playback-status" role="status" aria-live="polite">Tap Preview for an immediate device preview when available. Kielo prepares your selected free Finnish voice for faster repeats; first setup downloads about 140 MB.</p></div><p class="finland-voice-note" role="status" aria-live="polite"></p>'}
+  function voiceTools(){return '<div class="finland-voice-tools"><label for="finnish-neural-voice">Free Finnish voice<select id="finnish-neural-voice"><optgroup label="Free female Finnish voices · on this device"><option value="local:F1">Female · voice 1</option><option value="local:F2">Female · voice 2</option><option value="local:F3">Female · voice 3</option><option value="local:F4">Female · voice 4</option><option value="local:F5">Female · voice 5</option></optgroup><optgroup label="Free male Finnish voices · on this device"><option value="local:M1">Male · voice 1</option><option value="local:M2">Male · voice 2</option><option value="local:M3">Male · voice 3</option><option value="local:M4">Male · voice 4</option><option value="local:M5">Male · voice 5</option></optgroup><option value="device">Installed browser voice · automatic</option><option value="gemini-Aoede" data-neural disabled>Online · Female · Aoede</option><option value="gemini-Charon" data-neural disabled>Online · Male · Charon</option><option value="fi-FI-SelmaNeural" data-neural disabled>Online · Female · Selma</option><option value="fi-FI-NooraNeural" data-neural disabled>Online · Female · Noora</option><option value="fi-FI-HarriNeural" data-neural disabled>Online · Male · Harri</option></select></label><label for="finnish-voice-select">Installed device voice<select id="finnish-voice-select">'+voiceOptions()+'</select></label><label for="finnish-rate-select">Speaking pace<select id="finnish-rate-select"><option value=".72">Slow</option><option value=".86" selected>Steady</option><option value="1">Natural</option></select></label><div class="finland-voice-sample"><div><span>TRY THE SELECTED VOICE</span><strong lang="fi">Hei! Harjoitellaan suomea yhdessä.</strong><p>Hi! Let’s practise Finnish together.<small lang="bn">হেই! চল একসঙ্গে Finnish অনুশীলন করি।</small></p></div><button class="button-secondary finland-voice-preview" type="button" data-topic-speak="Hei! Harjoitellaan suomea yhdessä." aria-label="Preview the selected Finnish voice">▶ Preview voice</button></div><p id="finland-voice-playback-status" class="finland-voice-playback-status" role="status" aria-live="polite">Tap any speaker for an immediate browser preview while your selected free Finnish voice prepares. First setup downloads about 140 MB.</p></div><p class="finland-voice-note" role="status" aria-live="polite"></p>'}
   async function updateNeuralVoiceUi(){
     const select=document.getElementById("finnish-neural-voice");
     if(!select)return;

@@ -22,7 +22,7 @@
   let installedSpeechVoices = [];
   // Keep only a tiny audio queue ahead of the learner. A long queue competes
   // with a newly requested phrase and makes the first tap feel unresponsive.
-  const MAX_BACKGROUND_PRELOADS = 2;
+  const MAX_BACKGROUND_PRELOADS = 8;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
 
@@ -140,7 +140,7 @@ function localAudioKey(text, style, speed) {
   function scheduleBackgroundWarmup() {
     if (!selectedLocalStyle() || isDataSaver()) return;
     const run = () => startBackgroundWarmup();
-    if ("requestIdleCallback" in window) window.requestIdleCallback(run, { timeout: 1400 });
+    if ("requestIdleCallback" in window) window.requestIdleCallback(run, { timeout: 500 });
     else window.setTimeout(run, 500);
   }
 
@@ -354,8 +354,10 @@ function localAudioKey(text, style, speed) {
       showMessage("Audio playback is not available in this browser.");
       return Promise.resolve(false);
     }
+    // getVoices() is empty in some browsers until their voice service wakes
+    // up. Still submit the utterance so the browser can use its default voice
+    // immediately while the selected on-device Finnish voice prepares.
     const voices = deviceVoices();
-    if (!voices.length) return Promise.resolve(false);
     const finnish = voices.filter((voice) => voice.lang?.toLowerCase().startsWith("fi"));
     const selectedName = localStorage.getItem("kielo-finnish-voice") || "";
     const neuralVoice = localStorage.getItem("kielo-neural-voice") || "local:F1";
@@ -421,13 +423,13 @@ function localAudioKey(text, style, speed) {
     // Start the installed male/female device voice inside the click gesture,
     // before any module import, model work, or API request can delay playback.
     prepareAudioContext();
-    const availableDeviceVoices = deviceVoices();
-    const instantPreview = availableDeviceVoices.length
+    const canTryDevicePreview = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+    const instantPreview = canTryDevicePreview
       ? speakOnDevice(phrase, normalizedRate, currentPlaybackId, true)
       : null;
     if (instantPreview) {
       lastPlaybackMode = "device-preview";
-      showMessage("Playing immediately with an installed voice. Your selected Finnish voice is preparing for quick repeats.", true);
+      showMessage("Starting an immediate browser preview while your selected Finnish voice prepares.", true);
     }
 
     const localFallback = async () => {
@@ -553,7 +555,7 @@ function localAudioKey(text, style, speed) {
     if (document.visibilityState === "visible" && !warmupStarted) scheduleBackgroundWarmup();
   });
   const scheduleWarmupAfterPageLoad = () => scheduleBackgroundWarmup();
-  if (document.readyState === "complete") scheduleWarmupAfterPageLoad();
-  else window.addEventListener("load", scheduleWarmupAfterPageLoad, { once: true });
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", scheduleWarmupAfterPageLoad, { once: true });
+  else scheduleWarmupAfterPageLoad();
   window.addEventListener("pagehide", stop);
 })();
