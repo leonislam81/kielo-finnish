@@ -4,7 +4,7 @@
   const lessons=levels.flatMap(level=>level.lessons.map(lesson=>({...lesson,levelId:level.id,levelLabel:level.label,levelColor:level.color,levelTitle:level.title})));
   const advancedVocabulary=window.KIELO_ADVANCED_WORDS||[];
   const storageKey="kielo-learning-v1";
-  const finlandTopicCount=16;
+  const finlandTopicCount=17;
   let saved={};
   try{saved=JSON.parse(localStorage.getItem(storageKey)||"{}")}catch(_error){saved={}}
   const savedKnown=Array.isArray(saved.known)?saved.known:[];
