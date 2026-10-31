@@ -1,7 +1,7 @@
 (() => {
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
-  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=8";
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=9";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
   const decodedLocalBuffers = new Map();
@@ -14,6 +14,7 @@
   let activeUtterance = null;
   let audioContext = null;
   let localSpeechModule = null;
+  let localSpeechApi = null;
   let localPreparation = null;
   let warmupStarted = false;
   let speechObserver = null;
@@ -49,8 +50,12 @@ function localAudioKey(text, style, speed) {
   }
 
   function localSpeech() {
-    localSpeechModule ||= import(LOCAL_SPEECH_URL).catch((error) => {
+    localSpeechModule ||= import(LOCAL_SPEECH_URL).then((speech) => {
+      localSpeechApi = speech;
+      return speech;
+    }).catch((error) => {
       localSpeechModule = null;
+      localSpeechApi = null;
       throw error;
     });
     return localSpeechModule;
@@ -77,18 +82,16 @@ function localAudioKey(text, style, speed) {
   function scheduleVisiblePreload(button) {
     const text = speechTextForButton(button)?.trim();
     const style = selectedLocalStyle();
-    if (!text || !style || !button.isConnected || !window.KieloSpeech) return;
+    if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech) return;
     const speed = synthesisSpeed(speechRateForButton(button));
     const key = `${style}\u0000${speed}\u0000${text}`;
     if (button.dataset.kieloPreloadKey === key || queuedPreloads >= MAX_BACKGROUND_PRELOADS) return;
     button.dataset.kieloPreloadKey = key;
     queuedPreloads += 1;
     localSpeech().then(async (speech) => {
-      await speech.preload(text, style, speed);
-      if (speech.hasAudio(text, style, speed)) {
-        const blob = await speech.synthesize(text, style, speed);
-        void decodeLocalAudio(blob, key).catch(() => {});
-      } else if (button.dataset.kieloPreloadKey === key) delete button.dataset.kieloPreloadKey;
+      const blob = await speech.preload(text, style, speed);
+      if (blob) void decodeLocalAudio(blob, key).catch(() => {});
+      else if (button.dataset.kieloPreloadKey === key) delete button.dataset.kieloPreloadKey;
     }).catch(() => {
       if (button.dataset.kieloPreloadKey === key) delete button.dataset.kieloPreloadKey;
     }).finally(() => {
@@ -99,7 +102,7 @@ function localAudioKey(text, style, speed) {
 
   function observeVisibleSpeech() {
     const content = document.getElementById("page-content");
-    if (!content || !selectedLocalStyle()) return;
+    if (!content || !selectedLocalStyle() || isDataSaver()) return;
     const selector = "[data-speak],[data-topic-speak],[data-dictionary-speak]";
     if (speechObserver) speechObserver.disconnect();
     if ("IntersectionObserver" in window) {
@@ -388,9 +391,12 @@ function localAudioKey(text, style, speed) {
     if (selected) utterance.voice = selected;
     return new Promise((resolve) => {
       let settled = false;
+      let started = false;
+      let startTimer = 0;
       const finish = (played) => {
         if (settled) return;
         settled = true;
+        window.clearTimeout(startTimer);
         if (activeUtterance === utterance) activeUtterance = null;
         if (activeFinish === finish) activeFinish = null;
         resolve(played);
@@ -398,6 +404,8 @@ function localAudioKey(text, style, speed) {
       activeFinish = finish;
       activeUtterance = utterance;
       utterance.onstart = () => {
+        started = true;
+        window.clearTimeout(startTimer);
         if (currentPlaybackId === playbackId) showMessage("Playing an immediate device preview…", true);
       };
       utterance.onend = () => finish(true);
@@ -414,6 +422,14 @@ function localAudioKey(text, style, speed) {
       const begin = () => {
         if (currentPlaybackId !== playbackId) return finish(false);
         window.speechSynthesis.speak(utterance);
+        // Some browsers accept an utterance but never start it when their
+        // speech service has no usable voice. Do not let that silent preview
+        // hold the prepared Finnish audio behind it.
+        startTimer = window.setTimeout(() => {
+          if (started || settled) return;
+          if (currentPlaybackId === playbackId) window.speechSynthesis.cancel();
+          finish(false);
+        }, 800);
       };
       // Chromium can briefly keep the cancelled utterance in its queue. A
       // zero-delay reset is only needed to interrupt active speech; idle taps
@@ -440,6 +456,8 @@ function localAudioKey(text, style, speed) {
     // waiting for model setup, audio decoding, or a network request.
     const preparedBuffer = voice.startsWith("local:") && decodedLocalBuffers.get(localKey);
     if (preparedBuffer) return playLocalBuffer(preparedBuffer, currentPlaybackId);
+    const preparedAudio = voice.startsWith("local:") && localSpeechApi?.getAudio?.(phrase, style, speed);
+    if (preparedAudio) return playLocalAudio(preparedAudio, currentPlaybackId, localKey);
     if (!voice.startsWith("local:") && voice !== "device" && audioCache.has(neuralCacheKey)) {
       return playAudio(audioCache.get(neuralCacheKey), currentPlaybackId);
     }
@@ -561,7 +579,7 @@ function localAudioKey(text, style, speed) {
   const pageContent = document.getElementById("page-content");
   if (pageContent) {
     speechContentObserver = new MutationObserver(() => {
-      if (!warmupStarted || localPreparation || !selectedLocalStyle()) return;
+      if (!selectedLocalStyle() || isDataSaver()) return;
       window.clearTimeout(scanTimer);
       scanTimer = window.setTimeout(observeVisibleSpeech, 110);
     });
@@ -578,7 +596,10 @@ function localAudioKey(text, style, speed) {
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible" && !warmupStarted) scheduleBackgroundWarmup();
   });
-  const scheduleWarmupAfterPageLoad = () => scheduleBackgroundWarmup();
+  const scheduleWarmupAfterPageLoad = () => {
+    observeVisibleSpeech();
+    scheduleBackgroundWarmup();
+  };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", scheduleWarmupAfterPageLoad, { once: true });
   else scheduleWarmupAfterPageLoad();
   window.addEventListener("pagehide", stop);
