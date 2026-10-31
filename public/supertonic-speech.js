@@ -113,6 +113,11 @@ export function hasAudio(text, styleId = "F1", speed = 1.05) {
   return audioCache.has(synthesisKey(String(text).trim(), safeStyle, Number(speed) || 1.05));
 }
 
+export function getAudio(text, styleId = "F1", speed = 1.05) {
+  const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
+  return audioCache.get(synthesisKey(String(text).trim(), safeStyle, Number(speed) || 1.05)) || null;
+}
+
 export async function prepare(styleId = "F1", onProgress) {
   const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
   await Promise.all([loadEngine(onProgress), loadStyle(safeStyle)]);
@@ -156,6 +161,19 @@ function queueSynthesis(text, styleId, speed, priority, onProgress) {
   const normalizedSpeed = Math.min(1.4, Math.max(0.6, Number(speed) || 1.05));
   const normalizedText = String(text).trim();
   const key = synthesisKey(normalizedText, safeStyle, normalizedSpeed);
+  // A learner's tap always takes priority over audio prepared ahead. Drop
+  // pending background clips so the selected word is next after any active
+  // inference instead of waiting behind several unrelated words.
+  if (priority > 0) {
+    for (let index = synthesisQueue.length - 1; index >= 0; index -= 1) {
+      const queued = synthesisQueue[index];
+      if (queued.priority === 0 && queued.key !== key) {
+        synthesisQueue.splice(index, 1);
+        synthesisJobs.delete(queued.key);
+        queued.resolve(null);
+      }
+    }
+  }
   if (audioCache.has(key)) return Promise.resolve(audioCache.get(key));
   const pending = synthesisJobs.get(key);
   if (pending) {
