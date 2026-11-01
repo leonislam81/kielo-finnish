@@ -1,7 +1,7 @@
 (() => {
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
-  const DEVICE_PREVIEW_START_TIMEOUT = 900;
+  const DEVICE_PREVIEW_START_TIMEOUT = 350;
   const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=17";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
@@ -28,10 +28,10 @@
   const SPEECH_BUTTON_SELECTOR = "[data-speak],[data-topic-speak],[data-dictionary-speak],[data-daily-speak]";
   const speechIntentTimers = new WeakMap();
   const visiblePreloadTimers = new WeakMap();
-  // Prepare a small number of nearby words ahead of a tap. ONNX inference runs
-  // in its WASM proxy worker; limiting the queue keeps background preparation
-  // bounded while the speech engine caches these clips for immediate replay.
-  const MAX_SHORT_BACKGROUND_PRELOADS = 4;
+  // Prepare nearby words ahead of a tap. ONNX inference runs in its WASM proxy
+  // worker; a bounded queue keeps preparation useful without warming the whole
+  // dictionary, and decoded clips replay directly when selected.
+  const MAX_SHORT_BACKGROUND_PRELOADS = 12;
   const MAX_LONG_BACKGROUND_PRELOADS = 0;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
