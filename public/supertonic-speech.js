@@ -152,7 +152,11 @@ function runSynthesisQueue() {
     }
     const [{ textToSpeech }, style] = await Promise.all([loadEngine((progress) => job.report(progress)), loadStyle(job.styleId)]);
     job.report({ phase: "generating", current: 0, total: 8 });
-    const { wav, duration } = await textToSpeech.call(job.text, "fi", style, 8, job.speed, 0.18, (current, total) => {
+    // Five denoising steps give short words and everyday phrases Supertonic's
+    // documented balanced quality at lower first-play latency. Longer passages
+    // keep the eight-step default for the clearest listening practice.
+    const steps = job.text.length <= 120 ? 5 : 8;
+    const { wav, duration } = await textToSpeech.call(job.text, "fi", style, steps, job.speed, 0.18, (current, total) => {
       job.report({ phase: "generating", current, total });
     });
     const sampleCount = Math.floor(textToSpeech.sampleRate * duration[0]);
