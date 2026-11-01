@@ -1760,3 +1760,33 @@
 .finland-election-sources{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding-top:8px;border-top:1px solid #dfe8de}.finland-election-sources strong{width:100%;color:#536b5d;font-size:8px}.finland-election-sources a{color:#316851;font-size:8px;font-weight:700;text-decoration:underline;text-underline-offset:2px}.finland-election-note,.finland-election-source-note{margin:0;color:#738178;font-size:8px;line-height:1.55}.finland-election-note[lang="bn"]{color:#737f79}
 @media(max-width:760px){.finland-election-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-election-card:last-child{grid-column:1/-1}}
 @media(max-width:480px){.finland-election-grid,.finland-election-rights{grid-template-columns:1fr}.finland-election-card:last-child{grid-column:auto}.finland-election-phrase{align-items:flex-start;flex-direction:column}.finland-election-phrase button{align-self:flex-start}}
+
+/* Settling in Finland · identity, address and residence registration */
+.finland-settling-experience{display:grid;gap:12px;margin:14px 0;padding:14px;border:1px solid #dfe8df;border-radius:16px;background:linear-gradient(145deg,#f7faf5,#edf4ef)}
+.finland-settling-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,280px);align-items:center;gap:18px;padding:clamp(16px,3vw,24px);border:1px solid #e2ebe2;border-radius:13px;background:linear-gradient(120deg,#fffdf7,#edf5ef)}
+.finland-settling-hero h2{margin:5px 0 7px;color:#1c4035;font:750 clamp(18px,2vw,25px)/1.2 var(--heading,Inter,sans-serif);letter-spacing:-.4px}
+.finland-settling-hero p{max-width:660px;margin:0 0 9px;color:#64756b;font-size:11px;line-height:1.65}
+.finland-settling-hero div>span:last-child{color:#3d7058;font-size:10px;font-weight:750;letter-spacing:.3px}
+.finland-settling-diagram{min-width:0;margin:0}.finland-settling-diagram svg{display:block;width:100%;height:auto}.finland-settling-diagram figcaption{margin-top:5px;color:#75857a;font-size:8px;text-align:center}
+.finland-settling-records{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.finland-settling-record{min-width:0;padding:12px;border:1px solid #e1e9e0;border-radius:12px;background:#fff}
+.finland-settling-record strong{display:block;color:#275742;font:750 15px/1.3 var(--heading,Inter,sans-serif)}
+.finland-settling-record>span{display:block;margin-top:3px;color:#6b7a70;font-size:9px;font-weight:700}
+.finland-settling-record p{margin:7px 0 0;color:#718077;font-size:9px;line-height:1.65}
+.finland-settling-checklist{display:grid;gap:9px;padding:12px;border:1px solid #e1e9e0;border-radius:13px;background:#fff}
+.finland-settling-subheading{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.finland-settling-subheading h3{margin:3px 0 0;color:#294b3d;font:700 13px/1.35 var(--heading,Inter,sans-serif)}
+.finland-settling-subheading>span{color:#879389;font-size:8px}
+.finland-settling-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.finland-settling-step{display:grid;grid-template-columns:30px minmax(0,1fr);align-items:start;gap:9px;padding:11px;border:1px solid #e6ece5;border-radius:11px;background:#fbfcf9}
+.finland-settling-step>span{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:#e9f2e9;color:#315e49;font-size:8px;font-weight:800}
+.finland-settling-step h4{margin:1px 0 5px;color:#365343;font:700 10px/1.4 var(--heading,Inter,sans-serif)}
+.finland-settling-step p{margin:0;color:#738078;font-size:9px;line-height:1.65}
+.finland-settling-notice{display:grid;gap:3px;padding:11px 12px;border-left:3px solid #c89355;border-radius:8px;background:#fbf5ec;color:#6b5b45;font-size:9px;line-height:1.6}
+.finland-settling-notice strong{color:#6c5131}
+.finland-settling-sources{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding-top:9px;border-top:1px solid #e1e9df}
+.finland-settling-sources>strong{width:100%;color:#738377;font-size:8px;letter-spacing:.5px}
+.finland-settling-sources a{padding:6px 8px;border:1px solid #dfe8de;border-radius:8px;background:#fff;color:#35634f;font-size:8px;font-weight:700;text-decoration:none}
+.finland-settling-sources a:hover,.finland-settling-sources a:focus-visible{border-color:#9ab5a1;background:#f5f8f3;outline-offset:2px}
+@media(max-width:680px){.finland-settling-hero{grid-template-columns:1fr}.finland-settling-diagram{width:min(100%,380px);margin-inline:auto}.finland-settling-records{grid-template-columns:1fr}.finland-settling-record{padding:10px}.finland-settling-steps{grid-template-columns:1fr}}
+@media(max-width:460px){.finland-settling-experience{padding:9px}.finland-settling-hero{align-items:flex-start;padding:13px}.finland-settling-subheading{align-items:flex-start;flex-direction:column;gap:4px}.finland-settling-sources a{flex:1 1 100%;text-align:center}}
