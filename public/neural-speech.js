@@ -27,15 +27,12 @@
   let recentPointerSpeech = null;
   const speechIntentTimers = new WeakMap();
   const visiblePreloadTimers = new WeakMap();
-  // Prepare short words currently on screen before they are tapped. Give a
-  // learner's first tap a brief head start in the synthesis queue; otherwise
-  // an unrelated background clip can make the requested word wait. Longer
-  // sentences are prepared on hover/focus or on demand, not in the background.
-  const MAX_SHORT_BACKGROUND_PRELOADS = 12;
+  // Do not synthesize visible clips in the background while a learner is
+  // studying. An active ONNX inference cannot be interrupted, so it could hold
+  // the next tap behind an unrelated word. A pointer hover or keyboard focus
+  // still prepares that exact clip before activation.
+  const MAX_SHORT_BACKGROUND_PRELOADS = 0;
   const MAX_LONG_BACKGROUND_PRELOADS = 0;
-  // Leave a short tap-first window after a page appears. On slower devices, an
-  // eager clip can occupy the speech worker just as the learner taps a word.
-  const BACKGROUND_PRELOAD_DELAY_MS = 480;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
 
@@ -104,9 +101,9 @@ function localAudioKey(text, style, speed) {
   function scheduleVisiblePreload(button, priority = 0) {
     const text = speechTextForButton(button)?.trim();
     const style = selectedLocalStyle();
-    // Never let background clip generation become the job that is holding the
-    // model open. A learner's first phrase should be queued as soon as the
-    // model is ready; visible clips can then be prepared in the background.
+    // Avoid automatic background synthesis: an active model inference cannot
+    // be interrupted and could make the next learner tap wait. Hover and
+    // keyboard focus still warm the exact clip before activation.
     if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech) return;
     const speed = synthesisSpeed(speechRateForButton(button));
     const isShortWordOrPhrase = text.length <= 32;
@@ -144,7 +141,7 @@ function localAudioKey(text, style, speed) {
       });
     };
     if (priority === 0) {
-      const timer = window.setTimeout(prepareClip, BACKGROUND_PRELOAD_DELAY_MS);
+      const timer = window.setTimeout(prepareClip, 0);
       visiblePreloadTimers.set(button, { timer, isShortWordOrPhrase });
     } else prepareClip();
   }
