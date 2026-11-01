@@ -192,7 +192,7 @@ Lesson drafts, writing-lab drafts, and open role-play replies now include an opt
 
 ## Progress-aware next step
 
-The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 59 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
+The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 60 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
 
 ## C1 guided path: evidence and audience (1 November 2026)
 
@@ -226,7 +226,7 @@ This expansion brings the guided path closer to OPH's A2.1 interaction and text 
 
 ## B1.1 conversation and community expansion (2026-11-01)
 
-The guided B1 path now has eight lessons. Four original lessons ask learners to clarify an unfamiliar word, share a view with a reason, explain a work delay and next step, and sequence a short community-event story. Each includes a Finnish model, English and Bangla translations, a compact grammar or communication-strategy note, three vocabulary entries, a comprehension prompt, and a speaking or writing prompt. Its course words enter the shared dictionary and Finland-date Daily 100 pool automatically.
+The guided B1 path now has nine lessons. Five original lessons ask learners to explain why a role interests them, clarify an unfamiliar word, share a view with a reason, explain a work delay and next step, and sequence a short community-event story. Each includes a Finnish model, English and Bangla translations, a compact grammar or communication-strategy note, three vocabulary entries, a comprehension prompt, and a speaking or writing prompt. Its course words enter the shared dictionary and Finland-date Daily 100 pool automatically. The job-interview answer is a language-practice example, not application advice; it helps learners give a concise reason and connect it to relevant experience, as described in [InfoFinland’s job-application guidance](https://infofinland.fi/en/work-and-enterprise/find-a-job-in-finland/job-application-and-cv) and [Job Market Finland’s interview tips](https://tyomarkkinatori.fi/en/personal-customers/tietoa-tyoelamasta/search-for-work/tips-for-finding-a-job). The B1 focus on familiar-topic interaction and expressing a view follows [OPH’s proficiency scale](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko).
 
 The examples reflect OPH's B1.1 descriptors for everyday discussion and expressing views, taking some initiative, checking and repairing understanding by rephrasing, and understanding main ideas and selected details in clear standard Finnish. The lessons are original practice, not official YKI items or a complete B1 syllabus. Source: [Finnish National Agency for Education — Evolving language proficiency scale](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko).
 

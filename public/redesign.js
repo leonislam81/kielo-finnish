@@ -512,10 +512,10 @@
       playbackStatus.textContent=localVoice.dataSaver
         ? "Data Saver is on, so the 140 MB voice model waits until you ask to hear Finnish. Your text stays on this device."
         : localVoice.modelReady
-          ? "Finnish voice is ready. Up to twelve short words near the screen are prepared ahead for faster playback."
+          ? "Finnish voice is ready. Saved words replay instantly; tap any new word to start Finnish speech."
           : localVoice.preparing
-            ? "Preparing the free Finnish voice in the background · about 140 MB on first setup. Nearby short words will be ready for faster replay."
-            : "Free Finnish voice starts preparing as this page opens · about 140 MB on first setup. Nearby short words will be ready for faster replay.";
+            ? "Preparing the free Finnish voice in the background · about 140 MB on first setup. New words play as soon as speech is ready."
+            : "Free Finnish voice starts preparing as this page opens · about 140 MB on first setup. Previously heard words can replay instantly.";
     }
   }
   function meaningLanguageTools(language){
@@ -2012,7 +2012,7 @@
     if(detail.phase==="loading"){
       const step=detail.current?` · model ${detail.current} of ${detail.total}`:"";
       status.textContent=`Preparing the Finnish voice in the background${step} · first setup downloads about 140 MB.`;
-    }else if(detail.phase==="ready")status.textContent="Finnish voice is ready. Short words near the screen are prepared before you tap for quick playback.";
+    }else if(detail.phase==="ready")status.textContent="Finnish voice is ready. Saved words replay instantly; tap any new word to start Finnish speech.";
     else if(detail.phase==="failed")status.textContent="Background preparation paused. Tap a Finnish speaker when you are ready; the text stays on this device.";
   });
   setInterval(updateClock,1000);
