@@ -101,9 +101,9 @@ function localAudioKey(text, style, speed) {
   function scheduleVisiblePreload(button, priority = 0) {
     const text = speechTextForButton(button)?.trim();
     const style = selectedLocalStyle();
-    // Avoid automatic background synthesis: an active model inference cannot
-    // be interrupted and could make the next learner tap wait. Hover and
-    // keyboard focus still warm the exact clip before activation.
+    // Hover and keyboard focus may restore an existing clip, but must never
+    // start ONNX inference. Model synthesis can occupy the main thread and
+    // delay the very pointer event that is supposed to start playback.
     if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech) return;
     const speed = synthesisSpeed(speechRateForButton(button));
     const isShortWordOrPhrase = text.length <= 32;
@@ -127,10 +127,9 @@ function localAudioKey(text, style, speed) {
         return;
       }
       localSpeech().then(async (speech) => {
-        // Generate visible short words in the background after giving an
-        // immediate tap first claim on the synthesis worker. Prepared audio is
-        // decoded and saved for instant replay on subsequent taps.
-        const blob = await speech.preload(text, style, speed, true, priority);
+        // Read only an already saved clip. A fresh phrase is synthesized from
+        // its own tap flow, never from a hover or focus event.
+        const blob = await speech.preload(text, style, speed, false, priority);
         if (blob) void decodeLocalAudio(blob, key).catch(() => {});
       }).catch(() => {
         if (button.dataset.kieloPreloadKey === marker) delete button.dataset.kieloPreloadKey;
