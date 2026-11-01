@@ -26,12 +26,14 @@
   let installedSpeechVoices = [];
   let recentPointerSpeech = null;
   const speechIntentTimers = new WeakMap();
-  // Prepare the short words currently on screen before they are tapped. The
-  // Finnish sound lab shows eight words together, so four slots left half of
-  // that lesson generating audio only after a learner pressed Play. Longer
-  // sentences remain on a smaller background budget to keep the page light.
+  const visiblePreloadTimers = new WeakMap();
+  // Prepare short words currently on screen before they are tapped. Give a
+  // learner's first tap a brief head start in the synthesis queue; otherwise
+  // an unrelated background clip can make the requested word wait. Longer
+  // sentences are prepared on hover/focus or on demand, not in the background.
   const MAX_SHORT_BACKGROUND_PRELOADS = 12;
-  const MAX_LONG_BACKGROUND_PRELOADS = 4;
+  const MAX_LONG_BACKGROUND_PRELOADS = 0;
+  const BACKGROUND_PRELOAD_DELAY_MS = 650;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
 
@@ -86,6 +88,17 @@ function localAudioKey(text, style, speed) {
     return Number(localStorage.getItem("kielo-finnish-rate") || "0.86");
   }
 
+  function cancelVisiblePreload(button) {
+    const pending = button && visiblePreloadTimers.get(button);
+    if (!pending) return;
+    window.clearTimeout(pending.timer);
+    visiblePreloadTimers.delete(button);
+    if (pending.isShortWordOrPhrase) queuedShortPreloads = Math.max(0, queuedShortPreloads - 1);
+    else queuedLongPreloads = Math.max(0, queuedLongPreloads - 1);
+    delete button.dataset.kieloPreloadKey;
+    delete button.dataset.kieloPreloadPriority;
+  }
+
   function scheduleVisiblePreload(button, priority = 0) {
     const text = speechTextForButton(button)?.trim();
     const style = selectedLocalStyle();
@@ -99,25 +112,39 @@ function localAudioKey(text, style, speed) {
     const marker = JSON.stringify([style, speed, text, "prepared-clip"]);
     const previousPriority = Number(button.dataset.kieloPreloadPriority ?? -1);
     if (button.dataset.kieloPreloadKey === marker && priority <= previousPriority) return;
+    if (priority > 0) cancelVisiblePreload(button);
     if (priority === 0 && isShortWordOrPhrase && queuedShortPreloads >= MAX_SHORT_BACKGROUND_PRELOADS) return;
     if (priority === 0 && !isShortWordOrPhrase && queuedLongPreloads >= MAX_LONG_BACKGROUND_PRELOADS) return;
     button.dataset.kieloPreloadKey = marker;
     button.dataset.kieloPreloadPriority = String(priority);
     if (isShortWordOrPhrase) queuedShortPreloads += 1;
     else queuedLongPreloads += 1;
-    localSpeech().then(async (speech) => {
-      // Generate nearby words while the learner reads, not after they press
-      // Play. The model and style are already warmed in the background; the
-      // short phrase is stored locally for instant replay on the next tap.
-      const blob = await speech.preload(text, style, speed, true, priority);
-      if (blob) void decodeLocalAudio(blob, key).catch(() => {});
-    }).catch(() => {
-      if (button.dataset.kieloPreloadKey === marker) delete button.dataset.kieloPreloadKey;
-    }).finally(() => {
-      if (isShortWordOrPhrase) queuedShortPreloads = Math.max(0, queuedShortPreloads - 1);
-      else queuedLongPreloads = Math.max(0, queuedLongPreloads - 1);
-      if (document.visibilityState !== "hidden") observeVisibleSpeech();
-    });
+    const prepareClip = () => {
+      visiblePreloadTimers.delete(button);
+      if (!button.isConnected) {
+        if (button.dataset.kieloPreloadKey === marker) delete button.dataset.kieloPreloadKey;
+        if (isShortWordOrPhrase) queuedShortPreloads = Math.max(0, queuedShortPreloads - 1);
+        else queuedLongPreloads = Math.max(0, queuedLongPreloads - 1);
+        return;
+      }
+      localSpeech().then(async (speech) => {
+        // Generate visible short words in the background after giving an
+        // immediate tap first claim on the synthesis worker. Prepared audio is
+        // decoded and saved for instant replay on subsequent taps.
+        const blob = await speech.preload(text, style, speed, true, priority);
+        if (blob) void decodeLocalAudio(blob, key).catch(() => {});
+      }).catch(() => {
+        if (button.dataset.kieloPreloadKey === marker) delete button.dataset.kieloPreloadKey;
+      }).finally(() => {
+        if (isShortWordOrPhrase) queuedShortPreloads = Math.max(0, queuedShortPreloads - 1);
+        else queuedLongPreloads = Math.max(0, queuedLongPreloads - 1);
+        if (document.visibilityState !== "hidden") observeVisibleSpeech();
+      });
+    };
+    if (priority === 0) {
+      const timer = window.setTimeout(prepareClip, BACKGROUND_PRELOAD_DELAY_MS);
+      visiblePreloadTimers.set(button, { timer, isShortWordOrPhrase });
+    } else prepareClip();
   }
 
   function observeVisibleSpeech() {
@@ -252,6 +279,7 @@ function localAudioKey(text, style, speed) {
     const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
     const text = button && speechTextForButton(button)?.trim();
     if (!text || button.disabled) return;
+    cancelVisiblePreload(button);
     const startedAt = performance.now();
     recentPointerSpeech = { button, startedAt };
     void speak(text, speechRateForButton(button));
@@ -756,7 +784,11 @@ function localAudioKey(text, style, speed) {
     if (button) cancelSpeechIntent(button);
   }, true);
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") primeSpeechOutput(event.target);
+    if (event.key === "Enter" || event.key === " ") {
+      primeSpeechOutput(event.target);
+      const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+      if (button) cancelVisiblePreload(button);
+    }
   }, true);
   const pageContent = document.getElementById("page-content");
   if (pageContent) {

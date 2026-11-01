@@ -537,7 +537,11 @@ Switching between English and Bangla meaning support no longer reshuffles the 10
 
 ## Portable Daily 100 progress (1 November 2026)
 
-Kielo progress backups are now version 2 and carry Daily 100 learned words for the last 90 Finland dates, plus the learner’s daily target, study focus, meaning language and recall-first preference. Restoring merges learned Finnish words for matching dates, keeps any current-device daily preferences, and restores saved preferences when the current device has none. English- and Bangla-era progress keys are combined during export/restore. Version 1 Kielo backups remain supported and do not erase current Daily 100 progress when restored. The JSON remains local unless the learner chooses to move it; it contains no account data or speech recordings.
+Kielo progress backups are now version 3 and carry Daily 100 learned words for the last 90 Finland dates, plus the learner’s daily target, study focus, meaning language and recall-first preference. A selected Kielo on-device Finnish neural voice preset and pace are included; installed browser voice names are not portable. Restoring merges learned Finnish words for matching dates, keeps any current-device preferences, and restores saved preferences when the current device has none. English- and Bangla-era progress keys are combined during export/restore. Version 1 and 2 Kielo backups remain supported and do not erase current Daily 100 progress when restored. The JSON is unencrypted and stays local unless the learner chooses to move or share it; it contains no account data or speech recordings.
+
+## Faster Finnish word playback (1 November 2026)
+
+Speech synthesis now gives a direct tap first claim on the local voice queue. Short words visible on the current page are prepared in the background after a brief tap-priority window and cached for instant replay. Longer passages are synthesized on request or after hover/focus instead of occupying the background queue. The first use of the local Supertonic voice still requires its one-time model download; an installed browser voice can serve as an immediate preview when available.
 
 ## Restore a saved wider dictionary (1 November 2026)
 
