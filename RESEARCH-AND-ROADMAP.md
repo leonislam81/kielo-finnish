@@ -316,6 +316,8 @@ The worker at `worker/speech.ts` accepts only the three allowlisted voice IDs, t
 
 To reduce perceived delay on an uncached phrase, the client starts an installed browser voice immediately when available while it prepares the selected local male/female Finnish voice. Visible audio controls are warmed ahead. Generated Finnish clips are saved in an IndexedDB cache capped at 120 clips, so repeats and later visits can play without waiting for synthesis. The browser preview is clearly labelled because a device without Finnish speech may pronounce Finnish with its installed system voice. Model warmup begins as the page becomes ready; data-saver mode still prevents the background download. A first uncached phrase in a browser with no speech service still needs the initial model setup and synthesis.
 
+Latency follow-up (2026-11-01): pointer playback now starts on press, visible controls are scanned on the next frame with a wider look-ahead margin, and previously saved IndexedDB audio is checked before model inference. A genuinely new phrase still needs neural generation when the browser has no usable Finnish speech service; the app keeps the quick browser preview available while that clip is prepared.
+
 Sources: [Microsoft — Language and voice support](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support), [Microsoft — Text-to-speech REST API](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/rest-text-to-speech), [Microsoft — Supported Speech regions](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/regions), and [Azure Speech pricing](https://azure.microsoft.com/en-us/pricing/details/speech/).
 
 ### Universities and study chapter (checked 2026-10-22)

@@ -118,6 +118,19 @@ export function getAudio(text, styleId = "F1", speed = 1.05) {
   return audioCache.get(synthesisKey(String(text).trim(), safeStyle, Number(speed) || 1.05)) || null;
 }
 
+export async function getCachedAudio(text, styleId = "F1", speed = 1.05) {
+  const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
+  const key = synthesisKey(String(text).trim(), safeStyle, Number(speed) || 1.05);
+  const cached = audioCache.get(key);
+  if (cached) return cached;
+  const saved = await getPersistedAudio(key);
+  if (saved) {
+    audioCache.set(key, saved);
+    while (audioCache.size > 50) audioCache.delete(audioCache.keys().next().value);
+  }
+  return saved;
+}
+
 export async function prepare(styleId = "F1", onProgress) {
   const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
   await Promise.all([loadEngine(onProgress), loadStyle(safeStyle)]);
