@@ -188,7 +188,13 @@ Lesson drafts, writing-lab drafts, and open role-play replies now include an opt
 
 ## Progress-aware next step
 
-The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 44 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
+The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 48 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
+
+## C1 guided path: evidence and audience (1 November 2026)
+
+The guided C1 level now contains eight original lessons. Four additions ask learners to distinguish observed change from a proven cause, synthesize two concerns into a careful conclusion, adapt a fictional service notice to a plain-language audience, and state a limited recommendation with conditions for monitoring and review. Each lesson supplies a long Finnish model, English and Bangla meaning, a focused grammar explanation, three contextual words, a retrieval question, and an open speaking prompt. The report and notice are clearly labelled as fictional teaching examples.
+
+This expansion follows the direction of OPH’s C1.1 scale: flexible, fluent and precise interaction; combining information from complex written texts; and producing well-structured texts on complex topics. Those descriptors inform the practice goals; they do not prescribe this lesson sequence. The four items are not a complete C1 syllabus or official YKI tasks. Source: [Opetushallitus — Developing language proficiency scale](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko).
 
 ## A1 everyday-life expansion (2026-11-01)
 
