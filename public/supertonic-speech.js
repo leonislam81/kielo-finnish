@@ -191,7 +191,7 @@ function queueSynthesis(text, styleId, speed, priority, onProgress) {
   // inference instead of waiting behind several unrelated words.
   if (priority > 0) {
     const activeJob = activeSynthesisJob;
-    if (activeJob && activeJob.priority < priority && !activeJob.inferenceStarted) {
+    if (activeJob && activeJob.key !== key && activeJob.priority < priority && !activeJob.inferenceStarted) {
       activeJob.cancelled = true;
     }
     for (let index = synthesisQueue.length - 1; index >= 0; index -= 1) {
