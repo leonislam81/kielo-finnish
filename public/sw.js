@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME="kielo-offline-v131";
+const CACHE_NAME="kielo-offline-v132";
 const SCOPE_URL=new URL(self.registration.scope);
 const OFFLINE_PAGE=new URL("index.html",SCOPE_URL).href;
 const ASSET_PATHS=[
@@ -29,13 +29,13 @@ const ASSET_PATHS=[
   "data/fi-en-frequent.json.gz?v=3",
   "data/finland-regions-2026.geojson",
   "pwa.js?v=1",
-  "neural-speech.js?v=39",
+  "neural-speech.js?v=40",
   "sami-experience.js?v=1",
   "grammar-cases.js?v=1",
   "supertonic-speech.js?v=17",
   "supertonic-helper.js?v=5",
   "app.js?v=88",
-  "redesign.js?v=91",
+  "redesign.js?v=92",
   "images/kielo-cover.webp",
   "images/kielo-mark.svg",
   "images/kielo-icon-192.png",
