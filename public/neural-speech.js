@@ -1,7 +1,7 @@
 (() => {
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
-  const DEVICE_PREVIEW_START_TIMEOUT = 1_200;
+  const DEVICE_PREVIEW_START_TIMEOUT = 900;
   const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=16";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
@@ -31,9 +31,9 @@
   // learner's first tap a brief head start in the synthesis queue; otherwise
   // an unrelated background clip can make the requested word wait. Longer
   // sentences are prepared on hover/focus or on demand, not in the background.
-  const MAX_SHORT_BACKGROUND_PRELOADS = 12;
+  const MAX_SHORT_BACKGROUND_PRELOADS = 24;
   const MAX_LONG_BACKGROUND_PRELOADS = 0;
-  const BACKGROUND_PRELOAD_DELAY_MS = 650;
+  const BACKGROUND_PRELOAD_DELAY_MS = 0;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
 
@@ -636,13 +636,16 @@ function localAudioKey(text, style, speed) {
         // to delay the speechSynthesis start event and make a fresh tap sound
         // as if it were waiting for the selected neural voice to load.
         if (instantPreview) {
-          const previewGraceMs = instantPreview.localVoice ? 500 : 90;
-          const previewStarted = await Promise.race([
-            instantPreview.started,
-            new Promise((resolve) => window.setTimeout(() => resolve(false), previewGraceMs)),
-          ]);
-          if (currentPlaybackId !== playbackId) return false;
-          if (previewStarted) await new Promise((resolve) => window.setTimeout(resolve, 80));
+        // Do not make a learner wait half a second for the browser voice before
+        // starting local synthesis. A very short grace still lets an installed
+        // voice claim the first sound while the selected Finnish voice prepares.
+        const previewGraceMs = instantPreview.localVoice ? 150 : 45;
+        const previewStarted = await Promise.race([
+          instantPreview.started,
+          new Promise((resolve) => window.setTimeout(() => resolve(false), previewGraceMs)),
+        ]);
+        if (currentPlaybackId !== playbackId) return false;
+        if (previewStarted) await new Promise((resolve) => window.setTimeout(resolve, 25));
         }
         const audioPromise = speechApi.synthesize(phrase, style, speed, (progress) => {
           if (currentPlaybackId !== playbackId || previewPlayed) return;
@@ -658,6 +661,17 @@ function localAudioKey(text, style, speed) {
             instantPreview.started.then((started) => ({ kind: "preview", started })),
             audioPromise.then((blob) => ({ kind: "audio", blob }), (error) => ({ kind: "error", error })),
           ]);
+          // If the local clip finishes just before the browser reports its
+          // preview start, give that already-queued device voice a brief chance
+          // to become audible. This avoids replacing the first sound with a
+          // decode/playback handoff when the browser is only a moment behind.
+          if (firstResult.kind === "audio" && !instantPreview.hasStarted) {
+            const previewStarted = await Promise.race([
+              instantPreview.started,
+              new Promise((resolve) => window.setTimeout(() => resolve(false), 120)),
+            ]);
+            if (previewStarted) firstResult = { kind: "preview", started: true };
+          }
           if (firstResult.kind === "preview" && firstResult.started && currentPlaybackId === playbackId) {
             previewPlayed = true;
             // Return as soon as sound starts. Prepare this phrase behind it so
