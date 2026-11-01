@@ -645,10 +645,12 @@ function localAudioKey(text, style, speed) {
         // to delay the speechSynthesis start event and make a fresh tap sound
         // as if it were waiting for the selected neural voice to load.
         if (instantPreview) {
-        // Do not make a learner wait half a second for the browser voice before
-        // starting local synthesis. A very short grace still lets an installed
-        // voice claim the first sound while the selected Finnish voice prepares.
-        const previewGraceMs = instantPreview.localVoice ? 45 : 25;
+        // Let the browser voice report its actual start before doing neural
+        // inference. Starting ONNX after only 25–45 ms could occupy the audio
+        // thread before speechSynthesis had emitted its first sound, turning
+        // an immediate preview into a delayed one. If the browser voice cannot
+        // start, fall back to Finnish synthesis after a bounded grace period.
+        const previewGraceMs = instantPreview.localVoice ? 650 : 350;
         const previewStarted = await Promise.race([
           instantPreview.started,
           new Promise((resolve) => window.setTimeout(() => resolve(false), previewGraceMs)),
