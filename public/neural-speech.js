@@ -28,9 +28,9 @@
   const SPEECH_BUTTON_SELECTOR = "[data-speak],[data-topic-speak],[data-dictionary-speak],[data-daily-speak]";
   const speechIntentTimers = new WeakMap();
   const visiblePreloadTimers = new WeakMap();
-  // Restore saved clips near the learner's view. Do not synthesize speculative
-  // clips here: the on-device engine has one inference queue, and background
-  // generation can make a requested word wait behind unrelated audio.
+  // Prepare a small set of short, visible words before the learner taps them.
+  // A bounded queue keeps first playback responsive without generating the
+  // whole dictionary in the background; taps promote their own clip.
   const MAX_SHORT_BACKGROUND_PRELOADS = 12;
   const MAX_LONG_BACKGROUND_PRELOADS = 0;
   let playbackId = 0;
@@ -102,8 +102,8 @@ function localAudioKey(text, style, speed) {
   function scheduleVisiblePreload(button, priority = 0) {
     const text = speechTextForButton(button)?.trim();
     const style = selectedLocalStyle();
-    // Keep speculative synthesis out of this path. It only restores a saved
-    // clip, so a learner's new request always reaches the foreground queue.
+    // Only words near the learner's view are prepared. Longer sentences are
+    // synthesized on demand so background work stays bounded.
     if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech) return;
     const speed = synthesisSpeed(speechRateForButton(button));
     const isShortWordOrPhrase = text.length <= 32;
@@ -128,8 +128,8 @@ function localAudioKey(text, style, speed) {
       }
       let prepared = false;
       localSpeech().then(async (speech) => {
-        // Restore a saved clip only; synthesis begins from the learner's tap.
-        const blob = await speech.preload(text, style, speed, false, priority);
+        // Restore a saved clip or prepare this visible short word in advance.
+        const blob = await speech.preload(text, style, speed, true, priority);
         if (blob) {
           await decodeLocalAudio(blob, key);
           prepared = true;
@@ -840,6 +840,7 @@ function localAudioKey(text, style, speed) {
       if (!selectedLocalStyle()) return;
       warmupStarted = false;
       startBackgroundWarmup();
+      observeVisibleSpeech();
     }, 0);
   });
   document.addEventListener("visibilitychange", () => {
