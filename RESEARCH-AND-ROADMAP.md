@@ -188,13 +188,19 @@ Lesson drafts, writing-lab drafts, and open role-play replies now include an opt
 
 ## Progress-aware next step
 
-The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 32 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
+The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 36 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
 
 ## A1 everyday-life expansion (2026-11-01)
 
 The guided A1 path now has eight lessons instead of four. Four new original lessons practise asking and paying for an item, finding a product in a grocery shop, talking about a hobby, and politely asking someone to repeat themselves. Each lesson includes an English and Bangla meaning, beginner-level grammar note, three vocabulary entries, a short retrieval question, and a speaking prompt. Their vocabulary is automatically available to the word shelf, search, review, and rotating Daily 100 activity because those features read from the course data.
 
 This fills practical beginner goals named in the Finnish National Agency for Education's A1 oral self-assessment, including asking what an item costs, ordering and paying, and talking about interests. The examples were cross-checked against Aalto OpenLearning's beginner café and grocery-shop learning materials. These prompts are Kielo's own short teaching examples; the external resources are linked as references rather than copied into the app. Sources: [OPH — Oral language self-assessment tables for B2 and B3 languages](https://www.oph.fi/fi/b2-ja-b3-kielten-suullisen-kielitaidon-itsearviointitaulukot), [Aalto OpenLearning — At a university café](https://openlearning.aalto.fi/mod/page/view.php?id=16964&lang=fi), [Aalto OpenLearning — Shopping list and at the store](https://openlearning.aalto.fi/mod/page/view.php?forceview=1&id=15251).
+
+## A2 everyday interaction expansion (2026-11-01)
+
+The guided A2 path now has eight lessons. Four new original lessons practise proposing a meeting time, inviting someone to a cottage for the weekend, writing a short transit-delay update, and apologising while suggesting another day. Each includes a Finnish model, English and Bangla translations, a compact grammar note, three vocabulary items, a retrieval question, and a speaking or writing prompt. Lesson vocabulary flows into the same search, dictionary, review shelf, and Finland-date Daily 100 pool as the rest of the curriculum.
+
+This expansion brings the guided path closer to OPH's A2.1 interaction and text descriptors: exchanging information in familiar daily situations, politely making requests, invitations, proposals and apologies, responding to them, and understanding short everyday messages. The lesson prompts are original examples and practice activities; the descriptor is broad, so the set is not described as a complete A2 course or an official assessment. Source: [Finnish National Agency for Education — Evolving language proficiency scale](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko).
 
 ## Finnish word of the day
 
