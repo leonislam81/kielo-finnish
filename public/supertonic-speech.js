@@ -211,8 +211,20 @@ export function synthesize(text, styleId = "F1", speed = 1.05, onProgress) {
   return queueSynthesis(text, safeStyle, speed, 2, onProgress);
 }
 
-export function preload(text, styleId = "F1", speed = 1.05) {
-  return queueSynthesis(text, styleId, speed, 0).catch(() => null);
+export async function preload(text, styleId = "F1", speed = 1.05, allowGenerate = true) {
+  const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
+  const normalizedSpeed = Math.min(1.4, Math.max(0.6, Number(speed) || 1.05));
+  const normalizedText = String(text).trim();
+  const key = synthesisKey(normalizedText, safeStyle, normalizedSpeed);
+  if (audioCache.has(key)) return audioCache.get(key);
+  const savedAudio = await getPersistedAudio(key);
+  if (savedAudio) {
+    audioCache.set(key, savedAudio);
+    while (audioCache.size > 50) audioCache.delete(audioCache.keys().next().value);
+    return savedAudio;
+  }
+  if (!allowGenerate || !engine) return null;
+  return queueSynthesis(normalizedText, safeStyle, normalizedSpeed, 0).catch(() => null);
 }
 
 export const modelDownloadLabel = MODEL_SIZE_LABEL;

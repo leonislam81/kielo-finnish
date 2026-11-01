@@ -1,7 +1,8 @@
 (() => {
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
-  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=9";
+  const DEVICE_PREVIEW_START_TIMEOUT = 2_500;
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=10";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
   const decodedLocalBuffers = new Map();
@@ -22,9 +23,10 @@
   let scanTimer = 0;
   let queuedPreloads = 0;
   let installedSpeechVoices = [];
+  let recentPointerSpeech = null;
   // Keep only a tiny audio queue ahead of the learner. A long queue competes
   // with a newly requested phrase and makes the first tap feel unresponsive.
-  const MAX_BACKGROUND_PRELOADS = 8;
+  const MAX_BACKGROUND_PRELOADS = 2;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
 
@@ -85,18 +87,20 @@ function localAudioKey(text, style, speed) {
     // Never let background clip generation become the job that is holding the
     // model open. A learner's first phrase should be queued as soon as the
     // model is ready; visible clips can then be prepared in the background.
-    if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech || !localSpeechApi?.isReady?.()) return;
+    if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech) return;
     const speed = synthesisSpeed(speechRateForButton(button));
     const key = `${style}\u0000${speed}\u0000${text}`;
-    if (button.dataset.kieloPreloadKey === key || queuedPreloads >= MAX_BACKGROUND_PRELOADS) return;
-    button.dataset.kieloPreloadKey = key;
+    const canGenerate = localSpeechApi?.isReady?.() === true;
+    const marker = JSON.stringify([style, speed, text, canGenerate]);
+    if (button.dataset.kieloPreloadKey === marker || queuedPreloads >= MAX_BACKGROUND_PRELOADS) return;
+    button.dataset.kieloPreloadKey = marker;
     queuedPreloads += 1;
     localSpeech().then(async (speech) => {
-      const blob = await speech.preload(text, style, speed);
+      const blob = await speech.preload(text, style, speed, canGenerate);
       if (blob) void decodeLocalAudio(blob, key).catch(() => {});
-      else if (button.dataset.kieloPreloadKey === key) delete button.dataset.kieloPreloadKey;
+      else if (button.dataset.kieloPreloadKey === marker && canGenerate) delete button.dataset.kieloPreloadKey;
     }).catch(() => {
-      if (button.dataset.kieloPreloadKey === key) delete button.dataset.kieloPreloadKey;
+      if (button.dataset.kieloPreloadKey === marker) delete button.dataset.kieloPreloadKey;
     }).finally(() => {
       queuedPreloads = Math.max(0, queuedPreloads - 1);
       if (document.visibilityState !== "hidden") observeVisibleSpeech();
@@ -105,7 +109,7 @@ function localAudioKey(text, style, speed) {
 
   function observeVisibleSpeech() {
     const content = document.getElementById("page-content");
-    if (!content || !selectedLocalStyle() || isDataSaver() || !localSpeechApi?.isReady?.()) return;
+    if (!content || !selectedLocalStyle() || isDataSaver()) return;
     const selector = "[data-speak],[data-topic-speak],[data-dictionary-speak]";
     if (speechObserver) speechObserver.disconnect();
     if ("IntersectionObserver" in window) {
@@ -228,6 +232,28 @@ function localAudioKey(text, style, speed) {
       deviceVoices();
       if (window.speechSynthesis?.paused) window.speechSynthesis.resume();
     } catch {}
+  }
+
+  function startPointerSpeech(event) {
+    if (event.button !== 0) return;
+    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    const text = button && speechTextForButton(button)?.trim();
+    if (!text || button.disabled) return;
+    const startedAt = performance.now();
+    recentPointerSpeech = { button, startedAt };
+    void speak(text, speechRateForButton(button));
+    window.setTimeout(() => {
+      if (recentPointerSpeech?.button === button && recentPointerSpeech.startedAt === startedAt) recentPointerSpeech = null;
+    }, 1_000);
+  }
+
+  function consumePointerSpeechClick(event) {
+    if (!event.detail || !recentPointerSpeech) return;
+    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    if (!button || button !== recentPointerSpeech.button || performance.now() - recentPointerSpeech.startedAt > 1_000) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    recentPointerSpeech = null;
   }
 
   function decodeLocalAudio(blob, cacheKey = "") {
@@ -462,7 +488,7 @@ function localAudioKey(text, style, speed) {
           if (started || settled) return;
           if (currentPlaybackId === playbackId) window.speechSynthesis.cancel();
           finish(false);
-        }, 800);
+        }, DEVICE_PREVIEW_START_TIMEOUT);
       } catch {
         finish(false);
       }
@@ -635,9 +661,12 @@ function localAudioKey(text, style, speed) {
     deviceVoices();
     window.speechSynthesis.addEventListener?.("voiceschanged", deviceVoices);
   }
-  // Prime the browser's audio output before the following click event. This
-  // also helps browsers that only unlock Web Audio inside a direct user gesture.
+  // Prime the browser's audio output before the speech control is activated.
+  // This also helps browsers that only unlock Web Audio inside a user gesture.
   document.addEventListener("pointerdown", (event) => primeSpeechOutput(event.target), { capture: true, passive: true });
+  document.addEventListener("pointerup", startPointerSpeech, { capture: true, passive: true });
+  document.addEventListener("pointercancel", () => { recentPointerSpeech = null; }, true);
+  document.addEventListener("click", consumePointerSpeechClick, true);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") primeSpeechOutput(event.target);
   }, true);
