@@ -2,7 +2,7 @@
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
   const DEVICE_PREVIEW_START_TIMEOUT = 2_500;
-  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=10";
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=11";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
   const decodedLocalBuffers = new Map();
@@ -20,7 +20,7 @@
   let warmupStarted = false;
   let speechObserver = null;
   let speechContentObserver = null;
-  let scanTimer = 0;
+  let scanFrame = 0;
   let queuedPreloads = 0;
   let installedSpeechVoices = [];
   let recentPointerSpeech = null;
@@ -120,7 +120,7 @@ function localAudioKey(text, style, speed) {
             scheduleVisiblePreload(entry.target);
           }
         }
-      }, { rootMargin: "240px 0px" });
+      }, { rootMargin: "320px 0px" });
       content.querySelectorAll(selector).forEach((button) => speechObserver.observe(button));
     } else {
       content.querySelectorAll(selector).forEach((button) => {
@@ -498,7 +498,7 @@ function localAudioKey(text, style, speed) {
     // submit the preview immediately without this extra turn.
     if (afterCancel) window.setTimeout(begin, 0);
     else begin();
-    return { started: startedPromise, finished: finishedPromise };
+    return { get hasStarted() { return started; }, started: startedPromise, finished: finishedPromise };
   }
 
   function cancelDevicePreview(currentPlaybackId) {
@@ -551,6 +551,21 @@ function localAudioKey(text, style, speed) {
       try {
         const speechApi = await localSpeech();
         if (currentPlaybackId !== playbackId) return false;
+        // Reuse a clip from the persistent cache before spending time on model
+        // inference. Keep an already-started browser preview audible; otherwise
+        // switch straight to the learner's selected Finnish voice.
+        if (typeof speechApi.getCachedAudio === "function") {
+          const savedAudio = await Promise.race([
+            speechApi.getCachedAudio(phrase, style, speed),
+            new Promise((resolve) => window.setTimeout(() => resolve(null), 70)),
+          ]);
+          if (currentPlaybackId !== playbackId) return false;
+          if (savedAudio) {
+            if (instantPreview?.hasStarted) return true;
+            if (instantPreview) cancelDevicePreview(currentPlaybackId);
+            return playLocalAudio(savedAudio, currentPlaybackId, localKey);
+          }
+        }
         // Let the browser's quick voice begin before ONNX inference starts.
         // The first model run can briefly occupy the main thread, which used
         // to delay the speechSynthesis start event and make a fresh tap sound
@@ -676,7 +691,9 @@ function localAudioKey(text, style, speed) {
   // Prime the browser's audio output before the speech control is activated.
   // This also helps browsers that only unlock Web Audio inside a user gesture.
   document.addEventListener("pointerdown", (event) => primeSpeechOutput(event.target), { capture: true, passive: true });
-  document.addEventListener("pointerup", startPointerSpeech, { capture: true, passive: true });
+  // Begin on press rather than release so a tap starts audio in its original
+  // user gesture, without waiting for the rest of the click event sequence.
+  document.addEventListener("pointerdown", startPointerSpeech, { capture: true, passive: true });
   document.addEventListener("pointercancel", () => { recentPointerSpeech = null; }, true);
   document.addEventListener("click", consumePointerSpeechClick, true);
   document.addEventListener("keydown", (event) => {
@@ -686,8 +703,8 @@ function localAudioKey(text, style, speed) {
   if (pageContent) {
     speechContentObserver = new MutationObserver(() => {
       if (!selectedLocalStyle() || isDataSaver()) return;
-      window.clearTimeout(scanTimer);
-      scanTimer = window.setTimeout(observeVisibleSpeech, 110);
+      window.cancelAnimationFrame(scanFrame);
+      scanFrame = window.requestAnimationFrame(observeVisibleSpeech);
     });
     speechContentObserver.observe(pageContent, { childList: true, subtree: true });
   }
