@@ -1,8 +1,8 @@
 # Kielo — Learn Finnish, gently
 
-Live app: [Sites](https://kielo-finnish.openmoss1.chatgpt.site/) · [GitHub Pages](https://leonislam81.github.io/kielo-finnish/) · [Source repository](https://github.com/leonislam81/kielo-finnish)
+Live app: [Sites](https://kielo-finnish.leonislam810.chatgpt.site/) · [GitHub Pages](https://leonislam81.github.io/kielo-finnish/) · [Source repository](https://github.com/leonislam81/kielo-finnish)
 
-Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 52 guided lessons from Pre-A1 through C2, including beginner shopping, hobbies, invitations, everyday messages, workplace updates, and reasoned proposals, with separate listening, speaking, reading, writing, and grammar labs through C2. The Grammar Lab includes a guided, interactive map of the traditional 15 Finnish noun cases, arranged from everyday forms to less common ones, with English/Bangla explanations, spoken examples, and a quick check for each case. The Foundation Grammar Lab also compares the Finnish inside and at/on location-case sets. Vocabulary review includes the course words plus curated C1 and C2 word sets with contextual examples. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café, railway station, grocery store, and library, with full-scene audio at slow, steady, or natural speed and a bilingual transcript that alternates each Finnish prompt with its model reply, optional open-response writing mode, a standalone pronunciation lab for Finnish vowels and sound length, and an installable offline app shell.
+Kielo is a bilingual-support Finnish learning web app with an English interface. Learners can switch lesson explanations between English and Bangla. The course map has 56 guided lessons from Pre-A1 through C2, including beginner shopping, hobbies, invitations, everyday messages, workplace updates, and reasoned proposals, with separate listening, speaking, reading, writing, and grammar labs through C2. The Grammar Lab includes a guided, interactive map of the traditional 15 Finnish noun cases, arranged from everyday forms to less common ones, with English/Bangla explanations, spoken examples, and a quick check for each case. The Foundation Grammar Lab also compares the Finnish inside and at/on location-case sets. Vocabulary review includes the course words plus curated C1 and C2 word sets with contextual examples. It includes browser audio, a short quiz, scene-based pictures, picture matching, spaced vocabulary review, beginner role-plays for a Finnish café, railway station, grocery store, and library, with full-scene audio at slow, steady, or natural speed and a bilingual transcript that alternates each Finnish prompt with its model reply, optional open-response writing mode, a standalone pronunciation lab for Finnish vowels and sound length, and an installable offline app shell.
 
 ## Run locally
 
@@ -39,6 +39,8 @@ Set keys only through Sites runtime secret settings. A phrase is sent to the sel
 ## Course and research
 
 See [RESEARCH-AND-ROADMAP.md](RESEARCH-AND-ROADMAP.md) for the research notes, course map, design choices, media sources, and next steps. The proficiency path is informed by the Council of Europe's CEFR and the Finnish National Agency for Education's YKI mapping. Official Yle video and study pages open on Yle; they are not copied into this repository.
+
+The Pre-A1 path now has eight short lessons, adding phrases for saying you speak a little Finnish, asking someone to repeat, asking for help, and finding an everyday place. These lessons join English and Bangla meaning, audio, vocabulary, a quick check, and a speaking prompt. See the research notes for the CEFR and InfoFinland/Yle references.
 
 ## Learner data
 
