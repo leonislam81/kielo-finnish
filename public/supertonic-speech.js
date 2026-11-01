@@ -184,7 +184,7 @@ function queueSynthesis(text, styleId, speed, priority, onProgress) {
   if (priority > 0) {
     for (let index = synthesisQueue.length - 1; index >= 0; index -= 1) {
       const queued = synthesisQueue[index];
-      if (queued.priority === 0 && queued.key !== key) {
+      if (queued.priority < priority && queued.key !== key) {
         synthesisQueue.splice(index, 1);
         synthesisJobs.delete(queued.key);
         queued.resolve(null);
@@ -228,7 +228,7 @@ export function synthesize(text, styleId = "F1", speed = 1.05, onProgress) {
   return queueSynthesis(text, safeStyle, speed, 2, onProgress);
 }
 
-export async function preload(text, styleId = "F1", speed = 1.05, allowGenerate = true) {
+export async function preload(text, styleId = "F1", speed = 1.05, allowGenerate = true, priority = 0) {
   const safeStyle = /^[FM][1-5]$/.test(styleId) ? styleId : "F1";
   const normalizedSpeed = Math.min(1.4, Math.max(0.6, Number(speed) || 1.05));
   const normalizedText = String(text).trim();
@@ -240,8 +240,8 @@ export async function preload(text, styleId = "F1", speed = 1.05, allowGenerate 
     while (audioCache.size > 50) audioCache.delete(audioCache.keys().next().value);
     return savedAudio;
   }
-  if (!allowGenerate || !engine) return null;
-  return queueSynthesis(normalizedText, safeStyle, normalizedSpeed, 0).catch(() => null);
+  if (!allowGenerate || (!engine && !enginePromise)) return null;
+  return queueSynthesis(normalizedText, safeStyle, normalizedSpeed, priority).catch(() => null);
 }
 
 export const modelDownloadLabel = MODEL_SIZE_LABEL;

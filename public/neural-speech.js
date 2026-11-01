@@ -24,6 +24,7 @@
   let queuedPreloads = 0;
   let installedSpeechVoices = [];
   let recentPointerSpeech = null;
+  const speechIntentTimers = new WeakMap();
   // Prepare up to one screen of visible clips. A learner's tap clears waiting
   // background clips and moves the requested phrase ahead of them.
   const MAX_BACKGROUND_PRELOADS = 8;
@@ -81,7 +82,7 @@ function localAudioKey(text, style, speed) {
     return Number(localStorage.getItem("kielo-finnish-rate") || "0.86");
   }
 
-  function scheduleVisiblePreload(button) {
+  function scheduleVisiblePreload(button, priority = 0) {
     const text = speechTextForButton(button)?.trim();
     const style = selectedLocalStyle();
     // Never let background clip generation become the job that is holding the
@@ -92,13 +93,16 @@ function localAudioKey(text, style, speed) {
     const key = `${style}\u0000${speed}\u0000${text}`;
     const canGenerate = localSpeechApi?.isReady?.() === true;
     const marker = JSON.stringify([style, speed, text, canGenerate]);
-    if (button.dataset.kieloPreloadKey === marker || queuedPreloads >= MAX_BACKGROUND_PRELOADS) return;
+    const previousPriority = Number(button.dataset.kieloPreloadPriority ?? -1);
+    if (button.dataset.kieloPreloadKey === marker && priority <= previousPriority) return;
+    if (priority === 0 && queuedPreloads >= MAX_BACKGROUND_PRELOADS) return;
     button.dataset.kieloPreloadKey = marker;
+    button.dataset.kieloPreloadPriority = String(priority);
     queuedPreloads += 1;
     localSpeech().then(async (speech) => {
-      const blob = await speech.preload(text, style, speed, canGenerate);
+      const blob = await speech.preload(text, style, speed, canGenerate || priority > 0, priority);
       if (blob) void decodeLocalAudio(blob, key).catch(() => {});
-      else if (button.dataset.kieloPreloadKey === marker && canGenerate) delete button.dataset.kieloPreloadKey;
+      else if (button.dataset.kieloPreloadKey === marker && (canGenerate || priority > 0)) delete button.dataset.kieloPreloadKey;
     }).catch(() => {
       if (button.dataset.kieloPreloadKey === marker) delete button.dataset.kieloPreloadKey;
     }).finally(() => {
@@ -254,6 +258,24 @@ function localAudioKey(text, style, speed) {
     event.preventDefault();
     event.stopImmediatePropagation();
     recentPointerSpeech = null;
+  }
+
+  function queueSpeechIntent(button, delay = 0) {
+    if (!button || button.disabled) return;
+    const existing = speechIntentTimers.get(button);
+    if (existing) window.clearTimeout(existing);
+    const timer = window.setTimeout(() => {
+      speechIntentTimers.delete(button);
+      if (button.isConnected) scheduleVisiblePreload(button, 1);
+    }, delay);
+    speechIntentTimers.set(button, timer);
+  }
+
+  function cancelSpeechIntent(button) {
+    const timer = button && speechIntentTimers.get(button);
+    if (!timer) return;
+    window.clearTimeout(timer);
+    speechIntentTimers.delete(button);
   }
 
   function decodeLocalAudio(blob, cacheKey = "") {
@@ -701,6 +723,23 @@ function localAudioKey(text, style, speed) {
   document.addEventListener("pointerdown", startPointerSpeech, { capture: true, passive: true });
   document.addEventListener("pointercancel", () => { recentPointerSpeech = null; }, true);
   document.addEventListener("click", consumePointerSpeechClick, true);
+  document.addEventListener("pointerover", (event) => {
+    if (event.pointerType === "touch") return;
+    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    if (button && !button.contains(event.relatedTarget)) queueSpeechIntent(button, 120);
+  }, { capture: true, passive: true });
+  document.addEventListener("pointerout", (event) => {
+    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    if (button && !button.contains(event.relatedTarget)) cancelSpeechIntent(button);
+  }, { capture: true, passive: true });
+  document.addEventListener("focusin", (event) => {
+    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    if (button) queueSpeechIntent(button);
+  }, true);
+  document.addEventListener("focusout", (event) => {
+    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    if (button) cancelSpeechIntent(button);
+  }, true);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") primeSpeechOutput(event.target);
   }, true);
