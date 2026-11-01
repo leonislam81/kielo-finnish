@@ -175,4 +175,4 @@ On mobile, the navigation toggle announces whether the drawer is open; a closed 
 
 ### Wider dictionary download
 
-The optional Finnish–English pack now shows download progress and lets you cancel with the same button. Once downloaded, Kielo prepares it for search and attempts to save it on this device for offline use. If download or storage fails, retry remains available and the curated English/Bangla learner dictionary continues to work.
+The optional Finnish–English pack now shows download progress and lets you cancel with the same button. Once downloaded, Kielo prepares it for search and attempts to save it on this device for offline use. After it loads, the same button can save a session-only copy for offline use or remove the saved copy to free device storage. Removal clears only Kielo’s dictionary record and its compressed source file from Kielo’s offline cache; the dictionary remains searchable in the current session. If download or storage fails, retry remains available and the curated English/Bangla learner dictionary continues to work.
