@@ -466,7 +466,7 @@
     });
   }
   function setActiveCustomPage(page){
-    document.querySelectorAll(".nav-link").forEach(button=>button.classList.toggle("active",button.dataset.redesignPage===page||(page==="home"&&button.dataset.page==="home")));
+    document.querySelectorAll(".nav-link").forEach(button=>{const active=button.dataset.redesignPage===page||(page==="home"&&button.dataset.page==="home");button.classList.toggle("active",active);if(active)button.setAttribute("aria-current","page");else button.removeAttribute("aria-current")});
   }
   function customPageTitle(title,description,kicker){
     return '<div class="page-title-row finland-custom-page"><div><div class="page-kicker">'+esc(kicker)+'</div><h1>'+esc(title)+'</h1><p>'+esc(description)+'</p></div></div>';
@@ -1079,7 +1079,8 @@
   function renderCustom(page){
     const target=document.getElementById("page-content");if(!target)return;
     if(page==="daily")renderDaily();else if(page==="dictionary")renderDictionary();else if(page==="voice")renderVoiceSettings();else if(page==="videos")renderVideoLibrary();else if(page==="placement")renderPlacement();
-    document.getElementById("sidebar")?.classList.remove("open");
+    window.KieloNavigation?.close();
+    window.KieloNavigation?.focusPage();
     window.scrollTo({top:0,behavior:"smooth"});
   }
   function placementBandForScore(score){
