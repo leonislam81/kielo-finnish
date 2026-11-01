@@ -692,11 +692,28 @@
       return {...(base||{fi:example.lemma,en:group?.en||"",bn:group?.bn||""}),displayFi:example.form,formCase:example.case,formGloss:example.gloss,formBangla:example.bn,source:"guided-form",level:"Guided form",topic:example.kind?.startsWith("verb")?"Finnish verb forms":"Finnish word forms"};
     });
   }
+  let curatedDictionaryIndex=null;
+  function getCuratedDictionaryIndex(){
+    if(!curatedDictionaryIndex)curatedDictionaryIndex=new Map(dailyVocabulary(false).map(word=>[dictionaryFold(word.fi),word]));
+    return curatedDictionaryIndex;
+  }
+  function parseOpenDictionaryEntry(value){
+    const text=String(value||""),ipa=text.match(/^\/([^/\r\n]+)\//)?.[0]||"";
+    const markers=[...text.matchAll(/(?:^| · )(?:(?<part>[a-z]{1,8}\.)\s*)?(?<number>\d+)\.\s*/giu)];
+    let currentPart="";
+    const senses=markers.map((marker,index)=>{
+      if(marker.groups?.part)currentPart=marker.groups.part;
+      const start=marker.index+marker[0].length,end=markers[index+1]?.index??text.length;
+      return {number:marker.groups?.number||String(index+1),part:currentPart,text:text.slice(start,end).trim().replace(/\s*·\s*$/u,"")};
+    }).filter(sense=>sense.text);
+    return {ipa,senses};
+  }
   function dictionaryItems(query="",pageIndex=0){
     const needle=dictionaryFold(query.trim());
     const isBangla=/[\u0980-\u09ff]/.test(query);
     const guidedForms=needle?findDictionaryForms(needle):[];
-    if(guidedForms.length)return {items:guidedForms,total:guidedForms.length,full:false,guidedForm:true};
+    const learnerWords=dailyVocabulary(false),learnerMatches=needle?learnerWords.filter(word=>dictionaryFold(word.fi+" "+word.en+" "+word.bn+" "+word.topic).includes(needle)):learnerWords;
+    let openItems=[];
     if(fullDictionaryEntries&&needle&&!isBangla){
       const matches=[];
       for(const entry of fullDictionaryEntries)if(dictionaryFold(entry[0]+" "+entry[1]).includes(needle))matches.push(entry);
@@ -706,22 +723,38 @@
         const difference=rank(a)-rank(b);if(difference)return difference;
         return Number(b[2]||0)-Number(a[2]||0)||a[0].localeCompare(b[0]);
       });
-      return {items:matches.slice(pageIndex*60,(pageIndex+1)*60).map(entry=>({fi:entry[0],en:entry[1],bn:"",level:"Finnish–English",topic:entry[2]?Number(entry[2]).toLocaleString()+" Yle news tokens":"Open dictionary",source:"open"})),total:matches.length,full:true};
+      const curated=getCuratedDictionaryIndex(),seen=new Set();
+      openItems=matches.map(entry=>{
+        const fi=String(entry[0]),key=dictionaryFold(fi);
+        if(seen.has(key))return null;
+        seen.add(key);
+        const learner=curated.get(key);
+        return {fi,en:entry[1],bn:"",learnerEn:learner?.en||"",learnerBn:learner?.bn||"",exampleFi:learner?.exampleFi||"",exampleEn:learner?.exampleEn||"",exampleBn:learner?.exampleBn||"",learnerLevel:learner?.level||"",learnerTopic:learner?.topic||"",level:"Finnish–English",topic:entry[2]?Number(entry[2]).toLocaleString()+" Yle news tokens":"Open dictionary",source:"open"};
+      }).filter(Boolean);
     }
-    const items=dailyVocabulary(false),filtered=needle?items.filter(word=>dictionaryFold(word.fi+" "+word.en+" "+word.bn+" "+word.topic).includes(needle)):items;
-    return {items:filtered.slice(pageIndex*60,(pageIndex+1)*60),total:filtered.length,full:false};
+    const openHeadwords=new Set(openItems.map(word=>dictionaryFold(word.fi)));
+    const learnerItems=learnerMatches.filter(word=>!openHeadwords.has(dictionaryFold(word.fi))).map(word=>({...word,source:"curated"}));
+    const items=[...openItems,...guidedForms,...learnerItems];
+    return {items:items.slice(pageIndex*60,(pageIndex+1)*60),total:items.length,full:openItems.length>0,guidedForm:guidedForms.length>0};
   }
   function dictionaryFold(value){return String(value??"").normalize("NFC").toLocaleLowerCase().replace(/[äå]/g,"a").replace(/ö/g,"o")}
   function dictionaryCards(query="",pageIndex=0){
     const result=dictionaryItems(query,pageIndex);
     if(!result.items.length)return '<div class="finland-dictionary-empty">No word found. Try a Finnish spelling, English meaning, or Bangla translation.</div>';
     return result.items.map(word=>{
-      const long=word.source==="open"&&word.en.length>240,summary=long?word.en.slice(0,220).trimEnd()+"…":word.en;
-      const full=long?'<details class="finland-definition-details"><summary>Read the full source entry</summary><p>'+esc(word.en)+'</p></details>':'';
+      const parsed=word.source==="open"?parseOpenDictionaryEntry(word.en):null;
+      const sourceGloss=parsed?.senses[0]?.text||word.en,long=word.source==="open"&&(word.en.length>240||(parsed?.senses.length||0)>1);
+      const summary=long?sourceGloss.slice(0,220).trimEnd()+(sourceGloss.length>220?"…":""):sourceGloss;
+      const sourceMeta=word.source==="open"?'<p class="finland-word-source-meta">'+(parsed?.ipa?'<span>Source pronunciation · <b lang="fi">'+esc(parsed.ipa)+'</b></span>':'')+(parsed?.senses.length?'<span>'+parsed.senses.length+' numbered source meanings</span>':'')+'</p>':'';
+      const senseList=parsed?.senses?.length?'<ol class="finland-definition-senses">'+parsed.senses.map(sense=>'<li>'+(sense.part?'<small>'+esc(sense.part)+'</small>':'')+'<span>'+esc(sense.text)+'</span></li>').join("")+'</ol>':'';
+      const sourceDetails=word.source==="open"&&long?'<details class="finland-definition-details"><summary>Read '+(parsed?.senses.length?parsed.senses.length+' numbered source meanings':'the full source entry')+'</summary>'+(senseList||'<p>'+esc(word.en)+'</p>')+'<p class="finland-definition-note">Sense order and labels are preserved from the open source compilation. Use the learner context for a short meaning in a Finnish sentence.</p></details>':'';
       const formHint=word.formGloss?'<p class="finland-word-form-hint"><strong>'+esc(word.formCase)+'</strong><span>'+esc(word.formGloss)+'</span><small lang="bn">বাংলা: '+esc(word.formBangla)+'</small></p>':'';
+      const learnerEn=word.learnerEn||(word.source==="curated"?word.en:""),learnerBn=word.learnerBn||(word.source==="curated"?word.bn:"");
+      const learnerContext=word.source==="open"&&(learnerEn||learnerBn||word.exampleFi)?'<aside class="finland-word-context"><span>KIELO LEARNER CONTEXT'+(word.learnerLevel?" · "+esc(word.learnerLevel):"")+'</span>'+(learnerEn?'<strong>'+esc(learnerEn)+'</strong>':'')+(learnerBn?'<p lang="bn">'+esc(learnerBn)+'</p>':'')+(word.exampleFi?'<div class="finland-word-example"><b lang="fi">'+esc(word.exampleFi)+'</b><small>'+esc(word.exampleEn||"")+'</small>'+(word.exampleBn?'<small lang="bn">'+esc(word.exampleBn)+'</small>':'')+'<button type="button" data-dictionary-speak="'+esc(word.exampleFi)+'" aria-label="Hear the Finnish example sentence">▶ Hear example</button></div>':'')+'</aside>':word.source!=="open"&&word.exampleFi?'<aside class="finland-word-context"><span>IN A FINNISH SENTENCE</span><div class="finland-word-example"><b lang="fi">'+esc(word.exampleFi)+'</b><small>'+esc(word.exampleEn||"")+'</small>'+(word.exampleBn?'<small lang="bn">'+esc(word.exampleBn)+'</small>':'')+'<button type="button" data-dictionary-speak="'+esc(word.exampleFi)+'" aria-label="Hear the Finnish example sentence">▶ Hear example</button></div></aside>':'';
       const saved=window.kieloIsReviewWord?.(word.fi)===true;
       const saveButton='<button type="button" data-dictionary-review="'+esc(word.fi)+'" data-review-en="'+esc(word.en)+'" data-review-bn="'+esc(word.bn||"")+'" data-review-level="'+esc(word.level||"Dictionary")+'" data-review-topic="'+esc(word.topic||"Open dictionary")+'" aria-pressed="'+saved+'">'+(saved?"✓ In review":"+ Save to review")+'</button>';
-      return '<article class="finland-word-card"><div class="finland-word-top"><h3 lang="fi">'+esc(word.displayFi||word.fi)+'</h3><span class="finland-word-level">'+esc(word.formCase?"Guided form · "+word.fi:word.level)+'</span></div><p class="finland-word-translation">'+esc(summary)+'</p>'+formHint+full+'<p class="finland-word-bn" lang="bn">'+esc(word.bn||(word.source==="open"?"English source definition · no Bangla translation in this entry":"Bangla meaning not added yet"))+'</p><div class="finland-word-actions"><button type="button" data-dictionary-speak="'+esc(word.displayFi||word.fi)+'" aria-label="Hear '+esc(word.displayFi||word.fi)+' in Finnish">▶ Listen</button>'+saveButton+'<span class="finland-word-level">'+esc(word.topic||"")+'</span></div></article>';
+      const sourceLabel=word.source==="open"?"Open English source":word.formCase?"Guided form · "+word.fi:word.level;
+      return '<article class="finland-word-card"><div class="finland-word-top"><h3 lang="fi">'+esc(word.displayFi||word.fi)+'</h3><span class="finland-word-level">'+esc(sourceLabel)+'</span></div><p class="finland-word-translation">'+esc(summary)+'</p>'+sourceMeta+formHint+sourceDetails+learnerContext+'<p class="finland-word-bn" lang="bn">'+esc(word.bn||(word.source==="open"?"English source definition · no Bangla translation in this entry":"Bangla meaning not added yet"))+'</p><div class="finland-word-actions"><button type="button" data-dictionary-speak="'+esc(word.displayFi||word.fi)+'" aria-label="Hear '+esc(word.displayFi||word.fi)+' in Finnish">▶ Listen</button>'+saveButton+'<span class="finland-word-level">'+esc(word.topic||"")+'</span></div></article>';
     }).join("");
   }
   function updateDictionaryResults(query=""){
@@ -729,7 +762,7 @@
     if(!result)return;
     const state=dictionaryItems(query,dictionaryPage);
     result.innerHTML=dictionaryCards(query,dictionaryPage);
-    if(count)count.textContent=state.total.toLocaleString()+" "+(state.guidedForm?"guided word form"+(state.total===1?"":"s"):state.full?"Finnish–English matches":"learner words")+(state.total>60?" · showing "+Math.min((dictionaryPage+1)*60,state.total).toLocaleString():"");
+    if(count)count.textContent=state.total.toLocaleString()+" "+(state.full?"dictionary, learner & form matches":state.guidedForm?"learner & guided-form matches":"learner words")+(state.total>60?" · showing "+Math.min((dictionaryPage+1)*60,state.total).toLocaleString():"");
     if(more)more.hidden=(dictionaryPage+1)*60>=state.total;
   }
   function openDictionaryCache(){
@@ -806,8 +839,9 @@
   function renderDictionary(){
     const page=document.getElementById("page-content");if(!page)return;
     const count=dailyVocabulary(false).length;
-    page.innerHTML=customPageTitle("Finnish dictionary","Search Finnish, English, or Bangla in the learner list, then open the wider Finnish–English headword collection when you need it.","Words for real life")+
+    page.innerHTML=customPageTitle("Finnish dictionary","Search Finnish, English, or Bangla. Compare meanings in context, explore source pronunciation, and hear each word.","Words for real life")+
       '<div class="finland-dictionary-note"><strong>'+count+' curated trilingual learner words are ready immediately.</strong> These course and daily words include Finnish, English, Bangla, level and topic. Kotus publishes a Finnish headword list with more than 100,000 entries, but that list itself has no English or Bangla definitions. <a href="https://kotus.fi/sanakirjat/kielitoimiston-sanakirja/" target="_blank" rel="noreferrer">Open Kotus usage dictionary ↗</a></div>'+
+      '<section class="finland-dictionary-sound-note" aria-label="Finnish pronunciation help"><strong>Finnish pronunciation key</strong><p>The wider source may show IPA and numbered meanings. Finnish vowels and consonants can be short or long: compare <i>tapa</i> and <i>tapaan</i>, or <i>muta</i> and <i>mutta</i>. Listen to the word and use the learner sentence to hear it in context.</p><a href="https://openlearning.aalto.fi/mod/page/view.php?id=3383" target="_blank" rel="noreferrer">Aalto · vowels and vowel length ↗</a><a href="https://openlearning.aalto.fi/mod/page/view.php?id=3386" target="_blank" rel="noreferrer">Aalto · consonant length ↗</a><a href="https://kotus.fi/sanakirjat/kielitoimiston-sanakirja/apua-kielitoimiston-sanakirjan-kayttamiseen/kayttoalat-ja-kayttoesimerkit/" target="_blank" rel="noreferrer">Kotus · usage examples ↗</a></section>'+
       '<section class="finland-dictionary-voice" aria-label="Finnish voice settings">'+voiceTools()+'</section>'+
       '<div class="finland-dictionary-tools"><input class="finland-dictionary-search" id="finland-dictionary-search" type="search" placeholder="Search järvi or jarvi / English / বাংলা" autocomplete="off" aria-label="Search Finnish dictionary; Finnish ä, ö, and å can be typed as a, o, and a"><span class="finland-word-level" id="finland-dictionary-count"></span></div>'+dictionaryFormExplorer()+
       '<section class="finland-dictionary-results" id="finland-dictionary-results" aria-live="polite">'+dictionaryCards("")+'</section><button class="button-secondary" id="finland-dictionary-more" type="button" data-dictionary-more hidden>Show more matches</button>'+
