@@ -532,3 +532,7 @@ Switching between English and Bangla meaning support no longer reshuffles the 10
 ## Portable Daily 100 progress (1 November 2026)
 
 Kielo progress backups are now version 2 and carry Daily 100 learned words for the last 90 Finland dates, plus the learner’s daily target, study focus, meaning language and recall-first preference. Restoring merges learned Finnish words for matching dates, keeps any current-device daily preferences, and restores saved preferences when the current device has none. English- and Bangla-era progress keys are combined during export/restore. Version 1 Kielo backups remain supported and do not erase current Daily 100 progress when restored. The JSON remains local unless the learner chooses to move it; it contains no account data or speech recordings.
+
+## Restore a saved wider dictionary (1 November 2026)
+
+After a learner downloads the optional Finnish–English dictionary, a later visit to Dictionary checks IndexedDB and loads the saved copy automatically. The load button shows that check while it runs; if no local copy is available, it returns to its explicit download action and keeps the curated Finnish–English–Bangla list usable. Browser storage limits and private-browsing behavior can still prevent a persistent copy; Kielo reports that condition instead of claiming the wider pack is ready offline.
