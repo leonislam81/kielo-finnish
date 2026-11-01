@@ -611,3 +611,7 @@ Sources: [W3C — Target Size (Minimum), WCAG 2.2](https://www.w3.org/WAI/WCAG22
 ## Saved vocabulary CSV export (1 November 2026)
 
 The learner data panel now exports saved review words as a UTF-8 CSV with Finnish, English and Bangla meanings, topic, level, recall box, and next-review UTC timestamp. It contains no lesson history, Daily 100 log, or writing drafts; the existing JSON backup remains the portable full-progress format. CSV fields are quoted and spreadsheet formula-like values are escaped before download.
+
+## Responsive wider-dictionary search (checked 2 November 2026)
+
+The opt-in 254,435-entry Finnish–English collection no longer scans and sorts its entire source synchronously for each search keystroke. Matching now runs in short idle-time batches, updates scan progress, and cancels stale queries and work when the learner leaves Dictionary. Exact Finnish headwords, prefixes, whole English terms and source frequency retain their ranking. For very broad queries, the interface keeps the best-ranked 600 matches, reports the larger source count and asks the learner to narrow the search; curated trilingual matches remain available immediately. The small exact-search morphology prompt now uses the bounded ranked result set instead of performing a second full-corpus scan while typing.
