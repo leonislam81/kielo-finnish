@@ -155,6 +155,61 @@
   const backupLevelKeys=new Set(["vocabularyLevel","listeningLevel","readingLevel","writingLevel","grammarLevel","speakingLevel"]);
   const backupAllowedKeys=new Set(("studyDays help vocabularyLevel completed known customWords review drafts finlandTopicsComplete cafeComplete conversationComplete soundsComplete spokenComplete listeningLevel listeningComplete a1ListeningComplete a2ListeningComplete b1ListeningComplete b2ListeningComplete c1ListeningComplete c2ListeningComplete readingLevel readingComplete a1ReadingComplete a2ReadingComplete b1ReadingComplete b2ReadingComplete c1ReadingComplete c2ReadingComplete writingLevel writingComplete a1WritingComplete a2WritingComplete b1WritingComplete b2WritingComplete c1WritingComplete c2WritingComplete grammarLevel grammarComplete a1GrammarComplete a2GrammarComplete b1GrammarComplete b2GrammarComplete c1GrammarComplete c2GrammarComplete speakingLevel speakingSteps speakingComplete").split(" "));
   const plainRecord=value=>Boolean(value)&&typeof value==="object"&&!Array.isArray(value)&&(Object.getPrototypeOf(value)===Object.prototype||Object.getPrototypeOf(value)===null);
+  const daily100Keys={progress:"kielo-daily-100-progress-v1",legacyBanglaProgress:"kielo-daily-100-progress-v1-bn",target:"kielo-daily-word-target-v1",focus:"kielo-daily-word-focus-v1",meaningLanguage:"kielo-daily-meaning-language",recallFirst:"kielo-daily-recall-mode"};
+  function validDaily100Date(value){
+    if(typeof value!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+    const [year,month,day]=value.split("-").map(Number);
+    if(year<2000||year>2100)return false;
+    const date=new Date(Date.UTC(year,month-1,day));
+    return date.getUTCFullYear()===year&&date.getUTCMonth()===month-1&&date.getUTCDate()===day;
+  }
+  function sanitizeDaily100Backup(value){
+    const safe={progress:{}};
+    if(!plainRecord(value))return safe;
+    if(plainRecord(value.progress)){
+      const days=Object.entries(value.progress).filter(([date,words])=>validDaily100Date(date)&&Array.isArray(words)).sort(([a],[b])=>a.localeCompare(b)).slice(-90);
+      for(const [date,words] of days){
+        const learned=[...new Set(words.filter(word=>typeof word==="string"&&word.trim().length>0&&word.length<=80).map(word=>word.trim()))].slice(0,200);
+        if(learned.length)safe.progress[date]=learned;
+      }
+    }
+    const target=Number(value.target);
+    if([10,30,100].includes(target))safe.target=target;
+    if(["foundation","everyday","advanced","finland","all","news"].includes(value.focus))safe.focus=value.focus;
+    if(value.meaningLanguage==="en"||value.meaningLanguage==="bn")safe.meaningLanguage=value.meaningLanguage;
+    if(typeof value.recallFirst==="boolean")safe.recallFirst=value.recallFirst;
+    else if(value.recallFirst==="true"||value.recallFirst==="false")safe.recallFirst=value.recallFirst==="true";
+    return safe;
+  }
+  function readDaily100Backup(){
+    const progress={};
+    for(const key of [daily100Keys.progress,daily100Keys.legacyBanglaProgress]){
+      let stored={};try{stored=JSON.parse(localStorage.getItem(key)||"{}")}catch(_error){}
+      if(!plainRecord(stored))continue;
+      for(const [date,words] of Object.entries(stored))if(validDaily100Date(date)&&Array.isArray(words))progress[date]=[...new Set([...(progress[date]||[]),...words])];
+    }
+    const recall=localStorage.getItem(daily100Keys.recallFirst);
+    return sanitizeDaily100Backup({progress,target:localStorage.getItem(daily100Keys.target),focus:localStorage.getItem(daily100Keys.focus),meaningLanguage:localStorage.getItem(daily100Keys.meaningLanguage),recallFirst:recall==="true"?true:recall==="false"?false:undefined});
+  }
+  function mergeDaily100Backup(imported,current){
+    const saved=sanitizeDaily100Backup(imported),existing=sanitizeDaily100Backup(current),progress={};
+    for(const source of [saved.progress,existing.progress])for(const [date,words] of Object.entries(source))progress[date]=[...new Set([...(progress[date]||[]),...words])];
+    const merged={progress};
+    for(const key of ["target","focus","meaningLanguage","recallFirst"]){
+      if(Object.prototype.hasOwnProperty.call(existing,key))merged[key]=existing[key];
+      else if(Object.prototype.hasOwnProperty.call(saved,key))merged[key]=saved[key];
+    }
+    return sanitizeDaily100Backup(merged);
+  }
+  function writeDaily100Backup(value){
+    const safe=sanitizeDaily100Backup(value);
+    localStorage.setItem(daily100Keys.progress,JSON.stringify(safe.progress));
+    localStorage.removeItem(daily100Keys.legacyBanglaProgress);
+    if(Object.prototype.hasOwnProperty.call(safe,"target"))localStorage.setItem(daily100Keys.target,String(safe.target));
+    if(Object.prototype.hasOwnProperty.call(safe,"focus"))localStorage.setItem(daily100Keys.focus,safe.focus);
+    if(Object.prototype.hasOwnProperty.call(safe,"meaningLanguage"))localStorage.setItem(daily100Keys.meaningLanguage,safe.meaningLanguage);
+    if(Object.prototype.hasOwnProperty.call(safe,"recallFirst"))localStorage.setItem(daily100Keys.recallFirst,String(safe.recallFirst));
+  }
   function sanitizeBackupData(value){
     if(!plainRecord(value))throw new Error("This file does not contain a valid Kielo progress record.");
     const safe={},validLessonIds=new Set(lessons.map(lesson=>lesson.id)),validWords=new Set(words().map(word=>word.fi));
@@ -214,7 +269,8 @@
   function downloadBackup(){
     try{
       const data=JSON.parse(localStorage.getItem(storageKey)||"{}");
-      const file=new Blob([JSON.stringify({format:"kielo-progress",version:1,exportedAt:new Date().toISOString(),data},null,2)],{type:"application/json"});
+      const daily100=readDaily100Backup();
+      const file=new Blob([JSON.stringify({format:"kielo-progress",version:2,exportedAt:new Date().toISOString(),data,daily100},null,2)],{type:"application/json"});
       const link=document.createElement("a"),url=URL.createObjectURL(file);link.href=url;link.download="kielo-progress-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1000);
       const status=document.getElementById("backup-status");status.classList.remove("error");status.textContent="Backup downloaded. Keep the file somewhere you can find it.";
     }catch(_error){const status=document.getElementById("backup-status");status.classList.add("error");status.textContent="Could not create the backup. Please try again."}
@@ -224,10 +280,12 @@
     try{
       if(!file||file.size>5*1024*1024)throw new Error("Choose a Kielo backup file smaller than 5 MB.");
       const envelope=JSON.parse(await file.text());
-      if(!plainRecord(envelope)||envelope.format!=="kielo-progress"||envelope.version!==1)throw new Error("That file is not a supported Kielo backup.");
+      if(!plainRecord(envelope)||envelope.format!=="kielo-progress"||![1,2].includes(envelope.version))throw new Error("That file is not a supported Kielo backup.");
       const imported=sanitizeBackupData(envelope.data);let current={};
       try{current=sanitizeBackupData(JSON.parse(localStorage.getItem(storageKey)||"{}"))}catch(_error){current={}}
       localStorage.setItem(storageKey,JSON.stringify(mergeBackupData(imported,current)));
+      const importedDaily=envelope.version===2?sanitizeDaily100Backup(envelope.daily100):sanitizeDaily100Backup({});
+      writeDaily100Backup(mergeDaily100Backup(importedDaily,readDaily100Backup()));
       status.textContent="Progress restored and combined. Kielo is refreshing…";
       window.setTimeout(()=>window.location.reload(),900);
     }catch(error){status.classList.add("error");status.textContent=error instanceof Error?error.message:"Could not restore this file. Check that it is a valid Kielo backup."}
