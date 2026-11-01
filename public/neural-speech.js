@@ -24,9 +24,9 @@
   let queuedPreloads = 0;
   let installedSpeechVoices = [];
   let recentPointerSpeech = null;
-  // Keep only a tiny audio queue ahead of the learner. A long queue competes
-  // with a newly requested phrase and makes the first tap feel unresponsive.
-  const MAX_BACKGROUND_PRELOADS = 3;
+  // Prepare up to one screen of visible clips. A learner's tap clears waiting
+  // background clips and moves the requested phrase ahead of them.
+  const MAX_BACKGROUND_PRELOADS = 8;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
 
