@@ -528,3 +528,7 @@ The lesson includes thirteen Finnish terms with English and Bangla meanings, loc
 ## Daily 100: shared Finnish deck across meaning languages (1 November 2026)
 
 Switching between English and Bangla meaning support no longer reshuffles the 100 Finnish words, changes the selected study focus, or resets the learner’s current word set. The daily list is keyed by the Europe/Helsinki date and chosen focus; translation language only changes the gloss shown. Daily 100 progress now shares one Finnish-word history across both modes and merges legacy Bangla-only records on the next saved update. For sources without Bangla translations, the card keeps the Finnish word and displays the available English source gloss with a note. The Yle news-archive focus stays selectable in either support language, with its missing-Bangla coverage explained rather than hidden.
+
+## Portable Daily 100 progress (1 November 2026)
+
+Kielo progress backups are now version 2 and carry Daily 100 learned words for the last 90 Finland dates, plus the learner’s daily target, study focus, meaning language and recall-first preference. Restoring merges learned Finnish words for matching dates, keeps any current-device daily preferences, and restores saved preferences when the current device has none. English- and Bangla-era progress keys are combined during export/restore. Version 1 Kielo backups remain supported and do not erase current Daily 100 progress when restored. The JSON remains local unless the learner chooses to move it; it contains no account data or speech recordings.

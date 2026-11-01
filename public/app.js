@@ -63,8 +63,13 @@
   function answerReview(rating){
     const fi=state.reviewQueue[state.reviewIndex];if(!fi)return;
     const current=state.reviewSchedule[fi]||{box:0,due:Date.now()};
+    const currentBox=Math.max(0,Math.min(5,Math.floor(Number(current.box)||0))),nextBox=Math.min(5,currentBox+1),day=24*60*60*1000;
     if(rating==="again")state.reviewSchedule[fi]={box:0,due:Date.now()+10*60*1000};
-    else{const box=Math.min(5,Number(current.box||0)+1);const intervals=[1,3,7,14,30];state.reviewSchedule[fi]={box,due:Date.now()+intervals[box-1]*24*60*60*1000}}
+    else{
+      const intervals={hard:[.5,2,5,10,21,21],good:[1,3,7,14,30,30],easy:[3,7,14,30,30,30]};
+      if(!intervals[rating])return;
+      state.reviewSchedule[fi]={box:nextBox,due:Date.now()+intervals[rating][currentBox]*day};
+    }
     state.reviewIndex++;state.reviewRevealed=false;
     if(state.reviewIndex>=state.reviewQueue.length){state.reviewActive=false;state.reviewFinished=true;state.reviewQueue=[]}
     persist();renderPractice();
@@ -150,6 +155,61 @@
   const backupLevelKeys=new Set(["vocabularyLevel","listeningLevel","readingLevel","writingLevel","grammarLevel","speakingLevel"]);
   const backupAllowedKeys=new Set(("studyDays help vocabularyLevel completed known customWords review drafts finlandTopicsComplete cafeComplete conversationComplete soundsComplete spokenComplete listeningLevel listeningComplete a1ListeningComplete a2ListeningComplete b1ListeningComplete b2ListeningComplete c1ListeningComplete c2ListeningComplete readingLevel readingComplete a1ReadingComplete a2ReadingComplete b1ReadingComplete b2ReadingComplete c1ReadingComplete c2ReadingComplete writingLevel writingComplete a1WritingComplete a2WritingComplete b1WritingComplete b2WritingComplete c1WritingComplete c2WritingComplete grammarLevel grammarComplete a1GrammarComplete a2GrammarComplete b1GrammarComplete b2GrammarComplete c1GrammarComplete c2GrammarComplete speakingLevel speakingSteps speakingComplete").split(" "));
   const plainRecord=value=>Boolean(value)&&typeof value==="object"&&!Array.isArray(value)&&(Object.getPrototypeOf(value)===Object.prototype||Object.getPrototypeOf(value)===null);
+  const daily100Keys={progress:"kielo-daily-100-progress-v1",legacyBanglaProgress:"kielo-daily-100-progress-v1-bn",target:"kielo-daily-word-target-v1",focus:"kielo-daily-word-focus-v1",meaningLanguage:"kielo-daily-meaning-language",recallFirst:"kielo-daily-recall-mode"};
+  function validDaily100Date(value){
+    if(typeof value!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+    const [year,month,day]=value.split("-").map(Number);
+    if(year<2000||year>2100)return false;
+    const date=new Date(Date.UTC(year,month-1,day));
+    return date.getUTCFullYear()===year&&date.getUTCMonth()===month-1&&date.getUTCDate()===day;
+  }
+  function sanitizeDaily100Backup(value){
+    const safe={progress:{}};
+    if(!plainRecord(value))return safe;
+    if(plainRecord(value.progress)){
+      const days=Object.entries(value.progress).filter(([date,words])=>validDaily100Date(date)&&Array.isArray(words)).sort(([a],[b])=>a.localeCompare(b)).slice(-90);
+      for(const [date,words] of days){
+        const learned=[...new Set(words.filter(word=>typeof word==="string"&&word.trim().length>0&&word.length<=80).map(word=>word.trim()))].slice(0,200);
+        if(learned.length)safe.progress[date]=learned;
+      }
+    }
+    const target=Number(value.target);
+    if([10,30,100].includes(target))safe.target=target;
+    if(["foundation","everyday","advanced","finland","all","news"].includes(value.focus))safe.focus=value.focus;
+    if(value.meaningLanguage==="en"||value.meaningLanguage==="bn")safe.meaningLanguage=value.meaningLanguage;
+    if(typeof value.recallFirst==="boolean")safe.recallFirst=value.recallFirst;
+    else if(value.recallFirst==="true"||value.recallFirst==="false")safe.recallFirst=value.recallFirst==="true";
+    return safe;
+  }
+  function readDaily100Backup(){
+    const progress={};
+    for(const key of [daily100Keys.progress,daily100Keys.legacyBanglaProgress]){
+      let stored={};try{stored=JSON.parse(localStorage.getItem(key)||"{}")}catch(_error){}
+      if(!plainRecord(stored))continue;
+      for(const [date,words] of Object.entries(stored))if(validDaily100Date(date)&&Array.isArray(words))progress[date]=[...new Set([...(progress[date]||[]),...words])];
+    }
+    const recall=localStorage.getItem(daily100Keys.recallFirst);
+    return sanitizeDaily100Backup({progress,target:localStorage.getItem(daily100Keys.target),focus:localStorage.getItem(daily100Keys.focus),meaningLanguage:localStorage.getItem(daily100Keys.meaningLanguage),recallFirst:recall==="true"?true:recall==="false"?false:undefined});
+  }
+  function mergeDaily100Backup(imported,current){
+    const saved=sanitizeDaily100Backup(imported),existing=sanitizeDaily100Backup(current),progress={};
+    for(const source of [saved.progress,existing.progress])for(const [date,words] of Object.entries(source))progress[date]=[...new Set([...(progress[date]||[]),...words])];
+    const merged={progress};
+    for(const key of ["target","focus","meaningLanguage","recallFirst"]){
+      if(Object.prototype.hasOwnProperty.call(existing,key))merged[key]=existing[key];
+      else if(Object.prototype.hasOwnProperty.call(saved,key))merged[key]=saved[key];
+    }
+    return sanitizeDaily100Backup(merged);
+  }
+  function writeDaily100Backup(value){
+    const safe=sanitizeDaily100Backup(value);
+    localStorage.setItem(daily100Keys.progress,JSON.stringify(safe.progress));
+    localStorage.removeItem(daily100Keys.legacyBanglaProgress);
+    if(Object.prototype.hasOwnProperty.call(safe,"target"))localStorage.setItem(daily100Keys.target,String(safe.target));
+    if(Object.prototype.hasOwnProperty.call(safe,"focus"))localStorage.setItem(daily100Keys.focus,safe.focus);
+    if(Object.prototype.hasOwnProperty.call(safe,"meaningLanguage"))localStorage.setItem(daily100Keys.meaningLanguage,safe.meaningLanguage);
+    if(Object.prototype.hasOwnProperty.call(safe,"recallFirst"))localStorage.setItem(daily100Keys.recallFirst,String(safe.recallFirst));
+  }
   function sanitizeBackupData(value){
     if(!plainRecord(value))throw new Error("This file does not contain a valid Kielo progress record.");
     const safe={},validLessonIds=new Set(lessons.map(lesson=>lesson.id)),validWords=new Set(words().map(word=>word.fi));
@@ -209,7 +269,8 @@
   function downloadBackup(){
     try{
       const data=JSON.parse(localStorage.getItem(storageKey)||"{}");
-      const file=new Blob([JSON.stringify({format:"kielo-progress",version:1,exportedAt:new Date().toISOString(),data},null,2)],{type:"application/json"});
+      const daily100=readDaily100Backup();
+      const file=new Blob([JSON.stringify({format:"kielo-progress",version:2,exportedAt:new Date().toISOString(),data,daily100},null,2)],{type:"application/json"});
       const link=document.createElement("a"),url=URL.createObjectURL(file);link.href=url;link.download="kielo-progress-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1000);
       const status=document.getElementById("backup-status");status.classList.remove("error");status.textContent="Backup downloaded. Keep the file somewhere you can find it.";
     }catch(_error){const status=document.getElementById("backup-status");status.classList.add("error");status.textContent="Could not create the backup. Please try again."}
@@ -219,10 +280,12 @@
     try{
       if(!file||file.size>5*1024*1024)throw new Error("Choose a Kielo backup file smaller than 5 MB.");
       const envelope=JSON.parse(await file.text());
-      if(!plainRecord(envelope)||envelope.format!=="kielo-progress"||envelope.version!==1)throw new Error("That file is not a supported Kielo backup.");
+      if(!plainRecord(envelope)||envelope.format!=="kielo-progress"||![1,2].includes(envelope.version))throw new Error("That file is not a supported Kielo backup.");
       const imported=sanitizeBackupData(envelope.data);let current={};
       try{current=sanitizeBackupData(JSON.parse(localStorage.getItem(storageKey)||"{}"))}catch(_error){current={}}
       localStorage.setItem(storageKey,JSON.stringify(mergeBackupData(imported,current)));
+      const importedDaily=envelope.version===2?sanitizeDaily100Backup(envelope.daily100):sanitizeDaily100Backup({});
+      writeDaily100Backup(mergeDaily100Backup(importedDaily,readDaily100Backup()));
       status.textContent="Progress restored and combined. Kielo is refreshing…";
       window.setTimeout(()=>window.location.reload(),900);
     }catch(error){status.classList.add("error");status.textContent=error instanceof Error?error.message:"Could not restore this file. Check that it is a valid Kielo backup."}
@@ -305,10 +368,13 @@
       const revealMarkup=state.reviewRevealed
         ? '<div class="review-answer"><strong>'+escapeHTML(word.en)+'</strong><span>'+(word.bn?escapeHTML(word.bn):'Bangla meaning is unavailable for this dictionary entry.')+'</span></div>'
         : '<button class="button-primary review-reveal" data-review="reveal">Show meaning <span>↓</span></button>';
-      const box=Number(state.reviewSchedule[fi]?.box||0);
-      const nextInterval=[1,3,7,14,30][Math.min(4,box)];
+      const box=Math.max(0,Math.min(5,Math.floor(Number(state.reviewSchedule[fi]?.box)||0)));
+      const intervalDays=[1,3,7,14,30,30];
+      const hardHours=[12,48,120,240,504,504][box];
+      const hardInterval=hardHours<24?hardHours+" h":hardHours/24+" days";
+      const daysLabel=days=>days+" day"+(days===1?"":"s");
       const ratingMarkup=state.reviewRevealed
-        ? '<div class="review-rating"><span>How easy was that?</span><button class="button-secondary" data-review="again">Again · 10 min</button><button class="button-primary" data-review="got-it">Got it · '+nextInterval+' day'+(box===0?"":"s")+'</button></div>'
+        ? '<div class="review-rating review-rating--advanced" role="group" aria-label="Choose when to review this word again"><span>How easily did you recall it?</span><button class="button-secondary" data-review="again"><strong>Again</strong><small>10 min</small></button><button class="button-secondary" data-review="hard"><strong>Hard</strong><small>'+hardInterval+'</small></button><button class="button-primary" data-review="good"><strong>Good</strong><small>'+daysLabel(intervalDays[box])+'</small></button><button class="button-primary review-easy" data-review="easy"><strong>Easy</strong><small>'+daysLabel(intervalDays[Math.min(5,box+1)])+'</small></button></div>'
         : '';
       return '<section class="review-panel"><div class="review-panel-top"><div><span class="review-kicker">SPACED REVIEW · '+(state.reviewIndex+1)+' OF '+state.reviewQueue.length+'</span><h2>Bring this word back to mind</h2></div><button class="link-button" data-review="finish">Pause review</button></div><div class="review-card"><div class="review-picture" role="img" aria-label="'+escapeHTML(scene.label)+'" style="--scene-image:url(\''+scene.image+'\')"><span>'+pictureForWord(word)+'</span></div><div class="review-prompt"><small>Say it, then listen</small><h3>'+escapeHTML(word.fi)+'</h3><button class="button-secondary" data-speak="'+escapeHTML(word.fi)+'">▶ &nbsp; Listen</button>'+revealMarkup+'</div></div>'+ratingMarkup+'</section>';
     }
@@ -1136,7 +1202,7 @@ When planning services, we should therefore assess both the accessibility of dig
     const speakingLevel=event.target.closest("[data-speaking-level]");if(speakingLevel){stopSpeakingRecognition();state.speakingLevel=speakingLevel.dataset.speakingLevel;state.speakingTranscript="";state.speakingMatch=false;state.speakingError="";persist(false);renderSpeaking();return}
     const speakingAction=event.target.closest("[data-speaking-action]");if(speakingAction){const action=speakingAction.dataset.speakingAction,course=speakingPractice[state.speakingLevel],step=Math.min(Number(state.speakingSteps[state.speakingLevel]||0),course.items.length-1);if(action==="listen")speak(course.items[step].fi,(state.speakingLevel==="c1"||state.speakingLevel==="c2")?0.94:0.78);else if(action==="listen-partner")speak(course.items[step].partnerFi||course.items[step].fi,(state.speakingLevel==="c1"||state.speakingLevel==="c2")?0.94:0.78);else if(action==="mic"){if(state.speakingListening)stopSpeakingRecognition();else startSpeakingRecognition();if(state.page==="speaking")renderSpeaking()}else if(action==="practised"){stopSpeakingRecognition();state.speakingTranscript="";state.speakingMatch=false;state.speakingError="";if(step>=course.items.length-1){state.speakingSteps[state.speakingLevel]=course.items.length;state.speakingComplete[state.speakingLevel]=true}else state.speakingSteps[state.speakingLevel]=step+1;persist();renderSpeaking()}else if(action==="restart"){stopSpeakingRecognition();state.speakingSteps[state.speakingLevel]=0;state.speakingComplete[state.speakingLevel]=false;state.speakingTranscript="";state.speakingMatch=false;state.speakingError="";persist();renderSpeaking()}return}
     const knownButton=event.target.closest("[data-known]");if(knownButton){const word=knownButton.dataset.known;if(state.known.has(word)){state.known.delete(word);delete state.reviewSchedule[word]}else{state.known.add(word);state.reviewSchedule[word]={box:0,due:Date.now()}}persist();renderPractice();return}
-    const reviewButton=event.target.closest("[data-review]");if(reviewButton){const action=reviewButton.dataset.review;if(action==="start")startReview();else if(action==="reveal"){state.reviewRevealed=true;renderPractice()}else if(action==="again"||action==="got-it")answerReview(action);else if(action==="finish"){state.reviewActive=false;state.reviewQueue=[];state.reviewRevealed=false;renderPractice()}return}
+    const reviewButton=event.target.closest("[data-review]");if(reviewButton){const action=reviewButton.dataset.review;if(action==="start")startReview();else if(action==="reveal"){state.reviewRevealed=true;renderPractice()}else if(["again","hard","good","easy"].includes(action))answerReview(action);else if(action==="got-it")answerReview("good");else if(action==="finish"){state.reviewActive=false;state.reviewQueue=[];state.reviewRevealed=false;renderPractice()}return}
     const matchButton=event.target.closest("[data-match]");if(matchButton){if(matchButton.dataset.match==="start"||matchButton.dataset.match==="next")startPictureMatch();return}
     const matchChoice=event.target.closest("[data-match-choice]");if(matchChoice){state.matchChoice=matchChoice.dataset.matchChoice;renderPractice();return}
     const soundChoice=event.target.closest("[data-sound-choice]");if(soundChoice){state.soundChoice=soundChoice.dataset.soundChoice;state.soundAnswered=true;renderSounds();return}
