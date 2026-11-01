@@ -2,7 +2,7 @@
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
   const DEVICE_PREVIEW_START_TIMEOUT = 1_200;
-  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=17";
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=18";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
   const decodedLocalBuffers = new Map();
@@ -39,6 +39,9 @@
   function selectedLocalStyle() {
     const voice = localStorage.getItem("kielo-neural-voice") || "local:F1";
     if (voice.startsWith("local:")) return /^[FM][1-5]$/.test(voice.slice(6)) ? voice.slice(6) : "F1";
+    // The device option falls back to local Finnish when the browser has no
+    // Finnish voice. Warm that fallback before the learner taps a word.
+    if (voice === "device" && !deviceVoices().some((item) => item.lang?.toLowerCase().startsWith("fi"))) return "F1";
     return "";
   }
 
@@ -496,12 +499,12 @@ function localAudioKey(text, style, speed) {
     const localFinnishGenderMatch = localFinnish.find(matchesPreferredGender);
     const finnishGenderMatch = finnish.find(matchesPreferredGender);
     const localGenderMatch = instantVoices.find(matchesPreferredGender);
+    const anyGenderMatch = voices.find(matchesPreferredGender);
     const configuredVoice = voices.find((voice) => voice.name === selectedName && voice.localService !== false && voice.lang?.toLowerCase().startsWith("fi"));
     // Start with an installed voice so a network-backed Finnish voice cannot
     // make the first tap wait for its own startup request. The selected local
     // Finnish voice still prepares behind this brief preview.
-    const selected = configuredVoice || localFinnishGenderMatch || localFinnish[0] || localGenderMatch || instantVoices.find((voice) => voice.default) || instantVoices[0] || finnishGenderMatch || finnish[0];
-    if (!selected && voices.length) return null;
+    const selected = configuredVoice || localFinnishGenderMatch || localFinnish[0] || localGenderMatch || instantVoices.find((voice) => voice.default) || instantVoices[0] || finnishGenderMatch || finnish[0] || anyGenderMatch || voices.find((voice) => voice.default) || voices[0];
     const utterance = new SpeechSynthesisUtterance(text);
     // Request Finnish for Finnish voices. If the preview falls back to another
     // installed voice, request that voice's own language so it starts promptly.
@@ -650,7 +653,7 @@ function localAudioKey(text, style, speed) {
         // thread before speechSynthesis had emitted its first sound, turning
         // an immediate preview into a delayed one. If the browser voice cannot
         // start, fall back to Finnish synthesis after a bounded grace period.
-        const previewGraceMs = instantPreview.localVoice ? 650 : 350;
+        const previewGraceMs = instantPreview.localVoice ? 180 : 140;
         const previewStarted = await Promise.race([
           instantPreview.started,
           new Promise((resolve) => window.setTimeout(() => resolve(false), previewGraceMs)),
