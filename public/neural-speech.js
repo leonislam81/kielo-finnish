@@ -650,8 +650,12 @@ function localAudioKey(text, style, speed) {
 
     if (voice.startsWith("local:")) return localFallback();
     if (voice === "device") {
-      if (!instantPreview) return localFallback();
-      return instantPreview.started.then((started) => started || localFallback());
+      // Do not wait for the device utterance's 2.5s failure timer before
+      // falling back. On browsers without a Finnish voice, that timer made
+      // every tap feel like it was loading before the local Finnish voice ran.
+      // localFallback races the device preview briefly, then starts the
+      // selected on-device voice immediately while the preview can still win.
+      return localFallback();
     }
 
     // Remote voice setup can take a network round trip. Keep that work in the
