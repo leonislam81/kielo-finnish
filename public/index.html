@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="grammar.css?v=28" />
     <link rel="stylesheet" href="vocabulary.css?v=1" />
     <link rel="stylesheet" href="pwa.css?v=1" />
-    <link rel="stylesheet" href="backup.css?v=2" />
+    <link rel="stylesheet" href="backup.css?v=3" />
     <link rel="stylesheet" href="rhythm.css?v=7" />
     <link rel="stylesheet" href="redesign.css?v=62" />
     <link rel="stylesheet" href="holidays.css?v=1" />
@@ -40,7 +40,7 @@
     <script src="neural-speech.js?v=43" defer></script>
     <script src="sami-experience.js?v=1" defer></script>
     <script src="grammar-cases.js?v=1" defer></script>
-    <script src="app.js?v=90" defer></script>
+    <script src="app.js?v=91" defer></script>
     <script src="redesign.js?v=95" defer></script>
     <script src="finland-design.js" defer></script>
   </head>
@@ -117,11 +117,12 @@
         </div>
         <p class="eyebrow">YOUR LEARNING, IN YOUR HANDS</p>
         <h2 id="backup-title">Keep your Finnish progress</h2>
-        <p class="backup-description" id="backup-description">Your learning stays on this device. Download a JSON backup to carry lessons, Daily 100 progress and goals, review schedule, writing drafts, and a selected Kielo Finnish voice and pace to another device. The file is not encrypted; keep it private.</p>
+        <p class="backup-description" id="backup-description">Your learning stays on this device. The JSON backup carries lessons, Daily 100 progress and goals, review schedule, writing drafts, and your Finnish voice and pace; it is unencrypted, so keep it private. You can also export saved vocabulary as a smaller CSV for a spreadsheet.</p>
         <div class="backup-summary" id="backup-summary" aria-live="polite"></div>
         <div class="backup-actions">
           <button class="button-primary" id="backup-export" type="button"><span aria-hidden="true">↓</span> Download backup</button>
           <button class="button-secondary" id="backup-import" type="button"><span aria-hidden="true">↑</span> Restore from file</button>
+          <button class="button-secondary backup-export-words" id="backup-export-words" type="button"><span aria-hidden="true">⌁</span> Export saved words · CSV</button>
           <input id="backup-file" type="file" accept=".json,application/json" hidden />
         </div>
         <p class="backup-merge-note"><span aria-hidden="true">↗</span> Restore combines the backup with this device. Existing progress and drafts are kept.</p>

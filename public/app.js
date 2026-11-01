@@ -327,6 +327,24 @@
       const status=document.getElementById("backup-status");status.classList.remove("error");status.textContent="Backup downloaded. Keep the file somewhere you can find it.";
     }catch(_error){const status=document.getElementById("backup-status");status.classList.add("error");status.textContent="Could not create the backup. Please try again."}
   }
+  function downloadSavedWordsCsv(){
+    const status=document.getElementById("backup-status");
+    try{
+      const wordsByFinnish=new Map(words().map(word=>[word.fi,word]));
+      const rows=[...state.known].sort((a,b)=>a.localeCompare(b,"fi")).flatMap(finnish=>{
+        const word=wordsByFinnish.get(finnish);if(!word)return [];
+        const review=state.reviewSchedule[finnish]||{},due=Number(review.due),box=Number(review.box);
+        const nextReview=Number.isFinite(due)&&Math.abs(due)<=8.64e15?new Date(due).toISOString():"";
+        return [[word.fi,word.en||"",word.bn||"",word.topic||word.lessonTitle||"",word.level||"",Number.isInteger(box)?Math.max(0,Math.min(5,box)):0,nextReview]];
+      });
+      if(!rows.length){status.classList.remove("error");status.textContent="No saved words yet. Add words to your review shelf, then export again.";return}
+      const quote=value=>{let cell=String(value??"");if(/^[\t\r ]*[=+\-@]/.test(cell))cell="'"+cell;return '"'+cell.replaceAll('"','""')+'"'};
+      const csv=[["Finnish","English meaning","Bangla meaning","Topic","Level","Recall box","Next review (UTC)"],...rows].map(row=>row.map(quote).join(",")).join("\r\n");
+      const file=new Blob(["\uFEFF",csv],{type:"text/csv;charset=utf-8"}),link=document.createElement("a"),url=URL.createObjectURL(file);
+      link.href=url;link.download="kielo-saved-words-"+new Date().toISOString().slice(0,10)+".csv";document.body.appendChild(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1000);
+      status.classList.remove("error");status.textContent=rows.length+" saved word"+(rows.length===1?"":"s")+" exported as CSV. This file contains vocabulary and review dates, not drafts or lesson history.";
+    }catch(_error){status.classList.add("error");status.textContent="Could not export saved words. Please try again."}
+  }
   async function restoreBackup(file){
     const status=document.getElementById("backup-status");status.classList.remove("error");
     try{
@@ -1304,6 +1322,7 @@ When planning services, we should therefore assess both the accessibility of dig
   document.getElementById("profile-button").addEventListener("click",openBackupModal);
   document.getElementById("backup-close").addEventListener("click",closeBackupModal);
   document.getElementById("backup-export").addEventListener("click",downloadBackup);
+  document.getElementById("backup-export-words").addEventListener("click",downloadSavedWordsCsv);
   document.getElementById("backup-import").addEventListener("click",()=>document.getElementById("backup-file").click());
   document.getElementById("backup-file").addEventListener("change",event=>{const file=event.target.files?.[0];if(file)restoreBackup(file);event.target.value=""});
   backupBackdrop.addEventListener("click",event=>{if(event.target===backupBackdrop)closeBackupModal()});
