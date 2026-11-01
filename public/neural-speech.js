@@ -25,13 +25,13 @@
   let queuedLongPreloads = 0;
   let installedSpeechVoices = [];
   let recentPointerSpeech = null;
+  const SPEECH_BUTTON_SELECTOR = "[data-speak],[data-topic-speak],[data-dictionary-speak],[data-daily-speak]";
   const speechIntentTimers = new WeakMap();
   const visiblePreloadTimers = new WeakMap();
-  // Do not synthesize visible clips in the background while a learner is
-  // studying. An active ONNX inference cannot be interrupted, so it could hold
-  // the next tap behind an unrelated word. A pointer hover or keyboard focus
-  // still prepares that exact clip before activation.
-  const MAX_SHORT_BACKGROUND_PRELOADS = 0;
+  // Prepare a small number of nearby words ahead of a tap. ONNX inference runs
+  // in its WASM proxy worker; limiting the queue keeps background preparation
+  // bounded while the speech engine caches these clips for immediate replay.
+  const MAX_SHORT_BACKGROUND_PRELOADS = 4;
   const MAX_LONG_BACKGROUND_PRELOADS = 0;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
@@ -78,6 +78,7 @@ function localAudioKey(text, style, speed) {
     if (button.hasAttribute("data-speak")) return button.dataset.speak;
     if (button.hasAttribute("data-topic-speak")) return button.dataset.topicSpeak;
     if (button.hasAttribute("data-dictionary-speak")) return button.dataset.dictionarySpeak;
+    if (button.hasAttribute("data-daily-speak")) return button.dataset.speechText || "";
     return "";
   }
 
@@ -101,9 +102,8 @@ function localAudioKey(text, style, speed) {
   function scheduleVisiblePreload(button, priority = 0) {
     const text = speechTextForButton(button)?.trim();
     const style = selectedLocalStyle();
-    // Hover and keyboard focus may restore an existing clip, but must never
-    // start ONNX inference. Model synthesis can occupy the main thread and
-    // delay the very pointer event that is supposed to start playback.
+    // Keep long passages out of the automatic queue. Short nearby words can
+    // be synthesized once the model is ready, then replayed without inference.
     if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech) return;
     const speed = synthesisSpeed(speechRateForButton(button));
     const isShortWordOrPhrase = text.length <= 32;
@@ -126,17 +126,26 @@ function localAudioKey(text, style, speed) {
         else queuedLongPreloads = Math.max(0, queuedLongPreloads - 1);
         return;
       }
+      let prepared = false;
       localSpeech().then(async (speech) => {
-        // Read only an already saved clip. A fresh phrase is synthesized from
-        // its own tap flow, never from a hover or focus event.
-        const blob = await speech.preload(text, style, speed, false, priority);
-        if (blob) void decodeLocalAudio(blob, key).catch(() => {});
+        // If the model is still loading, restore a saved clip only. The model
+        // warm-up completion will rescan the screen and prepare this word.
+        const canGenerate = isShortWordOrPhrase && speech.isReady?.() === true;
+        const blob = await speech.preload(text, style, speed, canGenerate, priority);
+        if (blob) {
+          await decodeLocalAudio(blob, key);
+          prepared = true;
+        }
       }).catch(() => {
         if (button.dataset.kieloPreloadKey === marker) delete button.dataset.kieloPreloadKey;
       }).finally(() => {
+        if (!prepared && button.dataset.kieloPreloadKey === marker) {
+          delete button.dataset.kieloPreloadKey;
+          delete button.dataset.kieloPreloadPriority;
+        }
         if (isShortWordOrPhrase) queuedShortPreloads = Math.max(0, queuedShortPreloads - 1);
         else queuedLongPreloads = Math.max(0, queuedLongPreloads - 1);
-        if (document.visibilityState !== "hidden") observeVisibleSpeech();
+        if (prepared && document.visibilityState !== "hidden") observeVisibleSpeech();
       });
     };
     if (priority === 0) {
@@ -148,7 +157,7 @@ function localAudioKey(text, style, speed) {
   function observeVisibleSpeech() {
     const content = document.getElementById("page-content");
     if (!content || !selectedLocalStyle() || isDataSaver()) return;
-    const selector = "[data-speak],[data-topic-speak],[data-dictionary-speak]";
+    const selector = SPEECH_BUTTON_SELECTOR;
     if (speechObserver) speechObserver.disconnect();
     if ("IntersectionObserver" in window) {
       speechObserver = new IntersectionObserver((entries) => {
@@ -260,7 +269,7 @@ function localAudioKey(text, style, speed) {
   }
 
   function primeSpeechOutput(target) {
-    if (!target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]")) return;
+    if (!target?.closest?.(SPEECH_BUTTON_SELECTOR)) return;
     // Resume audio while the pointer/key gesture is still active. This keeps a
     // prepared Finnish clip from waiting for AudioContext's first resume after
     // the click handler has already started.
@@ -274,7 +283,7 @@ function localAudioKey(text, style, speed) {
 
   function startPointerSpeech(event) {
     if (event.button !== 0) return;
-    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    const button = event.target?.closest?.(SPEECH_BUTTON_SELECTOR);
     const text = button && speechTextForButton(button)?.trim();
     if (!text || button.disabled) return;
     cancelSpeechIntent(button);
@@ -289,7 +298,7 @@ function localAudioKey(text, style, speed) {
 
   function consumePointerSpeechClick(event) {
     if (!event.detail || !recentPointerSpeech) return;
-    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    const button = event.target?.closest?.(SPEECH_BUTTON_SELECTOR);
     if (!button || button !== recentPointerSpeech.button || performance.now() - recentPointerSpeech.startedAt > 1_000) return;
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -648,26 +657,13 @@ function localAudioKey(text, style, speed) {
         ]);
         if (currentPlaybackId !== playbackId) return false;
         if (previewStarted) {
-          // Give the browser voice the audio thread first. Starting ONNX
-          // inference before the preview is audible can delay its first sound
-          // on devices that are still warming up. Prepare the selected local
-          // voice after the immediate preview finishes so the next tap can
-          // use a decoded, instant replay.
+          // The immediate browser voice has already started. Generate the
+          // selected voice in the WASM proxy worker now, so the next tap can
+          // use a decoded, instant replay without making this preview wait.
           previewPlayed = true;
-          void instantPreview.finished.then(async (played) => {
-            if (currentPlaybackId !== playbackId || !played) return;
-            const blob = await speechApi.synthesize(phrase, style, speed, (progress) => {
-              if (currentPlaybackId !== playbackId) return;
-              if (progress.phase === "loading") {
-                const stage = progress.current ? ` · model ${progress.current} of ${progress.total}` : "";
-                showMessage(`Preparing the free Finnish voice${stage}. First use downloads about 140 MB; text stays on this device.`, true);
-              } else {
-                showMessage(`Preparing your selected voice for the next tap · ${progress.current} of ${progress.total}`, true);
-              }
-            });
+          void speechApi.synthesize(phrase, style, speed).then((blob) => decodeLocalAudio(blob, localKey)).then(() => {
             if (currentPlaybackId !== playbackId) return;
-            await decodeLocalAudio(blob, localKey);
-            if (currentPlaybackId === playbackId) showMessage("Your selected Finnish voice is ready for instant replay.");
+            showMessage("Your selected Finnish voice is ready for instant replay.");
           }).catch(() => {
             if (currentPlaybackId === playbackId) showMessage("The quick voice played. Your selected voice will finish preparing in the background.");
           });
@@ -809,25 +805,25 @@ function localAudioKey(text, style, speed) {
   document.addEventListener("click", consumePointerSpeechClick, true);
   document.addEventListener("pointerover", (event) => {
     if (event.pointerType === "touch") return;
-    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    const button = event.target?.closest?.(SPEECH_BUTTON_SELECTOR);
     if (button && !button.contains(event.relatedTarget)) queueSpeechIntent(button, 120);
   }, { capture: true, passive: true });
   document.addEventListener("pointerout", (event) => {
-    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    const button = event.target?.closest?.(SPEECH_BUTTON_SELECTOR);
     if (button && !button.contains(event.relatedTarget)) cancelSpeechIntent(button);
   }, { capture: true, passive: true });
   document.addEventListener("focusin", (event) => {
-    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    const button = event.target?.closest?.(SPEECH_BUTTON_SELECTOR);
     if (button) queueSpeechIntent(button);
   }, true);
   document.addEventListener("focusout", (event) => {
-    const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+    const button = event.target?.closest?.(SPEECH_BUTTON_SELECTOR);
     if (button) cancelSpeechIntent(button);
   }, true);
   document.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
       primeSpeechOutput(event.target);
-      const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
+      const button = event.target?.closest?.(SPEECH_BUTTON_SELECTOR);
       if (button) cancelVisiblePreload(button);
     }
   }, true);
