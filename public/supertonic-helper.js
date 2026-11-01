@@ -1,6 +1,18 @@
 // Supertonic browser inference helper, adapted from https://github.com/supertone-oss-archive/supertonic (MIT).
 import * as ort from 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.23.2/dist/ort.min.mjs';
 
+// Keep model inference off the page's main thread. Otherwise a new word's
+// first ONNX run can hold up browser speech and audio playback after a tap.
+// The app falls back to the regular WebAssembly path in environments without
+// Worker support.
+try {
+    if (typeof Worker === 'function' && typeof Blob === 'function') {
+        ort.env.wasm.proxy = true;
+    }
+} catch {
+    // Leave ONNX Runtime's default execution path enabled if proxy setup fails.
+}
+
 // Available languages for multilingual TTS
 export const AVAILABLE_LANGS = ['en', 'ko', 'ja', 'ar', 'bg', 'cs', 'da', 'de', 'el', 'es', 'et', 'fi', 'fr', 'hi', 'hr', 'hu', 'id', 'it', 'lt', 'lv', 'nl', 'pl', 'pt', 'ro', 'ru', 'sk', 'sl', 'sv', 'tr', 'uk', 'vi', 'na'];
 
