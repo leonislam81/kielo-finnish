@@ -551,6 +551,18 @@ function localAudioKey(text, style, speed) {
       try {
         const speechApi = await localSpeech();
         if (currentPlaybackId !== playbackId) return false;
+        // Let the browser's quick voice begin before ONNX inference starts.
+        // The first model run can briefly occupy the main thread, which used
+        // to delay the speechSynthesis start event and make a fresh tap sound
+        // as if it were waiting for the selected neural voice to load.
+        if (instantPreview) {
+          const previewStarted = await Promise.race([
+            instantPreview.started,
+            new Promise((resolve) => window.setTimeout(() => resolve(false), 180)),
+          ]);
+          if (currentPlaybackId !== playbackId) return false;
+          if (previewStarted) await new Promise((resolve) => window.setTimeout(resolve, 80));
+        }
         const audioPromise = speechApi.synthesize(phrase, style, speed, (progress) => {
           if (currentPlaybackId !== playbackId || previewPlayed) return;
           if (progress.phase === "loading") {
