@@ -185,7 +185,7 @@
   let cachedWeather=readJSON(weatherKey,null),weatherRequest=null,lastWeatherMessage="",cachedRegionalWeather=readJSON(regionalWeatherKey,null),regionalWeatherRequest=null,regionalWeatherMessage="";
   let frequentWordPromise=null,frequentWordsReady=false,frequentWordsError="";
   let fullDictionaryPromise=null,fullDictionaryEntries=null,fullDictionaryError="",fullDictionarySavedOffline=false;
-  let dictionarySearchTimer=0,dictionaryPage=0,placementIndex=0,placementScore=0,placementAnswered=false,placementChoice=-1;
+  let dictionarySearchTimer=0,dictionaryPage=0,dictionaryMorphologyState={needle:"",status:"idle",analyses:[]},placementIndex=0,placementScore=0,placementAnswered=false,placementChoice=-1;
   function weatherLabel(code){
     if(code===0)return ["Clear sky","☀️"];
     if(code===1)return ["Mostly clear","🌤️"];
@@ -786,6 +786,81 @@
     return {items:items.slice(pageIndex*60,(pageIndex+1)*60),total:items.length,full:openItems.length>0,guidedForm:guidedForms.length>0};
   }
   function dictionaryFold(value){return String(value??"").normalize("NFC").toLocaleLowerCase().replace(/[äå]/g,"a").replace(/ö/g,"o")}
+  function isSingleFinnishLookupWord(value){return value.length<=64&&/^\p{L}+(?:[-’'][\p{L}]+)*$/u.test(value)}
+  function dictionaryTag(tags,name){const value=tags?.[name];return Array.isArray(value)?String(value[0]||""):String(value||"")}
+  function dictionaryMorphologyDescription(tags){
+    const pos=dictionaryTag(tags,"UPOS"),caseCode=dictionaryTag(tags,"CASE"),number=dictionaryTag(tags,"NUM"),tense=dictionaryTag(tags,"TENSE"),mood=dictionaryTag(tags,"MOOD"),person=dictionaryTag(tags,"PERS"),voice=dictionaryTag(tags,"VOICE"),comparison=dictionaryTag(tags,"CMP"),possessive=dictionaryTag(tags,"POSS");
+    const posEn={NOUN:"noun",PROPN:"proper name",VERB:"verb",ADJ:"adjective",ADV:"adverb",PRON:"pronoun",NUM:"number",ADP:"adposition",INTJ:"interjection"},posBn={NOUN:"বিশেষ্য",PROPN:"নামবাচক শব্দ",VERB:"ক্রিয়া",ADJ:"বিশেষণ",ADV:"ক্রিয়া বিশেষণ",PRON:"সর্বনাম",NUM:"সংখ্যাবাচক",ADP:"অব্যয়",INTJ:"আবেগসূচক শব্দ"};
+    const cases={NOM:["nominative · basic form","কর্তা বা মূল রূপ"],GEN:["genitive · belonging to / of","সম্পর্ক বা মালিকানা"],PAR:["partitive · part, amount or object","আংশিক পরিমাণ বা কর্ম"],INE:["inessive · in / inside","ভেতরে বা -এ"],ELA:["elative · out of / from inside","ভেতর থেকে"],ILL:["illative · into","ভেতরে বা দিকে"],ADE:["adessive · at / on","কাছে বা উপরে"],ABL:["ablative · from at / on","কাছ বা উপর থেকে"],ALL:["allative · to / onto","কাছে বা দিকে"],ESS:["essive · as / in a role","হিসেবে"],TRA:["translative · becoming / into","হয়ে বা রূপে"],ABE:["abessive · without","ছাড়া"],COM:["comitative · together with","সঙ্গে"],INS:["instructive · by / with","দিয়ে"],ACC:["accusative · object form","কর্ম বা অবজেক্ট"],PRL:["prolative · along / by way of","পথ ধরে"]};
+    const numbers={SG:["singular","একবচন"],PL:["plural","বহুবচন"]},tenses={PRESENT:["present","বর্তমান কাল"],PRS:["present","বর্তমান কাল"],PAST:["past","অতীত কাল"]},moods={INDV:["indicative","সাধারণ বর্ণনা"],IND:["indicative","সাধারণ বর্ণনা"],COND:["conditional","শর্তসূচক"],IMPV:["imperative","আদেশসূচক"],POTN:["potential","সম্ভাবনাসূচক"]},persons={SG1:["1st person singular","আমি · একবচন"],SG2:["2nd person singular","তুমি · একবচন"],SG3:["3rd person singular","সে / একজন · একবচন"],PL1:["1st person plural","আমরা · বহুবচন"],PL2:["2nd person plural","তোমরা / আপনারা · বহুবচন"],PL3:["3rd person plural","তারা · বহুবচন"]},possessors={SG1:["my","আমার"],SG2:["your","তোমার"],SG3:["his / her / their","তার"],PL1:["our","আমাদের"],PL2:["your (plural)","তোমাদের / আপনাদের"],PL3:["their","তাদের"]};
+    const english=[posEn[pos]||"Finnish word form"],bengali=[posBn[pos]||"ফিনিশ শব্দরূপ"];
+    const add=(table,value)=>{if(value&&table[value]){english.push(table[value][0]);bengali.push(table[value][1])}};
+    if(pos==="VERB"){
+      add(tenses,tense);add(moods,mood);add(persons,person);
+      if(voice==="PASS"){english.push("passive voice");bengali.push("কর্মবাচ্য")}
+      else if(voice==="ACT"){english.push("active voice");bengali.push("কর্তৃবাচ্য")}
+    }else{
+      add(cases,caseCode);add(numbers,number);add(possessors,possessive);
+      if(comparison){english.push("comparative");bengali.push("তুলনামূলক রূপ")}
+    }
+    return {en:english.join(" · "),bn:bengali.join(" · ")};
+  }
+  function dictionaryMorphologyMeaning(lemma){
+    const learner=getCuratedDictionaryIndex().get(dictionaryFold(lemma));
+    if(learner)return {en:learner.en,bn:learner.bn,source:"Kielo learner word bank"};
+    const entry=fullDictionaryEntries?.find(item=>dictionaryFold(item[0])===dictionaryFold(lemma));
+    if(entry){const parsed=parseOpenDictionaryEntry(entry[1]);return {en:parsed.senses[0]?.text||String(entry[1]),bn:"",source:"optional Finnish–English dictionary"}}
+    return null;
+  }
+  function dictionaryHasExactLocalWord(term){
+    const needle=dictionaryFold(term);
+    if(getCuratedDictionaryIndex().has(needle))return true;
+    if(dictionaryGuidedExamples.some(item=>dictionaryFold(item.form)===needle))return true;
+    return Boolean(fullDictionaryEntries?.some(item=>dictionaryFold(item[0])===needle));
+  }
+  function dictionaryMorphologyMarkup(query){
+    const term=String(query||"").trim();if(!isSingleFinnishLookupWord(term))return "";
+    const needle=dictionaryFold(term),state=dictionaryMorphologyState;
+    if(state.needle!==needle&&dictionaryHasExactLocalWord(term))return "";
+    const disclosure='<p class="finland-morphology-disclosure">Only this single word is sent to Aalto University’s SeCo Language Analysis Services when you choose online analysis. Do not enter a sentence or private text. Results can be ambiguous and need internet. <a href="https://demo.seco.tkk.fi/las/" target="_blank" rel="noopener noreferrer">About the analysis service ↗</a></p>';
+    if(state.needle!==needle)return '<section class="finland-morphology-prompt"><div><span class="page-kicker">NOT IN THE LOADED WORD LIST</span><h3>Check this as a Finnish word form</h3><p>Find a possible dictionary form and grammar label for one Finnish word.</p></div><button class="button-secondary" type="button" data-dictionary-analyze-form>Analyze online</button>'+disclosure+'</section>';
+    if(state.status==="loading")return '<section class="finland-morphology-prompt" role="status" aria-live="polite" aria-busy="true"><strong>Analyzing <span lang="fi">'+esc(term)+'</span>…</strong><p>The one-word request is with Aalto SeCo.</p></section>';
+    if(state.status==="error")return '<section class="finland-morphology-prompt" role="status"><strong>Online word-form analysis is unavailable right now.</strong><p>Your local dictionary still works. Check your connection and try again later.</p><button class="button-secondary" type="button" data-dictionary-analyze-form>Try analysis again</button>'+disclosure+'</section>';
+    if(state.status!=="done")return "";
+    if(!state.analyses.length)return '<section class="finland-morphology-prompt" role="status"><strong>No standard Finnish analysis was returned for <span lang="fi">'+esc(term)+'</span>.</strong><p>It may be a name, a colloquial spelling, or a form outside this analyzer’s coverage.</p>'+disclosure+'</section>';
+    const cards=state.analyses.map(item=>{
+      const description=dictionaryMorphologyDescription(item.tags),meaning=dictionaryMorphologyMeaning(item.lemma),gloss=meaning?.en||"Meaning not found in the currently loaded learner dictionaries.",bangla=meaning?.bn||"এই শব্দটির বাংলা অর্থ এখনো যোগ করা হয়নি।";
+      const searchButton='<button class="button-secondary" type="button" data-dictionary-search-lemma="'+esc(item.lemma)+'">Search base word</button>';
+      const audioButton='<button class="button-secondary" type="button" data-dictionary-speak="'+esc(term)+'" aria-label="Hear '+esc(term)+' in Finnish">▶ Listen</button>';
+      return '<article class="finland-morphology-card"><div class="finland-word-top"><h3 lang="fi">'+esc(term)+'</h3><span class="finland-word-level">Possible reading '+item.index+'</span></div><div class="finland-word-form-hint"><strong>FORM · '+esc(item.source)+'</strong><span>'+esc(description.en)+'</span><small lang="bn">'+esc(description.bn)+'</small></div><p class="finland-morphology-base">Base word: <strong lang="fi">'+esc(item.lemma)+'</strong></p><p class="finland-word-translation">'+esc(gloss)+'</p><p class="finland-word-bn" lang="bn">'+esc(bangla)+(meaning?.source?' · '+esc(meaning.source):'')+'</p><div class="finland-word-actions">'+audioButton+searchButton+'</div></article>';
+    }).join("");
+    return '<section class="finland-morphology-results" aria-label="Finnish word-form analysis"><div class="finland-morphology-heading"><span class="page-kicker">POSSIBLE ANALYSES · AALTO SECO</span><h3>What <span lang="fi">'+esc(term)+'</span> may mean grammatically</h3><p>Different readings are shown separately; the sentence around a word can change which one fits.</p></div>'+cards+disclosure+'</section>';
+  }
+  async function lookupDictionaryMorphology(value){
+    const term=String(value||"").trim();if(!isSingleFinnishLookupWord(term))return;
+    const needle=dictionaryFold(term);
+    dictionaryMorphologyState={needle,status:"loading",analyses:[]};updateDictionaryResults(term);
+    const controller=new AbortController(),timeout=window.setTimeout(()=>controller.abort(),8_000);
+    try{
+      const endpoint=new URL("https://demo.seco.tkk.fi/las/analyze");endpoint.searchParams.set("locale","fi");endpoint.searchParams.set("depth","1");endpoint.searchParams.set("guess","false");endpoint.searchParams.set("text",term);
+      const response=await fetch(endpoint.href,{mode:"cors",credentials:"omit",cache:"no-store",signal:controller.signal});
+      if(!response.ok)throw new Error("The analysis service returned "+response.status+".");
+      const payload=await response.json(),tokens=Array.isArray(payload)?payload:Array.isArray(payload?.analysis)?payload.analysis:[],token=Array.isArray(payload)?tokens.find(item=>dictionaryFold(item.word||"")===needle):typeof payload?.word==="string"?payload:tokens.find(item=>dictionaryFold(item.word||"")===needle),seen=new Set(),analyses=[];
+      for(const analysis of token?.analysis||[]){
+        if(String(analysis.globalTags?.BEST_MATCH?.[0]||"").toUpperCase()==="FALSE")continue;
+        const parts=Array.isArray(analysis.wordParts)?analysis.wordParts.filter(part=>String(part.lemma||"").trim()):[];
+        if(!parts.length)continue;
+        const lemma=parts.map(part=>String(part.lemma).trim()).join(" "),tags=parts[0].tags||{},signature=lemma+"\u0000"+JSON.stringify(tags);
+        if(!lemma||seen.has(signature))continue;seen.add(signature);
+        analyses.push({lemma,tags,index:analyses.length+1,source:"Aalto SeCo morphological analysis"});if(analyses.length===3)break;
+      }
+      if(dictionaryMorphologyState.needle!==needle)return;
+      dictionaryMorphologyState={needle,status:"done",analyses};updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||term);
+    }catch(_error){
+      if(dictionaryMorphologyState.needle!==needle)return;
+      dictionaryMorphologyState={needle,status:"error",analyses:[]};updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||term);
+    }finally{window.clearTimeout(timeout)}
+  }
   function dictionaryCards(query="",pageIndex=0){
     const result=dictionaryItems(query,pageIndex);
     if(!result.items.length)return '<div class="finland-dictionary-empty">No word found. Try a Finnish spelling, English meaning, or Bangla translation.</div>';
@@ -809,7 +884,8 @@
     const result=document.getElementById("finland-dictionary-results"),count=document.getElementById("finland-dictionary-count"),more=document.getElementById("finland-dictionary-more");
     if(!result)return;
     const state=dictionaryItems(query,dictionaryPage);
-    result.innerHTML=dictionaryCards(query,dictionaryPage);
+    if(dictionaryMorphologyState.needle&&dictionaryMorphologyState.needle!==dictionaryFold(String(query||"").trim()))dictionaryMorphologyState={needle:"",status:"idle",analyses:[]};
+    result.innerHTML=dictionaryCards(query,dictionaryPage)+dictionaryMorphologyMarkup(query);
     if(count)count.textContent=state.total.toLocaleString()+" "+(state.full?"dictionary, learner & form matches":state.guidedForm?"learner & guided-form matches":"learner words")+(state.total>60?" · showing "+Math.min((dictionaryPage+1)*60,state.total).toLocaleString():"");
     if(more)more.hidden=(dictionaryPage+1)*60>=state.total;
   }
@@ -1556,6 +1632,9 @@
     if(chapterListen){speakFinnish(chapterListen.dataset.topicSpeak);return}
     if(event.target.closest("#finland-load-full-dictionary")){loadFullDictionary();return}
     if(event.target.closest("[data-dictionary-more]")){dictionaryPage++;updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");return}
+    if(event.target.closest("[data-dictionary-analyze-form]")){lookupDictionaryMorphology(document.getElementById("finland-dictionary-search")?.value||"");return}
+    const morphologyLemma=event.target.closest("[data-dictionary-search-lemma]");
+    if(morphologyLemma){const input=document.getElementById("finland-dictionary-search");if(input){input.value=morphologyLemma.dataset.dictionarySearchLemma;input.dispatchEvent(new Event("input",{bubbles:true}));input.focus({preventScroll:true})}return}
     const dictionaryForm=event.target.closest("[data-dictionary-form]");
     if(dictionaryForm){const input=document.getElementById("finland-dictionary-search");if(input){input.value=dictionaryForm.dataset.dictionaryForm;input.dispatchEvent(new Event("input",{bubbles:true}));input.focus({preventScroll:true})}return}
     if(event.target.closest("[data-frequency-retry]")){frequentWordsError="";frequentWordPromise=null;renderDaily();return}

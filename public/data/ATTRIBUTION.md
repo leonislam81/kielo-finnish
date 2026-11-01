@@ -36,6 +36,15 @@ Kielo's curated learner guide contains noun examples and present and simple-past
 - Aalto OpenLearning course content licence: <https://creativecommons.org/licenses/by/4.0/>
 - Kotus — marking and explaining inflection: <https://kotus.fi/sana/taivutuksen-merkitseminen/>
 
+## Optional online Finnish morphology lookup
+
+When a learner explicitly selects **Analyze online** for one word, Kielo sends that single word over HTTPS to Aalto University's SeCo Language Analysis Services. The app does not send the surrounding sentence or automatically submit searches. The service documents CORS-enabled morphological analysis and says its Finnish finite-state transducer sources include HFST, Omorfi, and Giellatekno; the service also warns that analysis quality, scope, and tags vary. Kielo shows up to three returned readings as possibilities, with source tags translated into short English and Bangla learning labels. These machine analyses are not reproduced or bundled as a local dataset. Available dictionary meanings are looked up locally; missing Bangla meanings are left blank rather than guessed.
+
+- Aalto University SeCo Language Analysis Services — [morphological-analysis API, sources, and limitations](https://demo.seco.tkk.fi/las/)
+- [Omorfi](https://github.com/flammie/omorfi) is licensed GNU GPLv3 (not later) as stated by that project; it is used remotely by the documented SeCo service, not bundled in Kielo.
+- [Giellatekno Finnish resources](https://github.com/giellalt/lang-fin) are licensed GPLv3 as stated by that project; they are used remotely by the documented SeCo service, not bundled in Kielo.
+- [Kotus Nykysuomen sanalista](https://kotus.fi/sanakirjat/kielitoimiston-sanakirja/nykysuomen-sana-aineistot/nykysuomen-sanalista/) is CC BY 4.0 and contains headwords, part-of-speech and inflection information; Kielo does not claim this list is exhaustive.
+
 ## Finland regional boundaries
 
 `finland-regions-2026.geojson` contains the 19 regional boundary features from Statistics Finland's `maakunta4500k_2026` WFS layer, downloaded on 23 October 2026 in GeoJSON / EPSG:4326. Statistics Finland provides the geographic data under its CC BY 4.0 open-data licence. Kielo projects the source geometry for an interactive SVG map; regional names and the population facts shown beside it are maintained as separate, dated lesson data.
