@@ -435,7 +435,10 @@ function localAudioKey(text, style, speed) {
     // preview while the chosen on-device Finnish clip is being generated.
     const browserFinnish = voices.filter((voice) => voice.localService === false && voice.lang?.toLowerCase().startsWith("fi"));
     const finnish = [...localFinnish, ...browserFinnish];
-    if (!instantVoices.length && !browserFinnish.length) return null;
+    // A few browsers populate getVoices() asynchronously. Still submit a
+    // Finnish-tagged utterance in the original tap when the list is empty;
+    // the browser can use its default voice while the selected neural clip is
+    // prepared. voiceschanged will populate the picker for later taps.
     const selectedName = localStorage.getItem("kielo-finnish-voice") || "";
     const neuralVoice = localStorage.getItem("kielo-neural-voice") || "local:F1";
     const preferMale = /:M[1-5]$|charon|harri/i.test(neuralVoice);
@@ -453,11 +456,11 @@ function localAudioKey(text, style, speed) {
     // make the first tap wait for its own startup request. The selected local
     // Finnish voice still prepares behind this brief preview.
     const selected = configuredVoice || localFinnishGenderMatch || localFinnish[0] || localGenderMatch || instantVoices.find((voice) => voice.default) || instantVoices[0] || finnishGenderMatch || finnish[0];
-    if (!selected) return null;
+    if (!selected && voices.length) return null;
     const utterance = new SpeechSynthesisUtterance(text);
     // Request Finnish for Finnish voices. If the preview falls back to another
     // installed voice, request that voice's own language so it starts promptly.
-    utterance.lang = selected.lang?.toLowerCase().startsWith("fi") ? "fi-FI" : selected.lang || voices.find((voice) => voice.default)?.lang || voices[0]?.lang || navigator.language || "en-US";
+    utterance.lang = selected?.lang?.toLowerCase().startsWith("fi") ? "fi-FI" : selected?.lang || voices.find((voice) => voice.default)?.lang || voices[0]?.lang || "fi-FI";
     utterance.rate = rate;
     if (selected) utterance.voice = selected;
     let resolveStarted;
@@ -488,7 +491,7 @@ function localAudioKey(text, style, speed) {
       started = true;
       reportStarted(true);
       window.clearTimeout(startTimer);
-      if (currentPlaybackId === playbackId) showMessage("Playing an immediate device preview…", true);
+      if (currentPlaybackId === playbackId) showMessage(selected ? "Playing an immediate browser preview…" : "Trying the browser’s default Finnish voice…", true);
     };
     utterance.onend = () => finish(true);
     utterance.onerror = (event) => {
@@ -521,7 +524,7 @@ function localAudioKey(text, style, speed) {
     // submit the preview immediately without this extra turn.
     if (afterCancel) window.setTimeout(begin, 0);
     else begin();
-    return { get hasStarted() { return started; }, localVoice: selected.localService !== false, started: startedPromise, finished: finishedPromise };
+    return { get hasStarted() { return started; }, localVoice: selected?.localService !== false, started: startedPromise, finished: finishedPromise };
   }
 
   function cancelDevicePreview(currentPlaybackId) {
