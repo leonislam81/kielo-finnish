@@ -29,7 +29,7 @@ const ASSET_PATHS=[
   "data/fi-en-frequent.json.gz?v=3",
   "data/finland-regions-2026.geojson",
   "pwa.js?v=1",
-  "neural-speech.js?v=31",
+  "neural-speech.js?v=32",
   "sami-experience.js?v=1",
   "grammar-cases.js?v=1",
   "supertonic-speech.js?v=16",

@@ -21,13 +21,17 @@
   let speechObserver = null;
   let speechContentObserver = null;
   let scanFrame = 0;
-  let queuedPreloads = 0;
+  let queuedShortPreloads = 0;
+  let queuedLongPreloads = 0;
   let installedSpeechVoices = [];
   let recentPointerSpeech = null;
   const speechIntentTimers = new WeakMap();
-  // Prepare only a small set of nearby phrases ahead. A learner's tap is
-  // still promoted above every queued clip by the synthesis priority queue.
-  const MAX_BACKGROUND_PRELOADS = 4;
+  // Prepare the short words currently on screen before they are tapped. The
+  // Finnish sound lab shows eight words together, so four slots left half of
+  // that lesson generating audio only after a learner pressed Play. Longer
+  // sentences remain on a smaller background budget to keep the page light.
+  const MAX_SHORT_BACKGROUND_PRELOADS = 12;
+  const MAX_LONG_BACKGROUND_PRELOADS = 4;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
 
@@ -90,14 +94,17 @@ function localAudioKey(text, style, speed) {
     // model is ready; visible clips can then be prepared in the background.
     if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech) return;
     const speed = synthesisSpeed(speechRateForButton(button));
+    const isShortWordOrPhrase = text.length <= 32;
     const key = `${style}\u0000${speed}\u0000${text}`;
     const marker = JSON.stringify([style, speed, text, "prepared-clip"]);
     const previousPriority = Number(button.dataset.kieloPreloadPriority ?? -1);
     if (button.dataset.kieloPreloadKey === marker && priority <= previousPriority) return;
-    if (priority === 0 && queuedPreloads >= MAX_BACKGROUND_PRELOADS) return;
+    if (priority === 0 && isShortWordOrPhrase && queuedShortPreloads >= MAX_SHORT_BACKGROUND_PRELOADS) return;
+    if (priority === 0 && !isShortWordOrPhrase && queuedLongPreloads >= MAX_LONG_BACKGROUND_PRELOADS) return;
     button.dataset.kieloPreloadKey = marker;
     button.dataset.kieloPreloadPriority = String(priority);
-    queuedPreloads += 1;
+    if (isShortWordOrPhrase) queuedShortPreloads += 1;
+    else queuedLongPreloads += 1;
     localSpeech().then(async (speech) => {
       // Generate nearby words while the learner reads, not after they press
       // Play. The model and style are already warmed in the background; the
@@ -107,7 +114,8 @@ function localAudioKey(text, style, speed) {
     }).catch(() => {
       if (button.dataset.kieloPreloadKey === marker) delete button.dataset.kieloPreloadKey;
     }).finally(() => {
-      queuedPreloads = Math.max(0, queuedPreloads - 1);
+      if (isShortWordOrPhrase) queuedShortPreloads = Math.max(0, queuedShortPreloads - 1);
+      else queuedLongPreloads = Math.max(0, queuedLongPreloads - 1);
       if (document.visibilityState !== "hidden") observeVisibleSpeech();
     });
   }
