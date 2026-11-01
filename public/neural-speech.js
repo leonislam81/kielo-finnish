@@ -2,7 +2,7 @@
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
   const DEVICE_PREVIEW_START_TIMEOUT = 900;
-  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=16";
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=17";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
   const decodedLocalBuffers = new Map();
@@ -31,9 +31,11 @@
   // learner's first tap a brief head start in the synthesis queue; otherwise
   // an unrelated background clip can make the requested word wait. Longer
   // sentences are prepared on hover/focus or on demand, not in the background.
-  const MAX_SHORT_BACKGROUND_PRELOADS = 24;
+  const MAX_SHORT_BACKGROUND_PRELOADS = 12;
   const MAX_LONG_BACKGROUND_PRELOADS = 0;
-  const BACKGROUND_PRELOAD_DELAY_MS = 0;
+  // Leave a short tap-first window after a page appears. On slower devices, an
+  // eager clip can occupy the speech worker just as the learner taps a word.
+  const BACKGROUND_PRELOAD_DELAY_MS = 480;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
 
@@ -279,6 +281,7 @@ function localAudioKey(text, style, speed) {
     const button = event.target?.closest?.("[data-speak],[data-topic-speak],[data-dictionary-speak]");
     const text = button && speechTextForButton(button)?.trim();
     if (!text || button.disabled) return;
+    cancelSpeechIntent(button);
     cancelVisiblePreload(button);
     const startedAt = performance.now();
     recentPointerSpeech = { button, startedAt };
@@ -642,7 +645,7 @@ function localAudioKey(text, style, speed) {
         // Do not make a learner wait half a second for the browser voice before
         // starting local synthesis. A very short grace still lets an installed
         // voice claim the first sound while the selected Finnish voice prepares.
-        const previewGraceMs = instantPreview.localVoice ? 240 : 40;
+        const previewGraceMs = instantPreview.localVoice ? 45 : 25;
         const previewStarted = await Promise.race([
           instantPreview.started,
           new Promise((resolve) => window.setTimeout(() => resolve(false), previewGraceMs)),
