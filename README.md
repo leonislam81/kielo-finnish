@@ -187,7 +187,7 @@ The Government & public services lesson now explains five Finnish elections and 
 
 After revealing a saved word’s meaning, learners can rate recall as **Again**, **Hard**, **Good**, or **Easy**. Again repeats after 10 minutes; other ratings keep the next interval in the existing browser-local review schedule: Hard uses a shorter interval, Good follows the 1, 3, 7, 14 and 30 day ladder, and Easy moves ahead faster. The older saved `Got it` action maps to Good, so existing review progress remains compatible. The four choices are a simple study aid, not an adaptive or validated assessment.
 
-On mobile, the navigation toggle announces whether the drawer is open; a closed drawer is removed from keyboard navigation, Escape closes it, and choosing a page moves focus to its new heading. A skip-to-main-content link is available at the start of the tab order.
+On mobile, the navigation toggle announces whether the drawer is open; a closed drawer is removed from keyboard navigation, Escape closes it, and choosing a page moves focus to its new heading. A skip-to-main-content link is available at the start of the tab order. Kielo also respects the device's reduced-motion preference, gives keyboard-focused controls a clear outline, and keeps compact buttons and selectors at least 32 CSS pixels high and wide. This is a targeted improvement, not a claim of full WCAG conformance.
 
 ### Wider dictionary download
 
