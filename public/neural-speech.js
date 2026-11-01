@@ -672,7 +672,7 @@ function localAudioKey(text, style, speed) {
           }).catch(() => {
             if (currentPlaybackId === playbackId) showMessage("The quick voice played. Your selected voice will finish preparing in the background.");
           });
-          return true;
+          return instantPreview.finished.then((played) => Boolean(played));
         }
         }
         const audioPromise = speechApi.synthesize(phrase, style, speed, (progress) => {
@@ -709,7 +709,7 @@ function localAudioKey(text, style, speed) {
             }).catch(() => {
               if (currentPlaybackId === playbackId) showMessage("The quick preview played. The selected Finnish voice is still preparing.");
             });
-            return true;
+            return instantPreview.finished.then((played) => Boolean(played));
           }
           if (firstResult.kind === "error") {
             if (await instantPreview.started) return true;
