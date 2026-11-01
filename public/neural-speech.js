@@ -25,9 +25,9 @@
   let installedSpeechVoices = [];
   let recentPointerSpeech = null;
   const speechIntentTimers = new WeakMap();
-  // Warm previously saved clips without allowing background work to occupy
-  // the single local synthesis engine when a learner taps a new phrase.
-  const MAX_BACKGROUND_PRELOADS = 8;
+  // Prepare only a small set of nearby phrases ahead. A learner's tap is
+  // still promoted above every queued clip by the synthesis priority queue.
+  const MAX_BACKGROUND_PRELOADS = 4;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
 
@@ -91,7 +91,7 @@ function localAudioKey(text, style, speed) {
     if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech) return;
     const speed = synthesisSpeed(speechRateForButton(button));
     const key = `${style}\u0000${speed}\u0000${text}`;
-    const marker = JSON.stringify([style, speed, text, "saved-clip"]);
+    const marker = JSON.stringify([style, speed, text, "prepared-clip"]);
     const previousPriority = Number(button.dataset.kieloPreloadPriority ?? -1);
     if (button.dataset.kieloPreloadKey === marker && priority <= previousPriority) return;
     if (priority === 0 && queuedPreloads >= MAX_BACKGROUND_PRELOADS) return;
@@ -99,7 +99,10 @@ function localAudioKey(text, style, speed) {
     button.dataset.kieloPreloadPriority = String(priority);
     queuedPreloads += 1;
     localSpeech().then(async (speech) => {
-      const blob = await speech.preload(text, style, speed, false, priority);
+      // Generate nearby words while the learner reads, not after they press
+      // Play. The model and style are already warmed in the background; the
+      // short phrase is stored locally for instant replay on the next tap.
+      const blob = await speech.preload(text, style, speed, true, priority);
       if (blob) void decodeLocalAudio(blob, key).catch(() => {});
     }).catch(() => {
       if (button.dataset.kieloPreloadKey === marker) delete button.dataset.kieloPreloadKey;
