@@ -52,6 +52,8 @@ Lesson completion, review words and their due dates, language preference, writin
 
 Use the **K** profile button to download a JSON backup or restore one on another device. Backups include lesson completion, known words, review dates, practice completion, drafts, and Daily 100 learned words, goals, study focus and meaning-language preferences. Version 3 also carries a selected Kielo on-device Finnish voice preset and speaking pace. Restore combines progress with the current browser; its settings win where both devices have a choice saved. Current v3 backups and earlier v1 and v2 Kielo backups are supported. Backup files stay on your device unless you choose to move or share them. They are plain, unencrypted JSON files, so store them somewhere private.
 
+The same panel can export saved review words as a UTF-8 CSV with Finnish, English and Bangla meanings, topic, level, recall stage, and next review date. It includes saved vocabulary only; lesson history, Daily 100 activity, and writing drafts stay in the full JSON backup.
+
 Finnish speech gives a tapped word priority over pending audio preparation. Hover and keyboard focus can queue nearby short clips, but never play speech. The first local voice setup still needs an internet connection to download its model.
 
 The home dashboard also shows a weekly study rhythm and consecutive-day streak. A study date is saved locally when you practise, review a word, or work on a writing draft; switching the help language or course level does not add a study day. Streak dates are included in progress backups.
