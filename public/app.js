@@ -207,7 +207,7 @@
       }
     }
     const target=Number(value.target);
-    if([10,30,100].includes(target))safe.target=target;
+    if(Number.isInteger(target)&&target>=10&&target<=100&&target%10===0)safe.target=target;
     if(["foundation","everyday","advanced","finland","all","news"].includes(value.focus))safe.focus=value.focus;
     if(value.meaningLanguage==="en"||value.meaningLanguage==="bn")safe.meaningLanguage=value.meaningLanguage;
     if(typeof value.recallFirst==="boolean")safe.recallFirst=value.recallFirst;
@@ -407,7 +407,7 @@
   function renderPath(){
     const levelFilter=state.filter;
     const visibleLevels=levelFilter==="all"?levels:levels.filter(level=>level.id===levelFilter);
-    pageContent.innerHTML=`<div class="page-title-row"><div><div class="page-kicker">Your course map · 28 short lessons</div><h1>Learning path</h1><p>A clear route from your first Finnish sounds to nuanced, advanced communication. Choose a level to see its scenes and lesson goals.</p></div><button class="button-secondary" data-page="practice">Review vocabulary <span>↗</span></button></div>
+    pageContent.innerHTML=`<div class="page-title-row"><div><div class="page-kicker">Your course map · ${lessons.length} guided lessons</div><h1>Learning path</h1><p>A clear route from your first Finnish sounds to nuanced, advanced communication. Choose a level to see its scenes and lesson goals.</p></div><button class="button-secondary" data-page="practice">Review vocabulary <span>↗</span></button></div>
       <div class="path-intro"><div><strong>${doneCount()?"Your progress is taking shape.":"Every level starts with useful, everyday Finnish."}</strong><p>YKI and CEFR use six proficiency bands from A1 to C2; Pre-A1 is here for the very first step.</p></div><div class="path-progress-label"><b>${pct()}%</b>${doneCount()} of ${lessons.length} lessons complete</div></div>
       <div class="filter-row"><button class="filter-chip ${levelFilter==="all"?"active":""}" data-filter="all">All levels</button>${levels.map(level=>`<button class="filter-chip ${levelFilter===level.id?"active":""}" data-filter="${escapeHTML(level.id)}">${escapeHTML(level.label)}</button>`).join("")}</div>
       <div>${visibleLevels.map(level=>{const done=level.lessons.filter(lesson=>state.completed.has(lesson.id)).length;return `<section class="curriculum-level"><header class="curriculum-level-header"><span class="level-badge ${escapeHTML(level.color)}">${escapeHTML(level.label)}</span><div><h2>${escapeHTML(level.title)}</h2><p>${escapeHTML(level.description)}</p></div><div class="path-progress-label" style="margin-left:auto"><b>${done}/${level.lessons.length}</b>lessons</div></header><div class="curriculum-units">${level.lessons.map((lesson,index)=>`<div class="unit-row ${state.completed.has(lesson.id)?"done":""}"><span class="unit-number">${state.completed.has(lesson.id)?"✓":String(index+1).padStart(2,"0")}</span><div class="unit-copy"><strong>${escapeHTML(lesson.title)}</strong><small>${escapeHTML(lesson.focus)} · ${escapeHTML(lesson.scene)}</small></div><button class="unit-action" data-open-lesson="${escapeHTML(lesson.id)}" aria-label="Open ${escapeHTML(lesson.title)}">${state.completed.has(lesson.id)?"↻":"→"}</button></div>`).join("")}</div></section>`}).join("")}</div>
