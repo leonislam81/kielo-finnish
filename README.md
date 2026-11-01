@@ -172,3 +172,7 @@ The Government & public services lesson now explains five Finnish elections and 
 After revealing a saved word’s meaning, learners can rate recall as **Again**, **Hard**, **Good**, or **Easy**. Again repeats after 10 minutes; other ratings keep the next interval in the existing browser-local review schedule: Hard uses a shorter interval, Good follows the 1, 3, 7, 14 and 30 day ladder, and Easy moves ahead faster. The older saved `Got it` action maps to Good, so existing review progress remains compatible. The four choices are a simple study aid, not an adaptive or validated assessment.
 
 On mobile, the navigation toggle announces whether the drawer is open; a closed drawer is removed from keyboard navigation, Escape closes it, and choosing a page moves focus to its new heading. A skip-to-main-content link is available at the start of the tab order.
+
+### Wider dictionary download
+
+The optional Finnish–English pack now shows download progress and lets you cancel with the same button. Once downloaded, Kielo prepares it for search and attempts to save it on this device for offline use. If download or storage fails, retry remains available and the curated English/Bangla learner dictionary continues to work.

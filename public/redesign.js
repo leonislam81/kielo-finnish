@@ -190,7 +190,7 @@
   }
   let cachedWeather=readJSON(weatherKey,null),weatherRequest=null,lastWeatherMessage="",cachedRegionalWeather=readJSON(regionalWeatherKey,null),regionalWeatherRequest=null,regionalWeatherMessage="";
   let frequentWordPromise=null,frequentWordsReady=false,frequentWordsError="";
-  let fullDictionaryPromise=null,fullDictionaryCachePromise=null,fullDictionaryEntries=null,fullDictionaryError="",fullDictionarySavedOffline=false;
+  let fullDictionaryPromise=null,fullDictionaryCachePromise=null,fullDictionaryEntries=null,fullDictionaryError="",fullDictionarySavedOffline=false,fullDictionaryAbortController=null;
   let dictionarySearchTimer=0,dictionaryPage=0,dictionaryMorphologyState={needle:"",status:"idle",analyses:[]},placementIndex=0,placementScore=0,placementAnswered=false,placementChoice=-1;
   function weatherLabel(code){
     if(code===0)return ["Clear sky","☀️"];
@@ -210,11 +210,24 @@
     if(!when)return "Waiting for the first update";
     return "Updated "+new Intl.DateTimeFormat("en-US",{timeZone:HELSINKI_ZONE,hour:"numeric",minute:"2-digit"}).format(new Date(when))+" Finland time";
   }
-  async function fetchGzipJson(path){
+  async function fetchGzipJson(path,{signal,onProgress}={}){
     if(!("DecompressionStream"in window))throw new Error("This browser cannot open the compressed word bank.");
-    const response=await fetch(new URL(path,document.baseURI),{cache:"force-cache"});
+    const response=await fetch(new URL(path,document.baseURI),{cache:"force-cache",signal});
     if(!response.ok)throw new Error("The word bank could not be loaded ("+response.status+").");
-    const stream=response.body.pipeThrough(new DecompressionStream("gzip"));
+    let body=response.body;
+    if(onProgress&&body&&"TransformStream"in window){
+      const total=Number(response.headers.get("content-length"))||0;
+      let received=0,lastStep=-1,lastUpdate=0;
+      onProgress({received,total});
+      body=body.pipeThrough(new TransformStream({transform(chunk,controller){
+        received+=chunk.byteLength;
+        const step=total?Math.floor(received/total*10):Math.floor(received/(512*1024));
+        const now=Date.now();
+        if(step>lastStep||now-lastUpdate>=750){lastStep=step;lastUpdate=now;onProgress({received,total})}
+        controller.enqueue(chunk);
+      }}));
+    }
+    const stream=body.pipeThrough(new DecompressionStream("gzip"));
     return new Response(stream).json();
   }
   function statusMarkup(){
@@ -968,20 +981,39 @@
         updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");
         return cached;
       }
+      const controller=new AbortController();fullDictionaryAbortController=controller;
+      if(button){button.disabled=false;button.textContent="Cancel download";button.setAttribute("aria-label","Cancel the wider dictionary download")}
       if(status)status.textContent="No saved copy found. Downloading the compressed Finnish–English dictionary…";
       try{
-        const entries=await fetchGzipJson("data/fi-en-dictionary.json.gz");
+        const entries=await fetchGzipJson("data/fi-en-dictionary.json.gz",{signal:controller.signal,onProgress:({received,total})=>{
+          if(!status?.isConnected)return;
+          const downloaded=(received/1024/1024).toFixed(1);
+          status.textContent=total
+            ?"Downloading Finnish–English dictionary · "+Math.min(100,Math.floor(received/total*100))+"% · "+downloaded+" of "+(total/1024/1024).toFixed(1)+" MiB."
+            :"Downloading Finnish–English dictionary · "+downloaded+" MiB received.";
+        }});
         if(!Array.isArray(entries))throw new Error("The dictionary file has an unexpected format.");
+        if(fullDictionaryAbortController===controller)fullDictionaryAbortController=null;
+        if(button){button.disabled=true;button.textContent="Preparing dictionary…";button.removeAttribute("aria-label")}
+        if(status?.isConnected)status.textContent="Download complete. Preparing the entries for search and saving an offline copy…";
         fullDictionaryEntries=entries;fullDictionaryError="";
         fullDictionarySavedOffline=await saveDictionaryOffline(entries);
         showDictionaryReady(entries,fullDictionarySavedOffline);
         updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");
         return entries;
       }catch(error){
+        if(controller.signal.aborted||error?.name==="AbortError"){
+          fullDictionaryPromise=null;
+          if(button){button.disabled=false;button.textContent="Load wider dictionary";button.removeAttribute("aria-label")}
+          if(status?.isConnected)status.textContent="Dictionary download cancelled. Your curated Finnish–English–Bangla learner words remain ready.";
+          return [];
+        }
         fullDictionaryError=error?.message||"The full dictionary could not be loaded.";
-        if(button){button.disabled=false;button.textContent="Try loading the Finnish–English dictionary again";}
+        if(button){button.disabled=false;button.textContent="Try loading the Finnish–English dictionary again";button.removeAttribute("aria-label")}
         if(status)status.textContent=fullDictionaryError+" The "+dailyVocabulary(false).length.toLocaleString()+" curated trilingual learner words still work.";
         fullDictionaryPromise=null;return [];
+      }finally{
+        if(fullDictionaryAbortController===controller)fullDictionaryAbortController=null;
       }
     })();
     return fullDictionaryPromise;
@@ -1764,7 +1796,16 @@
     if(topicReview){const fi=topicReview.dataset.reviewFi,wasSaved=window.kieloIsReviewWord?.(fi)===true,input={fi,en:topicReview.dataset.reviewEn,bn:topicReview.dataset.reviewBn,level:"Finland",topic:topicReview.dataset.reviewTopic};if(window.kieloToggleReviewWord?.(input)){const saved=!wasSaved;topicReview.classList.toggle("is-saved",saved);topicReview.setAttribute("aria-pressed",String(saved));topicReview.textContent=saved?"✓ Saved":"＋ Review"}return}
     const chapterListen=event.target.closest("[data-topic-speak]");
     if(chapterListen){speakFinnish(chapterListen.dataset.topicSpeak);return}
-    if(event.target.closest("#finland-load-full-dictionary")){loadFullDictionary();return}
+    if(event.target.closest("#finland-load-full-dictionary")){
+      if(fullDictionaryAbortController){
+        const button=document.getElementById("finland-load-full-dictionary"),status=document.getElementById("finland-dictionary-status");
+        if(button)button.disabled=true;
+        if(status)status.textContent="Stopping the dictionary download…";
+        fullDictionaryAbortController.abort();
+        return;
+      }
+      loadFullDictionary();return;
+    }
     if(event.target.closest("[data-dictionary-more]")){dictionaryPage++;updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");return}
     if(event.target.closest("[data-dictionary-analyze-form]")){lookupDictionaryMorphology(document.getElementById("finland-dictionary-search")?.value||"");return}
     const morphologyLemma=event.target.closest("[data-dictionary-search-lemma]");
