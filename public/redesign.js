@@ -963,10 +963,65 @@
       });
     }catch(_error){return false}finally{db?.close()}
   }
+  async function deleteDictionaryOfflineEntry(){
+    let db;
+    try{
+      db=await openDictionaryCache();
+      return await new Promise(resolve=>{
+        const transaction=db.transaction("dictionary","readwrite");
+        transaction.objectStore("dictionary").delete("fi-en-headwords-v1");
+        transaction.oncomplete=()=>resolve(true);
+        transaction.onerror=()=>resolve(false);
+        transaction.onabort=()=>resolve(false);
+      });
+    }catch(_error){return false}finally{db?.close()}
+  }
+  async function clearCachedDictionarySource(){
+    if(!("caches"in window))return true;
+    try{
+      const sourceUrl=new URL("data/fi-en-dictionary.json.gz",document.baseURI).href;
+      const cacheNames=(await window.caches.keys()).filter(name=>name.startsWith("kielo-offline-"));
+      const results=await Promise.all(cacheNames.map(async name=>{
+        const cache=await window.caches.open(name);
+        await cache.delete(sourceUrl);
+        return true;
+      }));
+      return results.every(Boolean);
+    }catch(_error){return false}
+  }
   function showDictionaryReady(entries,offline){
     const button=document.getElementById("finland-load-full-dictionary"),message=document.getElementById("finland-dictionary-status");
-    if(button){button.textContent=offline?"Dictionary ready offline":"Dictionary loaded for this session";button.disabled=true;}
-    if(message)message.textContent=entries.length.toLocaleString()+" entries are ready. Search Finnish headwords and English definitions; "+(offline?"this copy is saved on this device for offline search.":"device storage was unavailable, so reconnect to load it again next time.")+" The curated learner list remains available for Bangla meanings.";
+    if(button){button.textContent=offline?"Remove offline copy":"Save offline copy";button.disabled=false;button.setAttribute("aria-label",offline?"Remove the saved wider dictionary from this device":"Save the wider dictionary for offline use");}
+    if(message)message.textContent=entries.length.toLocaleString()+" entries are ready. Search Finnish headwords and English definitions; "+(offline?"this copy is saved on this device for offline search. Choose Remove offline copy to free device storage.":"this copy is loaded for this session. Choose Save offline copy to keep it available on this device.")+" The curated learner list remains available for Bangla meanings.";
+  }
+  async function saveCurrentDictionaryOffline(){
+    const entries=fullDictionaryEntries,button=document.getElementById("finland-load-full-dictionary"),status=document.getElementById("finland-dictionary-status");
+    if(!Array.isArray(entries))return false;
+    if(button){button.disabled=true;button.textContent="Saving offline copy…"}
+    if(status)status.textContent="Saving the wider dictionary on this device…";
+    const saved=await saveDictionaryOffline(entries);
+    fullDictionarySavedOffline=saved;
+    fullDictionaryCachePromise=Promise.resolve(saved?entries:null);
+    showDictionaryReady(entries,saved);
+    if(!saved&&status)status.textContent="Could not save an offline copy. The wider dictionary remains available for this session; check device storage and try again.";
+    return saved;
+  }
+  async function removeDictionaryOffline(){
+    const entries=fullDictionaryEntries,button=document.getElementById("finland-load-full-dictionary"),status=document.getElementById("finland-dictionary-status");
+    if(!Array.isArray(entries)||!fullDictionarySavedOffline)return false;
+    if(button){button.disabled=true;button.textContent="Removing offline copy…"}
+    if(status)status.textContent="Removing the saved dictionary from this device…";
+    const [recordRemoved,sourceRemoved]=await Promise.all([deleteDictionaryOfflineEntry(),clearCachedDictionarySource()]);
+    if(!recordRemoved){
+      if(button){button.disabled=false;button.textContent="Remove offline copy"}
+      if(status)status.textContent="Could not remove the saved dictionary record. It remains available offline; close other Kielo tabs and try again.";
+      return false;
+    }
+    fullDictionarySavedOffline=false;
+    fullDictionaryCachePromise=Promise.resolve(null);
+    showDictionaryReady(entries,false);
+    if(!sourceRemoved&&status)status.textContent="The searchable offline copy was removed. The browser could not clear its compressed download from offline cache, so that file may still use some storage.";
+    return true;
   }
   async function loadFullDictionary(){
     const button=document.getElementById("finland-load-full-dictionary"),status=document.getElementById("finland-dictionary-status");
@@ -998,6 +1053,7 @@
         if(status?.isConnected)status.textContent="Download complete. Preparing the entries for search and saving an offline copy…";
         fullDictionaryEntries=entries;fullDictionaryError="";
         fullDictionarySavedOffline=await saveDictionaryOffline(entries);
+        fullDictionaryCachePromise=Promise.resolve(fullDictionarySavedOffline?entries:null);
         showDictionaryReady(entries,fullDictionarySavedOffline);
         updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");
         return entries;
@@ -1059,7 +1115,7 @@
       '<section class="finland-dictionary-voice" aria-label="Finnish voice settings">'+voiceTools()+'</section>'+
       '<div class="finland-dictionary-tools"><input class="finland-dictionary-search" id="finland-dictionary-search" type="search" placeholder="Search järvi or jarvi / English / বাংলা" autocomplete="off" aria-label="Search Finnish dictionary; Finnish ä, ö, and å can be typed as a, o, and a"><span class="finland-word-level" id="finland-dictionary-count"></span></div>'+dictionaryFormExplorer()+
       '<section class="finland-dictionary-results" id="finland-dictionary-results" aria-live="polite">'+dictionaryCards("")+'</section><button class="button-secondary" id="finland-dictionary-more" type="button" data-dictionary-more hidden>Show more matches</button>'+
-      '<div class="finland-dictionary-load"><div><strong>Wider Finnish–English dictionary</strong><br>254,435 source headwords · approximately 11.6 MiB compressed · downloaded only when you choose it, then saved on this device for offline search when storage allows. The source reports a translation for 82.78% of entries; other entries may be English definitions. Bangla meanings remain in the curated learner list above.</div><button id="finland-load-full-dictionary" type="button">Load wider dictionary</button></div><p class="finland-dictionary-status" id="finland-dictionary-status" role="status" aria-live="polite">Your search and learning progress stay in this browser. The wider open dataset downloads only if you choose it.</p>'+
+      '<div class="finland-dictionary-load"><div><strong>Wider Finnish–English dictionary</strong><br>254,435 source headwords · approximately 11.6 MiB compressed · downloaded only when you choose it, then saved on this device for offline search when storage allows. After loading, use the same button to save or remove the offline copy. The source reports a translation for 82.78% of entries; other entries may be English definitions. Bangla meanings remain in the curated learner list above.</div><button id="finland-load-full-dictionary" type="button">Load wider dictionary</button></div><p class="finland-dictionary-status" id="finland-dictionary-status" role="status" aria-live="polite">Your search and learning progress stay in this browser. The wider open dataset downloads only if you choose it.</p>'+
       '<div class="finland-dictionary-source">The wider dictionary is an open Finnish–English compilation from FinnWordNet / Open Multilingual Wordnet, Princeton WordNet 3.0 and English Wiktionary via kaikki.org. Search supports exact headwords and '+dictionaryGuidedExamples.length+' guided noun and verb forms above; this is not a full inflection analyzer. Source notices and licence are included in <a href="data/fi-en-ATTRIBUTION.txt" target="_blank" rel="noreferrer">Kielo’s attribution file ↗</a>. <a href="https://danielgregorini.github.io/koreader-dicts/fr/fi-en/" target="_blank" rel="noreferrer">Dataset coverage and licence ↗</a> · Kotus’ word list is not a complete list of every Finnish word.</div>'+
       '<div class="finland-page-footer"><p>Finnish audio uses a free on-device female or male voice, or an installed browser voice.</p><button class="button-primary" type="button" data-redesign-page="daily">Study today’s 100 words →</button></div>';
     setActiveCustomPage("dictionary");
@@ -1802,6 +1858,11 @@
         if(button)button.disabled=true;
         if(status)status.textContent="Stopping the dictionary download…";
         fullDictionaryAbortController.abort();
+        return;
+      }
+      if(fullDictionaryEntries){
+        if(fullDictionarySavedOffline)void removeDictionaryOffline();
+        else void saveCurrentDictionaryOffline();
         return;
       }
       loadFullDictionary();return;
