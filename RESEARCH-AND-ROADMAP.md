@@ -587,7 +587,7 @@ Kielo progress backups are now version 3 and carry Daily 100 learned words for t
 
 ## Faster Finnish word playback (updated 1 November 2026)
 
-Visible controls no longer start model synthesis on hover or keyboard focus. Those events can restore only previously saved clips, because an active ONNX inference cannot be interrupted and may block the pointer event for a newly requested word. A tap starts the installed browser voice immediately when available; selected Finnish clips are generated only after the requested playback begins and cached for later replay. Cached and decoded clips replay without model setup. The first use on a browser with no installed speech voice still depends on the one-time local model download and synthesis, so an uncached first-use phrase cannot be guaranteed instant; later prepared clips play directly.
+Near-visible short controls may prepare up to twelve Finnish clips in the background after the model is ready; hovering or keyboard focus may queue the exact short clip, but never plays it. A tap starts a browser preview in the original gesture when a device speech voice is available and prioritizes the selected Finnish clip over pending preparations. An already-running inference cannot be interrupted, so background preparation stays bounded. Cached and decoded clips replay directly. The first model setup still downloads about 140 MB; on a browser without a usable speech voice, an uncached phrase needs that local setup and synthesis before audio can start.
 
 ## Restore a saved wider dictionary (1 November 2026)
 

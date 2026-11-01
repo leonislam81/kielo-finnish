@@ -512,10 +512,10 @@
       playbackStatus.textContent=localVoice.dataSaver
         ? "Data Saver is on, so the 140 MB voice model waits until you ask to hear Finnish. Your text stays on this device."
         : localVoice.modelReady
-          ? "Finnish voice is ready. Short words on screen are prepared before you tap for faster playback."
+          ? "Finnish voice is ready. Up to twelve short words near the screen are prepared ahead for faster playback."
           : localVoice.preparing
-            ? "Preparing the free Finnish voice in the background · about 140 MB on first setup. Generated phrases are saved here for fast replay."
-            : "Free Finnish voice starts preparing as this page opens · about 140 MB on first setup. Generated phrases are saved here for fast replay.";
+            ? "Preparing the free Finnish voice in the background · about 140 MB on first setup. Nearby short words will be ready for faster replay."
+            : "Free Finnish voice starts preparing as this page opens · about 140 MB on first setup. Nearby short words will be ready for faster replay.";
     }
   }
   function meaningLanguageTools(language){
