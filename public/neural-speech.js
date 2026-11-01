@@ -1,8 +1,8 @@
 (() => {
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
-  const DEVICE_PREVIEW_START_TIMEOUT = 2_500;
-  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=11";
+  const DEVICE_PREVIEW_START_TIMEOUT = 8_000;
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=12";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
   const decodedLocalBuffers = new Map();
@@ -571,9 +571,10 @@ function localAudioKey(text, style, speed) {
         // to delay the speechSynthesis start event and make a fresh tap sound
         // as if it were waiting for the selected neural voice to load.
         if (instantPreview) {
+          const previewGraceMs = deviceVoices().length ? 700 : 90;
           const previewStarted = await Promise.race([
             instantPreview.started,
-            new Promise((resolve) => window.setTimeout(() => resolve(false), 180)),
+            new Promise((resolve) => window.setTimeout(() => resolve(false), previewGraceMs)),
           ]);
           if (currentPlaybackId !== playbackId) return false;
           if (previewStarted) await new Promise((resolve) => window.setTimeout(resolve, 80));
