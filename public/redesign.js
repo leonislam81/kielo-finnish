@@ -192,7 +192,7 @@
   let cachedWeather=readJSON(weatherKey,null),weatherRequest=null,lastWeatherMessage="",cachedRegionalWeather=readJSON(regionalWeatherKey,null),regionalWeatherRequest=null,regionalWeatherMessage="";
   let frequentWordPromise=null,frequentWordsReady=false,frequentWordsError="";
   let fullDictionaryPromise=null,fullDictionaryCachePromise=null,fullDictionaryEntries=null,fullDictionaryError="",fullDictionarySavedOffline=false,fullDictionaryAbortController=null;
-  let dictionarySearchTimer=0,dictionaryPage=0,dictionaryMorphologyState={needle:"",status:"idle",analyses:[]},placementIndex=0,placementScore=0,placementAnswered=false,placementChoice=-1;
+  let dictionarySearchTimer=0,dictionarySearchGeneration=0,dictionarySearchState={needle:"",status:"idle",entries:[],total:0,scanned:0,datasetSize:0,capped:false},dictionaryPage=0,dictionaryMorphologyState={needle:"",status:"idle",analyses:[]},placementIndex=0,placementScore=0,placementAnswered=false,placementChoice=-1;
   function weatherLabel(code){
     if(code===0)return ["Clear sky","☀️"];
     if(code===1)return ["Mostly clear","🌤️"];
@@ -482,6 +482,7 @@
     });
   }
   function setActiveCustomPage(page){
+    if(page!=="dictionary"&&dictionarySearchState.status==="searching"){dictionarySearchGeneration++;dictionarySearchState={needle:"",status:"idle",entries:[],total:0,scanned:0,datasetSize:0,capped:false}}
     document.querySelectorAll(".nav-link").forEach(button=>{const active=button.dataset.redesignPage===page||(page==="home"&&button.dataset.page==="home");button.classList.toggle("active",active);if(active)button.setAttribute("aria-current","page");else button.removeAttribute("aria-current")});
   }
   function customPageTitle(title,description,kicker){
@@ -799,17 +800,10 @@
     const guidedForms=needle?findDictionaryForms(needle):[];
     const learnerWords=dailyVocabulary(false),learnerMatches=needle?learnerWords.filter(word=>dictionaryFold(word.fi+" "+word.en+" "+word.bn+" "+word.topic).includes(needle)):learnerWords;
     let openItems=[];
-    if(fullDictionaryEntries&&needle&&!isBangla){
-      const matches=[];
-      for(const entry of fullDictionaryEntries)if(dictionaryFold(entry[0]+" "+entry[1]).includes(needle))matches.push(entry);
-      const escaped=needle.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),wholeMeaning=new RegExp("(^|[^\\p{L}\\p{N}])"+escaped+"($|[^\\p{L}\\p{N}])","iu");
-      matches.sort((a,b)=>{
-        const rank=entry=>{const fi=dictionaryFold(entry[0]),en=dictionaryFold(entry[1]);if(fi===needle)return 0;if(fi.startsWith(needle))return 1;if(wholeMeaning.test(en))return 2;return 3};
-        const difference=rank(a)-rank(b);if(difference)return difference;
-        return Number(b[2]||0)-Number(a[2]||0)||a[0].localeCompare(b[0]);
-      });
+    const fullSearch=dictionarySearchState.needle===needle&&dictionarySearchState.status==="ready"&&!isBangla?dictionarySearchState:null;
+    if(fullSearch){
       const curated=getCuratedDictionaryIndex(),seen=new Set();
-      openItems=matches.map(entry=>{
+      openItems=fullSearch.entries.map(entry=>{
         const fi=String(entry[0]),key=dictionaryFold(fi);
         if(seen.has(key))return null;
         seen.add(key);
@@ -820,7 +814,41 @@
     const openHeadwords=new Set(openItems.map(word=>dictionaryFold(word.fi)));
     const learnerItems=learnerMatches.filter(word=>!openHeadwords.has(dictionaryFold(word.fi))).map(word=>({...word,source:"curated"}));
     const items=[...openItems,...guidedForms,...learnerItems];
-    return {items:items.slice(pageIndex*60,(pageIndex+1)*60),total:items.length,full:openItems.length>0,guidedForm:guidedForms.length>0};
+    return {items:items.slice(pageIndex*60,(pageIndex+1)*60),total:items.length,full:openItems.length>0,guidedForm:guidedForms.length>0,searching:dictionarySearchState.needle===needle&&dictionarySearchState.status==="searching"&&!isBangla,fullSearch:fullSearch&&{total:fullSearch.total,capped:fullSearch.capped},scan:dictionarySearchState.needle===needle?{scanned:dictionarySearchState.scanned,total:dictionarySearchState.datasetSize}:null};
+  }
+  function beginFullDictionarySearch(query){
+    const needle=dictionaryFold(String(query||"").trim()),entries=fullDictionaryEntries;
+    if(!entries||!needle||/[\u0980-\u09ff]/.test(query))return;
+    if(dictionarySearchState.needle===needle&&(dictionarySearchState.status==="searching"||dictionarySearchState.status==="ready"))return;
+    const generation=++dictionarySearchGeneration,limit=600,escaped=needle.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),wholeMeaning=new RegExp("(^|[^\\p{L}\\p{N}])"+escaped+"($|[^\\p{L}\\p{N}])","iu"),heap=[];
+    let index=0,total=0,lastProgress=0;
+    const compare=(a,b)=>a.rank-b.rank||b.frequency-a.frequency||a.fi.localeCompare(b.fi);
+    const addTop=record=>{
+      if(heap.length<limit){heap.push(record);let child=heap.length-1;while(child>0){const parent=Math.floor((child-1)/2);if(compare(heap[child],heap[parent])<=0)break;[heap[child],heap[parent]]=[heap[parent],heap[child]];child=parent}return}
+      if(compare(record,heap[0])>=0)return;
+      heap[0]=record;let parent=0;
+      while(true){const left=parent*2+1,right=left+1;let worse=parent;if(left<heap.length&&compare(heap[left],heap[worse])>0)worse=left;if(right<heap.length&&compare(heap[right],heap[worse])>0)worse=right;if(worse===parent)break;[heap[parent],heap[worse]]=[heap[worse],heap[parent]];parent=worse}
+    };
+    dictionarySearchState={needle,status:"searching",entries:[],total:0,scanned:0,datasetSize:entries.length,capped:false};
+    const schedule=()=>typeof window.requestIdleCallback==="function"?window.requestIdleCallback(runChunk,{timeout:120}):window.setTimeout(runChunk,0);
+    const runChunk=()=>{
+      if(generation!==dictionarySearchGeneration)return;
+      const started=window.performance?.now?.()||Date.now();let processed=0;
+      while(index<entries.length&&(processed<180||((window.performance?.now?.()||Date.now())-started)<7)){
+        const entry=entries[index++],fi=dictionaryFold(entry[0]),en=dictionaryFold(entry[1]);processed++;
+        if(!(fi+" "+en).includes(needle))continue;
+        total++;const rank=fi===needle?0:fi.startsWith(needle)?1:wholeMeaning.test(en)?2:3;
+        addTop({entry,fi,rank,frequency:Number(entry[2]||0)});
+      }
+      dictionarySearchState.scanned=index;dictionarySearchState.total=total;
+      const now=Date.now();
+      if(now-lastProgress>180){lastProgress=now;const count=document.getElementById("finland-dictionary-count"),active=document.getElementById("finland-dictionary-search");if(count&&active&&dictionaryFold(active.value.trim())===needle)count.textContent="Searching wider dictionary · "+index.toLocaleString()+" / "+entries.length.toLocaleString()+" entries"}
+      if(index<entries.length){schedule();return}
+      const ranked=heap.sort(compare).map(record=>record.entry);
+      dictionarySearchState={needle,status:"ready",entries:ranked,total,capped:total>limit,scanned:entries.length,datasetSize:entries.length};
+      const active=document.getElementById("finland-dictionary-search");if(active&&dictionaryFold(active.value.trim())===needle)updateDictionaryResults(active.value);
+    };
+    schedule();
   }
   function dictionaryFold(value){return String(value??"").normalize("NFC").toLocaleLowerCase().replace(/[äå]/g,"a").replace(/ö/g,"o")}
   function isSingleFinnishLookupWord(value){return value.length<=64&&/^\p{L}+(?:[-’'][\p{L}]+)*$/u.test(value)}
@@ -853,15 +881,16 @@
     const needle=dictionaryFold(term);
     if(getCuratedDictionaryIndex().has(needle))return true;
     if(dictionaryGuidedExamples.some(item=>dictionaryFold(item.form)===needle))return true;
-    return Boolean(fullDictionaryEntries?.some(item=>dictionaryFold(item[0])===needle));
+    return dictionarySearchState.needle===needle&&dictionarySearchState.status==="ready"&&dictionarySearchState.entries.some(item=>dictionaryFold(item[0])===needle);
   }
   function dictionaryMorphologyMarkup(query,localResults){
     const term=String(query||"").trim();if(!isSingleFinnishLookupWord(term))return "";
     const needle=dictionaryFold(term),state=dictionaryMorphologyState;
     const exactLocal=dictionaryHasExactLocalWord(term);
-    if(state.needle!==needle&&localResults>0&&!exactLocal)return "";
+    const fullSearchPending=dictionarySearchState.needle===needle&&dictionarySearchState.status==="searching";
+    if(state.needle!==needle&&localResults>0&&!exactLocal&&!fullSearchPending)return "";
     const disclosure='<p class="finland-morphology-disclosure">Only this single word is sent to Aalto University’s SeCo Language Analysis Services when you choose online analysis. Do not enter a sentence or private text. Results can be ambiguous and need internet. <a href="https://demo.seco.tkk.fi/las/" target="_blank" rel="noopener noreferrer">About the analysis service ↗</a></p>';
-    if(state.needle!==needle)return '<section class="finland-morphology-prompt"><div><span class="page-kicker">'+(exactLocal?'OPTIONAL GRAMMAR CHECK':'NOT IN THE LOADED WORD LIST')+'</span><h3>'+(exactLocal?'Check another possible reading':'Check this as a Finnish word form')+'</h3><p>Find possible dictionary forms and grammar labels for one Finnish word. The surrounding sentence helps decide which reading fits.</p></div><button class="button-secondary" type="button" data-dictionary-analyze-form>Analyze online</button>'+disclosure+'</section>';
+    if(state.needle!==needle)return '<section class="finland-morphology-prompt"><div><span class="page-kicker">'+(fullSearchPending?'SEARCHING WIDER DICTIONARY':exactLocal?'OPTIONAL GRAMMAR CHECK':'NOT IN THE LOADED WORD LIST')+'</span><h3>'+(exactLocal?'Check another possible reading':'Check this as a Finnish word form')+'</h3><p>'+(fullSearchPending?'The exact headword check is still running. You can still ask the Finnish analyzer about this single word.':'Find possible dictionary forms and grammar labels for one Finnish word. The surrounding sentence helps decide which reading fits.')+'</p></div><button class="button-secondary" type="button" data-dictionary-analyze-form>Analyze online</button>'+disclosure+'</section>';
     if(state.status==="loading")return '<section class="finland-morphology-prompt" role="status" aria-live="polite" aria-busy="true"><strong>Analyzing <span lang="fi">'+esc(term)+'</span>…</strong><p>The one-word request is with Aalto SeCo.</p></section>';
     if(state.status==="error")return '<section class="finland-morphology-prompt" role="status"><strong>Online word-form analysis is unavailable right now.</strong><p>Your local dictionary still works. Check your connection and try again later.</p><button class="button-secondary" type="button" data-dictionary-analyze-form>Try analysis again</button>'+disclosure+'</section>';
     if(state.status!=="done")return "";
@@ -901,7 +930,7 @@
   }
   function dictionaryCards(query="",pageIndex=0){
     const result=dictionaryItems(query,pageIndex);
-    if(!result.items.length)return '<div class="finland-dictionary-empty">No word found. Try a Finnish spelling, English meaning, or Bangla translation.</div>';
+    if(!result.items.length)return result.searching?'<div class="finland-dictionary-empty" role="status" aria-busy="true">Searching the wider dictionary in the background…</div>':'<div class="finland-dictionary-empty">No word found. Try a Finnish spelling, English meaning, or Bangla translation.</div>';
     return result.items.map(word=>{
       const parsed=word.source==="open"?parseOpenDictionaryEntry(word.en):null;
       const sourceGloss=parsed?.senses[0]?.text||word.en,long=word.source==="open"&&(word.en.length>240||(parsed?.senses.length||0)>1);
@@ -921,10 +950,19 @@
   function updateDictionaryResults(query=""){
     const result=document.getElementById("finland-dictionary-results"),count=document.getElementById("finland-dictionary-count"),more=document.getElementById("finland-dictionary-more");
     if(!result)return;
+    const needle=dictionaryFold(String(query||"").trim()),isBangla=/[\u0980-\u09ff]/.test(query);
+    if(fullDictionaryEntries&&needle&&!isBangla)beginFullDictionarySearch(query);
+    else if(dictionarySearchState.status==="searching"||dictionarySearchState.needle!==needle){dictionarySearchGeneration++;dictionarySearchState={needle,status:"idle",entries:[],total:0,scanned:0,datasetSize:0,capped:false}}
     const state=dictionaryItems(query,dictionaryPage);
     if(dictionaryMorphologyState.needle&&dictionaryMorphologyState.needle!==dictionaryFold(String(query||"").trim()))dictionaryMorphologyState={needle:"",status:"idle",analyses:[]};
     result.innerHTML=dictionaryCards(query,dictionaryPage)+dictionaryMorphologyMarkup(query,state.total);
-    if(count)count.textContent=state.total.toLocaleString()+" "+(state.full?"dictionary, learner & form matches":state.guidedForm?"learner & guided-form matches":"learner words")+(state.total>60?" · showing "+Math.min((dictionaryPage+1)*60,state.total).toLocaleString():"");
+    if(count){
+      if(state.searching&&state.scan)count.textContent="Searching wider dictionary · "+state.scan.scanned.toLocaleString()+" / "+state.scan.total.toLocaleString()+" entries";
+      else{
+        const wider=state.fullSearch?state.fullSearch.capped?" · top 600 of "+state.fullSearch.total.toLocaleString()+" wider matches":" · "+state.fullSearch.total.toLocaleString()+" wider matches":fullDictionaryEntries&&needle&&!isBangla?" · no wider-dictionary matches":"";
+        count.textContent=state.total.toLocaleString()+" "+(state.full?"dictionary, learner & form matches":state.guidedForm?"learner & guided-form matches":"learner words")+wider+(state.total>60?" · showing "+Math.min((dictionaryPage+1)*60,state.total).toLocaleString():"")+(state.fullSearch?.capped?" · refine the search to see more":"");
+      }
+    }
     if(more)more.hidden=(dictionaryPage+1)*60>=state.total;
   }
   function openDictionaryCache(){
