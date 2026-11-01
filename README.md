@@ -156,3 +156,7 @@ The People, Languages & Society chapter now includes a bilingual-supported lesso
 ### Digital public-service safety
 
 The Government & public services chapter now teaches how to open Suomi.fi Messages safely, includes a short email-link safety check, and adds ten Finnish words with English and Bangla meanings, audio, and spaced review. The lesson reflects Suomi.fi's 14 April 2026 change for some adults using authority e-services, while preserving the paper-mail option and pointing learners to current official guidance. Safety practice: open the Suomi.fi app or type `suomi.fi/messages` yourself; do not follow an email or text-message link.
+
+### National institutions and law-making
+
+The Finland Explorer’s government lesson now introduces *eduskunta* (Parliament), *hallitus* (Government), the President, and independent courts. Learners follow a simplified bill-to-law path, answer a bilingual quick check, and hear eight Finnish terms that connect with Dictionary, Daily 100, and spaced review. See [Parliament’s law-making overview](https://eduskunta.fi/en/parliament-and-its-activities/enacting-legislation), [Government roles](https://valtioneuvosto.fi/about-the-government/how-the-government-works), [the President’s duties](https://www.presidentti.fi/en/presidency/duties/), and [Oikeus.fi’s court information](https://www.oikeus.fi/en/themes/criminal-cases/judicial-proceedings-in-criminal-cases/).
