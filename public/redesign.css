@@ -62,6 +62,17 @@
 .finland-word-level{color:#839188;font-size:8px;white-space:nowrap}
 .finland-word-translation{font-size:10px;color:#50645a;margin:3px 0}
 .finland-word-bn{font-size:9px;color:#74847b;margin:0}
+.finland-word-source-meta{display:flex;flex-wrap:wrap;gap:5px 10px;margin:5px 0;color:#71867a;font-size:8px;line-height:1.4}
+.finland-word-source-meta b{color:#315f52;font-weight:700}
+.finland-word-context{margin:7px 0;padding:8px 9px;border:1px solid #e1eae0;border-radius:9px;background:#f6f9f4;color:#536d5c}
+.finland-word-context>span{display:block;margin-bottom:4px;color:#819187;font-size:7px;font-weight:800;letter-spacing:.45px}
+.finland-word-context>strong{display:block;font-size:10px;line-height:1.4}
+.finland-word-context>p{margin:3px 0;color:#77847a;font-size:9px;line-height:1.4}
+.finland-word-example{display:grid;gap:3px;padding-top:5px;border-top:1px solid #e4ebe2;color:#345446}
+.finland-word-example b{font-size:10px;line-height:1.5}
+.finland-word-example small{color:#78867c;font-size:8px;line-height:1.45}
+.finland-word-example button{justify-self:start;margin-top:2px;border:1px solid #dce7dc;border-radius:7px;background:#fff;padding:5px 7px;color:#3f7059;font-size:8px;font-weight:700;cursor:pointer}
+.finland-word-example button:focus-visible{outline:2px solid #315f52;outline-offset:2px}
 .finland-daily-example{margin-top:8px;padding:7px 8px;border:1px solid #e7ece5;border-radius:8px;background:#f8faf7;color:#62766a;font-size:9px}
 .finland-daily-example summary{cursor:pointer;color:#527363;font-weight:700}
 .finland-daily-example p{margin:6px 0 3px;color:#314b3e;font-size:10px;line-height:1.5}
@@ -129,6 +140,15 @@
 .finland-definition-details{margin:5px 0;color:#638074;font-size:9px}
 .finland-definition-details summary{cursor:pointer;font-weight:700}
 .finland-definition-details p{margin:6px 0;color:#5e7067;line-height:1.55}
+.finland-definition-senses{display:grid;gap:6px;padding-left:21px;color:#50645a}
+.finland-definition-senses li{padding-left:2px;line-height:1.5}
+.finland-definition-senses small{display:inline-block;margin-right:5px;color:#789083;font-size:8px;font-weight:700}
+.finland-definition-note{color:#7b8980;font-size:8px;line-height:1.5}
+.finland-dictionary-sound-note{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:7px 12px;margin:11px 0;padding:11px 13px;border:1px solid #e1e9df;border-radius:12px;background:#f7f9f5}
+.finland-dictionary-sound-note strong{color:#315f52;font-size:10px}
+.finland-dictionary-sound-note p{grid-column:1/-1;margin:0;color:#6f7f74;font-size:9px;line-height:1.55}
+.finland-dictionary-sound-note a{color:#316d59;font-size:8px;font-weight:700;text-decoration:none}
+.finland-dictionary-sound-note a:hover{text-decoration:underline}
 .finland-chapters{margin:22px 0}
 .finland-chapters-intro{margin-bottom:12px}
 .finland-chapters-intro h2{font:700 18px var(--heading,Inter,sans-serif);margin:0}
@@ -1625,3 +1645,5 @@
 @media(max-width:560px){.finland-sport-experience{gap:10px;padding:10px;border-radius:14px}.finland-sport-heading{padding:14px}.finland-sport-heading-mark{width:43px;height:43px;border-radius:14px;font-size:22px}.finland-sport-overview{grid-template-columns:1fr;padding:11px}.finland-sport-scene-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-sport-scene-picker>button{min-height:49px;padding:8px 10px}.finland-sport-scene-detail{grid-template-columns:1fr;gap:10px;padding:9px}.finland-sport-art{min-height:185px}.finland-sport-art>b{font-size:48px}.finland-sport-pesapallo{grid-template-columns:1fr;gap:7px;padding:11px}.finland-sport-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-sport-vocabulary{padding:10px}.finland-sport-section-heading{align-items:flex-start;flex-direction:column;gap:4px}.finland-sport-section-heading>span{text-align:left}}
 
 @media(max-width:560px){.finland-digital-facts,.finland-digital-answers{grid-template-columns:1fr}.finland-digital-phrase{align-items:flex-start}}
+@media(max-width:720px){.finland-dictionary-sound-note{grid-template-columns:repeat(2,minmax(0,1fr))}.finland-dictionary-sound-note strong,.finland-dictionary-sound-note p{grid-column:1/-1}}
+@media(max-width:460px){.finland-dictionary-sound-note{grid-template-columns:1fr;gap:6px}.finland-dictionary-sound-note a{font-size:9px}}
