@@ -2,7 +2,7 @@
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
   const DEVICE_PREVIEW_START_TIMEOUT = 1_200;
-  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=18";
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=19";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
   const decodedLocalBuffers = new Map();
