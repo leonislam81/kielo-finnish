@@ -16,6 +16,7 @@ const audioCache = new Map();
 const synthesisJobs = new Map();
 const synthesisQueue = [];
 let synthesisActive = false;
+let activeSynthesisJob = null;
 let audioDatabasePromise = null;
 
 function openAudioDatabase() {
@@ -142,20 +143,26 @@ function runSynthesisQueue() {
   synthesisQueue.sort((a, b) => b.priority - a.priority || a.order - b.order);
   const job = synthesisQueue.shift();
   synthesisActive = true;
+  activeSynthesisJob = job;
   job.started = true;
   (async () => {
     const savedAudio = await getPersistedAudio(job.key);
     if (savedAudio) {
+      if (job.cancelled) return null;
       audioCache.set(job.key, savedAudio);
       while (audioCache.size > 50) audioCache.delete(audioCache.keys().next().value);
       return savedAudio;
     }
     const [{ textToSpeech }, style] = await Promise.all([loadEngine((progress) => job.report(progress)), loadStyle(job.styleId)]);
+    // If the learner taps while a preload is still loading the model, run the
+    // requested word first instead of synthesizing stale background audio.
+    if (job.cancelled) return null;
     job.report({ phase: "generating", current: 0, total: 8 });
     // Single words need less synthesis work to stay responsive on a first tap.
     // Everyday phrases keep the balanced setting; longer passages use eight
     // steps for clearer listening practice.
     const steps = job.text.length <= 24 ? 3 : job.text.length <= 120 ? 5 : 8;
+    job.inferenceStarted = true;
     const { wav, duration } = await textToSpeech.call(job.text, "fi", style, steps, job.speed, 0.18, (current, total) => {
       job.report({ phase: "generating", current, total });
     });
@@ -168,6 +175,7 @@ function runSynthesisQueue() {
     return result;
   })().then(job.resolve, job.reject).finally(() => {
     synthesisJobs.delete(job.key);
+    if (activeSynthesisJob === job) activeSynthesisJob = null;
     synthesisActive = false;
     runSynthesisQueue();
   });
@@ -182,6 +190,10 @@ function queueSynthesis(text, styleId, speed, priority, onProgress) {
   // pending background clips so the selected word is next after any active
   // inference instead of waiting behind several unrelated words.
   if (priority > 0) {
+    const activeJob = activeSynthesisJob;
+    if (activeJob && activeJob.priority < priority && !activeJob.inferenceStarted) {
+      activeJob.cancelled = true;
+    }
     for (let index = synthesisQueue.length - 1; index >= 0; index -= 1) {
       const queued = synthesisQueue[index];
       if (queued.priority < priority && queued.key !== key) {
@@ -209,7 +221,7 @@ function queueSynthesis(text, styleId, speed, priority, onProgress) {
   const job = {
     key, text: normalizedText, styleId: safeStyle, speed: normalizedSpeed, priority,
     order: synthesisJobs.size, started: false, resolve, reject, promise,
-    listeners: new Set(onProgress ? [onProgress] : []),
+    listeners: new Set(onProgress ? [onProgress] : []), cancelled: false, inferenceStarted: false,
     report(progress) {
       for (const listener of this.listeners) {
         try { listener(progress); } catch {}
