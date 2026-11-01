@@ -190,7 +190,7 @@
   }
   let cachedWeather=readJSON(weatherKey,null),weatherRequest=null,lastWeatherMessage="",cachedRegionalWeather=readJSON(regionalWeatherKey,null),regionalWeatherRequest=null,regionalWeatherMessage="";
   let frequentWordPromise=null,frequentWordsReady=false,frequentWordsError="";
-  let fullDictionaryPromise=null,fullDictionaryEntries=null,fullDictionaryError="",fullDictionarySavedOffline=false;
+  let fullDictionaryPromise=null,fullDictionaryCachePromise=null,fullDictionaryEntries=null,fullDictionaryError="",fullDictionarySavedOffline=false;
   let dictionarySearchTimer=0,dictionaryPage=0,dictionaryMorphologyState={needle:"",status:"idle",analyses:[]},placementIndex=0,placementScore=0,placementAnswered=false,placementChoice=-1;
   function weatherLabel(code){
     if(code===0)return ["Clear sky","☀️"];
@@ -933,6 +933,10 @@
       });
     }catch(_error){return null}finally{db?.close()}
   }
+  function cachedDictionaryOnce(){
+    fullDictionaryCachePromise||=readCachedDictionary();
+    return fullDictionaryCachePromise;
+  }
   async function saveDictionaryOffline(entries){
     let db;
     try{
@@ -957,7 +961,7 @@
     if(fullDictionaryPromise)return fullDictionaryPromise;
     if(button)button.disabled=true;if(status)status.textContent="Checking this device for a saved dictionary…";
     fullDictionaryPromise=(async()=>{
-      const cached=await readCachedDictionary();
+      const cached=await cachedDictionaryOnce();
       if(cached){
         fullDictionaryEntries=cached;fullDictionarySavedOffline=true;fullDictionaryError="";
         showDictionaryReady(cached,true);
@@ -982,6 +986,38 @@
     })();
     return fullDictionaryPromise;
   }
+  function restoreSavedDictionary(){
+    if(fullDictionaryEntries){showDictionaryReady(fullDictionaryEntries,fullDictionarySavedOffline);return}
+    if(fullDictionaryPromise){
+      const button=document.getElementById("finland-load-full-dictionary"),status=document.getElementById("finland-dictionary-status");
+      if(button){button.disabled=true;button.textContent="Dictionary is loading…"}
+      if(status)status.textContent="The wider dictionary is being prepared on this device…";
+      return;
+    }
+    const button=document.getElementById("finland-load-full-dictionary"),status=document.getElementById("finland-dictionary-status");
+    if(button){button.disabled=true;button.textContent="Checking saved copy…"}
+    if(status)status.textContent="Checking this device for a saved offline dictionary…";
+    fullDictionaryPromise=(async()=>{
+      const cached=await cachedDictionaryOnce();
+      if(cached){
+        fullDictionaryEntries=cached;fullDictionarySavedOffline=true;fullDictionaryError="";
+        showDictionaryReady(cached,true);
+        updateDictionaryResults(document.getElementById("finland-dictionary-search")?.value||"");
+        return cached;
+      }
+      const currentButton=document.getElementById("finland-load-full-dictionary"),currentStatus=document.getElementById("finland-dictionary-status");
+      if(currentButton){currentButton.textContent="Load wider dictionary";currentButton.disabled=false}
+      if(currentStatus)currentStatus.textContent="No saved copy is available on this device yet. The wider dataset downloads only if you choose it; your curated dictionary remains ready.";
+      return null;
+    })().catch(()=>{
+      const currentButton=document.getElementById("finland-load-full-dictionary");
+      if(currentButton){currentButton.textContent="Load wider dictionary";currentButton.disabled=false}
+      const currentStatus=document.getElementById("finland-dictionary-status");
+      if(currentStatus)currentStatus.textContent="The saved dictionary could not be checked. Your curated dictionary remains ready; you can still try loading the wider dataset.";
+      return null;
+    }).finally(()=>{fullDictionaryPromise=null});
+    return fullDictionaryPromise;
+  }
   function renderDictionary(){
     const page=document.getElementById("page-content");if(!page)return;
     const count=dailyVocabulary(false).length;
@@ -996,8 +1032,8 @@
       '<div class="finland-page-footer"><p>Finnish audio uses a free on-device female or male voice, or an installed browser voice.</p><button class="button-primary" type="button" data-redesign-page="daily">Study today’s 100 words →</button></div>';
     setActiveCustomPage("dictionary");
     setVoiceSelection();
-    if(fullDictionaryEntries)showDictionaryReady(fullDictionaryEntries,fullDictionarySavedOffline);
     updateDictionaryResults("");
+    restoreSavedDictionary();
   }
   function renderVoiceSettings(){
     const page=document.getElementById("page-content");if(!page)return;
