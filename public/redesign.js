@@ -418,10 +418,12 @@
     const keep=Object.keys(merged).sort().slice(-90).reduce((next,key)=>(next[key]=merged[key],next),{});
     try{localStorage.setItem(dailyProgressKey,JSON.stringify(keep));localStorage.removeItem(dailyProgressKey+"-bn")}catch(_error){}
   }
-  function dailyTarget(){const saved=Number(localStorage.getItem(dailyTargetKey));return [10,30,100].includes(saved)?saved:100}
+  function isDailyGoalTarget(value){return Number.isInteger(value)&&value>=10&&value<=100&&value%10===0}
+  function dailyTargetOptions(target){return Array.from({length:10},(_,index)=>{const value=(index+1)*10,detail=value===100?"all ten sets":value/10+" "+(value===10?"set":"sets");return '<option value="'+value+'" '+(target===value?"selected":"")+'>'+value+' · '+detail+'</option>'}).join("")}
+  function dailyTarget(){const saved=Number(localStorage.getItem(dailyTargetKey));return isDailyGoalTarget(saved)?saved:100}
   function dailyTargetMarkup(dateKey=helsinkiDayKey(),language=selectedDailyLanguage(),learnedCount=dailyLearnedCount(dayWords(language),dateKey,language)){
     const target=dailyTarget(),progress=Math.min(target,learnedCount),percent=Math.round(progress/target*100),complete=learnedCount>=target;
-    return '<section class="finland-daily-goal" aria-labelledby="finland-daily-goal-title"><div class="finland-daily-goal-copy"><span class="page-kicker">YOUR DAILY COMMITMENT</span><h2 id="finland-daily-goal-title">Choose a daily word goal</h2><p>All 100 words stay available. This target tracks a personal aim on this device.</p></div><label for="finland-daily-target">Words per Finland day<select id="finland-daily-target"><option value="10" '+(target===10?"selected":"")+'>10 · one set</option><option value="30" '+(target===30?"selected":"")+'>30 · three sets</option><option value="100" '+(target===100?"selected":"")+'>100 · all ten sets</option></select></label><div class="finland-daily-goal-meter"><div class="finland-daily-goal-count">'+progress+' / '+target+' words</div><div class="finland-daily-goal-progress" role="progressbar" aria-label="Daily word goal progress" aria-valuemin="0" aria-valuemax="'+target+'" aria-valuenow="'+progress+'" aria-valuetext="'+progress+' of '+target+' words"><span style="width:'+percent+'%"></span></div><p role="status" aria-live="polite">'+(complete?"Today’s goal reached. The full daily set remains ready whenever you want to continue.":"Progress resets at midnight in Finland · Europe/Helsinki.")+'</p></div></section>';
+    return '<section class="finland-daily-goal" aria-labelledby="finland-daily-goal-title"><div class="finland-daily-goal-copy"><span class="page-kicker">YOUR DAILY COMMITMENT</span><h2 id="finland-daily-goal-title">Choose a daily word goal</h2><p>All 100 words stay available. This target tracks a personal aim on this device.</p></div><label for="finland-daily-target">Words per Finland day<select id="finland-daily-target">'+dailyTargetOptions(target)+'</select></label><div class="finland-daily-goal-meter"><div class="finland-daily-goal-count">'+progress+' / '+target+' words</div><div class="finland-daily-goal-progress" role="progressbar" aria-label="Daily word goal progress" aria-valuemin="0" aria-valuemax="'+target+'" aria-valuenow="'+progress+'" aria-valuetext="'+progress+' of '+target+' words"><span style="width:'+percent+'%"></span></div><p role="status" aria-live="polite">'+(complete?"Today’s goal reached. The full daily set remains ready whenever you want to continue.":"Progress resets at midnight in Finland · Europe/Helsinki.")+'</p></div></section>';
   }
   function getVoices(){try{return "speechSynthesis"in window?window.speechSynthesis.getVoices():[]}catch(_error){return []}}
   function getFinnishVoices(){return getVoices().filter(voice=>voice.lang?.toLowerCase().startsWith("fi"))}
@@ -1967,7 +1969,7 @@
     }
     if(event.target?.id==="finland-daily-target"){
       const target=Number(event.target.value);
-      if([10,30,100].includes(target)){localStorage.setItem(dailyTargetKey,String(target));renderDaily();document.getElementById("finland-daily-target")?.focus({preventScroll:true})}
+      if(isDailyGoalTarget(target)){localStorage.setItem(dailyTargetKey,String(target));renderDaily();document.getElementById("finland-daily-target")?.focus({preventScroll:true})}
     }
     if(event.target?.id==="finland-city"){
       localStorage.setItem(cityKey,event.target.value);const regionalCurrent=regionalWeatherFresh()?cachedRegionalWeather?.cities?.find(item=>item.id===event.target.value)?.current:null;cachedWeather=regionalCurrent?{cityId:event.target.value,current:regionalCurrent,updatedAt:cachedRegionalWeather.updatedAt}:null;lastWeatherMessage=regionalCurrent?"":"Loading current conditions…";

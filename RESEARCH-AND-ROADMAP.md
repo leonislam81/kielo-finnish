@@ -274,7 +274,7 @@ The first viewport is a compact Finland status strip: **Helsinki local time/date
 
 ### Implementation update · 23 October 2026
 
-The responsive mockup and its major layout are live. The current public app has the 12-hour `Europe/Helsinki` clock, selected-city live weather plus an on-demand comparison for 19 representative regional cities, a changing 100-word Finland-date set, a large sourced Finnish–English dictionary with curated English/Bangla learner entries, ten free on-device male/female Finnish voice styles, and 19 bilingual Finland chapters. Home keeps weather and time first; the live mockup remains in `docs/redesign-mockup.html`.
+The responsive mockup and its major layout are live. The current public app has the 12-hour `Europe/Helsinki` clock, selected-city live weather plus an on-demand comparison for 19 representative regional cities, a changing 100-word Finland-date set with a 10–100 personal goal selector, a large sourced Finnish–English dictionary with curated English/Bangla learner entries, ten free on-device male/female Finnish voice styles, and 19 bilingual Finland chapters. Home keeps weather and time first; the live mockup remains in `docs/redesign-mockup.html`.
 
 This iteration fills two thin spots in the Finland atlas with interactive climate and forest chapters:
 
@@ -297,7 +297,7 @@ The next review should compare every chapter against the full Finland A–Z map,
 
 **Phase 3 — Finland atlas (19 chapters implemented, continue expanding):** history, government/services, people and languages, climate/seasons, forests/nature, water/sea, transport, study, jobs, moving/registration, farming/markets, regions/places, culture, housing, health, holidays, money, energy/electricity, and sports/movement. Chapters connect sourced facts to Finnish phrases, English/Bangla support, audio, vocabulary, and short practice. The government chapter now explains municipal participation, service roles, national institutions, and a simplified law-making path; keep changing facts dated and sourced.
 
-**Phase 4 — Advanced product (ongoing):** improve mobile and keyboard accessibility, expand offline dictionary packs, make daily goals and review routines easier to tailor, and strengthen learner progress exports. The review shelf now distinguishes Again, Hard, Good, and Easy recall ratings. Accounts and cloud sync require a separate privacy design. Hosted voices stay disabled without owner credentials and a shared usage cap; device-generated neural voices are already available.
+**Phase 4 — Advanced product (ongoing):** improve mobile and keyboard accessibility, expand offline dictionary packs, refine review routines, and strengthen learner progress exports. Daily 100 now supports personal goals from 10 to 100 words in ten-word steps while keeping the entire daily set available; version 3 backups accept each valid goal. The review shelf distinguishes Again, Hard, Good, and Easy recall ratings. Accounts and cloud sync require a separate privacy design. Hosted voices stay disabled without owner credentials and a shared usage cap; device-generated neural voices are already available.
 
 **Phase 5 — Review and delivery (ongoing for each release):** inspect desktop and mobile, verify important flows and data/error states, update documentation/credits, publish the public Sites version and GitHub Pages build, and share both links.
 
@@ -430,7 +430,7 @@ The core Finnish vocabulary cards and the larger topic word grids in Finland Exp
 
 ### Personal daily word goal
 
-Daily 100 continues to offer the complete 100-word Finland-date set, with ten groups of ten. Learners can now set a personal 10-, 30-, or 100-word goal, see progress against that target, and change the goal at any time. The goal and existing word progress stay on the current device; a shorter personal target does not hide the rest of the daily words.
+Daily 100 continues to offer the complete 100-word Finland-date set, with ten groups of ten. Learners can set a personal goal from 10 to 100 words in ten-word steps, see progress against that target, and change the goal at any time. Version 3 progress backups preserve valid goals in this range; a shorter personal target does not hide the rest of the daily words.
 
 ### Daily 100 draws from Finland chapters
 
