@@ -2,7 +2,7 @@
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
   const DEVICE_PREVIEW_START_TIMEOUT = 2_500;
-  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=13";
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=15";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
   const decodedLocalBuffers = new Map();
@@ -429,11 +429,15 @@ function localAudioKey(text, style, speed) {
       showMessage("Audio playback is not available in this browser.");
       return { started: Promise.resolve(false), finished: Promise.resolve(false) };
     }
-    // getVoices() is empty in some browsers until their voice service wakes
-    // up. Still submit the utterance so the browser can use its default voice
-    // immediately while the selected on-device Finnish voice prepares.
     const voices = deviceVoices();
-    const finnish = voices.filter((voice) => voice.lang?.toLowerCase().startsWith("fi"));
+    // A browser can list network voices alongside installed ones. Network
+    // speech may take seconds to wake up, so use only device-supplied voices
+    // for the first-sound preview while the selected Finnish clip is readying.
+    const instantVoices = voices.filter((voice) => voice.localService !== false);
+    // Do not queue a preview without an installed voice: a remote-only service
+    // can leave the utterance waiting while local Finnish speech is prepared.
+    if (!instantVoices.length) return null;
+    const finnish = instantVoices.filter((voice) => voice.lang?.toLowerCase().startsWith("fi"));
     const selectedName = localStorage.getItem("kielo-finnish-voice") || "";
     const neuralVoice = localStorage.getItem("kielo-neural-voice") || "local:F1";
     const preferMale = /:M[1-5]$|charon|harri/i.test(neuralVoice);
@@ -444,12 +448,12 @@ function localAudioKey(text, style, speed) {
       return preferMale ? looksMale : looksFemale;
     };
     const finnishGenderMatch = finnish.find(matchesPreferredGender);
-    const localGenderMatch = voices.find((voice) => voice.localService && matchesPreferredGender(voice));
-    const genderMatch = voices.find(matchesPreferredGender);
+    const localGenderMatch = instantVoices.find(matchesPreferredGender);
+    const genderMatch = instantVoices.find(matchesPreferredGender);
     // When Finnish is not installed, preview with a local device voice first.
     // Online browser voices can take seconds to connect, which defeats the
     // quick-preview path while the selected Finnish clip is being prepared.
-    const selected = voices.find((voice) => voice.name === selectedName) || finnishGenderMatch || finnish[0] || localGenderMatch || genderMatch || voices.find((voice) => voice.default) || voices[0];
+    const selected = instantVoices.find((voice) => voice.name === selectedName) || finnishGenderMatch || finnish[0] || localGenderMatch || genderMatch || instantVoices.find((voice) => voice.default) || instantVoices[0];
     const utterance = new SpeechSynthesisUtterance(text);
     // Keep Finnish as the requested language even if the quick preview has to
     // borrow an installed system voice with another language tag.
