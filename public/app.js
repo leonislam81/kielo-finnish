@@ -78,7 +78,7 @@
   function sceneForLesson(lesson){
     const wordsInScene=((lesson.scene||"")+" "+(lesson.title||"")+" "+(lesson.focus||"")).toLowerCase();
     if(/snow|winter|cold|weather|frost|lumi|commute/.test(wordsInScene))return {image:photo.winter,label:"A Finnish winter"};
-    if(/lake|forest|pine|outdoor|cottage|nature|north|summer/.test(wordsInScene))return {image:photo.summer,label:"Finnish lakes and forests"};
+    if(/lake|forest|pine|outdoor|cottage|nature|north|summer|shoreline|clean-up/.test(wordsInScene))return {image:photo.summer,label:"Finnish lakes and forests"};
     if(/sport|hobby|football|park/.test(wordsInScene))return {image:photo.summer,label:"Everyday life outdoors in Finland"};
     if(/shop|market|grocery|café|cafe|store|price|shopping/.test(wordsInScene))return {image:photo.city,label:"Everyday Finnish shopping"};
     if(/message|plans|planning|text/.test(wordsInScene))return {image:photo.twilight,label:"Everyday plans in Finland"};
