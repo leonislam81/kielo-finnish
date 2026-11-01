@@ -21,7 +21,7 @@ The name comes from *kielo*, the Finnish name for lily-of-the-valley, Finland's 
 | Level | Learner milestone | Sample course units |
 | --- | --- | --- |
 | Pre-A1 | Recognise sounds and use first survival phrases | Sounds & spelling; greetings; numbers and time; first questions; languages; asking for repetition and help; finding everyday places |
-| A1 | Handle simple everyday exchanges | Introductions; café and shop; home and family; directions and transport |
+| A1 | Handle simple everyday exchanges | Introductions and language choices; café and shop; home and family; saying where you live; directions and transport |
 | A2 | Describe routines and past events; understand everyday texts; write concise messages and notes; handle short everyday conversations | Daily life; weather and seasons; health; travel; messages, notices, invitations, polite requests, and suggestions |
 | B1 | Manage familiar situations with connected speech | Work and study; housing; appointments; stories and opinions |
 | B2 | Explain ideas and participate in extended discussion | Society; environment; media; formal requests and workplace communication |
@@ -192,7 +192,7 @@ Lesson drafts, writing-lab drafts, and open role-play replies now include an opt
 
 ## Progress-aware next step
 
-The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 52 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
+The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 58 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
 
 ## C1 guided path: evidence and audience (1 November 2026)
 
@@ -211,6 +211,12 @@ These learning goals follow Council of Europe C2 descriptors for flexible reform
 The guided A1 path now has eight lessons instead of four. Four new original lessons practise asking and paying for an item, finding a product in a grocery shop, talking about a hobby, and politely asking someone to repeat themselves. Each lesson includes an English and Bangla meaning, beginner-level grammar note, three vocabulary entries, a short retrieval question, and a speaking prompt. Their vocabulary is automatically available to the word shelf, search, review, and rotating Daily 100 activity because those features read from the course data.
 
 This fills practical beginner goals named in the Finnish National Agency for Education's A1 oral self-assessment, including asking what an item costs, ordering and paying, and talking about interests. The examples were cross-checked against Aalto OpenLearning's beginner café and grocery-shop learning materials. These prompts are Kielo's own short teaching examples; the external resources are linked as references rather than copied into the app. Sources: [OPH — Oral language self-assessment tables for B2 and B3 languages](https://www.oph.fi/fi/b2-ja-b3-kielten-suullisen-kielitaidon-itsearviointitaulukot), [Aalto OpenLearning — At a university café](https://openlearning.aalto.fi/mod/page/view.php?id=16964&lang=fi), [Aalto OpenLearning — Shopping list and at the store](https://openlearning.aalto.fi/mod/page/view.php?forceview=1&id=15251).
+
+## A1 personal introductions: home and language choice (2026-11-01)
+
+The A1 path now has ten lessons. Two original units help learners say where they live (*Asun Helsingissä*) and ask whether someone speaks English (*Puhutko englantia?*), then reply that they speak a little Finnish. Each adds English and Bangla support, a short spoken model, a beginner grammar note, three vocabulary entries, a retrieval question, and a personal speaking prompt. The words flow into the same shared dictionary, review shelf, and Daily 100 curriculum source.
+
+These additions target simple A1 exchanges about familiar personal information and the A1 ability to describe where one lives. Aalto OpenLearning shows the real city forms *Helsingissä*, *Oulussa*, and *Tampereella*, and explains that Finnish location endings vary with the place. Yle's Finnish learning course models *Puhutko sinä englantia?*; Aalto explains that *puhua* takes the partitive for language names. The lesson prompts are original and simplify the pattern rather than reproducing course material. Sources: [OPH — Developing language proficiency scale](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko), [Aalto OpenLearning — Basic Finnish, cities and local cases](https://openlearning.aalto.fi/mod/resource/view.php?id=17202), [Yle — Supisuomea: pronouns, verb forms and Finnish conversation](https://yle.fi/a/20-155972), and [Aalto OpenLearning — Partitive with *puhua*](https://openlearning.aalto.fi/mod/book/view.php?chapterid=571&id=10299&lang=fi).
 
 ## A2 everyday interaction expansion (2026-11-01)
 
