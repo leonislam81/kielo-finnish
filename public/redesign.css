@@ -165,6 +165,28 @@
 .finland-word-form-hint{display:grid;gap:2px;margin:7px 0;padding:7px 8px;border-radius:8px;background:#f2f6f1;color:#587565;font-size:9px}
 .finland-word-form-hint strong{font-size:8px;color:#6d8174}
 .finland-word-form-hint small{color:#76877b;font-size:8px}
+.finland-morphology-prompt,.finland-morphology-results{grid-column:1/-1;display:grid;gap:10px;min-width:0;padding:14px;border:1px solid #dfe9dd;border-radius:13px;background:linear-gradient(135deg,#f4f8f1,#fff)}
+.finland-morphology-prompt{grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.finland-morphology-prompt>div{display:grid;gap:4px}
+.finland-morphology-prompt .page-kicker,.finland-morphology-heading .page-kicker{color:#718577}
+.finland-morphology-prompt h3,.finland-morphology-heading h3{margin:0;color:#29483b;font:700 14px/1.4 var(--heading,Inter,sans-serif)}
+.finland-morphology-prompt p,.finland-morphology-heading p,.finland-morphology-disclosure{margin:0;color:#697a6e;font-size:9px;line-height:1.65}
+.finland-morphology-prompt .button-secondary{justify-self:end;white-space:nowrap}
+.finland-morphology-disclosure{grid-column:1/-1;padding-top:9px;border-top:1px solid #e6ece4;color:#7d897e}
+.finland-morphology-disclosure a{color:#316d59;font-weight:700}
+.finland-morphology-results{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;background:#f8faf6}
+.finland-morphology-heading{grid-column:1/-1;display:grid;gap:4px}
+.finland-morphology-card{display:grid;align-content:start;gap:7px;min-width:0;padding:12px;border:1px solid #e1e9df;border-radius:11px;background:#fff}
+.finland-morphology-card .finland-word-top{align-items:flex-start}
+.finland-morphology-card .finland-word-top h3{font:700 16px var(--heading,Inter,sans-serif)}
+.finland-morphology-card .finland-word-form-hint{margin:0}
+.finland-morphology-base,.finland-morphology-card .finland-word-translation,.finland-morphology-card .finland-word-bn{margin:0;font-size:9px;line-height:1.6;overflow-wrap:anywhere}
+.finland-morphology-base{color:#536d5d}.finland-morphology-base strong{color:#26563e}
+.finland-morphology-card .finland-word-actions{gap:6px;flex-wrap:wrap}
+.finland-morphology-card .finland-word-actions button{font-size:8px}
+.finland-morphology-results[aria-busy="true"]{opacity:.8}
+@media(max-width:720px){.finland-morphology-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.finland-morphology-prompt{grid-template-columns:1fr;align-items:start;padding:11px}.finland-morphology-prompt .button-secondary{justify-self:start}.finland-morphology-results{grid-template-columns:1fr;padding:11px}.finland-morphology-card{padding:10px}.finland-morphology-heading h3{font-size:12px}}
 .finland-dictionary-note{background:#f1f5ef;border-radius:13px;padding:12px 14px;margin:12px 0;color:#728078;font-size:9px;line-height:1.6}
 .finland-dictionary-note a{color:#316d59}
 .finland-dictionary-empty{grid-column:1/-1;text-align:center;padding:26px;color:#7e8c84;font-size:11px}
