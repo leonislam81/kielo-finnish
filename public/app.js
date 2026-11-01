@@ -219,6 +219,25 @@
     const recall=localStorage.getItem(daily100Keys.recallFirst);
     return sanitizeDaily100Backup({progress,target:localStorage.getItem(daily100Keys.target),focus:localStorage.getItem(daily100Keys.focus),meaningLanguage:localStorage.getItem(daily100Keys.meaningLanguage),recallFirst:recall==="true"?true:recall==="false"?false:undefined});
   }
+  function readPortablePreferences(){
+    const preferences={},voice=localStorage.getItem("kielo-neural-voice")||"",pace=Number(localStorage.getItem("kielo-finnish-rate"));
+    if(/^local:[FM][1-5]$/.test(voice))preferences.finnishVoice=voice;
+    if([0.72,0.86,1].includes(pace))preferences.finnishPace=pace;
+    return preferences;
+  }
+  function sanitizePortablePreferences(value){
+    if(!plainRecord(value))return {};
+    const safe={};
+    if(typeof value.finnishVoice==="string"&&/^local:[FM][1-5]$/.test(value.finnishVoice))safe.finnishVoice=value.finnishVoice;
+    const pace=Number(value.finnishPace);if([0.72,0.86,1].includes(pace))safe.finnishPace=pace;
+    return safe;
+  }
+  function restorePortablePreferences(value){
+    const preferences=sanitizePortablePreferences(value);let restored=0;
+    if(preferences.finnishVoice&&!localStorage.getItem("kielo-neural-voice")){localStorage.setItem("kielo-neural-voice",preferences.finnishVoice);restored++}
+    if(preferences.finnishPace!==undefined&&!localStorage.getItem("kielo-finnish-rate")){const paceValue=preferences.finnishPace===0.72?".72":preferences.finnishPace===0.86?".86":"1";localStorage.setItem("kielo-finnish-rate",paceValue);restored++}
+    return restored;
+  }
   function mergeDaily100Backup(imported,current){
     const saved=sanitizeDaily100Backup(imported),existing=sanitizeDaily100Backup(current),progress={};
     for(const source of [saved.progress,existing.progress])for(const [date,words] of Object.entries(source))progress[date]=[...new Set([...(progress[date]||[]),...words])];
@@ -298,7 +317,7 @@
     try{
       const data=JSON.parse(localStorage.getItem(storageKey)||"{}");
       const daily100=readDaily100Backup();
-      const file=new Blob([JSON.stringify({format:"kielo-progress",version:2,exportedAt:new Date().toISOString(),data,daily100},null,2)],{type:"application/json"});
+      const file=new Blob([JSON.stringify({format:"kielo-progress",version:3,exportedAt:new Date().toISOString(),data,daily100,preferences:readPortablePreferences()},null,2)],{type:"application/json"});
       const link=document.createElement("a"),url=URL.createObjectURL(file);link.href=url;link.download="kielo-progress-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1000);
       const status=document.getElementById("backup-status");status.classList.remove("error");status.textContent="Backup downloaded. Keep the file somewhere you can find it.";
     }catch(_error){const status=document.getElementById("backup-status");status.classList.add("error");status.textContent="Could not create the backup. Please try again."}
@@ -308,13 +327,14 @@
     try{
       if(!file||file.size>5*1024*1024)throw new Error("Choose a Kielo backup file smaller than 5 MB.");
       const envelope=JSON.parse(await file.text());
-      if(!plainRecord(envelope)||envelope.format!=="kielo-progress"||![1,2].includes(envelope.version))throw new Error("That file is not a supported Kielo backup.");
+      if(!plainRecord(envelope)||envelope.format!=="kielo-progress"||![1,2,3].includes(envelope.version))throw new Error("That file is not a supported Kielo backup.");
       const imported=sanitizeBackupData(envelope.data);let current={};
       try{current=sanitizeBackupData(JSON.parse(localStorage.getItem(storageKey)||"{}"))}catch(_error){current={}}
       localStorage.setItem(storageKey,JSON.stringify(mergeBackupData(imported,current)));
-      const importedDaily=envelope.version===2?sanitizeDaily100Backup(envelope.daily100):sanitizeDaily100Backup({});
+      const importedDaily=envelope.version>=2?sanitizeDaily100Backup(envelope.daily100):sanitizeDaily100Backup({});
       writeDaily100Backup(mergeDaily100Backup(importedDaily,readDaily100Backup()));
-      status.textContent="Progress restored and combined. Kielo is refreshing…";
+      const portablePreferences=envelope.version>=3?restorePortablePreferences(envelope.preferences):0;
+      status.textContent=portablePreferences?"Progress restored and combined. Portable Finnish voice settings were added where this device had no choice saved. Kielo is refreshing…":"Progress restored and combined. Kielo is refreshing…";
       window.setTimeout(()=>window.location.reload(),900);
     }catch(error){status.classList.add("error");status.textContent=error instanceof Error?error.message:"Could not restore this file. Check that it is a valid Kielo backup."}
   }
