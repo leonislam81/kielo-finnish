@@ -1538,9 +1538,12 @@
     if(!page.querySelector("#finland-status"))page.insertAdjacentHTML("afterbegin",statusMarkup());
     if(!page.querySelector("#finland-regional-weather")){
       const regional=document.createElement("details");regional.className="finland-regional-weather";regional.id="finland-regional-weather";
-      regional.innerHTML='<summary><span><strong>See live weather across all 19 regions</strong><small>One representative city per region · expand to compare Finland</small></span><span class="finland-regional-weather-summary-status" id="finland-regional-weather-summary-status">'+esc(cachedRegionalWeather?.updatedAt?localUpdated(cachedRegionalWeather.updatedAt):"19 regional cities")+'</span><span class="finland-regional-weather-chevron" aria-hidden="true">⌄</span></summary><div id="finland-regional-weather-panel">'+regionalWeatherPanelMarkup()+'</div>';
-      regional.addEventListener("toggle",()=>{if(regional.open)loadRegionalWeather()});
+      const showAllRegions=localStorage.getItem("kielo-regional-weather-open")!=="false";
+      regional.open=showAllRegions;
+      regional.innerHTML='<summary><span><strong>Weather across all 19 regions</strong><small>Current model conditions · one representative city per region</small></span><span class="finland-regional-weather-summary-status" id="finland-regional-weather-summary-status">'+esc(cachedRegionalWeather?.updatedAt?localUpdated(cachedRegionalWeather.updatedAt):"19 regional cities")+'</span><span class="finland-regional-weather-chevron" aria-hidden="true">⌄</span></summary><div id="finland-regional-weather-panel">'+regionalWeatherPanelMarkup()+'</div>';
+      regional.addEventListener("toggle",()=>{localStorage.setItem("kielo-regional-weather-open",String(regional.open));if(regional.open)loadRegionalWeather()});
       page.querySelector("#finland-status")?.insertAdjacentElement("afterend",regional);
+      if(showAllRegions)loadRegionalWeather();
     }
     if(!page.querySelector(".finland-daily-promo")){
       const promo=document.createElement("section");promo.className="finland-daily-promo";
