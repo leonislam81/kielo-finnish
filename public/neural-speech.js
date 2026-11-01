@@ -1,7 +1,7 @@
 (() => {
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
-  const DEVICE_PREVIEW_START_TIMEOUT = 350;
+  const DEVICE_PREVIEW_START_TIMEOUT = 1_200;
   const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=17";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
@@ -28,9 +28,9 @@
   const SPEECH_BUTTON_SELECTOR = "[data-speak],[data-topic-speak],[data-dictionary-speak],[data-daily-speak]";
   const speechIntentTimers = new WeakMap();
   const visiblePreloadTimers = new WeakMap();
-  // Prepare nearby words ahead of a tap. ONNX inference runs in its WASM proxy
-  // worker; a bounded queue keeps preparation useful without warming the whole
-  // dictionary, and decoded clips replay directly when selected.
+  // Restore saved clips near the learner's view. Do not synthesize speculative
+  // clips here: the on-device engine has one inference queue, and background
+  // generation can make a requested word wait behind unrelated audio.
   const MAX_SHORT_BACKGROUND_PRELOADS = 12;
   const MAX_LONG_BACKGROUND_PRELOADS = 0;
   let playbackId = 0;
@@ -102,8 +102,8 @@ function localAudioKey(text, style, speed) {
   function scheduleVisiblePreload(button, priority = 0) {
     const text = speechTextForButton(button)?.trim();
     const style = selectedLocalStyle();
-    // Keep long passages out of the automatic queue. Short nearby words can
-    // be synthesized once the model is ready, then replayed without inference.
+    // Keep speculative synthesis out of this path. It only restores a saved
+    // clip, so a learner's new request always reaches the foreground queue.
     if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech) return;
     const speed = synthesisSpeed(speechRateForButton(button));
     const isShortWordOrPhrase = text.length <= 32;
@@ -128,10 +128,8 @@ function localAudioKey(text, style, speed) {
       }
       let prepared = false;
       localSpeech().then(async (speech) => {
-        // If the model is still loading, restore a saved clip only. The model
-        // warm-up completion will rescan the screen and prepare this word.
-        const canGenerate = isShortWordOrPhrase && speech.isReady?.() === true;
-        const blob = await speech.preload(text, style, speed, canGenerate, priority);
+        // Restore a saved clip only; synthesis begins from the learner's tap.
+        const blob = await speech.preload(text, style, speed, false, priority);
         if (blob) {
           await decodeLocalAudio(blob, key);
           prepared = true;
