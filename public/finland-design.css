@@ -1,0 +1,37 @@
+.finland-design-lesson{margin:26px 0 8px;padding:22px;border:1px solid #d8e2db;border-radius:22px;background:linear-gradient(135deg,#f3f6f0,#fbf7ef);color:#193d36}
+.finland-design-intro{display:grid;grid-template-columns:minmax(240px,.9fr) minmax(280px,1.1fr);gap:24px;align-items:center}
+.finland-design-art{position:relative;overflow:hidden;min-height:220px;border-radius:17px;background:#d8e8e1}
+.finland-design-art svg{display:block;width:100%;height:auto;min-height:220px}
+.finland-design-art>span{position:absolute;bottom:12px;left:12px;padding:7px 10px;border-radius:999px;background:#fffdf2e8;color:#23483e;font-size:11px;font-weight:750;letter-spacing:.04em}
+.finland-design-copy h3{margin:7px 0 10px;font-size:clamp(22px,3vw,30px);line-height:1.14;letter-spacing:-.035em}
+.finland-design-copy>p{margin:9px 0;color:#4d635c;font-size:14px;line-height:1.65}
+.finland-design-copy>p[lang="bn"]{font-size:13px}
+.finland-design-context{padding-left:11px;border-left:3px solid #d59368;font-size:12px!important}
+.finland-design-phrase{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:14px;padding:14px 15px;border:1px solid #e1e7df;border-radius:14px;background:#fff}
+.finland-design-phrase>div{display:grid;gap:5px}
+.finland-design-phrase>div>span{color:#788a80;font-size:9px;font-weight:800;letter-spacing:.12em}
+.finland-design-phrase strong{font-size:17px}
+.finland-design-phrase small{color:#536b61;font-size:12px}
+.finland-design-phrase button{flex:none}
+.finland-design-words{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:19px 0}
+.finland-design-words article{position:relative;display:grid;gap:4px;min-height:93px;padding:12px 42px 12px 13px;border:1px solid #e0e7e0;border-radius:13px;background:#fff}
+.finland-design-words article strong{font-size:16px}
+.finland-design-words article span{color:#596f66;font-size:12px}
+.finland-design-words article small{color:#75877e;font-size:11px}
+.finland-design-words article button{position:absolute;top:11px;right:10px;min-width:32px;min-height:32px;border:1px solid #dbe5dd;border-radius:9px;background:#f8faf6;color:#1d655a;cursor:pointer;font-weight:800}
+.finland-design-check{display:grid;grid-template-columns:minmax(180px,.8fr) minmax(250px,1.2fr);gap:16px;align-items:center;padding:16px;border:1px solid #dce6de;border-radius:15px;background:#fff}
+.finland-design-check h4{margin:5px 0;font-size:16px}
+.finland-design-check>div:first-child>p{margin:0;color:#62776d;font-size:12px}
+.finland-design-options{display:flex;flex-wrap:wrap;gap:8px}
+.finland-design-options button{min-height:36px;padding:8px 11px;border:1px solid #dce5de;border-radius:10px;background:#f9faf6;color:#24483e;cursor:pointer;font-size:12px;font-weight:650}
+.finland-design-options button:hover:not(:disabled){border-color:#8ba99a;background:#f1f6f0}
+.finland-design-options button.is-correct{border-color:#41846c;background:#eaf4ec;color:#184d3e}
+.finland-design-options button.is-incorrect{border-color:#bd7660;background:#fff0eb;color:#783d31}
+.finland-design-options button:disabled{cursor:default}
+.finland-design-feedback{grid-column:1/-1;min-height:0;margin:0;color:#315f4d;font-size:12px;line-height:1.5}
+.finland-design-feedback:empty{display:none}
+.finland-design-sources{margin:14px 1px 0;color:#74867d;font-size:11px;line-height:1.6}
+.finland-design-sources a{color:#276653;font-weight:700;text-decoration-thickness:1px;text-underline-offset:2px}
+.finland-design-lesson :where(button,a):focus-visible{outline:3px solid #173f34;outline-offset:3px;box-shadow:0 0 0 5px #fff}
+@media(max-width:700px){.finland-design-lesson{padding:15px;border-radius:18px}.finland-design-intro{grid-template-columns:1fr;gap:16px}.finland-design-art,.finland-design-art svg{min-height:175px}.finland-design-words{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.finland-design-check{grid-template-columns:1fr}.finland-design-feedback{grid-column:auto}.finland-design-phrase{align-items:flex-start}}
+@media(max-width:390px){.finland-design-words{grid-template-columns:1fr}.finland-design-phrase{flex-direction:column}}
