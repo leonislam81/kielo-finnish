@@ -3,6 +3,7 @@
   const HELSINKI_ZONE="Europe/Helsinki";
   const cityKey="kielo-finland-city-v1";
   const weatherKey="kielo-finland-weather-v1";
+  const regionalWeatherKey="kielo-finland-regional-weather-v1";
   const dailyProgressKey="kielo-daily-100-progress-v1";
   const dailyTargetKey="kielo-daily-word-target-v1";
   const dailyFocusKey="kielo-daily-word-focus-v1";
@@ -181,7 +182,7 @@
   function formattedHelsinkiDate(date=new Date()){
     return new Intl.DateTimeFormat("en-US",{timeZone:HELSINKI_ZONE,weekday:"long",day:"numeric",month:"long"}).format(date);
   }
-  let cachedWeather=readJSON(weatherKey,null),weatherRequest=null,lastWeatherMessage="";
+  let cachedWeather=readJSON(weatherKey,null),weatherRequest=null,lastWeatherMessage="",cachedRegionalWeather=readJSON(regionalWeatherKey,null),regionalWeatherRequest=null,regionalWeatherMessage="";
   let frequentWordPromise=null,frequentWordsReady=false,frequentWordsError="";
   let fullDictionaryPromise=null,fullDictionaryEntries=null,fullDictionaryError="",fullDictionarySavedOffline=false;
   let dictionarySearchTimer=0,dictionaryPage=0,placementIndex=0,placementScore=0,placementAnswered=false,placementChoice=-1;
@@ -269,6 +270,53 @@
       finally{weatherRequest=null;refreshStatusContent()}
     })();
     return weatherRequest;
+  }
+  function regionalWeatherFresh(){return Array.isArray(cachedRegionalWeather?.cities)&&cachedRegionalWeather.cities.length===cities.length&&Date.now()-Number(cachedRegionalWeather.updatedAt||0)<15*60*1000}
+  function regionalWeatherPanelMarkup(){
+    const cached=Array.isArray(cachedRegionalWeather?.cities)?cachedRegionalWeather.cities:[];
+    const hasData=cached.length===cities.length,selected=cityNow().id;
+    const cards=cities.map((city,index)=>{
+      const current=hasData?cached[index]?.current:null,valid=Number.isFinite(Number(current?.temperature_2m))&&Number.isFinite(Number(current?.weather_code));
+      const condition=valid?weatherLabel(Number(current.weather_code)):null;
+      const accessible=valid?city.name+", "+city.region+": "+Math.round(Number(current.temperature_2m))+" degrees, "+condition[0]+". Select this city for the main weather panel.":city.name+", "+city.region+": weather is unavailable.";
+      return '<button class="finland-regional-weather-city '+(selected===city.id?"is-selected":"")+'" type="button" data-regional-weather-city="'+city.id+'" aria-pressed="'+(selected===city.id)+'" aria-label="'+esc(accessible)+'" '+(valid?"":"disabled")+'><span class="finland-regional-weather-city-top"><strong>'+esc(city.name)+'</strong><span aria-hidden="true">'+(valid?condition[1]:"·")+'</span></span><small>'+esc(city.region)+'</small><span class="finland-regional-weather-city-bottom"><b>'+(valid?Math.round(Number(current.temperature_2m))+"°":"—")+'</b><span>'+(valid?esc(condition[0]):"Not loaded")+'</span></span></button>';
+    }).join("");
+    const status=regionalWeatherMessage||(hasData?localUpdated(cachedRegionalWeather.updatedAt):"Open this panel to load current conditions for all 19 regional cities.");
+    return '<div class="finland-regional-weather-intro"><p>Model-based current conditions at one representative city in each statistical region. These points do not describe every municipality.</p><span id="finland-regional-weather-status" role="status" aria-live="polite">'+esc(status)+'</span></div><div class="finland-regional-weather-grid" role="group" aria-label="Current model weather at representative cities in all 19 Finnish regions">'+cards+'</div><div class="finland-regional-weather-footer"><small>Open-Meteo model data · Updated in Finland local time</small><button type="button" data-regional-weather-refresh>Refresh all regions ↻</button></div>';
+  }
+  function refreshRegionalWeatherView(){
+    const details=document.getElementById("finland-regional-weather");if(!details)return;
+    const summaryStatus=details.querySelector("#finland-regional-weather-summary-status");
+    if(summaryStatus)summaryStatus.textContent=regionalWeatherMessage||(cachedRegionalWeather?.updatedAt?localUpdated(cachedRegionalWeather.updatedAt):"19 regional cities");
+    const panel=details.querySelector("#finland-regional-weather-panel");
+    if(panel)panel.innerHTML=regionalWeatherPanelMarkup();
+  }
+  async function loadRegionalWeather(force=false){
+    if(regionalWeatherRequest)return regionalWeatherRequest;
+    if(!force&&regionalWeatherFresh()){regionalWeatherMessage="";refreshRegionalWeatherView();return}
+    regionalWeatherMessage=cachedRegionalWeather?.cities?.length===cities.length?"Refreshing current regional conditions…":"Loading current conditions for all 19 regional cities…";
+    refreshRegionalWeatherView();
+    regionalWeatherRequest=(async()=>{
+      try{
+        const params=new URLSearchParams({latitude:cities.map(city=>String(city.lat)).join(","),longitude:cities.map(city=>String(city.lon)).join(","),current:"temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m",timezone:cities.map(()=>HELSINKI_ZONE).join(",")});
+        const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),18000);
+        const response=await fetch("https://api.open-meteo.com/v1/forecast?"+params.toString(),{signal:controller.signal,cache:"no-store"});
+        clearTimeout(timeout);
+        if(!response.ok)throw new Error("Weather service returned "+response.status);
+        const data=await response.json(),locations=Array.isArray(data)?data:[data];
+        if(locations.length!==cities.length)throw new Error("Weather service returned an incomplete regional list");
+        const readings=locations.map((location,index)=>({id:cities[index].id,current:location?.current||null}));
+        if(readings.some(item=>!Number.isFinite(Number(item.current?.temperature_2m))||!Number.isFinite(Number(item.current?.weather_code))))throw new Error("The regional weather response was incomplete");
+        cachedRegionalWeather={cities:readings,updatedAt:Date.now()};
+        localStorage.setItem(regionalWeatherKey,JSON.stringify(cachedRegionalWeather));
+        regionalWeatherMessage="";
+        const selected=cityNow(),selectedReading=readings.find(item=>item.id===selected.id)?.current;
+        if(selectedReading){cachedWeather={cityId:selected.id,current:selectedReading,updatedAt:cachedRegionalWeather.updatedAt};localStorage.setItem(weatherKey,JSON.stringify(cachedWeather));lastWeatherMessage="";refreshStatusContent()}
+      }catch(error){
+        regionalWeatherMessage=cachedRegionalWeather?.cities?.length===cities.length?"Refresh unavailable · showing saved readings from "+localUpdated(cachedRegionalWeather.updatedAt):(error?.name==="AbortError"?"Regional weather update timed out. Try again.":"Regional weather is temporarily unavailable. Try again.");
+      }finally{regionalWeatherRequest=null;refreshRegionalWeatherView()}
+    })();
+    return regionalWeatherRequest;
   }
   function dailyVocabulary(includeFrequency=true){
     const result=[],seen=new Map();
@@ -1375,6 +1423,12 @@
     const page=document.getElementById("page-content");
     if(!page?.querySelector(".welcome-row"))return;
     if(!page.querySelector("#finland-status"))page.insertAdjacentHTML("afterbegin",statusMarkup());
+    if(!page.querySelector("#finland-regional-weather")){
+      const regional=document.createElement("details");regional.className="finland-regional-weather";regional.id="finland-regional-weather";
+      regional.innerHTML='<summary><span><strong>See live weather across all 19 regions</strong><small>One representative city per region · expand to compare Finland</small></span><span class="finland-regional-weather-summary-status" id="finland-regional-weather-summary-status">'+esc(cachedRegionalWeather?.updatedAt?localUpdated(cachedRegionalWeather.updatedAt):"19 regional cities")+'</span><span class="finland-regional-weather-chevron" aria-hidden="true">⌄</span></summary><div id="finland-regional-weather-panel">'+regionalWeatherPanelMarkup()+'</div>';
+      regional.addEventListener("toggle",()=>{if(regional.open)loadRegionalWeather()});
+      page.querySelector("#finland-status")?.insertAdjacentElement("afterend",regional);
+    }
     if(!page.querySelector(".finland-daily-promo")){
       const promo=document.createElement("section");promo.className="finland-daily-promo";
       const date=formattedHelsinkiDate(),learned=dailyLearnedCount(),target=dailyTarget(),complete=learned>=target;
@@ -1535,8 +1589,22 @@
     }
     const dictionaryListen=event.target.closest("[data-dictionary-speak]");
     if(dictionaryListen){speakFinnish(dictionaryListen.dataset.dictionarySpeak);return}
+    const regionalRefresh=event.target.closest("[data-regional-weather-refresh]");
+    if(regionalRefresh){loadRegionalWeather(true);return}
+    const regionalChoice=event.target.closest("[data-regional-weather-city]");
+    if(regionalChoice){
+      const city=cities.find(item=>item.id===regionalChoice.dataset.regionalWeatherCity);if(!city)return;
+      localStorage.setItem(cityKey,city.id);
+      const current=regionalWeatherFresh()?cachedRegionalWeather?.cities?.find(item=>item.id===city.id)?.current:null;
+      cachedWeather=current?{cityId:city.id,current,updatedAt:cachedRegionalWeather.updatedAt}:null;
+      lastWeatherMessage=current?"":"Loading current conditions…";
+      const citySelect=document.getElementById("finland-city");if(citySelect)citySelect.value=city.id;
+      updateClock();refreshStatusContent();refreshRegionalWeatherView();
+      if(!current)loadWeather(true);
+      document.querySelector('[data-regional-weather-city="'+city.id+'"]')?.focus({preventScroll:true});return;
+    }
     const refresh=event.target.closest("[data-weather-refresh]");
-    if(refresh){loadWeather(true);return}
+    if(refresh){loadWeather(true);if(document.getElementById("finland-regional-weather")?.open)loadRegionalWeather(true);return}
   },true);
   document.addEventListener("click",event=>{
     const mapRetry=event.target.closest("[data-region-map-retry]");
@@ -1556,9 +1624,9 @@
     const weatherChoice=event.target.closest("[data-directory-weather]");
     if(weatherChoice){
       const city=cities.find(item=>item.id===weatherChoice.dataset.directoryWeather);if(!city)return;
-      localStorage.setItem(cityKey,city.id);cachedWeather=null;lastWeatherMessage="Loading current conditions…";
+      localStorage.setItem(cityKey,city.id);const regionalCurrent=regionalWeatherFresh()?cachedRegionalWeather?.cities?.find(item=>item.id===city.id)?.current:null;cachedWeather=regionalCurrent?{cityId:city.id,current:regionalCurrent,updatedAt:cachedRegionalWeather.updatedAt}:null;lastWeatherMessage=regionalCurrent?"":"Loading current conditions…";
       const citySelect=document.getElementById("finland-city");if(citySelect)citySelect.value=city.id;
-      updateClock();refreshStatusContent();loadWeather(true);
+      updateClock();refreshStatusContent();refreshRegionalWeatherView();if(!regionalCurrent)loadWeather(true);
       const status=weatherChoice.closest(".finland-region-directory-detail")?.querySelector("[data-region-weather-status]");if(status)status.textContent="Home weather city set to "+city.name+". Open Home to see its current conditions.";return;
     }
   },true);
@@ -1588,9 +1656,8 @@
       if([10,30,100].includes(target)){localStorage.setItem(dailyTargetKey,String(target));renderDaily();document.getElementById("finland-daily-target")?.focus({preventScroll:true})}
     }
     if(event.target?.id==="finland-city"){
-      localStorage.setItem(cityKey,event.target.value);cachedWeather=null;
-      try{const saved=readJSON(weatherKey,null);if(saved?.cityId!==event.target.value)lastWeatherMessage="Loading current conditions…"}catch(_error){}
-      updateClock();refreshStatusContent();loadWeather(true);
+      localStorage.setItem(cityKey,event.target.value);const regionalCurrent=regionalWeatherFresh()?cachedRegionalWeather?.cities?.find(item=>item.id===event.target.value)?.current:null;cachedWeather=regionalCurrent?{cityId:event.target.value,current:regionalCurrent,updatedAt:cachedRegionalWeather.updatedAt}:null;lastWeatherMessage=regionalCurrent?"":"Loading current conditions…";
+      updateClock();refreshStatusContent();refreshRegionalWeatherView();if(!regionalCurrent)loadWeather(true);
     }
     if(event.target?.id==="finnish-neural-voice"){localStorage.setItem("kielo-neural-voice",event.target.value);setVoiceSelection()}
     if(event.target?.id==="finnish-voice-select"){
@@ -1641,5 +1708,5 @@
   const initialCity=cityNow(),savedWeather=cachedWeather;
   if(savedWeather?.cityId===initialCity.id)refreshStatusContent();
   loadWeather(false);
-  window.setInterval(()=>loadWeather(false),15*60*1000);
+  window.setInterval(()=>{loadWeather(false);if(document.getElementById("finland-regional-weather")?.open)loadRegionalWeather(false)},15*60*1000);
 })();
