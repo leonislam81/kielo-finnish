@@ -562,6 +562,25 @@
 .finland-study-source-note{margin:9px 0 0;color:#7d8981;font-size:8px;line-height:1.65}
 .finland-study-source-note a{color:#527a63;font-weight:700;text-decoration:none}
 .finland-study-source-note a:hover{text-decoration:underline}
+.finland-education-map{margin:18px 0;padding:15px;border:1px solid #dfe9df;border-radius:16px;background:linear-gradient(145deg,#f7f9f5,#fff 70%)}
+.finland-education-intro{margin:0 0 11px;color:#68796f;font-size:10px;line-height:1.55}.finland-education-intro span{margin-left:5px;color:#527461}
+.finland-education-foundation{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.finland-education-stage,.finland-education-route,.finland-education-higher article{display:flex;align-items:flex-start;gap:10px;min-width:0;padding:11px;border:1px solid #e3eae3;border-radius:12px;background:#fff}
+.finland-education-icon{flex:none;display:grid;width:31px;height:31px;place-items:center;border-radius:10px;background:#edf4ec;font-size:16px}
+.finland-education-step,.finland-education-length{display:block;color:#829087;font-size:8px;line-height:1.4}
+.finland-education-stage h4,.finland-education-route h4,.finland-education-higher h4{margin:3px 0;color:#294d3d;font-size:10px;line-height:1.35}
+.finland-education-term{display:inline-flex;align-items:center;gap:5px;padding:0;border:0;background:transparent;color:#1c6553;font-size:10px;font-weight:750;cursor:pointer;text-align:left;overflow-wrap:anywhere}
+.finland-education-term span{font-size:8px}.finland-education-term:hover{text-decoration:underline}.finland-education-term:focus-visible,.finland-education-adult button:focus-visible{outline:2px solid #397a62;outline-offset:3px;border-radius:3px}
+.finland-education-stage p,.finland-education-route p,.finland-education-higher p{margin:5px 0 0;color:#68796f;font-size:8px;line-height:1.55}
+.finland-education-connector{display:flex;flex-direction:column;align-items:center;margin:9px 0;color:#557465;text-align:center}
+.finland-education-connector>span{color:#86a98a;font-size:15px;line-height:1}.finland-education-connector strong{font-size:9px}.finland-education-connector small{margin-top:2px;color:#829087;font-size:8px}
+.finland-education-routes,.finland-education-higher{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.finland-education-route{background:#fdfefb}.finland-education-route>div,.finland-education-higher article>div{min-width:0}
+.finland-education-higher article{background:#eef5ee}.finland-education-higher article>span{flex:none;color:#47735a;font-size:18px}
+.finland-education-adult{display:flex;align-items:center;gap:9px;margin-top:9px;padding:9px 11px;border:1px solid #e3eae3;border-radius:10px;background:#fff}.finland-education-adult>span{font-size:17px}.finland-education-adult p{flex:1;margin:0;color:#68796f;font-size:8px;line-height:1.55}.finland-education-adult strong{color:#365c48}.finland-education-adult button{flex:none;border:1px solid #e1e9e0;border-radius:7px;background:#f4f8f2;padding:5px 7px;color:#316d59;cursor:pointer}
+.finland-education-note{margin:9px 0 0;padding:9px 10px;border-radius:9px;background:#f1f5ee;color:#68796f;font-size:8px;line-height:1.6}.finland-education-note strong{color:#355945}.finland-education-note a{color:#316d59;font-weight:750;text-decoration:none}.finland-education-note a:hover{text-decoration:underline}
+@media(max-width:760px){.finland-education-foundation{grid-template-columns:1fr}.finland-education-stage{align-items:center}.finland-education-routes,.finland-education-higher{grid-template-columns:1fr}}
+@media(max-width:520px){.finland-education-map{padding:11px}.finland-education-stage,.finland-education-route,.finland-education-higher article{padding:9px}.finland-education-adult{align-items:flex-start}.finland-education-adult p{font-size:8px}}
 @media(max-width:920px){.finland-study-step-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){.finland-study-hero{grid-template-columns:1fr}.finland-study-hero-copy{padding:18px 18px 12px}.finland-study-campus{min-height:150px}.finland-study-campus svg{min-height:150px}.finland-study-route-detail{grid-template-columns:minmax(110px,.55fr) minmax(0,1.3fr)}.finland-study-route-art{min-height:210px}.finland-study-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.finland-study-journey{padding:11px}.finland-study-section-heading{align-items:flex-start;flex-direction:column;gap:4px}.finland-study-route-tabs button{grid-template-columns:24px 1fr;padding:9px;gap:2px 7px}.finland-study-route-tabs button>span{width:23px;height:23px}.finland-study-route-detail{grid-template-columns:1fr}.finland-study-route-art{min-height:105px;flex-direction:row;gap:10px}.finland-study-route-icon{width:39px;height:39px;border-radius:14px;font-size:23px}.finland-study-route-copy{padding:12px}.finland-study-step-grid{grid-template-columns:1fr}.finland-study-step{padding:10px}.finland-study-dialogue-line{align-items:flex-start}.finland-study-media{align-items:flex-start;flex-direction:column}.finland-study-support{padding:10px}}
