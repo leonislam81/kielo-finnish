@@ -634,9 +634,40 @@
 .finland-jobs-official-note a{margin-top:3px}
 .finland-jobs-source-note{margin:9px 0 0;color:#7d8981;font-size:8px;line-height:1.65}
 .finland-jobs-source-note a{color:#527a63;font-weight:700;text-decoration:none}
+.finland-jobs-ad-practice{display:grid;gap:11px;margin-top:14px;padding:13px;border:1px solid #dce8dd;border-radius:14px;background:#f8faf6}
+.finland-jobs-ad-card{overflow:hidden;border:1px solid #dfe8df;border-radius:12px;background:#fff}
+.finland-jobs-ad-title{padding:12px 14px;background:#edf4ed;border-bottom:1px solid #e1e9e0}
+.finland-jobs-ad-title>span{color:#6d8172;font-size:7px;font-weight:800;letter-spacing:.09em}
+.finland-jobs-ad-title h4{margin:5px 0 2px;color:#244b38;font:700 15px/1.35 var(--heading,Inter,sans-serif)}
+.finland-jobs-ad-title p{margin:0;color:#64776b;font-size:8px}.finland-jobs-ad-title p span{margin-left:5px;color:#53705d}
+.finland-jobs-ad-line{display:grid;grid-template-columns:minmax(0,1fr);gap:3px;padding:9px 12px}
+.finland-jobs-ad-line+.finland-jobs-ad-line{border-top:1px solid #edf0eb}
+.finland-jobs-ad-line>div{display:flex;align-items:center;justify-content:space-between;gap:9px}
+.finland-jobs-ad-line strong{color:#305b43;font-size:10px;line-height:1.55}
+.finland-jobs-ad-line button{flex:none;width:25px;height:25px;border:1px solid #dce8de;border-radius:8px;background:#f6f9f4;color:#347257;font-size:10px;cursor:pointer}
+.finland-jobs-ad-line p,.finland-jobs-ad-line small{margin:0;color:#66766c;font-size:8px;line-height:1.55}
+.finland-jobs-ad-line small{color:#52705c}
+.finland-jobs-ad-line button:focus-visible,.finland-jobs-ad-options button:focus-visible,.finland-jobs-ad-footer button:focus-visible{outline:2px solid #397a62;outline-offset:2px}
+.finland-jobs-ad-quiz-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.finland-jobs-ad-quiz-heading>div{display:grid;gap:3px}.finland-jobs-ad-quiz-heading strong{color:#294d3d;font-size:10px}.finland-jobs-ad-quiz-heading small{color:#62776a;font-size:8px}.finland-jobs-ad-quiz-heading>span{color:#4d7058;font-size:8px;font-weight:750}
+.finland-jobs-ad-questions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.finland-jobs-ad-question{display:grid;align-content:start;gap:8px;min-width:0;padding:10px;border:1px solid #e3eae2;border-radius:10px;background:#fff}
+.finland-jobs-ad-question>div:first-child{display:grid;gap:4px}.finland-jobs-ad-question>div:first-child strong{color:#355644;font-size:9px;line-height:1.45}.finland-jobs-ad-question>div:first-child small{color:#617568;font-size:8px;line-height:1.4}
+.finland-jobs-ad-options{display:grid;gap:5px}
+.finland-jobs-ad-options button{width:100%;padding:7px 8px;border:1px solid #e2e9e1;border-radius:8px;background:#fbfcfa;color:#506456;text-align:left;font-size:8px;line-height:1.4;cursor:pointer}
+.finland-jobs-ad-options button:hover:not(:disabled){border-color:#9dbba0;background:#f0f6ef}
+.finland-jobs-ad-options button:disabled{cursor:default;opacity:1}
+.finland-jobs-ad-options button.is-correct{border-color:#8db39b;background:#eaf4ec;color:#29583a;font-weight:750}
+.finland-jobs-ad-options button.is-incorrect{border-color:#d9a89b;background:#fcf0ed;color:#874d3e}
+.finland-jobs-ad-feedback{margin:0;padding:7px 8px;border-radius:8px;background:#f2f6f0;color:#45634f;font-size:8px;line-height:1.5}
+.finland-jobs-ad-feedback small{display:block;margin-top:4px;color:#577260;font-size:7px;line-height:1.5}
+.finland-jobs-ad-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-top:9px;border-top:1px solid #e6ece4}
+.finland-jobs-ad-footer p{margin:0;color:#3b6b51;font-size:9px;font-weight:750}
+.finland-jobs-ad-footer>span{color:#78867b;font-size:8px}
+.finland-jobs-ad-footer button{margin-left:auto;border:1px solid #dce6dc;border-radius:8px;background:#fff;padding:6px 9px;color:#3d6b4f;font-size:8px;font-weight:700;cursor:pointer}
 @media(max-width:920px){.finland-jobs-step-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){.finland-jobs-hero{grid-template-columns:1fr}.finland-jobs-hero-copy{padding:18px 18px 12px}.finland-jobs-hero-art{min-height:150px}.finland-jobs-hero-art svg{min-height:150px}.finland-jobs-route-detail{grid-template-columns:minmax(110px,.55fr) minmax(0,1.3fr)}.finland-jobs-route-art{min-height:220px}.finland-jobs-word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:520px){.finland-jobs-journey{padding:11px}.finland-jobs-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-jobs-route-tabs button{padding:9px;gap:3px}.finland-jobs-route-detail{grid-template-columns:1fr}.finland-jobs-route-art{min-height:90px;flex-direction:row;gap:10px}.finland-jobs-route-art>span{width:39px;height:39px;border-radius:14px;font-size:22px}.finland-jobs-route-copy{padding:12px}.finland-jobs-step-grid{grid-template-columns:1fr}.finland-jobs-step{padding:9px}.finland-jobs-dialogue-line{align-items:flex-start}.finland-jobs-official-note>div{flex-direction:column}}
+@media(max-width:520px){.finland-jobs-journey{padding:11px}.finland-jobs-heading-row{align-items:flex-start;flex-direction:column;gap:4px}.finland-jobs-route-tabs button{padding:9px;gap:3px}.finland-jobs-route-detail{grid-template-columns:1fr}.finland-jobs-route-art{min-height:90px;flex-direction:row;gap:10px}.finland-jobs-route-art>span{width:39px;height:39px;border-radius:14px;font-size:22px}.finland-jobs-route-copy{padding:12px}.finland-jobs-step-grid{grid-template-columns:1fr}.finland-jobs-step{padding:9px}.finland-jobs-dialogue-line{align-items:flex-start}.finland-jobs-official-note>div{flex-direction:column}.finland-jobs-ad-questions{grid-template-columns:1fr}.finland-jobs-ad-practice{padding:10px}.finland-jobs-ad-title{padding:10px}.finland-jobs-ad-footer{align-items:flex-start}.finland-jobs-ad-footer button{margin-left:0}}
 @media(max-width:390px){.finland-jobs-route-tabs button strong{font-size:9px}.finland-jobs-hero-copy h2{font-size:23px}.finland-jobs-word-grid{gap:5px}.finland-jobs-word{padding:8px}}
 
 .finland-market-journey{margin:18px 0;padding:16px;border:1px solid #dfe9df;border-radius:18px;background:linear-gradient(145deg,#f7f9f5,#fff 64%)}
