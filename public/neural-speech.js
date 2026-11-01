@@ -415,19 +415,19 @@ function localAudioKey(text, style, speed) {
     const selectedName = localStorage.getItem("kielo-finnish-voice") || "";
     const neuralVoice = localStorage.getItem("kielo-neural-voice") || "local:F1";
     const preferMale = /:M[1-5]$|charon|harri/i.test(neuralVoice);
-    const genderMatch = voices.find((voice) => {
+    const matchesPreferredGender = (voice) => {
       const name = String(voice.name || "").toLowerCase();
       const looksFemale = /female|woman|zira|samantha|victoria|karen|tessa|moira|fiona|heidi|selma|noora|jenny|aria|ava|emma|salli|joanna|kendra|michelle|linda|susan/.test(name);
       const looksMale = /(^|[^a-z])(male|man)([^a-z]|$)|\b(alex|daniel|fred|david|mark|george|james|harri|mikko|liam|guy|ryan|matthew|joey|justin|john|bruce|aaron|arthur|oliver)\b/.test(name);
       return preferMale ? looksMale : looksFemale;
-    });
-    const finnishGenderMatch = finnish.find((voice) => {
-      const name = String(voice.name || "").toLowerCase();
-      const looksFemale = /female|woman|zira|samantha|victoria|karen|tessa|moira|fiona|heidi|selma|noora|jenny|aria|ava|emma|salli|joanna|kendra|michelle|linda|susan/.test(name);
-      const looksMale = /(^|[^a-z])(male|man)([^a-z]|$)|\b(alex|daniel|fred|david|mark|george|james|harri|mikko|liam|guy|ryan|matthew|joey|justin|john|bruce|aaron|arthur|oliver)\b/.test(name);
-      return preferMale ? looksMale : looksFemale;
-    });
-    const selected = voices.find((voice) => voice.name === selectedName) || finnishGenderMatch || finnish[0] || genderMatch || voices.find((voice) => voice.default) || voices[0];
+    };
+    const finnishGenderMatch = finnish.find(matchesPreferredGender);
+    const localGenderMatch = voices.find((voice) => voice.localService && matchesPreferredGender(voice));
+    const genderMatch = voices.find(matchesPreferredGender);
+    // When Finnish is not installed, preview with a local device voice first.
+    // Online browser voices can take seconds to connect, which defeats the
+    // quick-preview path while the selected Finnish clip is being prepared.
+    const selected = voices.find((voice) => voice.name === selectedName) || finnishGenderMatch || finnish[0] || localGenderMatch || genderMatch || voices.find((voice) => voice.default) || voices[0];
     const utterance = new SpeechSynthesisUtterance(text);
     // Keep Finnish as the requested language even if the quick preview has to
     // borrow an installed system voice with another language tag.
