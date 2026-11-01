@@ -161,6 +161,10 @@ The Government & public services chapter now teaches how to open Suomi.fi Messag
 
 The Finland Explorer’s government lesson now introduces *eduskunta* (Parliament), *hallitus* (Government), the President, and independent courts. Learners follow a simplified bill-to-law path, answer a bilingual quick check, and hear eight Finnish terms that connect with Dictionary, Daily 100, and spaced review. See [Parliament’s law-making overview](https://eduskunta.fi/en/parliament-and-its-activities/enacting-legislation), [Government roles](https://valtioneuvosto.fi/about-the-government/how-the-government-works), [the President’s duties](https://www.presidentti.fi/en/presidency/duties/), and [Oikeus.fi’s court information](https://www.oikeus.fi/en/themes/criminal-cases/judicial-proceedings-in-criminal-cases/).
 
+### Elections and civic life
+
+The Government & public services lesson now explains five Finnish elections and presents voter eligibility by election without implying that every resident can vote in every election. A bilingual quick check, spoken question and vocabulary including *äänioikeus* and *ennakkoäänestys* connect the lesson to Dictionary, Daily 100 and spaced review. For personal eligibility and current dates, learners are directed to [InfoFinland’s election guide](https://infofinland.fi/en/information-about-finland/elections-and-voting-in-finland) and the [Ministry of Justice elections site](https://vaalit.fi/en).
+
 ## Spaced review ratings
 
 After revealing a saved word’s meaning, learners can rate recall as **Again**, **Hard**, **Good**, or **Easy**. Again repeats after 10 minutes; other ratings keep the next interval in the existing browser-local review schedule: Hard uses a shorter interval, Good follows the 1, 3, 7, 14 and 30 day ladder, and Easy moves ahead faster. The older saved `Got it` action maps to Good, so existing review progress remains compatible. The four choices are a simple study aid, not an adaptive or validated assessment.
