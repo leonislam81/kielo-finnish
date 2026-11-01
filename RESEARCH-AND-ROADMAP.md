@@ -188,7 +188,7 @@ Lesson drafts, writing-lab drafts, and open role-play replies now include an opt
 
 ## Progress-aware next step
 
-The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 40 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
+The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 44 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
 
 ## A1 everyday-life expansion (2026-11-01)
 
@@ -207,6 +207,12 @@ This expansion brings the guided path closer to OPH's A2.1 interaction and text 
 The guided B1 path now has eight lessons. Four original lessons ask learners to clarify an unfamiliar word, share a view with a reason, explain a work delay and next step, and sequence a short community-event story. Each includes a Finnish model, English and Bangla translations, a compact grammar or communication-strategy note, three vocabulary entries, a comprehension prompt, and a speaking or writing prompt. Its course words enter the shared dictionary and Finland-date Daily 100 pool automatically.
 
 The examples reflect OPH's B1.1 descriptors for everyday discussion and expressing views, taking some initiative, checking and repairing understanding by rephrasing, and understanding main ideas and selected details in clear standard Finnish. The lessons are original practice, not official YKI items or a complete B1 syllabus. Source: [Finnish National Agency for Education — Evolving language proficiency scale](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko).
+
+## B2.1 evidence-based proposals and discussion (2026-11-01)
+
+The guided B2 path now has eight lessons. Four original lessons practise weighing possible effects, responding respectfully to a cost concern, proposing a limited service trial, and summarising how a decision will follow from its results. They form a hypothetical public-transport planning case study, not a description of a current Finnish municipality or route. Each lesson has a Finnish example, English and Bangla support, grammar or discussion guidance, three review-ready words, a comprehension question, and a speaking prompt.
+
+These lessons reflect OPH's B2.1 descriptors for participating in some new or more formal discussions, stating a position, negotiating the meaning of complex matters, monitoring understanding, following extended argument, and expressing ideas clearly and precisely. They are guided practice, not an official YKI task or a complete B2 course. Source: [Finnish National Agency for Education — Evolving language proficiency scale](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko).
 
 ## Finnish word of the day
 

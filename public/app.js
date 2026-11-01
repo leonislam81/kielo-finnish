@@ -81,6 +81,7 @@
     if(/lake|forest|pine|outdoor|cottage|nature|north|summer|shoreline|clean-up/.test(wordsInScene))return {image:photo.summer,label:"Finnish lakes and forests"};
     if(/sport|hobby|football|park/.test(wordsInScene))return {image:photo.summer,label:"Everyday life outdoors in Finland"};
     if(/shop|market|grocery|café|cafe|store|price|shopping/.test(wordsInScene))return {image:photo.city,label:"Everyday Finnish shopping"};
+    if(/public transport proposal|transport consultation|bus-service trial|municipal meeting/.test(wordsInScene))return {image:photo.city,label:"A Finnish local transport discussion"};
     if(/message|plans|planning|text/.test(wordsInScene))return {image:photo.twilight,label:"Everyday plans in Finland"};
     if(/radio|email|seminar|study group|editorial|dusk|discussion|meeting|office|report/.test(wordsInScene))return {image:photo.twilight,label:"A northern evening"};
     return {image:photo.city,label:"Everyday life in Finland"};
