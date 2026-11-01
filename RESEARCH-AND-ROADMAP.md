@@ -188,13 +188,19 @@ Lesson drafts, writing-lab drafts, and open role-play replies now include an opt
 
 ## Progress-aware next step
 
-The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 48 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
+The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 52 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
 
 ## C1 guided path: evidence and audience (1 November 2026)
 
 The guided C1 level now contains eight original lessons. Four additions ask learners to distinguish observed change from a proven cause, synthesize two concerns into a careful conclusion, adapt a fictional service notice to a plain-language audience, and state a limited recommendation with conditions for monitoring and review. Each lesson supplies a long Finnish model, English and Bangla meaning, a focused grammar explanation, three contextual words, a retrieval question, and an open speaking prompt. The report and notice are clearly labelled as fictional teaching examples.
 
 This expansion follows the direction of OPH’s C1.1 scale: flexible, fluent and precise interaction; combining information from complex written texts; and producing well-structured texts on complex topics. Those descriptors inform the practice goals; they do not prescribe this lesson sequence. The four items are not a complete C1 syllabus or official YKI tasks. Source: [Opetushallitus — Developing language proficiency scale](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko).
+
+## C2 guided path: precision and synthesis (1 November 2026)
+
+The guided C2 path now contains eight original lessons. New activities ask learners to remove ambiguity through precise reformulation, synthesize several viewpoints while staying within the available evidence, evaluate a service proposal without turning two values into a false either-or choice, and select a register for an informal conversation or a factual report. The synthesis example is explicitly fictional, not a report about real Finnish visitor data. Each lesson has a Finnish model, English and Bangla explanation, three contextual vocabulary entries, a retrieval check, and an open speaking prompt.
+
+These learning goals follow Council of Europe C2 descriptors for flexible reformulation, control of nuance and idiomatic language, coherent synthesis of information from several sources, and adaptation of register. Kotus describes general standard Finnish as suitable for neutral factual communication and distinguishes it from other language forms used for different contexts and purposes. The activities are guided practice, not a complete C2 syllabus or official YKI tasks. Sources: [Council of Europe — Qualitative aspects of spoken language use](https://www.coe.int/en/web/common-european-framework-reference-languages/table-3-cefr-3.3-common-reference-levels-qualitative-aspects-of-spoken-language-use), [Council of Europe — CEFR Companion Volume](https://rm.coe.int/cefr-companion-volume-with-new-descriptors-2020/16809ea0d4), and [Kotus — General standard Finnish and other language forms](https://kotus.fi/kielenhuolto/yleiskieli-ja-sen-kehitys/yleiskieli-ja-muut-kielimuodot/).
 
 ## A1 everyday-life expansion (2026-11-01)
 
