@@ -430,7 +430,7 @@
     if(speechApiLoader)return speechApiLoader;
     speechApiLoader=new Promise((resolve,reject)=>{
       const script=document.createElement("script");
-      script.src=new URL("./neural-speech.js?v=27",document.baseURI).href;
+      script.src=new URL("./neural-speech.js?v=30",document.baseURI).href;
       script.async=true;
       script.addEventListener("load",()=>window.KieloSpeech?.speak?resolve(window.KieloSpeech):reject(new Error("The free voice player did not start.")),{once:true});
       script.addEventListener("error",()=>reject(new Error("The free voice player could not load.")),{once:true});
@@ -487,7 +487,7 @@
     if(!status.enabled&&!select.value.startsWith("local:")&&select.value!=="device"){select.value="local:F1";localStorage.setItem("kielo-neural-voice","local:F1")}
     if(note){
       const voices=getVoices(),finnish=getFinnishVoices();
-      const local=finnish.length?"Choose a free female or male neural voice to generate Finnish on this device, or use an installed browser voice. A quick preview uses a device voice when available. The first Finnish model setup downloads about 140 MB; keep this tab open.":voices.length?"This browser has voices but no Finnish one. A quick preview uses an installed local voice when available; female and male Finnish voices are generated on this device after the model’s first download of about 140 MB.":"No browser voice is installed for an immediate preview. Free female and male Finnish voices work after their one-time model download of about 140 MB; later saved clips play instantly.";
+      const local=finnish.length?"Choose a free female or male neural voice to generate Finnish on this device, or use an installed browser voice. A quick preview starts from an available browser voice while your selected voice prepares. The first Finnish model setup downloads about 140 MB; keep this tab open.":voices.length?"This browser has voices but no Finnish one. A quick preview requests Finnish from an installed browser voice; female and male Finnish voices are generated on this device after the model’s first download of about 140 MB.":"The browser has not listed a voice yet. A quick preview requests Finnish from its default voice while free female and male Finnish voices prepare after their one-time model download of about 140 MB; later saved clips replay instantly.";
       const online=status.provider==="gemini"&&status.enabled?" Optional hosted Finnish voices are connected; their text is sent for synthesis only after you choose one and press play.":status.provider==="azure"&&status.enabled?" Optional hosted Finnish voices are connected; their text is sent for synthesis only after you choose one and press play.":" Free neural voices work without a Site API key.";
       note.innerHTML=local+online+' Model: <a href="https://huggingface.co/supertone-oss-archive/supertonic-3" target="_blank" rel="noreferrer">Supertonic 3 ↗</a> · <a href="https://yle.fi/aihe/oppiminen/suomen-kielen-alkeet" target="_blank" rel="noreferrer">Yle learning clips ↗</a>.';
     }
