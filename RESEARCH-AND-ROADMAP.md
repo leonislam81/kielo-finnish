@@ -188,7 +188,7 @@ Lesson drafts, writing-lab drafts, and open role-play replies now include an opt
 
 ## Progress-aware next step
 
-The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 36 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
+The home dashboard now sends learners directly to a spaced-review session when saved words are due, then resumes the lesson path when review is caught up. Completing all 40 lessons changes the home action to level exploration. Study-rhythm language treats breaks as normal and clarifies that progress is saved on the current device.
 
 ## A1 everyday-life expansion (2026-11-01)
 
@@ -201,6 +201,12 @@ This fills practical beginner goals named in the Finnish National Agency for Edu
 The guided A2 path now has eight lessons. Four new original lessons practise proposing a meeting time, inviting someone to a cottage for the weekend, writing a short transit-delay update, and apologising while suggesting another day. Each includes a Finnish model, English and Bangla translations, a compact grammar note, three vocabulary items, a retrieval question, and a speaking or writing prompt. Lesson vocabulary flows into the same search, dictionary, review shelf, and Finland-date Daily 100 pool as the rest of the curriculum.
 
 This expansion brings the guided path closer to OPH's A2.1 interaction and text descriptors: exchanging information in familiar daily situations, politely making requests, invitations, proposals and apologies, responding to them, and understanding short everyday messages. The lesson prompts are original examples and practice activities; the descriptor is broad, so the set is not described as a complete A2 course or an official assessment. Source: [Finnish National Agency for Education — Evolving language proficiency scale](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko).
+
+## B1.1 conversation and community expansion (2026-11-01)
+
+The guided B1 path now has eight lessons. Four original lessons ask learners to clarify an unfamiliar word, share a view with a reason, explain a work delay and next step, and sequence a short community-event story. Each includes a Finnish model, English and Bangla translations, a compact grammar or communication-strategy note, three vocabulary entries, a comprehension prompt, and a speaking or writing prompt. Its course words enter the shared dictionary and Finland-date Daily 100 pool automatically.
+
+The examples reflect OPH's B1.1 descriptors for everyday discussion and expressing views, taking some initiative, checking and repairing understanding by rephrasing, and understanding main ideas and selected details in clear standard Finnish. The lessons are original practice, not official YKI items or a complete B1 syllabus. Source: [Finnish National Agency for Education — Evolving language proficiency scale](https://www.oph.fi/fi/koulutus-ja-tutkinnot/kehittyvan-kielitaidon-tasojen-kuvausasteikko).
 
 ## Finnish word of the day
 
