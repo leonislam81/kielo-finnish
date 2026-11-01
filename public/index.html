@@ -15,6 +15,7 @@
     <link rel="preconnect" href="https://huggingface.co" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="accessibility.css?v=1" />
     <link rel="stylesheet" href="cafe.css" />
     <link rel="stylesheet" href="spoken.css?v=1" />
     <link rel="stylesheet" href="sounds.css" />
@@ -38,10 +39,11 @@
     <script src="neural-speech.js?v=30" defer></script>
     <script src="sami-experience.js?v=1" defer></script>
     <script src="grammar-cases.js?v=1" defer></script>
-    <script src="app.js?v=81" defer></script>
-    <script src="redesign.js?v=84" defer></script>
+    <script src="app.js?v=82" defer></script>
+    <script src="redesign.js?v=85" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#page-content">Skip to main content</a>
     <div class="app-shell">
       <aside class="sidebar" id="sidebar">
         <a class="brand" href="#home" aria-label="Kielo home">
@@ -86,7 +88,7 @@
 
       <div class="app-main">
         <header class="topbar">
-          <button class="mobile-menu" id="mobile-menu" aria-label="Open navigation">☰</button>
+          <button class="mobile-menu" id="mobile-menu" type="button" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">☰</button>
           <div class="topbar-context"><span class="weather-dot" aria-hidden="true"></span><span id="connection-label" role="status" aria-live="polite">Finland · Europe/Helsinki</span></div>
           <div class="topbar-actions">
             <button class="voice-shortcut" type="button" data-redesign-page="voice" aria-label="Open Finnish voice settings" title="Voice & audio"><span aria-hidden="true">♫</span><span>Voice</span></button>

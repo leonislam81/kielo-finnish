@@ -536,3 +536,7 @@ Kielo progress backups are now version 2 and carry Daily 100 learned words for t
 ## Restore a saved wider dictionary (1 November 2026)
 
 After a learner downloads the optional Finnish–English dictionary, a later visit to Dictionary checks IndexedDB and loads the saved copy automatically. The load button shows that check while it runs; if no local copy is available, it returns to its explicit download action and keeps the curated Finnish–English–Bangla list usable. Browser storage limits and private-browsing behavior can still prevent a persistent copy; Kielo reports that condition instead of claiming the wider pack is ready offline.
+
+## Mobile navigation and page focus (1 November 2026)
+
+The mobile drawer now follows the WAI disclosure pattern: its button identifies the controlled sidebar and reports expanded/collapsed state; closed navigation is inert, opening places focus on the active destination, and Escape closes the drawer and returns focus to its button. Core and custom-page navigation move focus to the new main heading, active destinations expose `aria-current`, and a skip link gives keyboard users a direct route to the main content. This is a focused navigation improvement, not a claim of full WCAG conformance; broader keyboard and screen-reader review remains in Phase 4.

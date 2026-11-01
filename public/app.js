@@ -42,6 +42,34 @@
   state.c1ReadingComplete=saved.c1ReadingComplete===true;
   state.c2ReadingComplete=saved.c2ReadingComplete===true;
   const pageContent=document.getElementById("page-content");
+  const sidebar=document.getElementById("sidebar");
+  const mobileMenu=document.getElementById("mobile-menu");
+  const mobileNavigationLayout=window.matchMedia("(max-width:760px)");
+  function setNavigationOpen(open,{focusFirst=false,returnFocus=false}={}){
+    const isMobile=mobileNavigationLayout.matches,visible=isMobile&&open;
+    sidebar.classList.toggle("open",visible);
+    if(isMobile&&!visible)sidebar.setAttribute("inert","");else sidebar.removeAttribute("inert");
+    mobileMenu.setAttribute("aria-expanded",String(visible));
+    mobileMenu.setAttribute("aria-label",visible?"Close navigation":"Open navigation");
+    if(visible&&focusFirst)window.requestAnimationFrame(()=>{
+      const target=sidebar.querySelector(".nav-link.active")||sidebar.querySelector(".nav-link");
+      target?.focus({preventScroll:true});
+    });
+    if(!visible&&returnFocus)mobileMenu.focus({preventScroll:true});
+  }
+  function focusPageHeading(){
+    const heading=pageContent.querySelector("h1");
+    if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true})}
+    else pageContent.focus({preventScroll:true});
+  }
+  window.KieloNavigation={close:()=>setNavigationOpen(false),focusPage:focusPageHeading};
+  setNavigationOpen(false);
+  const handleNavigationLayoutChange=event=>{
+    const moveFocus=event.matches&&sidebar.contains(document.activeElement);
+    setNavigationOpen(false,{returnFocus:moveFocus});
+  };
+  if(mobileNavigationLayout.addEventListener)mobileNavigationLayout.addEventListener("change",handleNavigationLayoutChange);
+  else mobileNavigationLayout.addListener?.(handleNavigationLayoutChange);
   const modalBackdrop=document.getElementById("lesson-backdrop");
   const modalContent=document.getElementById("lesson-modal-content");
   const backupBackdrop=document.getElementById("backup-backdrop");
@@ -291,8 +319,8 @@
     }catch(error){status.classList.add("error");status.textContent=error instanceof Error?error.message:"Could not restore this file. Check that it is a valid Kielo backup."}
   }
   function progressBar(count,total){return `<div class="progress-track"><div class="progress-fill" style="width:${total?Math.min(100,Math.round(count/total*100)):0}%"></div></div>`}
-  function setActiveNav(){document.querySelectorAll(".nav-link").forEach(button=>button.classList.toggle("active",button.dataset.page===state.page));document.querySelectorAll("[data-lang-label]").forEach(label=>label.classList.toggle("selected",label.dataset.langLabel===state.help));document.getElementById("word-count").textContent=state.known.size}
-  function setPage(page){if(state.page==="speaking"&&page!=="speaking")stopSpeakingRecognition();state.page=page;render();document.getElementById("sidebar").classList.remove("open");window.scrollTo({top:0,behavior:"smooth"})}
+  function setActiveNav(){document.querySelectorAll(".nav-link").forEach(button=>{const active=button.dataset.page===state.page;button.classList.toggle("active",active);if(active)button.setAttribute("aria-current","page");else button.removeAttribute("aria-current")});document.querySelectorAll("[data-lang-label]").forEach(label=>label.classList.toggle("selected",label.dataset.langLabel===state.help));document.getElementById("word-count").textContent=state.known.size}
+  function setPage(page){if(state.page==="speaking"&&page!=="speaking")stopSpeakingRecognition();state.page=page;render();setNavigationOpen(false);focusPageHeading();window.scrollTo({top:0,behavior:"smooth"})}
   function render(){if(state.page!=="cafe"){stopConversationPlayback();stopConversationRecognition();}setActiveNav();if(state.page==="home")renderHome();else if(state.page==="path")renderPath();else if(state.page==="sounds")renderSounds();else if(state.page==="listening")renderListening();else if(state.page==="spoken")renderSpoken();else if(state.page==="speaking")renderSpeaking();else if(state.page==="reading")renderReading();else if(state.page==="writing")renderWriting();else if(state.page==="grammar")renderGrammar();else if(state.page==="practice")renderPractice();else if(state.page==="cafe")renderConversations();else renderCulture()}
   function studyRhythmMarkup(){
     const now=new Date(),today=studyDateKey(now),weekStart=new Date(now.getFullYear(),now.getMonth(),now.getDate());
@@ -1255,10 +1283,10 @@ When planning services, we should therefore assess both the accessibility of dig
   document.getElementById("backup-file").addEventListener("change",event=>{const file=event.target.files?.[0];if(file)restoreBackup(file);event.target.value=""});
   backupBackdrop.addEventListener("click",event=>{if(event.target===backupBackdrop)closeBackupModal()});
   document.getElementById("language-toggle").addEventListener("click",()=>{state.help=state.help==="bn"?"en":"bn";persist(false);render();if(state.lesson)renderLessonModal()});
-  document.getElementById("mobile-menu").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
+  mobileMenu.addEventListener("click",()=>setNavigationOpen(mobileMenu.getAttribute("aria-expanded")!=="true",{focusFirst:mobileMenu.getAttribute("aria-expanded")!=="true"}));
   document.addEventListener("change",event=>{const rateSelect=event.target.closest("[data-conversation-rate]");if(rateSelect){const rate=Number(rateSelect.value);if([0.65,0.8,1].includes(rate))state.conversationRate=rate}});
   document.addEventListener("change",event=>{const rateSelect=event.target.closest("[data-conversation-rate]");if(rateSelect){const rate=Number(rateSelect.value);if([0.65,0.8,1].includes(rate))state.conversationRate=rate}});
   document.addEventListener("input",event=>{if(event.target.id==="word-search"){state.search=event.target.value;const caret=event.target.selectionStart;renderPractice();const input=document.getElementById("word-search");input.focus();input.setSelectionRange(caret,caret)}if(event.target.id==="lesson-draft"&&state.lesson){state.drafts[state.lesson.id]=event.target.value;persist();const status=document.getElementById("draft-status");if(status)status.textContent="Saved on this device"}if(event.target.id==="writing-draft"){const key=event.target.dataset.draftKey;state.drafts[key]=event.target.value;persist();const status=document.getElementById("writing-draft-status");if(status)status.textContent=state.help==="bn"?"এই device-এ খসড়া সংরক্ষিত":"Saved on this device"}if(event.target.id==="conversation-reply"){state.conversationReply=event.target.value;state.conversationVoiceHeard=false;state.conversationVoiceError=""}});
-  document.addEventListener("keydown",event=>{if(event.key==="Escape"){if(!backupBackdrop.hidden)closeBackupModal();else if(!modalBackdrop.hidden)closeLesson()}});
+  document.addEventListener("keydown",event=>{if(event.key==="Escape"){if(!backupBackdrop.hidden)closeBackupModal();else if(!modalBackdrop.hidden)closeLesson();else if(sidebar.classList.contains("open")){event.preventDefault();setNavigationOpen(false,{returnFocus:true})}}});
   render();
 })();
