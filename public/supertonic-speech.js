@@ -8,7 +8,7 @@ const STYLE_ROOT = `${MODEL_ROOT}/voice_styles`;
 const QUANTIZED_ROOT = "https://huggingface.co/csukuangfj2/sherpa-onnx-supertonic-3-tts-int8-2026-05-11/resolve/cca5a0e6c96e1d2c720986bf7e75fcc81dee3ae4";
 const MODEL_SIZE_LABEL = "about 140 MB";
 const PERSISTED_AUDIO_DB = "kielo-finnish-audio-v1";
-const PERSISTED_AUDIO_LIMIT = 120;
+const PERSISTED_AUDIO_LIMIT = 500;
 let enginePromise = null;
 let engine = null;
 let stylePromises = new Map();
@@ -152,10 +152,10 @@ function runSynthesisQueue() {
     }
     const [{ textToSpeech }, style] = await Promise.all([loadEngine((progress) => job.report(progress)), loadStyle(job.styleId)]);
     job.report({ phase: "generating", current: 0, total: 8 });
-    // Five denoising steps give short words and everyday phrases Supertonic's
-    // documented balanced quality at lower first-play latency. Longer passages
-    // keep the eight-step default for the clearest listening practice.
-    const steps = job.text.length <= 120 ? 5 : 8;
+    // Single words need less synthesis work to stay responsive on a first tap.
+    // Everyday phrases keep the balanced setting; longer passages use eight
+    // steps for clearer listening practice.
+    const steps = job.text.length <= 24 ? 3 : job.text.length <= 120 ? 5 : 8;
     const { wav, duration } = await textToSpeech.call(job.text, "fi", style, steps, job.speed, 0.18, (current, total) => {
       job.report({ phase: "generating", current, total });
     });
