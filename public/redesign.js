@@ -443,7 +443,7 @@
     if(speechApiLoader)return speechApiLoader;
     speechApiLoader=new Promise((resolve,reject)=>{
       const script=document.createElement("script");
-      script.src=new URL("./neural-speech.js?v=30",document.baseURI).href;
+      script.src=new URL("./neural-speech.js?v=32",document.baseURI).href;
       script.async=true;
       script.addEventListener("load",()=>window.KieloSpeech?.speak?resolve(window.KieloSpeech):reject(new Error("The free voice player did not start.")),{once:true});
       script.addEventListener("error",()=>reject(new Error("The free voice player could not load.")),{once:true});
@@ -510,7 +510,7 @@
       playbackStatus.textContent=localVoice.dataSaver
         ? "Data Saver is on, so the 140 MB voice model waits until you ask to hear Finnish. Your text stays on this device."
         : localVoice.modelReady
-          ? "Finnish voice is ready. Visible words are prepared ahead and saved on this device for fast replay."
+          ? "Finnish voice is ready. Short words on screen are prepared before you tap for faster playback."
           : localVoice.preparing
             ? "Preparing the free Finnish voice in the background · about 140 MB on first setup. Generated phrases are saved here for fast replay."
             : "Free Finnish voice starts preparing as this page opens · about 140 MB on first setup. Generated phrases are saved here for fast replay.";
@@ -1949,7 +1949,7 @@
     if(detail.phase==="loading"){
       const step=detail.current?` · model ${detail.current} of ${detail.total}`:"";
       status.textContent=`Preparing the Finnish voice in the background${step} · first setup downloads about 140 MB.`;
-    }else if(detail.phase==="ready")status.textContent="Finnish voice is ready. Audio for words near the screen is prepared ahead for quick playback.";
+    }else if(detail.phase==="ready")status.textContent="Finnish voice is ready. Short words near the screen are prepared before you tap for quick playback.";
     else if(detail.phase==="failed")status.textContent="Background preparation paused. Tap a Finnish speaker when you are ready; the text stays on this device.";
   });
   setInterval(updateClock,1000);
