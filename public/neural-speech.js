@@ -563,7 +563,7 @@ function localAudioKey(text, style, speed) {
     // submit the preview immediately without this extra turn.
     if (afterCancel) window.setTimeout(begin, 0);
     else begin();
-    return { get hasStarted() { return started; }, localVoice: selected?.localService !== false, started: startedPromise, finished: finishedPromise };
+    return { get hasStarted() { return started; }, localVoice: selected ? selected.localService !== false : voices.length === 0, started: startedPromise, finished: finishedPromise };
   }
 
   function cancelDevicePreview(currentPlaybackId) {
@@ -626,7 +626,10 @@ function localAudioKey(text, style, speed) {
           ]);
           if (currentPlaybackId !== playbackId) return false;
           if (savedAudio) {
-            if (instantPreview?.hasStarted) return true;
+            if (instantPreview?.hasStarted) {
+              void decodeLocalAudio(savedAudio, localKey).catch(() => {});
+              return true;
+            }
             if (instantPreview) cancelDevicePreview(currentPlaybackId);
             return playLocalAudio(savedAudio, currentPlaybackId, localKey);
           }
@@ -639,13 +642,38 @@ function localAudioKey(text, style, speed) {
         // Do not make a learner wait half a second for the browser voice before
         // starting local synthesis. A very short grace still lets an installed
         // voice claim the first sound while the selected Finnish voice prepares.
-        const previewGraceMs = instantPreview.localVoice ? 150 : 45;
+        const previewGraceMs = instantPreview.localVoice ? 240 : 40;
         const previewStarted = await Promise.race([
           instantPreview.started,
           new Promise((resolve) => window.setTimeout(() => resolve(false), previewGraceMs)),
         ]);
         if (currentPlaybackId !== playbackId) return false;
-        if (previewStarted) await new Promise((resolve) => window.setTimeout(resolve, 25));
+        if (previewStarted) {
+          // Give the browser voice the audio thread first. Starting ONNX
+          // inference before the preview is audible can delay its first sound
+          // on devices that are still warming up. Prepare the selected local
+          // voice after the immediate preview finishes so the next tap can
+          // use a decoded, instant replay.
+          previewPlayed = true;
+          void instantPreview.finished.then(async (played) => {
+            if (currentPlaybackId !== playbackId || !played) return;
+            const blob = await speechApi.synthesize(phrase, style, speed, (progress) => {
+              if (currentPlaybackId !== playbackId) return;
+              if (progress.phase === "loading") {
+                const stage = progress.current ? ` · model ${progress.current} of ${progress.total}` : "";
+                showMessage(`Preparing the free Finnish voice${stage}. First use downloads about 140 MB; text stays on this device.`, true);
+              } else {
+                showMessage(`Preparing your selected voice for the next tap · ${progress.current} of ${progress.total}`, true);
+              }
+            });
+            if (currentPlaybackId !== playbackId) return;
+            await decodeLocalAudio(blob, localKey);
+            if (currentPlaybackId === playbackId) showMessage("Your selected Finnish voice is ready for instant replay.");
+          }).catch(() => {
+            if (currentPlaybackId === playbackId) showMessage("The quick voice played. Your selected voice will finish preparing in the background.");
+          });
+          return true;
+        }
         }
         const audioPromise = speechApi.synthesize(phrase, style, speed, (progress) => {
           if (currentPlaybackId !== playbackId || previewPlayed) return;
