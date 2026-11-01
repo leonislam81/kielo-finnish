@@ -63,8 +63,13 @@
   function answerReview(rating){
     const fi=state.reviewQueue[state.reviewIndex];if(!fi)return;
     const current=state.reviewSchedule[fi]||{box:0,due:Date.now()};
+    const currentBox=Math.max(0,Math.min(5,Math.floor(Number(current.box)||0))),nextBox=Math.min(5,currentBox+1),day=24*60*60*1000;
     if(rating==="again")state.reviewSchedule[fi]={box:0,due:Date.now()+10*60*1000};
-    else{const box=Math.min(5,Number(current.box||0)+1);const intervals=[1,3,7,14,30];state.reviewSchedule[fi]={box,due:Date.now()+intervals[box-1]*24*60*60*1000}}
+    else{
+      const intervals={hard:[.5,2,5,10,21,21],good:[1,3,7,14,30,30],easy:[3,7,14,30,30,30]};
+      if(!intervals[rating])return;
+      state.reviewSchedule[fi]={box:nextBox,due:Date.now()+intervals[rating][currentBox]*day};
+    }
     state.reviewIndex++;state.reviewRevealed=false;
     if(state.reviewIndex>=state.reviewQueue.length){state.reviewActive=false;state.reviewFinished=true;state.reviewQueue=[]}
     persist();renderPractice();
@@ -305,10 +310,13 @@
       const revealMarkup=state.reviewRevealed
         ? '<div class="review-answer"><strong>'+escapeHTML(word.en)+'</strong><span>'+(word.bn?escapeHTML(word.bn):'Bangla meaning is unavailable for this dictionary entry.')+'</span></div>'
         : '<button class="button-primary review-reveal" data-review="reveal">Show meaning <span>↓</span></button>';
-      const box=Number(state.reviewSchedule[fi]?.box||0);
-      const nextInterval=[1,3,7,14,30][Math.min(4,box)];
+      const box=Math.max(0,Math.min(5,Math.floor(Number(state.reviewSchedule[fi]?.box)||0)));
+      const intervalDays=[1,3,7,14,30,30];
+      const hardHours=[12,48,120,240,504,504][box];
+      const hardInterval=hardHours<24?hardHours+" h":hardHours/24+" days";
+      const daysLabel=days=>days+" day"+(days===1?"":"s");
       const ratingMarkup=state.reviewRevealed
-        ? '<div class="review-rating"><span>How easy was that?</span><button class="button-secondary" data-review="again">Again · 10 min</button><button class="button-primary" data-review="got-it">Got it · '+nextInterval+' day'+(box===0?"":"s")+'</button></div>'
+        ? '<div class="review-rating review-rating--advanced" role="group" aria-label="Choose when to review this word again"><span>How easily did you recall it?</span><button class="button-secondary" data-review="again"><strong>Again</strong><small>10 min</small></button><button class="button-secondary" data-review="hard"><strong>Hard</strong><small>'+hardInterval+'</small></button><button class="button-primary" data-review="good"><strong>Good</strong><small>'+daysLabel(intervalDays[box])+'</small></button><button class="button-primary review-easy" data-review="easy"><strong>Easy</strong><small>'+daysLabel(intervalDays[Math.min(5,box+1)])+'</small></button></div>'
         : '';
       return '<section class="review-panel"><div class="review-panel-top"><div><span class="review-kicker">SPACED REVIEW · '+(state.reviewIndex+1)+' OF '+state.reviewQueue.length+'</span><h2>Bring this word back to mind</h2></div><button class="link-button" data-review="finish">Pause review</button></div><div class="review-card"><div class="review-picture" role="img" aria-label="'+escapeHTML(scene.label)+'" style="--scene-image:url(\''+scene.image+'\')"><span>'+pictureForWord(word)+'</span></div><div class="review-prompt"><small>Say it, then listen</small><h3>'+escapeHTML(word.fi)+'</h3><button class="button-secondary" data-speak="'+escapeHTML(word.fi)+'">▶ &nbsp; Listen</button>'+revealMarkup+'</div></div>'+ratingMarkup+'</section>';
     }
@@ -1136,7 +1144,7 @@ When planning services, we should therefore assess both the accessibility of dig
     const speakingLevel=event.target.closest("[data-speaking-level]");if(speakingLevel){stopSpeakingRecognition();state.speakingLevel=speakingLevel.dataset.speakingLevel;state.speakingTranscript="";state.speakingMatch=false;state.speakingError="";persist(false);renderSpeaking();return}
     const speakingAction=event.target.closest("[data-speaking-action]");if(speakingAction){const action=speakingAction.dataset.speakingAction,course=speakingPractice[state.speakingLevel],step=Math.min(Number(state.speakingSteps[state.speakingLevel]||0),course.items.length-1);if(action==="listen")speak(course.items[step].fi,(state.speakingLevel==="c1"||state.speakingLevel==="c2")?0.94:0.78);else if(action==="listen-partner")speak(course.items[step].partnerFi||course.items[step].fi,(state.speakingLevel==="c1"||state.speakingLevel==="c2")?0.94:0.78);else if(action==="mic"){if(state.speakingListening)stopSpeakingRecognition();else startSpeakingRecognition();if(state.page==="speaking")renderSpeaking()}else if(action==="practised"){stopSpeakingRecognition();state.speakingTranscript="";state.speakingMatch=false;state.speakingError="";if(step>=course.items.length-1){state.speakingSteps[state.speakingLevel]=course.items.length;state.speakingComplete[state.speakingLevel]=true}else state.speakingSteps[state.speakingLevel]=step+1;persist();renderSpeaking()}else if(action==="restart"){stopSpeakingRecognition();state.speakingSteps[state.speakingLevel]=0;state.speakingComplete[state.speakingLevel]=false;state.speakingTranscript="";state.speakingMatch=false;state.speakingError="";persist();renderSpeaking()}return}
     const knownButton=event.target.closest("[data-known]");if(knownButton){const word=knownButton.dataset.known;if(state.known.has(word)){state.known.delete(word);delete state.reviewSchedule[word]}else{state.known.add(word);state.reviewSchedule[word]={box:0,due:Date.now()}}persist();renderPractice();return}
-    const reviewButton=event.target.closest("[data-review]");if(reviewButton){const action=reviewButton.dataset.review;if(action==="start")startReview();else if(action==="reveal"){state.reviewRevealed=true;renderPractice()}else if(action==="again"||action==="got-it")answerReview(action);else if(action==="finish"){state.reviewActive=false;state.reviewQueue=[];state.reviewRevealed=false;renderPractice()}return}
+    const reviewButton=event.target.closest("[data-review]");if(reviewButton){const action=reviewButton.dataset.review;if(action==="start")startReview();else if(action==="reveal"){state.reviewRevealed=true;renderPractice()}else if(["again","hard","good","easy"].includes(action))answerReview(action);else if(action==="got-it")answerReview("good");else if(action==="finish"){state.reviewActive=false;state.reviewQueue=[];state.reviewRevealed=false;renderPractice()}return}
     const matchButton=event.target.closest("[data-match]");if(matchButton){if(matchButton.dataset.match==="start"||matchButton.dataset.match==="next")startPictureMatch();return}
     const matchChoice=event.target.closest("[data-match-choice]");if(matchChoice){state.matchChoice=matchChoice.dataset.matchChoice;renderPractice();return}
     const soundChoice=event.target.closest("[data-sound-choice]");if(soundChoice){state.soundChoice=soundChoice.dataset.soundChoice;state.soundAnswered=true;renderSounds();return}
