@@ -363,7 +363,7 @@
     if(speechApiLoader)return speechApiLoader;
     speechApiLoader=new Promise((resolve,reject)=>{
       const script=document.createElement("script");
-      script.src=new URL("./neural-speech.js?v=18",document.baseURI).href;
+      script.src=new URL("./neural-speech.js?v=19",document.baseURI).href;
       script.async=true;
       script.addEventListener("load",()=>window.KieloSpeech?.speak?resolve(window.KieloSpeech):reject(new Error("The free voice player did not start.")),{once:true});
       script.addEventListener("error",()=>reject(new Error("The free voice player could not load.")),{once:true});
@@ -383,7 +383,7 @@
       return Promise.resolve(playback).then(played=>{
         if(status?.isConnected){
           const quickPreview=speech.getLastPlaybackMode?.()==="device-preview";
-          status.textContent=played?(quickPreview?"Quick device preview finished. Your selected free Finnish voice is preparing for faster replay.":"Playback finished. Choose a female or male voice to hear another style."):"The voice did not play. Check the connection, then tap Preview again.";
+          status.textContent=played?(quickPreview?"Quick browser preview started. Your selected free Finnish voice is preparing for faster replay.":"Playback finished. Choose a female or male voice to hear another style."):"The voice did not play. Check the connection, then tap Preview again.";
           status.classList.remove("is-busy");status.classList.toggle("is-error",!played);
         }
         return played;
