@@ -1,8 +1,8 @@
 (() => {
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
-  const DEVICE_PREVIEW_START_TIMEOUT = 2_500;
-  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=15";
+  const DEVICE_PREVIEW_START_TIMEOUT = 1_200;
+  const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=16";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
   const decodedLocalBuffers = new Map();
@@ -25,8 +25,8 @@
   let installedSpeechVoices = [];
   let recentPointerSpeech = null;
   const speechIntentTimers = new WeakMap();
-  // Prepare up to one screen of visible clips. A learner's tap clears waiting
-  // background clips and moves the requested phrase ahead of them.
+  // Warm previously saved clips without allowing background work to occupy
+  // the single local synthesis engine when a learner taps a new phrase.
   const MAX_BACKGROUND_PRELOADS = 8;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
@@ -91,8 +91,7 @@ function localAudioKey(text, style, speed) {
     if (!text || !style || isDataSaver() || !button.isConnected || !window.KieloSpeech) return;
     const speed = synthesisSpeed(speechRateForButton(button));
     const key = `${style}\u0000${speed}\u0000${text}`;
-    const canGenerate = localSpeechApi?.isReady?.() === true;
-    const marker = JSON.stringify([style, speed, text, canGenerate]);
+    const marker = JSON.stringify([style, speed, text, "saved-clip"]);
     const previousPriority = Number(button.dataset.kieloPreloadPriority ?? -1);
     if (button.dataset.kieloPreloadKey === marker && priority <= previousPriority) return;
     if (priority === 0 && queuedPreloads >= MAX_BACKGROUND_PRELOADS) return;
@@ -100,9 +99,8 @@ function localAudioKey(text, style, speed) {
     button.dataset.kieloPreloadPriority = String(priority);
     queuedPreloads += 1;
     localSpeech().then(async (speech) => {
-      const blob = await speech.preload(text, style, speed, canGenerate || priority > 0, priority);
+      const blob = await speech.preload(text, style, speed, false, priority);
       if (blob) void decodeLocalAudio(blob, key).catch(() => {});
-      else if (button.dataset.kieloPreloadKey === marker && (canGenerate || priority > 0)) delete button.dataset.kieloPreloadKey;
     }).catch(() => {
       if (button.dataset.kieloPreloadKey === marker) delete button.dataset.kieloPreloadKey;
     }).finally(() => {
@@ -447,10 +445,14 @@ function localAudioKey(text, style, speed) {
       const looksMale = /(^|[^a-z])(male|man)([^a-z]|$)|\b(alex|daniel|fred|david|mark|george|james|harri|mikko|liam|guy|ryan|matthew|joey|justin|john|bruce|aaron|arthur|oliver)\b/.test(name);
       return preferMale ? looksMale : looksFemale;
     };
+    const localFinnishGenderMatch = localFinnish.find(matchesPreferredGender);
     const finnishGenderMatch = finnish.find(matchesPreferredGender);
     const localGenderMatch = instantVoices.find(matchesPreferredGender);
-    const configuredVoice = voices.find((voice) => voice.name === selectedName && (voice.localService !== false || voice.lang?.toLowerCase().startsWith("fi")));
-    const selected = configuredVoice || finnishGenderMatch || finnish[0] || localGenderMatch || instantVoices.find((voice) => voice.default) || instantVoices[0];
+    const configuredVoice = voices.find((voice) => voice.name === selectedName && voice.localService !== false && voice.lang?.toLowerCase().startsWith("fi"));
+    // Start with an installed voice so a network-backed Finnish voice cannot
+    // make the first tap wait for its own startup request. The selected local
+    // Finnish voice still prepares behind this brief preview.
+    const selected = configuredVoice || localFinnishGenderMatch || localFinnish[0] || localGenderMatch || instantVoices.find((voice) => voice.default) || instantVoices[0] || finnishGenderMatch || finnish[0];
     if (!selected) return null;
     const utterance = new SpeechSynthesisUtterance(text);
     // Request Finnish for Finnish voices. If the preview falls back to another
@@ -519,7 +521,7 @@ function localAudioKey(text, style, speed) {
     // submit the preview immediately without this extra turn.
     if (afterCancel) window.setTimeout(begin, 0);
     else begin();
-    return { get hasStarted() { return started; }, started: startedPromise, finished: finishedPromise };
+    return { get hasStarted() { return started; }, localVoice: selected.localService !== false, started: startedPromise, finished: finishedPromise };
   }
 
   function cancelDevicePreview(currentPlaybackId) {
@@ -592,7 +594,7 @@ function localAudioKey(text, style, speed) {
         // to delay the speechSynthesis start event and make a fresh tap sound
         // as if it were waiting for the selected neural voice to load.
         if (instantPreview) {
-          const previewGraceMs = deviceVoices().length ? 250 : 90;
+          const previewGraceMs = instantPreview.localVoice ? 500 : 90;
           const previewStarted = await Promise.race([
             instantPreview.started,
             new Promise((resolve) => window.setTimeout(() => resolve(false), previewGraceMs)),
