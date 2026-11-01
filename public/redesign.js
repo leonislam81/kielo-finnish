@@ -818,12 +818,13 @@
     if(dictionaryGuidedExamples.some(item=>dictionaryFold(item.form)===needle))return true;
     return Boolean(fullDictionaryEntries?.some(item=>dictionaryFold(item[0])===needle));
   }
-  function dictionaryMorphologyMarkup(query){
+  function dictionaryMorphologyMarkup(query,localResults){
     const term=String(query||"").trim();if(!isSingleFinnishLookupWord(term))return "";
     const needle=dictionaryFold(term),state=dictionaryMorphologyState;
-    if(state.needle!==needle&&dictionaryHasExactLocalWord(term))return "";
+    const exactLocal=dictionaryHasExactLocalWord(term);
+    if(state.needle!==needle&&localResults>0&&!exactLocal)return "";
     const disclosure='<p class="finland-morphology-disclosure">Only this single word is sent to Aalto University’s SeCo Language Analysis Services when you choose online analysis. Do not enter a sentence or private text. Results can be ambiguous and need internet. <a href="https://demo.seco.tkk.fi/las/" target="_blank" rel="noopener noreferrer">About the analysis service ↗</a></p>';
-    if(state.needle!==needle)return '<section class="finland-morphology-prompt"><div><span class="page-kicker">NOT IN THE LOADED WORD LIST</span><h3>Check this as a Finnish word form</h3><p>Find a possible dictionary form and grammar label for one Finnish word.</p></div><button class="button-secondary" type="button" data-dictionary-analyze-form>Analyze online</button>'+disclosure+'</section>';
+    if(state.needle!==needle)return '<section class="finland-morphology-prompt"><div><span class="page-kicker">'+(exactLocal?'OPTIONAL GRAMMAR CHECK':'NOT IN THE LOADED WORD LIST')+'</span><h3>'+(exactLocal?'Check another possible reading':'Check this as a Finnish word form')+'</h3><p>Find possible dictionary forms and grammar labels for one Finnish word. The surrounding sentence helps decide which reading fits.</p></div><button class="button-secondary" type="button" data-dictionary-analyze-form>Analyze online</button>'+disclosure+'</section>';
     if(state.status==="loading")return '<section class="finland-morphology-prompt" role="status" aria-live="polite" aria-busy="true"><strong>Analyzing <span lang="fi">'+esc(term)+'</span>…</strong><p>The one-word request is with Aalto SeCo.</p></section>';
     if(state.status==="error")return '<section class="finland-morphology-prompt" role="status"><strong>Online word-form analysis is unavailable right now.</strong><p>Your local dictionary still works. Check your connection and try again later.</p><button class="button-secondary" type="button" data-dictionary-analyze-form>Try analysis again</button>'+disclosure+'</section>';
     if(state.status!=="done")return "";
@@ -885,7 +886,7 @@
     if(!result)return;
     const state=dictionaryItems(query,dictionaryPage);
     if(dictionaryMorphologyState.needle&&dictionaryMorphologyState.needle!==dictionaryFold(String(query||"").trim()))dictionaryMorphologyState={needle:"",status:"idle",analyses:[]};
-    result.innerHTML=dictionaryCards(query,dictionaryPage)+dictionaryMorphologyMarkup(query);
+    result.innerHTML=dictionaryCards(query,dictionaryPage)+dictionaryMorphologyMarkup(query,state.total);
     if(count)count.textContent=state.total.toLocaleString()+" "+(state.full?"dictionary, learner & form matches":state.guidedForm?"learner & guided-form matches":"learner words")+(state.total>60?" · showing "+Math.min((dictionaryPage+1)*60,state.total).toLocaleString():"");
     if(more)more.hidden=(dictionaryPage+1)*60>=state.total;
   }
