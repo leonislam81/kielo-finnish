@@ -17,7 +17,7 @@
 .grammar-pattern-chip{display:flex;min-width:0;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px 5px;border-radius:10px;text-align:center}
 .grammar-pattern-chip.emphasis{background:#e9f3e9}
 .grammar-pattern-chip strong{color:#355d47;font:700 clamp(11px,1.35vw,15px)/1.25 var(--heading);overflow-wrap:anywhere}
-.grammar-pattern-chip small{color:#89958c;font-size:8px;line-height:1.25}
+.grammar-pattern-chip small{color:#69726b;font-size:8px;line-height:1.25}
 .grammar-pattern-arrow{align-self:center;color:#99a89b;font-size:14px;font-weight:700}
 .grammar-note{display:flex;align-items:flex-start;gap:9px;margin-top:10px;padding:10px 11px;border-radius:11px;background:#f4f7f0;color:#718075}
 .grammar-note>span{color:#789477;font-size:12px}
@@ -36,14 +36,14 @@
 .grammar-choice>span:last-child{display:block;min-width:0}
 .grammar-choice strong,.grammar-choice small{display:block}
 .grammar-choice strong{color:#3b5a46;font:700 11px/1.35 var(--heading);overflow-wrap:anywhere}
-.grammar-choice small{margin-top:1px;color:#87938b;font-size:8px;line-height:1.4}
+.grammar-choice small{margin-top:1px;color:#666f69;font-size:8px;line-height:1.4}
 .grammar-feedback{margin-top:9px;padding:10px 11px;border-radius:10px}
 .grammar-feedback.right{background:#edf5ec;color:#466e4c}
 .grammar-feedback.wrong{background:#faf0ed;color:#946256}
 .grammar-feedback strong{font-size:9px}
 .grammar-feedback p{margin:3px 0 0;color:#748179;font-size:8px;line-height:1.55}
 .grammar-next{margin-top:9px;font-size:9px}
-.grammar-sources{margin-top:13px;padding:11px 13px;border:1px solid #e8ece6;border-radius:12px;background:#fafbf9;color:#88948c;font-size:8px;line-height:1.65}
+.grammar-sources{margin-top:13px;padding:11px 13px;border:1px solid #e8ece6;border-radius:12px;background:#fafbf9;color:#68716b;font-size:8px;line-height:1.65}
 .grammar-sources a{color:#52775d;font-weight:700;text-decoration:none}
 .grammar-sources a:hover{text-decoration:underline}
 .grammar-level-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:16px 0 13px}
@@ -52,12 +52,12 @@
 .grammar-level-tab.selected{border-color:#9eb99f;background:#edf5ec;box-shadow:inset 0 0 0 1px rgba(112,155,115,.12)}
 .grammar-level-tab:focus-visible{outline:3px solid #96bba1;outline-offset:2px}
 .grammar-level-tab span{font:700 11px/1.35 var(--heading)}
-.grammar-level-tab small{color:#87958a;font-size:8px;line-height:1.4}
+.grammar-level-tab small{color:#636d65;font-size:8px;line-height:1.4}
 .grammar-complete{position:relative;min-height:280px;overflow:hidden;padding:28px 30px;border:1px solid #dce8dc;border-radius:19px;background:linear-gradient(120deg,#edf5ec,#fafbf7)}
 .grammar-complete-mark{display:grid;width:48px;height:48px;place-items:center;border-radius:50%;background:#d9ead8;color:#4c8054;font-size:21px}
 .grammar-complete>.review-kicker{display:block;margin-top:13px}
 .grammar-complete h2{margin:5px 0 7px;color:#345640;font:700 21px var(--heading);letter-spacing:-.55px}
-.grammar-complete p{max-width:480px;margin:0 0 14px;color:#77867b;font-size:10px;line-height:1.65}
+.grammar-complete p{max-width:480px;margin:0 0 14px;color:#5f6b63;font-size:10px;line-height:1.65}
 .grammar-complete button{font-size:10px}
 .grammar-complete-art{position:absolute;right:28px;bottom:-7px;color:rgba(57,104,67,.12);font-size:125px;line-height:1}
 @media(max-width:960px){.grammar-content{padding:21px}.grammar-scene{min-height:540px}}
@@ -67,7 +67,7 @@
 .grammar-location-map{margin:12px 0;padding:12px;border:1px solid #e1e9df;border-radius:13px;background:#fbfcf9}
 .grammar-location-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
 .grammar-location-heading>span{display:grid;width:28px;height:28px;place-items:center;border-radius:9px;background:#e9f2e8;color:#648269}
-.grammar-location-heading p{margin:3px 0 0;color:#849087;font-size:8px;line-height:1.4}
+.grammar-location-heading p{margin:3px 0 0;color:#6a746d;font-size:8px;line-height:1.4}
 .grammar-location-grid{display:grid;grid-template-columns:42px repeat(3,minmax(0,1fr));gap:5px;align-items:stretch}
 .grammar-location-head{padding:7px 4px;border-radius:8px;background:#f0f4ee;color:#718075;text-align:center;font-size:7px;font-weight:800;line-height:1.35}
 .grammar-location-head small{display:block;margin-top:2px;color:#98a197;font-size:6px;letter-spacing:.3px}
@@ -85,7 +85,7 @@
 .grammar-case-explorer{margin:18px 0 14px;padding:clamp(14px,2.4vw,24px);border:1px solid #dfe9df;border-radius:18px;background:linear-gradient(145deg,#fff 22%,#f7faf5 100%);box-shadow:0 8px 28px rgba(31,57,45,.035)}
 .grammar-case-heading{display:flex;align-items:center;justify-content:space-between;gap:14px}
 .grammar-case-heading h2{margin:5px 0;color:#294c3b;font:700 clamp(18px,2.5vw,23px)/1.2 var(--heading);letter-spacing:-.45px}
-.grammar-case-heading p{max-width:670px;margin:0;color:#76847a;font-size:10px;line-height:1.65}
+.grammar-case-heading p{max-width:670px;margin:0;color:#616d65;font-size:10px;line-height:1.65}
 .grammar-case-count{display:grid;width:48px;height:48px;flex:0 0 auto;place-items:center;border:1px solid #dce9dc;border-radius:15px;background:#edf5ec;color:#3f6b4b;font:700 18px var(--heading)}
 .grammar-case-groups{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:16px 0 12px}
 .grammar-case-group{min-height:38px;padding:8px 10px;border:1px solid #e2e9e1;border-radius:10px;background:#fff;color:#627366;font-size:8px;font-weight:800;letter-spacing:.55px;text-align:center;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
@@ -129,7 +129,7 @@
 .grammar-case-choice{display:flex;min-width:0;min-height:48px;flex-direction:column;justify-content:center;gap:3px;padding:7px 9px;border:1px solid #e5ebe4;border-radius:9px;background:#fff;text-align:left;cursor:pointer;transition:background .15s,border-color .15s}
 .grammar-case-choice:hover{border-color:#bfd1bf;background:#f8fbf7}
 .grammar-case-choice strong{overflow-wrap:anywhere;color:#385845;font:700 9px/1.3 var(--heading)}
-.grammar-case-choice small{color:#849087;font-size:7px;line-height:1.4}
+.grammar-case-choice small{color:#6a746d;font-size:7px;line-height:1.4}
 .grammar-case-choice.correct{border-color:#bcd8bd;background:#edf6ed}
 .grammar-case-choice.incorrect{border-color:#e7c6bd;background:#fcf3f0}
 .grammar-case-feedback{margin:8px 0 0;padding:8px 10px;border-radius:9px;font-size:8px;line-height:1.55}
