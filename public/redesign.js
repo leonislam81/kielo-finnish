@@ -446,7 +446,7 @@
     if(speechApiLoader)return speechApiLoader;
     speechApiLoader=new Promise((resolve,reject)=>{
       const script=document.createElement("script");
-      script.src=new URL("./neural-speech.js?v=48",document.baseURI).href;
+      script.src=new URL("./neural-speech.js?v=49",document.baseURI).href;
       script.async=true;
       script.addEventListener("load",()=>window.KieloSpeech?.speak?resolve(window.KieloSpeech):reject(new Error("The free voice player did not start.")),{once:true});
       script.addEventListener("error",()=>reject(new Error("The free voice player could not load.")),{once:true});
@@ -476,8 +476,6 @@
     return loadKieloSpeech().then(startPlayback).catch(()=>{
       const message="Free Finnish voices could not load. Check your internet connection and tap Preview again; no Finnish device voice or API key is needed.";
       if(status?.isConnected){status.textContent=message;status.classList.remove("is-busy");status.classList.add("is-error")}
-      const toast=document.getElementById("toast");
-      if(toast){toast.textContent=message;toast.classList.add("visible");window.clearTimeout(toast.kieloTimer);toast.kieloTimer=window.setTimeout(()=>toast.classList.remove("visible"),5000)}
       return false;
     });
   }
