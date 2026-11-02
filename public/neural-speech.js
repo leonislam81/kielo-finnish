@@ -1,7 +1,9 @@
 (() => {
   const SITE_API = "https://kielo-finnish.openmoss1.chatgpt.site";
   const VOICE_CACHE_LIMIT = 40;
-  const DEVICE_PREVIEW_START_TIMEOUT = 1_200;
+  // Keep a browser that never starts speech from delaying the Finnish fallback
+  // for a full second. Working device voices still get a short chance to start.
+  const DEVICE_PREVIEW_START_TIMEOUT = 500;
   const LOCAL_SPEECH_URL = "./supertonic-speech.js?v=19";
   const audioCache = new Map();
   const decodedLocalAudio = new WeakMap();
@@ -31,7 +33,7 @@
   // Prepare a small set of short, visible words before the learner taps them.
   // A bounded queue keeps first playback responsive without generating the
   // whole dictionary in the background; taps promote their own clip.
-  const MAX_SHORT_BACKGROUND_PRELOADS = 12;
+  const MAX_SHORT_BACKGROUND_PRELOADS = 16;
   const MAX_LONG_BACKGROUND_PRELOADS = 0;
   let playbackId = 0;
   let lastPlaybackMode = "selected";
