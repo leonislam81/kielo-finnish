@@ -25,7 +25,7 @@
 .finland-holiday-phrase>div>span{display:block;margin-bottom:4px;color:#829184;font-size:8px;font-weight:800;letter-spacing:.9px}
 .finland-holiday-phrase strong{display:block;color:#2b4e3c;font:700 15px/1.4 var(--heading,Inter,sans-serif)}
 .finland-holiday-phrase p,.finland-holiday-phrase small{display:block;margin:3px 0 0;color:#758277;font-size:9px;line-height:1.5}
-.finland-holiday-phrase small{color:#829087}
+.finland-holiday-phrase small{color:#69756e}
 .finland-holiday-phrase button{flex:0 0 auto;min-height:37px;padding:8px 11px;border:1px solid #d9e3d8;border-radius:9px;background:#fff;color:#41664f;font-size:9px;font-weight:700;cursor:pointer}
 .finland-holiday-note{display:flex;gap:10px;margin:11px 0 0;padding:11px 12px;border:1px solid #e8e7d8;border-radius:11px;background:#fbfaf3;color:#778070}
 .finland-holiday-note>span{color:#bf8760;font-size:15px}

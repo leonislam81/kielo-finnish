@@ -612,6 +612,12 @@ The shared accessibility layer now removes CSS animation and transitions when a 
 
 Sources: [W3C — Target Size (Minimum), WCAG 2.2](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum), [W3C — Animation from Interactions](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions), [W3C — CSS technique C39](https://www.w3.org/WAI/WCAG22/Techniques/css/C39), and [MDN — Using media queries for accessibility](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Media_queries/Using_for_accessibility).
 
+## Contrast, narrow-screen reflow, and progress labels (2 November 2026)
+
+A targeted review of eight learning routes found low-contrast muted labels and a header that could extend past a 320 CSS-pixel viewport. Sampled text colors were darkened to at least a 4.8:1 contrast ratio against their observed backgrounds, and the compact header now hides redundant visual labels while retaining accessible names. Sound, conversation, listening, and reading progress indicators expose progressbar roles and current values to assistive technology. This is a scoped improvement based on sampled pages; it does not establish full WCAG conformance or replace broader screen-reader and browser testing.
+
+Sources: [W3C — Contrast (Minimum), WCAG 2.2](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum) and [W3C — Reflow, WCAG 2.2](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html).
+
 ## Saved vocabulary CSV export (1 November 2026)
 
 The learner data panel now exports saved review words as a UTF-8 CSV with Finnish, English and Bangla meanings, topic, level, recall box, and next-review UTC timestamp. It contains no lesson history, Daily 100 log, or writing drafts; the existing JSON backup remains the portable full-progress format. CSV fields are quoted and spreadsheet formula-like values are escaped before download.
