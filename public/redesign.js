@@ -446,7 +446,7 @@
     if(speechApiLoader)return speechApiLoader;
     speechApiLoader=new Promise((resolve,reject)=>{
       const script=document.createElement("script");
-      script.src=new URL("./neural-speech.js?v=47",document.baseURI).href;
+      script.src=new URL("./neural-speech.js?v=48",document.baseURI).href;
       script.async=true;
       script.addEventListener("load",()=>window.KieloSpeech?.speak?resolve(window.KieloSpeech):reject(new Error("The free voice player did not start.")),{once:true});
       script.addEventListener("error",()=>reject(new Error("The free voice player could not load.")),{once:true});

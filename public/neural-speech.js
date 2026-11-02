@@ -241,10 +241,17 @@ function localAudioKey(text, style, speed) {
     return statusRequest;
   }
 
-  function showMessage(message, persistent = false) {
+  function showMessage(message, persistent = false, showToast = false) {
     const toast = document.getElementById("toast");
     document.dispatchEvent(new CustomEvent("kielo-speech-status", { detail: { message, persistent } }));
     if (!toast) return;
+    if (toast.dataset.kieloSpeechNotice === "true") {
+      window.clearTimeout(toast.kieloTimer);
+      toast.classList.remove("visible");
+      delete toast.dataset.kieloSpeechNotice;
+    }
+    if (!showToast) return;
+    toast.dataset.kieloSpeechNotice = "true";
     toast.textContent = message;
     toast.classList.add("visible");
     window.clearTimeout(toast.kieloTimer);
@@ -254,9 +261,10 @@ function localAudioKey(text, style, speed) {
   function clearMessage() {
     const toast = document.getElementById("toast");
     document.dispatchEvent(new CustomEvent("kielo-speech-status", { detail: { message: "", persistent: false } }));
-    if (!toast) return;
+    if (toast?.dataset.kieloSpeechNotice !== "true") return;
     window.clearTimeout(toast.kieloTimer);
     toast.classList.remove("visible");
+    delete toast.dataset.kieloSpeechNotice;
   }
 
   function prepareAudioContext() {
@@ -393,7 +401,7 @@ function localAudioKey(text, style, speed) {
       signal: AbortSignal.timeout(20_000),
     });
     if (!response.ok) {
-      if (response.status === 429) showMessage("The site’s Finnish neural-voice limit is reached for today. Using the device voice instead.");
+      if (response.status === 429) showMessage("The site’s Finnish neural-voice limit is reached for today. Using the device voice instead.", false, true);
       throw new Error("Natural Finnish audio is temporarily unavailable.");
     }
     const audio = await response.blob();
@@ -474,7 +482,7 @@ function localAudioKey(text, style, speed) {
 
   function speakOnDevice(text, rate, currentPlaybackId, quietIfMissing = false, afterCancel = false) {
     if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
-      showMessage("Audio playback is not available in this browser.");
+      showMessage("Audio playback is not available in this browser.", false, true);
       return { started: Promise.resolve(false), finished: Promise.resolve(false) };
     }
     const voices = deviceVoices();
@@ -546,7 +554,7 @@ function localAudioKey(text, style, speed) {
     utterance.onend = () => finish(true);
     utterance.onerror = (event) => {
       if (!quietIfMissing && event?.error !== "canceled" && event?.error !== "interrupted") {
-        showMessage("This device could not play that voice. Choose another device voice in Voice & audio settings.");
+        showMessage("This device could not play that voice. Choose another device voice in Voice & audio settings.", false, true);
       }
       finish(false);
     };
@@ -727,7 +735,7 @@ function localAudioKey(text, style, speed) {
         if (instantPreview) cancelDevicePreview(currentPlaybackId);
         const played = await playLocalAudio(blob, currentPlaybackId, localKey);
         clearMessage();
-        if (!played && currentPlaybackId === playbackId) showMessage("The Finnish voice is ready. Tap again if this browser blocked audio playback.");
+        if (!played && currentPlaybackId === playbackId) showMessage("The Finnish voice is ready. Tap again if this browser blocked audio playback.", false, true);
         return played;
       } catch (error) {
         if (currentPlaybackId !== playbackId) return false;
@@ -751,7 +759,7 @@ function localAudioKey(text, style, speed) {
           clearMessage();
           return true;
         }
-        showMessage(failureMessage);
+        showMessage(failureMessage, false, true);
         return false;
       }
     };
