@@ -311,7 +311,7 @@ The next review should compare every chapter against the full Finland A–Z map,
 - [Open Finnish–English dictionary dataset — coverage, components and CC BY-SA 4.0 notices](https://danielgregorini.github.io/koreader-dicts/fr/fi-en/)
 - [Finnish Meteorological Institute — seasons in Finland](https://en.ilmatieteenlaitos.fi/seasons-in-finland)
 - [Open-Meteo Forecast API documentation](https://open-meteo.com/en/docs)
-- [Statistics Finland — Regions 2025 classification](https://stat.fi/fi/luokitukset/maakunta/maakunta_1_20250101) and [English definition of a region](https://stat.fi/meta/kas/maakunta_en.html)
+- [Statistics Finland — Regions 2026 classification](https://stat.fi/en/luokitukset/maakunta/maakunta_1_20260101) and [English definition of a region](https://stat.fi/meta/kas/maakunta_en.html)
 - [Open-Meteo Geocoding API](https://open-meteo.com/en/docs/geocoding-api)
 - [Open-Meteo use terms](https://open-meteo.com/en/terms) and [commercial plans](https://open-meteo.com/en/pricing)
 - [Web Speech API specification](https://dvcs.w3.org/hg/speech-api/raw-file/tip/webspeechapi)
@@ -321,9 +321,9 @@ The next review should compare every chapter against the full Finland A–Z map,
 - [Natural Resources Institute Finland (Luke)](https://www.luke.fi/en/)
 - [Yle — Finnish learning resources](https://yle.fi/aihe/oppiminen)
 
-### Finland Explorer data snapshot (checked 2026-10-23)
+### Finland Explorer data snapshot (checked 2026-11-02)
 
-- Statistics Finland's population structure release reports 5,652,881 residents at 31 December 2025, 23.8% aged 65 or over, and an age-dependency ratio of 61.6. The snapshot labels its 2025 reference year and links directly to the official series; it is not presented as a live population counter. [Statistics Finland — Population structure](https://stat.fi/en/statistics/vaerak)
+- Statistics Finland's population structure release reports 5,652,881 residents at 31 December 2025, 23.8% aged 65 or over, and an age-dependency ratio of 61.6. The 19 regional counts and age shares use Statistics Finland's current Regions 2026 classification with 2025 year-end population values. The snapshot labels its 2025 reference year and is not presented as a live population counter. [Statistics Finland — Population structure](https://stat.fi/en/statistics/vaerak), [2025 population by region (2026 regional division)](https://otos.stat.fi/server/api/core/bitstreams/f3e835da-b220-4251-8079-7b7309d1d2a4/content), and [Regions 2026 classification](https://stat.fi/en/luokitukset/maakunta/maakunta_1_20260101)
 - Statistics Finland's 2025 year-end table gives Finnish as the registered language for 4,719,802 people (83.5%), Swedish for 284,611 (5.0%), and a Sámi language for 2,076 people; 646,392 (11.4%) have another recorded language. The table records one language per resident, not every language spoken. Other recorded languages do not establish citizenship or birthplace. The same source series reports region totals and age/language shares for all 19 regions. [Statistics Finland — Key figures by region](https://pxdata.stat.fi/PxWeb/pxweb/en/StatFin/StatFin__vaerak/11ra.px/table/tableViewLayout1/)
 - Luke's Forest accounts 2024, released 14 October 2026, reports a 22.4 million hectare forest area under the FAO definition and a 139 billion euro value for growing stock including deadwood. Luke describes the value as theoretical and not the realizable timber value. Kielo keeps that caveat beside the figure and displays the data year. [Natural Resources Institute Finland — Forest accounts 2024](https://www.luke.fi/en/statistics/forest-accounts/forest-accounts-2024)
 - The new Explorer snapshot pairs these official facts with spoken Finnish labels, English glosses, Bangla support, and a short original model sentence. Values should be refreshed when the responsible statistical agencies issue newer releases.
