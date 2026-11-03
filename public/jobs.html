@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f6ef" />
+  <title>Find a job in Finland · Kielo</title>
+  <meta name="description" content="Search trusted Finnish job sources, save opportunities on your device, and keep track of your applications with Kielo." />
+  <link rel="icon" href="./images/kielo-mark.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./jobs.css?v=1" />
+  <script src="./jobs.js?v=1" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+  <header class="job-header">
+    <div class="wrap header-row">
+      <a class="brand" href="./index.html" aria-label="Kielo home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 25V12m0 8c-3-4-6-5-9-4m9-2c2-4 5-6 9-6" stroke="#dce9d8" stroke-width="1.7" stroke-linecap="round"/><path d="M15.7 7.6c0-2 1.3-3.6 3.1-3.6 1.6 0 2.8 1.3 2.8 3.1 0 1.7-1.1 3-2.6 3-.9 0-1.7-.5-2-1.3-.3.8-1 1.3-1.9 1.3-1.6 0-2.7-1.3-2.7-3 0-1.8 1.2-3.1 2.8-3.1 1.6 0 2.8 1.3 3 3.1" fill="#e8d3a4"/><path d="M10 21c-2.7 0-4.7 1.3-5.6 3.4 2.6.7 5 .3 6.5-1.5m11.1-7.7c2.7-1.3 5-.9 6.8.7-1.8 2.1-4 3-6.1 2.1" stroke="#dce9d8" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        <span class="brand-word"><strong>Kielo</strong><small>FINLAND, WITH YOU</small></span>
+      </a>
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <a href="./index.html" data-i18n="navHome">Home</a>
+        <a href="./learn.html" data-i18n="navLearn">Learn Finnish</a>
+        <a class="active" href="#main" aria-current="page" data-i18n="navJobs">Find a job</a>
+        <a href="#job-sources" data-i18n="navSources">Job sources</a>
+        <a href="#career" data-i18n="navCareer">Career guide</a>
+      </nav>
+      <div class="header-tools">
+        <button class="header-button" id="saved-jobs-shortcut" type="button" aria-label="Open my saved jobs"><span aria-hidden="true">♧</span><span class="header-button-label" data-i18n="myJobs">My jobs</span><b id="saved-job-count">0</b></button>
+        <label class="sr-only" for="ui-language" data-i18n="language">Interface language</label>
+        <select class="language-select" id="ui-language" aria-label="Interface language"><option value="en">EN</option><option value="fi">FI</option><option value="bn">বাংলা</option></select>
+        <button class="mobile-menu-button" id="menu-toggle" type="button" aria-label="Open navigation" aria-controls="main-nav" aria-expanded="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <span class="eyebrow"><i></i><span data-i18n="heroKicker">WORK · GROW · BELONG</span></span>
+        <h1 id="hero-title" data-i18n-html="heroTitle">Find your next step <em>in Finland.</em></h1>
+        <p data-i18n="heroIntro">Search trusted job websites from one place. When you find a real opening, save its original link and keep your application steps together.</p>
+        <div class="hero-badges"><span><i>✓</i><span data-i18n="heroBadge1">Original job sources</span></span><span><i>✓</i><span data-i18n="heroBadge2">Private, on-device job list</span></span></div>
+      </div>
+      <aside class="hero-art" aria-label="A calm start to your work journey in Finland">
+        <img src="./images/kielo-cover.webp" alt="A learner by the water on an autumn day in Finland" />
+        <div class="art-shade"></div>
+        <div class="art-caption"><small>SUOMI · FINLAND</small><strong data-i18n="artCaption">Find a path that feels like yours.</strong></div>
+        <span class="art-stamp" aria-hidden="true">työ<br /><small>work</small></span>
+      </aside>
+    </section>
+
+    <section class="search-section wrap" aria-label="Search Finnish job sources">
+      <form class="search-card" id="job-search-form" role="search">
+        <div class="field keyword-field"><label for="job-keyword" data-i18n="keywordLabel">Job title, skill or employer</label><div class="input-shell"><span aria-hidden="true">⌕</span><input id="job-keyword" type="search" autocomplete="off" placeholder="e.g. cleaner, nurse, warehouse" data-i18n-placeholder="keywordHint" /></div></div>
+        <div class="field"><label for="job-city" data-i18n="cityLabel">City or region</label><div class="input-shell"><span aria-hidden="true">⌖</span><select id="job-city"><option value="" data-i18n="anywhere">Anywhere in Finland</option><option>Helsinki</option><option>Espoo</option><option>Vantaa</option><option>Tampere</option><option>Turku</option><option>Pori</option><option>Seinäjoki</option><option>Oulu</option><option>Vaasa</option><option>Jyväskylä</option><option>Lahti</option><option>Kuopio</option><option>Rovaniemi</option><option>Joensuu</option><option>Lappeenranta</option><option>Hämeenlinna</option><option>Rauma</option><option>Kokkola</option><option value="other" data-i18n="otherCities">Other city…</option></select></div><div class="input-shell other-city-shell" id="other-city-shell" hidden><span aria-hidden="true">⌖</span><input id="other-city" type="search" autocomplete="off" placeholder="Type a Finnish city" data-i18n-placeholder="otherCityHint" /></div></div>
+        <div class="field"><label for="job-type" data-i18n="typeLabel">Employment type</label><div class="input-shell"><span aria-hidden="true">▣</span><select id="job-type"><option value="" data-i18n="anyType">Any type</option><option value="full-time" data-i18n="fullTime">Full-time</option><option value="part-time" data-i18n="partTime">Part-time</option><option value="seasonal" data-i18n="seasonal">Seasonal / summer</option><option value="internship" data-i18n="internship">Internship / trainee</option><option value="temporary" data-i18n="temporary">Temporary</option></select></div></div>
+        <button class="primary-button search-button" type="submit"><span aria-hidden="true">⌕</span><span data-i18n="searchButton">Find matching sources</span></button>
+      </form>
+      <div class="search-bottom"><div class="quick-searches"><strong data-i18n="popular">Popular:</strong><button type="button" data-query="cleaner" data-i18n="quickClean">Cleaning</button><button type="button" data-query="warehouse" data-i18n="quickWarehouse">Warehouse</button><button type="button" data-query="restaurant" data-i18n="quickRestaurant">Restaurant</button><button type="button" data-query="summer job" data-i18n="quickSummer">Summer jobs</button><button type="button" data-query="internship" data-i18n="quickInternship">Internships</button></div><button class="text-button" id="save-search-button" type="button"><span aria-hidden="true">＋</span><span data-i18n="saveSearch">Save this search</span></button></div>
+      <p class="search-hint" id="search-hint" aria-live="polite" data-i18n="searchHint">Your search is used to find relevant sources. Live vacancies open on the source’s own website.</p>
+    </section>
+
+    <section class="trust-note wrap" aria-label="How job results work">
+      <span class="note-icon" aria-hidden="true">i</span><div><strong data-i18n="trustTitle">Real job listings stay at their source</strong><p data-i18n="trustText">Kielo currently searches and organizes job-source websites; it does not yet import vacancy feeds. You’ll see the original live listing after opening a source. Job counts and salary details are never guessed.</p></div><a href="https://tyomarkkinatori.fi/en/instructions-and-support/interfaces/interfaces-for-job-postings" target="_blank" rel="noopener noreferrer" data-i18n="apiInfo">About source access ↗</a>
+    </section>
+
+    <section class="content-grid wrap" id="job-sources">
+      <aside class="filters-card" aria-labelledby="filters-heading">
+        <div class="filter-head"><div><span class="section-eyebrow" data-i18n="refine">REFINE SOURCES</span><h2 id="filters-heading" data-i18n="filters">Filters</h2></div><button class="clear-button" id="clear-filters" type="button" data-i18n="clear">Clear</button></div>
+        <fieldset><legend data-i18n="sourceType">Source type</legend><label class="check-row"><input type="checkbox" value="general" data-source-filter /><span data-i18n="generalBoards">Job boards</span></label><label class="check-row"><input type="checkbox" value="public" data-source-filter /><span data-i18n="publicServices">Public services</span></label><label class="check-row"><input type="checkbox" value="agency" data-source-filter /><span data-i18n="agencies">Recruitment agencies</span></label><label class="check-row"><input type="checkbox" value="employer" data-source-filter /><span data-i18n="employers">Employer careers</span></label><label class="check-row"><input type="checkbox" value="student" data-source-filter /><span data-i18n="students">Students & graduates</span></label></fieldset>
+        <fieldset><legend data-i18n="focusArea">Focus area</legend><select class="full-select" id="focus-filter"><option value="" data-i18n="allAreas">All areas</option><option value="cleaning" data-i18n="focusCleaning">Cleaning & facilities</option><option value="hospitality" data-i18n="focusHospitality">Restaurants & hospitality</option><option value="logistics" data-i18n="focusLogistics">Logistics & warehouse</option><option value="retail" data-i18n="focusRetail">Retail & supermarkets</option><option value="technology" data-i18n="focusTech">Technology & business</option><option value="public-sector" data-i18n="focusPublic">Public sector</option><option value="industry" data-i18n="focusIndustry">Industry & manufacturing</option></select></fieldset>
+        <div class="filter-explainer"><span aria-hidden="true">✳</span><p data-i18n="filterNote">These filters help you choose a useful source. The source website controls its own vacancy filters.</p></div>
+      </aside>
+
+      <div class="results-column">
+        <div class="results-heading"><div><span class="section-eyebrow" data-i18n="sourceDirectory">FINNISH JOB SOURCE DIRECTORY</span><h2 data-i18n="resultsTitle">Start with a trusted source</h2><p data-i18n="resultsIntro">Choose a job board, public service, recruiter or employer. Openings and applications are handled by each original website.</p></div><span class="source-count" id="source-count" aria-live="polite">—</span></div>
+        <div class="active-search" id="active-search" hidden></div>
+        <div class="source-results" id="source-results" aria-live="polite"></div>
+        <div class="no-results" id="no-results" hidden><span>⌕</span><h3 data-i18n="noSourcesTitle">No sources match these filters</h3><p data-i18n="noSourcesText">Clear one filter or try a broader search. Job listings are not stored here.</p></div>
+        <div class="results-footnote"><span aria-hidden="true">↗</span><span data-i18n="resultsNote">Vacancy details, language requirements, deadlines and application links should always be checked on the original advert.</span></div>
+      </div>
+
+      <aside class="side-column">
+        <section class="side-card saved-search-card" aria-labelledby="saved-search-title"><span class="side-icon" aria-hidden="true">⌕</span><span class="section-eyebrow" data-i18n="savedOnDevice">SAVED ON THIS DEVICE</span><h2 id="saved-search-title" data-i18n="savedSearches">Your saved searches</h2><p data-i18n="savedSearchText">Keep useful search details close by. These are reminders only; no background alerts are sent.</p><div class="saved-search-list" id="saved-search-list"></div></section>
+        <section class="side-card toolkit-card" id="career"><span class="section-eyebrow" data-i18n="prepare">PREPARE WITH CONFIDENCE</span><h2 data-i18n="careerTitle">A few useful next steps</h2><ul><li data-i18n="careerTipOne">Read the employer and role carefully before applying.</li><li data-i18n="careerTipTwo">Prepare a CV and a short application that match the position.</li><li data-i18n="careerTipThree">Recruitment services should not charge job seekers a fee.</li></ul><a class="side-link" href="https://infofinland.fi/en/work-and-enterprise/find-a-job-in-finland/tips-for-job-hunting" target="_blank" rel="noopener noreferrer"><span data-i18n="officialGuide">Read the official job-search guide</span><span aria-hidden="true">↗</span></a></section>
+        <section class="side-card language-card"><span class="section-eyebrow" data-i18n="languageForWork">FINNISH FOR WORK</span><h2 lang="fi">työpaikka <small>·</small> <span data-i18n="workplace">workplace</span></h2><p lang="fi">Olen kiinnostunut tästä työpaikasta.</p><p data-i18n="phraseTranslation">I am interested in this job.</p><a class="side-link" href="./learn.html?open=culture"><span data-i18n="learnWorkFinnish">Learn Finnish for work</span><span aria-hidden="true">↗</span></a></section>
+      </aside>
+    </section>
+
+    <section class="directory-section" id="sources-all">
+      <div class="wrap">
+        <div class="directory-heading"><div><span class="section-eyebrow" data-i18n="browseAll">BROWSE BY FIELD</span><h2 data-i18n="directoryTitle">Explore more places to look</h2><p data-i18n="directoryIntro">A growing directory of Finnish job boards, recruiters and employer career pages. Kielo links to these sources; it does not claim their listings are connected.</p></div><div class="directory-tools"><label class="sr-only" for="directory-search" data-i18n="searchDirectory">Search the source directory</label><input id="directory-search" type="search" placeholder="Search sources or fields…" data-i18n-placeholder="directoryHint" /><select id="directory-category" aria-label="Filter source directory"><option value="" data-i18n="allSourceTypes">All source types</option><option value="general" data-i18n="generalBoards">Job boards</option><option value="public" data-i18n="publicServices">Public services</option><option value="agency" data-i18n="agencies">Recruitment agencies</option><option value="employer" data-i18n="employers">Employer careers</option><option value="student" data-i18n="students">Students & graduates</option></select></div></div>
+        <div class="category-pills" role="group" aria-label="Popular source categories"><button type="button" class="category-pill active" data-category="" aria-pressed="true" data-i18n="all">All</button><button type="button" class="category-pill" data-category="public" aria-pressed="false" data-i18n="publicServices">Public services</button><button type="button" class="category-pill" data-category="agency" aria-pressed="false" data-i18n="agencies">Recruiters</button><button type="button" class="category-pill" data-category="employer" aria-pressed="false" data-i18n="employers">Employer careers</button><button type="button" class="category-pill" data-category="student" aria-pressed="false" data-i18n="students">Students & graduates</button></div>
+        <div class="directory-grid" id="directory-grid"></div>
+      </div>
+    </section>
+
+    <section class="tracker-section wrap" id="my-jobs" aria-labelledby="tracker-title">
+      <div class="tracker-heading"><div><span class="section-eyebrow" data-i18n="yourJourney">YOUR JOB JOURNEY</span><h2 id="tracker-title" data-i18n="trackerTitle">Keep your applications together</h2><p data-i18n="trackerIntro">Save a real job by pasting its original vacancy link. Add a private note or update its status as you go.</p></div><button class="primary-button" id="add-job-button" type="button"><span aria-hidden="true">＋</span><span data-i18n="addJob">Save a job link</span></button></div>
+      <div class="privacy-banner"><span aria-hidden="true">▣</span><p data-i18n="privacyLocal">Your saved jobs, notes and searches stay in this browser on this device. Kielo does not send them to an account or server.</p><button id="export-data" type="button" class="text-button" data-i18n="exportData">Export my data</button></div>
+      <div class="tracker-list" id="tracker-list"></div>
+      <div class="tracker-empty" id="tracker-empty"><span aria-hidden="true">✳</span><h3 data-i18n="trackerEmptyTitle">Your list is ready when you are</h3><p data-i18n="trackerEmptyText">When a source has an opening you like, add its exact link here. It will appear in your private application tracker.</p><button class="secondary-button" type="button" id="add-first-job" data-i18n="addFirstJob">Add my first job</button></div>
+      <div class="data-controls"><label class="import-button" for="import-data" data-i18n="importData">Import a Kielo backup</label><input id="import-data" type="file" accept="application/json,.json" /></div>
+    </section>
+
+    <section class="safety-section wrap"><div class="safety-mark" aria-hidden="true">!</div><div><strong data-i18n="safetyTitle">A safe search is a better search</strong><p data-i18n="safetyText">Check the employer and original vacancy before sharing personal information. Official guidance says employment services are free for job seekers—be cautious if anyone asks you to pay to access a job.</p></div><a href="https://infofinland.fi/en/work-and-enterprise/find-a-job-in-finland/tips-for-job-hunting" target="_blank" rel="noopener noreferrer" data-i18n="safetyLink">Official guidance ↗</a></section>
+  </main>
+
+  <footer class="job-footer"><div class="wrap footer-row"><a class="footer-brand" href="./index.html">Kielo</a><span data-i18n="footerText">Find work. Learn Finnish. Make a life in Finland.</span><div><a href="./index.html" data-i18n="navHome">Home</a><a href="./learn.html" data-i18n="navLearn">Learn Finnish</a><a href="https://leonislam.com/" target="_blank" rel="noopener noreferrer">© Leon Islam · Credits</a></div></div></footer>
+
+  <div class="modal-backdrop" id="job-modal" hidden>
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="dialog-head"><div><span class="section-eyebrow" data-i18n="localOnly">PRIVATE · SAVED ON THIS DEVICE</span><h2 id="modal-title" data-i18n="modalTitle">Add a real job to your list</h2></div><button class="icon-button" id="modal-close" type="button" aria-label="Close dialog">×</button></div>
+      <form class="dialog-form" id="job-record-form">
+        <label><span data-i18n="jobTitleLabel">Job title</span><input name="title" required maxlength="120" placeholder="e.g. Customer service assistant" /></label>
+        <div class="form-pair"><label><span data-i18n="employerLabel">Employer (optional)</span><input name="employer" maxlength="120" placeholder="Employer name from the advert" /></label><label><span data-i18n="locationLabel">City (optional)</span><input name="city" maxlength="100" placeholder="e.g. Tampere" /></label></div>
+        <label><span data-i18n="originalLinkLabel">Original vacancy link</span><input name="url" type="url" required placeholder="https://…" /></label>
+        <label><span data-i18n="notesLabel">Private note (optional)</span><textarea name="notes" rows="3" maxlength="1000" placeholder="A reminder for yourself…"></textarea></label>
+        <button class="primary-button" type="submit" data-i18n="saveJob">Save to my job list</button>
+        <p class="form-help" data-i18n="httpsOnly">Use the exact HTTPS link from the employer or job source. Notes remain only in this browser.</p>
+      </form>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
