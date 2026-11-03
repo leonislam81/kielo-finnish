@@ -36,7 +36,8 @@
 
   function cityIdFromSearch() {
     const value = document.getElementById('job-city')?.value || '';
-    const normalized = value.toLocaleLowerCase();
+    const otherCity = document.getElementById('other-city')?.value || '';
+    const normalized = (value === 'other' ? otherCity : value).toLocaleLowerCase();
     if (/helsinki|espoo|vantaa/.test(normalized)) return 'helsinki';
     if (normalized.includes('tampere')) return 'tampere';
     if (normalized.includes('turku')) return 'turku';
@@ -81,9 +82,11 @@
     setMarketFilters(filters);
     const response = document.getElementById('plan-response');
     if (response) {
-      const rolePart = role ? (language() ? `Haullesi “${escapeHTML(role)}”` : `For “${escapeHTML(role)}”`) : (language() ? 'Aloitussuunnitelmasi' : 'Your starting plan');
-      const placePart = selectedCity || (language() ? 'koko Suomessa' : 'anywhere in Finland');
-      response.innerHTML = `<strong>${rolePart} · ${escapeHTML(placePart)}</strong><span>${route}</span><a href="#guide-city-detail">${language() ? 'Katso kaupunkivinkit' : 'See city guidance'} ↓</a>`;
+      const finnish = language() === 1;
+      const rolePart = role ? (finnish ? `Haullesi “${escapeHTML(role)}”` : `For “${escapeHTML(role)}”`) : (finnish ? 'Aloitussuunnitelmasi' : 'Your starting plan');
+      const otherCity = document.getElementById('other-city')?.value.trim() || '';
+      const placePart = (selectedCity === 'other' ? otherCity : selectedCity) || (finnish ? 'koko Suomessa' : 'anywhere in Finland');
+      response.innerHTML = `<div class="plan-result-head"><div><strong>${rolePart}</strong><small>${escapeHTML(placePart)}</small></div><span class="plan-result-tag">${finnish ? '3 hyödyllistä askelta' : '3 useful next steps'}</span></div><p class="plan-result-route">${route}</p><div class="plan-next-grid"><article class="plan-next-card"><span>01</span><div><b>${finnish ? 'Avaa sopivat työnhakusivustot' : 'Open the best-fit job platforms'}</b><a href="#marketplaces">${finnish ? 'Vertaa luotettavia lähteitä' : 'Compare trusted sources'} ↓</a></div></article><article class="plan-next-card"><span>02</span><div><b>${finnish ? 'Tutustu kaupungin vahvuuksiin' : 'Explore what this city is known for'}</b><a href="#cities">${finnish ? 'Katso kaupunkiopas' : 'Explore city guidance'} ↓</a></div></article><article class="plan-next-card"><span>03</span><div><b>${finnish ? 'Valmistele yksi työhakemus' : 'Prepare one real application'}</b><a href="#my-jobs">${finnish ? 'Avaa hakemustyötila' : 'Open my application workspace'} ↓</a></div></article></div><p class="plan-result-note">${finnish ? 'Nämä ovat hakuvinkkejä, eivät reaaliaikaisia työpaikkailmoituksia. Tarkista tiedot alkuperäisestä ilmoituksesta.' : 'These are search suggestions, not live vacancy results. Check details on the original employer or job-board page.'}</p>`;
       response.classList.add('show');
     }
     window.setTimeout(() => response?.scrollIntoView({behavior:'smooth',block:'nearest'}), 0);
