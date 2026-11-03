@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f6f2" />
+    <meta name="description" content="Learn Finnish one small step at a time, with English or Bangla support and stories from Finland." />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Kielo" />
+    <title>Kielo — Learn Finnish, step by step</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./images/kielo-mark.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./images/kielo-icon-192.png" />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://huggingface.co" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="cafe.css" />
+    <link rel="stylesheet" href="spoken.css?v=1" />
+    <link rel="stylesheet" href="sounds.css" />
+    <link rel="stylesheet" href="listening.css?v=25" />
+    <link rel="stylesheet" href="reading.css?v=27" />
+    <link rel="stylesheet" href="writing.css?v=23" />
+    <link rel="stylesheet" href="speaking.css?v=28" />
+    <link rel="stylesheet" href="grammar.css?v=28" />
+    <link rel="stylesheet" href="vocabulary.css?v=1" />
+    <link rel="stylesheet" href="pwa.css?v=1" />
+    <link rel="stylesheet" href="backup.css?v=3" />
+    <link rel="stylesheet" href="rhythm.css?v=7" />
+    <link rel="stylesheet" href="redesign.css?v=64" />
+    <link rel="stylesheet" href="holidays.css?v=1" />
+    <link rel="stylesheet" href="finnish-keys.css?v=2" />
+    <link rel="stylesheet" href="finland-design.css" />
+    <link rel="stylesheet" href="accessibility.css?v=3" />
+    <script src="curriculum.js?v=10" defer></script>
+    <script src="advanced-vocabulary.js" defer></script>
+    <script src="daily-vocabulary.js?v=4" defer></script>
+    <script src="pwa.js?v=1" defer></script>
+    <link rel="modulepreload" href="supertonic-speech.js?v=19" />
+    <script src="neural-speech.js?v=49" defer></script>
+    <script src="sami-experience.js?v=1" defer></script>
+    <script src="grammar-cases.js?v=1" defer></script>
+    <script src="app.js?v=92" defer></script>
+    <script src="redesign.js?v=99" defer></script>
+    <script src="finland-design.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#page-content">Skip to main content</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#home" aria-label="Kielo home">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 33V15M20 21c-8 0-12-5-12-11 7 0 12 3 12 10ZM20 25c8 0 12-5 12-11-7 0-12 3-12 10Z"/><path d="M15 33h10"/></svg></span>
+          <span><strong>Kielo</strong><small>Learn Finnish, gently</small></span>
+        </a>
+
+        <div class="sidebar-caption">LEARN FINNISH</div>
+        <nav class="primary-nav" aria-label="Finnish learning">
+          <button class="nav-link active" data-page="home"><span class="nav-icon">⌂</span><span>Home</span></button>
+          <button class="nav-link" data-page="path"><span class="nav-icon">↗</span><span>Learning path</span></button>
+          <button class="nav-link" data-redesign-page="daily"><span class="nav-icon">◉</span><span>Daily 100</span></button>
+          <button class="nav-link" data-redesign-page="dictionary"><span class="nav-icon">⌕</span><span>Dictionary</span></button>
+          <button class="nav-link" data-page="practice"><span class="nav-icon">✳</span><span>Practice</span><span class="nav-count" id="word-count">0</span></button>
+        </nav>
+        <div class="sidebar-caption">SKILL LABS</div>
+        <nav class="primary-nav" aria-label="Finnish skill labs">
+          <button class="nav-link" data-page="sounds"><span class="nav-icon">♫</span><span>Pronunciation</span></button>
+          <button class="nav-link" data-page="listening"><span class="nav-icon">◖</span><span>Listening</span></button>
+          <button class="nav-link" data-page="spoken"><span class="nav-icon">〝</span><span>Spoken Finnish</span></button>
+          <button class="nav-link" data-page="speaking"><span class="nav-icon">◉</span><span>Speaking</span></button>
+          <button class="nav-link" data-page="reading"><span class="nav-icon">▤</span><span>Reading</span></button>
+          <button class="nav-link" data-page="writing"><span class="nav-icon">✎</span><span>Writing</span></button>
+          <button class="nav-link" data-page="grammar"><span class="nav-icon">⌘</span><span>Grammar lab</span></button>
+          <button class="nav-link" data-page="cafe"><span class="nav-icon">☕</span><span>Conversation</span></button>
+          <button class="nav-link" data-redesign-page="voice"><span class="nav-icon">♫</span><span>Voice & audio</span></button>
+          <button class="nav-link" data-redesign-page="videos"><span class="nav-icon">▷</span><span>Video lessons</span></button>
+        </nav>
+        <div class="sidebar-caption">FINLAND</div>
+        <nav class="primary-nav" aria-label="Explore Finland">
+          <button class="nav-link" data-page="culture"><span class="nav-icon">⌖</span><span>Finland Explorer</span></button>
+        </nav>
+        <div class="sidebar-card">
+          <span class="sidebar-card-icon">✿</span>
+          <p class="eyebrow">A little, often</p>
+          <p>Five calm minutes today can make tomorrow's Finnish feel closer.</p>
+          <button class="text-button" data-page="practice">Start a quick review <span>↗</span></button>
+        </div>
+
+        <div class="sidebar-footer"><span class="status-dot"></span> Your progress stays on this device</div>
+      </aside>
+
+      <div class="app-main">
+        <header class="topbar">
+          <button class="mobile-menu" id="mobile-menu" type="button" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">☰</button>
+          <div class="topbar-context"><a class="topbar-home-link" href="./" aria-label="Return to Kielo home">Kielo</a><span class="weather-dot" aria-hidden="true"></span><span id="connection-label" role="status" aria-live="polite">Finland · Europe/Helsinki</span></div>
+          <div class="topbar-actions">
+            <button class="voice-shortcut" type="button" data-redesign-page="voice" aria-label="Open Finnish voice settings" title="Voice & audio"><span aria-hidden="true">♫</span><span>Voice</span></button>
+            <button id="install-app" class="pwa-install-button" type="button" aria-label="Install Kielo"><span aria-hidden="true">↓</span><span class="install-label">Install app</span></button>
+            <div class="help-language"><span>Lesson help</span><button id="language-toggle" class="language-toggle" aria-label="Change lesson help language"><span data-lang-label="en">EN</span><span class="language-divider">/</span><span data-lang-label="bn">বাংলা</span></button></div>
+            <button class="avatar" id="profile-button" type="button" aria-label="Open learner profile and data tools">K</button>
+          </div>
+        </header>
+        <main class="page-content" id="page-content" tabindex="-1"></main>
+        <footer class="app-footer"><span>Made for curious learners, wherever home is.</span><span><a href="https://www.oph.fi/en/education-and-qualifications/selecting-right-yki-test-test-days" target="_blank" rel="noreferrer">Course levels follow the YKI / CEFR scale ↗</a></span><span>© 2026 Leon Islam · All rights reserved · Credits: <a href="https://leonislam.com/" target="_blank" rel="noopener noreferrer">Leon Islam</a></span></footer>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="lesson-backdrop" hidden>
+      <section class="lesson-modal" id="lesson-modal" role="dialog" aria-modal="true" aria-labelledby="lesson-title">
+        <div id="lesson-modal-content"></div>
+      </section>
+    </div>
+    <div class="modal-backdrop backup-backdrop" id="backup-backdrop" hidden>
+      <section class="backup-modal" role="dialog" aria-modal="true" aria-labelledby="backup-title" aria-describedby="backup-description">
+        <div class="backup-header">
+          <div class="backup-mark" aria-hidden="true">✿</div>
+          <button class="close-modal" id="backup-close" type="button" aria-label="Close progress tools">×</button>
+        </div>
+        <p class="eyebrow">YOUR LEARNING, IN YOUR HANDS</p>
+        <h2 id="backup-title">Keep your Finnish progress</h2>
+        <p class="backup-description" id="backup-description">Your learning stays on this device. The JSON backup carries lessons, Daily 100 progress and goals, review schedule, writing drafts, and your Finnish voice and pace; it is unencrypted, so keep it private. You can also export saved vocabulary as a smaller CSV for a spreadsheet.</p>
+        <div class="backup-summary" id="backup-summary" aria-live="polite"></div>
+        <div class="backup-actions">
+          <button class="button-primary" id="backup-export" type="button"><span aria-hidden="true">↓</span> Download backup</button>
+          <button class="button-secondary" id="backup-import" type="button"><span aria-hidden="true">↑</span> Restore from file</button>
+          <button class="button-secondary backup-export-words" id="backup-export-words" type="button"><span aria-hidden="true">⌁</span> Export saved words · CSV</button>
+          <input id="backup-file" type="file" accept=".json,application/json" hidden />
+        </div>
+        <p class="backup-merge-note"><span aria-hidden="true">↗</span> Restore combines the backup with this device. Existing progress and drafts are kept.</p>
+        <p class="backup-status" id="backup-status" role="status" aria-live="polite"></p>
+      </section>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+      (()=>{
+        const routes={daily:'[data-redesign-page="daily"]',dictionary:'[data-redesign-page="dictionary"]',voice:'[data-redesign-page="voice"]',videos:'[data-redesign-page="videos"]',path:'[data-page="path"]',practice:'[data-page="practice"]',culture:'[data-page="culture"]',sounds:'[data-page="sounds"]',listening:'[data-page="listening"]',spoken:'[data-page="spoken"]',speaking:'[data-page="speaking"]',reading:'[data-page="reading"]',writing:'[data-page="writing"]',grammar:'[data-page="grammar"]',cafe:'[data-page="cafe"]'};
+        const target=routes[new URLSearchParams(location.search).get("open")];
+        if(!target)return;
+        window.addEventListener("DOMContentLoaded",()=>document.querySelector(target)?.click(),{once:true});
+      })();
+    </script>
+  </body>
+</html>

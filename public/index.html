@@ -1,134 +1,155 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f4f6f2" />
-    <meta name="description" content="Learn Finnish one small step at a time, with English or Bangla support and stories from Finland." />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Kielo" />
-    <title>Kielo — Learn Finnish, step by step</title>
-    <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="icon" href="./images/kielo-mark.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="./images/kielo-icon-192.png" />
-    <link rel="preconnect" href="https://images.unsplash.com" />
-    <link rel="preconnect" href="https://huggingface.co" crossorigin />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="cafe.css" />
-    <link rel="stylesheet" href="spoken.css?v=1" />
-    <link rel="stylesheet" href="sounds.css" />
-    <link rel="stylesheet" href="listening.css?v=25" />
-    <link rel="stylesheet" href="reading.css?v=27" />
-    <link rel="stylesheet" href="writing.css?v=23" />
-    <link rel="stylesheet" href="speaking.css?v=28" />
-    <link rel="stylesheet" href="grammar.css?v=28" />
-    <link rel="stylesheet" href="vocabulary.css?v=1" />
-    <link rel="stylesheet" href="pwa.css?v=1" />
-    <link rel="stylesheet" href="backup.css?v=3" />
-    <link rel="stylesheet" href="rhythm.css?v=7" />
-    <link rel="stylesheet" href="redesign.css?v=64" />
-    <link rel="stylesheet" href="holidays.css?v=1" />
-    <link rel="stylesheet" href="finnish-keys.css?v=2" />
-    <link rel="stylesheet" href="finland-design.css" />
-    <link rel="stylesheet" href="accessibility.css?v=3" />
-    <script src="curriculum.js?v=10" defer></script>
-    <script src="advanced-vocabulary.js" defer></script>
-    <script src="daily-vocabulary.js?v=4" defer></script>
-    <script src="pwa.js?v=1" defer></script>
-    <link rel="modulepreload" href="supertonic-speech.js?v=19" />
-    <script src="neural-speech.js?v=49" defer></script>
-    <script src="sami-experience.js?v=1" defer></script>
-    <script src="grammar-cases.js?v=1" defer></script>
-    <script src="app.js?v=92" defer></script>
-    <script src="redesign.js?v=99" defer></script>
-    <script src="finland-design.js" defer></script>
-  </head>
-  <body>
-    <a class="skip-link" href="#page-content">Skip to main content</a>
-    <div class="app-shell">
-      <aside class="sidebar" id="sidebar">
-        <a class="brand" href="#home" aria-label="Kielo home">
-          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 33V15M20 21c-8 0-12-5-12-11 7 0 12 3 12 10ZM20 25c8 0 12-5 12-11-7 0-12 3-12 10Z"/><path d="M15 33h10"/></svg></span>
-          <span><strong>Kielo</strong><small>Learn Finnish, gently</small></span>
-        </a>
-
-        <div class="sidebar-caption">LEARN FINNISH</div>
-        <nav class="primary-nav" aria-label="Finnish learning">
-          <button class="nav-link active" data-page="home"><span class="nav-icon">⌂</span><span>Home</span></button>
-          <button class="nav-link" data-page="path"><span class="nav-icon">↗</span><span>Learning path</span></button>
-          <button class="nav-link" data-redesign-page="daily"><span class="nav-icon">◉</span><span>Daily 100</span></button>
-          <button class="nav-link" data-redesign-page="dictionary"><span class="nav-icon">⌕</span><span>Dictionary</span></button>
-          <button class="nav-link" data-page="practice"><span class="nav-icon">✳</span><span>Practice</span><span class="nav-count" id="word-count">0</span></button>
-        </nav>
-        <div class="sidebar-caption">SKILL LABS</div>
-        <nav class="primary-nav" aria-label="Finnish skill labs">
-          <button class="nav-link" data-page="sounds"><span class="nav-icon">♫</span><span>Pronunciation</span></button>
-          <button class="nav-link" data-page="listening"><span class="nav-icon">◖</span><span>Listening</span></button>
-          <button class="nav-link" data-page="spoken"><span class="nav-icon">〝</span><span>Spoken Finnish</span></button>
-          <button class="nav-link" data-page="speaking"><span class="nav-icon">◉</span><span>Speaking</span></button>
-          <button class="nav-link" data-page="reading"><span class="nav-icon">▤</span><span>Reading</span></button>
-          <button class="nav-link" data-page="writing"><span class="nav-icon">✎</span><span>Writing</span></button>
-          <button class="nav-link" data-page="grammar"><span class="nav-icon">⌘</span><span>Grammar lab</span></button>
-          <button class="nav-link" data-page="cafe"><span class="nav-icon">☕</span><span>Conversation</span></button>
-          <button class="nav-link" data-redesign-page="voice"><span class="nav-icon">♫</span><span>Voice & audio</span></button>
-          <button class="nav-link" data-redesign-page="videos"><span class="nav-icon">▷</span><span>Video lessons</span></button>
-        </nav>
-        <div class="sidebar-caption">FINLAND</div>
-        <nav class="primary-nav" aria-label="Explore Finland">
-          <button class="nav-link" data-page="culture"><span class="nav-icon">⌖</span><span>Finland Explorer</span></button>
-        </nav>
-        <div class="sidebar-card">
-          <span class="sidebar-card-icon">✿</span>
-          <p class="eyebrow">A little, often</p>
-          <p>Five calm minutes today can make tomorrow's Finnish feel closer.</p>
-          <button class="text-button" data-page="practice">Start a quick review <span>↗</span></button>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f6ef" />
+  <title>Kielo — Finland, with you</title>
+  <meta name="description" content="Learn Finnish and find your way to work, studies, and everyday life in Finland." />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./images/kielo-mark.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./images/kielo-icon-192.png" />
+  <link rel="preconnect" href="https://api.open-meteo.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./homepage.css?v=1" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="#home" aria-label="Kielo home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 25V12m0 8c-3-4-6-5-9-4m9-2c2-4 5-6 9-6" stroke="#dce9d8" stroke-width="1.7" stroke-linecap="round"/><path d="M15.7 7.6c0-2 1.3-3.6 3.1-3.6 1.6 0 2.8 1.3 2.8 3.1 0 1.7-1.1 3-2.6 3-.9 0-1.7-.5-2-1.3-.3.8-1 1.3-1.9 1.3-1.6 0-2.7-1.3-2.7-3 0-1.8 1.2-3.1 2.8-3.1 1.6 0 2.8 1.3 3 3.1" fill="#e8d3a4"/><path d="M10 21c-2.7 0-4.7 1.3-5.6 3.4 2.6.7 5 .3 6.5-1.5m11.1-7.7c2.7-1.3 5-.9 6.8.7-1.8 2.1-4 3-6.1 2.1" stroke="#dce9d8" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        <span class="brand-word"><strong>Kielo</strong><small>FINLAND, WITH YOU</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="./learn.html">Learn Finnish</a><a href="#work">Work</a><a href="#study">Study</a><a href="#live">Life in Finland</a><a href="#explore">Explore</a>
+      </nav>
+      <div class="header-actions">
+        <a class="header-cta" href="./learn.html">Start learning <span aria-hidden="true">↗</span></a>
+        <div class="locale-controls" role="group" aria-label="Website language">
+          <label class="locale-control site-control"><span class="locale-label">Site language</span><select class="locale-select" id="ui-language" aria-label="Site language"><option value="en">EN</option><option value="fi">FI</option></select></label>
         </div>
-
-        <div class="sidebar-footer"><span class="status-dot"></span> Your progress stays on this device</div>
-      </aside>
-
-      <div class="app-main">
-        <header class="topbar">
-          <button class="mobile-menu" id="mobile-menu" type="button" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">☰</button>
-          <div class="topbar-context"><span class="weather-dot" aria-hidden="true"></span><span id="connection-label" role="status" aria-live="polite">Finland · Europe/Helsinki</span></div>
-          <div class="topbar-actions">
-            <button class="voice-shortcut" type="button" data-redesign-page="voice" aria-label="Open Finnish voice settings" title="Voice & audio"><span aria-hidden="true">♫</span><span>Voice</span></button>
-            <button id="install-app" class="pwa-install-button" type="button" aria-label="Install Kielo"><span aria-hidden="true">↓</span><span class="install-label">Install app</span></button>
-            <div class="help-language"><span>Lesson help</span><button id="language-toggle" class="language-toggle" aria-label="Change lesson help language"><span data-lang-label="en">EN</span><span class="language-divider">/</span><span data-lang-label="bn">বাংলা</span></button></div>
-            <button class="avatar" id="profile-button" type="button" aria-label="Open learner profile and data tools">K</button>
-          </div>
-        </header>
-        <main class="page-content" id="page-content" tabindex="-1"></main>
-        <footer class="app-footer"><span>Made for curious learners, wherever home is.</span><span><a href="https://www.oph.fi/en/education-and-qualifications/selecting-right-yki-test-test-days" target="_blank" rel="noreferrer">Course levels follow the YKI / CEFR scale ↗</a></span><span>© 2026 Leon Islam · All rights reserved · Credits: <a href="https://leonislam.com/" target="_blank" rel="noopener noreferrer">Leon Islam</a></span></footer>
+        <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
       </div>
     </div>
+    <nav class="shell mobile-menu" aria-label="Mobile navigation"><a href="./learn.html">Learn Finnish</a><a href="#work">Find work</a><a href="#study">Study in Finland</a><a href="#live">Life in Finland</a><a href="#explore">Explore Finland</a></nav>
+  </header>
 
-    <div class="modal-backdrop" id="lesson-backdrop" hidden>
-      <section class="lesson-modal" id="lesson-modal" role="dialog" aria-modal="true" aria-labelledby="lesson-title">
-        <div id="lesson-modal-content"></div>
-      </section>
-    </div>
-    <div class="modal-backdrop backup-backdrop" id="backup-backdrop" hidden>
-      <section class="backup-modal" role="dialog" aria-modal="true" aria-labelledby="backup-title" aria-describedby="backup-description">
-        <div class="backup-header">
-          <div class="backup-mark" aria-hidden="true">✿</div>
-          <button class="close-modal" id="backup-close" type="button" aria-label="Close progress tools">×</button>
+  <main id="home">
+    <section class="now-strip shell" aria-label="Finland local time and weather">
+      <div class="now-inner">
+        <article class="now-card">
+          <span class="now-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg></span>
+          <span class="now-copy"><span class="now-label">Finland local time</span><span class="now-value"><time id="helsinki-clock" aria-label="Current Finland local time">--:-- --</time><small id="helsinki-date">Europe/Helsinki</small></span></span>
+        </article>
+        <article class="now-card">
+          <span class="now-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7.1 17.5h10.3a3.4 3.4 0 0 0 .1-6.8 5.4 5.4 0 0 0-10.4-1.1 4 4 0 0 0 0 7.9Z"/><path d="M8 20h8"/></svg></span>
+          <span class="now-copy"><span class="now-label" id="weather-label">Current weather</span><span class="now-value"><span id="weather-temp">—°C</span><small id="weather-condition">Loading conditions…</small></span><small class="weather-wind" id="weather-wind">Finland · current conditions</small></span>
+          <label class="sr-only" for="weather-city">Weather region</label><select class="weather-city" id="weather-city" aria-label="Choose weather for any of Finland’s 19 regions"><option value="helsinki">Helsinki · Uusimaa</option></select><button class="weather-refresh" id="weather-refresh" type="button" aria-label="Refresh current weather" title="Refresh current weather">↻</button>
+        </article>
+      </div>
+      <p class="weather-credit">Weather by <a href="https://open-meteo.com/en/terms" target="_blank" rel="noreferrer">Open-Meteo · CC BY 4.0</a> <span id="weather-updated">Updating from the selected region…</span></p>
+    </section>
+
+    <form class="shell search-wrap" role="search">
+      <div class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg><label class="sr-only" for="global-search">Search Finnish words, jobs, study, and life in Finland</label><input id="global-search" type="search" placeholder="Search Finnish, jobs, study, life in Finland…" autocomplete="off"/><kbd>Ctrl K</kbd></div>
+    </form>
+
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-mark"></span><span>LEARN · WORK · LIVE · BELONG</span></div>
+        <h1 id="hero-title" data-en="Find your place <em>in Finland.</em>" data-fi="Löydä oma paikkasi <em>Suomessa.</em>">Find your place <em>in Finland.</em></h1>
+        <p class="hero-intro" id="hero-intro" data-en="Learn Finnish. Find your way to work, studies, and everyday life—with guidance in the language you choose." data-fi="Opiskele suomea. Löydä reittisi työhön, opintoihin ja arkeen — omalla valitsemallasi kielellä.">Learn Finnish. Find your way to work, studies, and everyday life—with guidance in the language you choose.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#paths" id="hero-cta" data-en="Choose your path" data-fi="Valitse oma polkusi">Choose your path <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-5-5 5 5-5 5"/></svg></a><a class="button button-secondary" href="./learn.html" id="hero-secondary" data-en="Start with Finnish" data-fi="Aloita suomesta">Start with Finnish</a></div>
+        <div class="hero-meta"><span class="tiny-people" aria-hidden="true"><i>A</i><i>M</i><i>S</i></span><span>A little Finnish, a little more at home.</span></div>
+      </div>
+      <div class="hero-photo">
+        <img src="./images/kielo-cover.webp" alt="A learner on a bridge beside water on an autumn day in Finland" />
+        <div class="photo-shade"></div>
+        <div class="word-float"><span>Today's Finnish word</span><strong lang="fi">tervetuloa</strong><small id="word-gloss">welcome · welcome</small></div>
+        <div class="hero-stamp" aria-label="Learn at your own pace"><strong>oma</strong><small>your pace</small></div>
+        <div class="photo-caption"><small>SUOMI · FINLAND</small><strong>A new beginning, at your own pace.</strong></div>
+      </div>
+    </section>
+
+    <section class="pathways" id="paths" aria-labelledby="paths-title">
+      <div class="shell">
+        <div class="section-head"><div><span class="section-kicker">START WHERE YOU ARE</span><h2 id="paths-title">What brings you to Finland?</h2></div><p>Choose one small step. Your learning and practical guides stay connected.</p></div>
+        <div class="path-grid" id="path-grid">
+          <a class="path-card" href="./learn.html" data-search="learn finnish language words lessons beginner advanced study finnish suomi"><span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.8c2.8-.8 5.4-.4 8 1.2v13c-2.6-1.5-5.2-2-8-1.1zM20 5.8c-2.8-.8-5.4-.4-8 1.2v13c2.6-1.5 5.2-2 8-1.1z"/><path d="M7 9h2m-2 3h2m6-3h2m-2 3h2"/></svg></span><span class="path-arrow" aria-hidden="true">↗</span><strong>Learn Finnish</strong><p>Start at your level, from first words to fluent conversations.</p></a>
+          <a class="path-card" id="work" href="https://tyomarkkinatori.fi/en" target="_blank" rel="noreferrer" data-search="work jobs career cv application interview employment finnish työ työpaikka"><span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12.5" rx="2"/><path d="M8 7.5V5.8a1.8 1.8 0 0 1 1.8-1.8h4.4A1.8 1.8 0 0 1 16 5.8v1.7M3.5 12.5c4 2.4 13 2.4 17 0m-9 1.4v1.2"/></svg></span><span class="path-arrow" aria-hidden="true">↗</span><strong>Find a job</strong><p>Start with Finland’s official job service and useful workplace Finnish.</p></a>
+          <a class="path-card" id="study" href="https://studyinfo.fi/konfo/en/" target="_blank" rel="noreferrer" data-search="study university admissions application course student scholarship yliopisto opinnot"><span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 9 9.5-5 9.5 5-9.5 5z"/><path d="M6 11v5.2c3.5 2.6 8.5 2.6 12 0V11m4-2v6"/></svg></span><span class="path-arrow" aria-hidden="true">↗</span><strong>Study in Finland</strong><p>Visit the official programme portal and explore admissions information.</p></a>
+          <a class="path-card" id="live" href="https://infofinland.fi/en/moving-to-finland" target="_blank" rel="noreferrer" data-search="move live settle home housing government services register healthcare muutto asuminen"><span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21v-7h6v7M3 10h18"/></svg></span><span class="path-arrow" aria-hidden="true">↗</span><strong>Make a home here</strong><p>Find official information for moving and everyday life.</p></a>
+          <a class="path-card" id="explore-path" href="./learn.html?open=culture" data-search="explore finland culture history nature regions climate food saami suomi kulttuuri"><span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5 13 13l-3.5 1.5L11 11zM12 3v2m9 7h-2M12 21v-2m-9-7h2"/></svg></span><span class="path-arrow" aria-hidden="true">↗</span><strong>Explore Finland</strong><p>Explore Finnish regions, history, nature, and everyday culture.</p></a>
         </div>
-        <p class="eyebrow">YOUR LEARNING, IN YOUR HANDS</p>
-        <h2 id="backup-title">Keep your Finnish progress</h2>
-        <p class="backup-description" id="backup-description">Your learning stays on this device. The JSON backup carries lessons, Daily 100 progress and goals, review schedule, writing drafts, and your Finnish voice and pace; it is unencrypted, so keep it private. You can also export saved vocabulary as a smaller CSV for a spreadsheet.</p>
-        <div class="backup-summary" id="backup-summary" aria-live="polite"></div>
-        <div class="backup-actions">
-          <button class="button-primary" id="backup-export" type="button"><span aria-hidden="true">↓</span> Download backup</button>
-          <button class="button-secondary" id="backup-import" type="button"><span aria-hidden="true">↑</span> Restore from file</button>
-          <button class="button-secondary backup-export-words" id="backup-export-words" type="button"><span aria-hidden="true">⌁</span> Export saved words · CSV</button>
-          <input id="backup-file" type="file" accept=".json,application/json" hidden />
+        <p class="search-feedback" id="search-feedback" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="finland-section" id="finland" aria-labelledby="finland-title">
+      <div class="shell">
+        <div class="finland-heading">
+          <div><span class="section-kicker">GET TO KNOW FINLAND</span><h2 id="finland-title">Learn the words. Meet the country behind them.</h2><p>From everyday public services to forests, universities, jobs, and local traditions—each topic pairs Finnish vocabulary with a clear introduction to life in Finland.</p></div>
+          <a class="finland-overview-link" href="#explore">Explore Finland topics <span aria-hidden="true">↗</span></a>
         </div>
-        <p class="backup-merge-note"><span aria-hidden="true">↗</span> Restore combines the backup with this device. Existing progress and drafts are kept.</p>
-        <p class="backup-status" id="backup-status" role="status" aria-live="polite"></p>
-      </section>
-    </div>
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  </body>
+        <div class="finland-glance">
+          <article class="finland-story">
+            <span class="story-eyebrow">SUOMI · FINLAND · FOUR DISTINCT SEASONS</span>
+            <div><h3>One country, many ways to feel at home.</h3><p>Follow Finland from the Baltic shoreline and lake country to northern Lapland. Learn the Finnish words as you discover the places, people, and everyday systems that give them meaning.</p></div>
+            <div class="season-list" aria-label="Finnish seasons"><span lang="fi">talvi <small>winter</small></span><span lang="fi">kevät <small>spring</small></span><span lang="fi">kesä <small>summer</small></span><span lang="fi">syksy <small>autumn</small></span></div>
+          </article>
+          <div class="fact-grid" aria-label="Finland at a glance">
+            <article class="fact-card"><span class="fact-label">PEOPLE · 2025</span><strong class="fact-value">5.65M</strong><p class="fact-caption">residents at the end of 2025</p></article>
+            <article class="fact-card"><span class="fact-label">REGIONS</span><strong class="fact-value">19</strong><p class="fact-caption">regions, from Åland to Lapland</p></article>
+            <article class="fact-card"><span class="fact-label">NATIONAL LANGUAGES</span><strong class="fact-value">Suomi + Svenska</strong><p class="fact-caption">Finnish and Swedish; Sámi languages and communities are part of Finland too</p></article>
+            <article class="fact-card"><span class="fact-label">NATURE · CLIMATE</span><strong class="fact-value">4 seasons</strong><p class="fact-caption">with weather and daylight that vary by region</p></article>
+          </div>
+        </div>
+        <div class="topic-explorer" id="explore" aria-labelledby="topic-title">
+          <div class="topic-heading"><div><span class="section-kicker">A COUNTRY, MANY STORIES</span><h3 id="topic-title">Explore Finland from every angle</h3></div><p>Start with a topic. Pick up Finnish you can use while you explore.</p></div>
+          <div class="topic-grid">
+            <article class="topic-card" data-search="people languages population Finnish Swedish Sámi väestö language"><div class="topic-card-top"><span class="topic-index">01 · PEOPLE</span><span class="topic-term" lang="fi">väestö · population</span></div><h4>People & languages</h4><p>Population, national languages, Sámi communities, and regional voices.</p></article>
+            <article class="topic-card" data-search="history government public life municipality services society kunta historia"><div class="topic-card-top"><span class="topic-index">02 · SOCIETY</span><span class="topic-term" lang="fi">kunta · municipality</span></div><h4>History & public life</h4><p>Understand Finnish history, government, municipalities, and public services.</p></article>
+            <article class="topic-card" data-search="study university universities admissions student education yliopisto"><div class="topic-card-top"><span class="topic-index">03 · LEARNING</span><span class="topic-term" lang="fi">yliopisto · university</span></div><h4>Study & universities</h4><p>Explore universities, admissions, student life, and useful campus Finnish.</p></article>
+            <article class="topic-card" data-search="jobs economy career work workplace careers työelämä työpaikka"><div class="topic-card-top"><span class="topic-index">04 · CAREERS</span><span class="topic-term" lang="fi">työelämä · working life</span></div><h4>Jobs & economy</h4><p>Learn about careers, workplaces, job searches, and the Finnish economy.</p></article>
+            <article class="topic-card" data-search="forest forests lake lakes sea nature Baltic metsä järvi meri"><div class="topic-card-top"><span class="topic-index">05 · NATURE</span><span class="topic-term" lang="fi">metsä · forest</span></div><h4>Forests, lakes & sea</h4><p>Discover forests, lake country, the Baltic coast, and nature vocabulary.</p></article>
+            <article class="topic-card" data-search="weather climate seasons snow rain daylight sää talvi kesä"><div class="topic-card-top"><span class="topic-index">06 · CLIMATE</span><span class="topic-term" lang="fi">sää · weather</span></div><h4>Climate & seasons</h4><p>See how snow, rain, daylight, and the four seasons change across Finland.</p></article>
+            <article class="topic-card" data-search="transport travel train rail ferries bus city regions juna liikenne"><div class="topic-card-top"><span class="topic-index">07 · GETTING AROUND</span><span class="topic-term" lang="fi">juna · train</span></div><h4>Transport & places</h4><p>Find your way through city transport, rail journeys, ferries, and regions.</p></article>
+            <article class="topic-card" data-search="food markets culture sauna design celebrations tori ruoka"><div class="topic-card-top"><span class="topic-index">08 · EVERYDAY CULTURE</span><span class="topic-term" lang="fi">tori · market square</span></div><h4>Food, markets & culture</h4><p>Meet local foods, market days, sauna traditions, design, and celebrations.</p></article>
+          </div>
+          <div class="source-row"><strong>Fact sources</strong><a href="https://stat.fi/en/topic/population-and-society" target="_blank" rel="noreferrer">Statistics Finland · population 2025</a><a href="https://finland.fi/life-society/take-a-tour-of-finland-region-by-region/" target="_blank" rel="noreferrer">ThisisFINLAND · 19 regions</a><a href="https://toolbox.finland.fi/wp-content/uploads/sites/2/2026/01/finfo_facts_2025_en_aukeama_toolbox.pdf" target="_blank" rel="noreferrer">Finland Toolbox · languages</a><a href="https://www.visitfinland.com/en/practical-tips/climate-and-weather-in-finland/" target="_blank" rel="noreferrer">Visit Finland · seasons</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="daily-section" id="learn" aria-labelledby="daily-title">
+      <div class="shell">
+        <article class="daily-card">
+          <div><span class="daily-label">YOUR FINNISH · ONE DAY AT A TIME</span><h2 id="daily-title">A hundred useful words. A little more confidence.</h2><p>Short sets, clear meanings, and Finnish audio. Pick up where you are—your daily goal is yours to choose.</p><div class="daily-count"><span>10 small sets of 10</span><span class="daily-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div></div>
+          <a class="button" href="./learn.html?open=daily">Explore Daily 100 <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="feature-row shell" aria-label="A Finnish phrase and explore Finland">
+      <article class="feature-panel phrase-panel" id="finnish-learning" aria-label="Finnish lesson language settings">
+        <div class="feature-top"><div><small>HEAR IT · SAY IT · KEEP IT</small><h3>A phrase for today</h3></div><span class="section-kicker">PRE-A1 · 1 MIN</span></div>
+        <div class="phrase-line"><div><strong lang="fi">Tervetuloa Suomeen.</strong><p>Welcome to Finland.</p><small id="phrase-support">A warm welcome to Finland.</small></div><button class="listen-button" type="button" aria-label="Play Finnish pronunciation">▶</button></div>
+        <p class="phrase-support-note">Choose English or Bangla lesson explanations inside the Finnish learning area.</p><a class="phrase-start-link" href="./learn.html">Open Finnish lessons <span aria-hidden="true">↗</span></a>
+      </article>
+      <article class="feature-panel explore-panel" id="culture">
+        <div class="feature-top"><div><small>SMALL STORIES · REAL SOURCES</small><h3>Get to know Finland</h3></div><span class="section-kicker">19 CHAPTERS</span></div>
+        <div class="explore-image"><div><span>From the forest to the city</span><strong>Explore Finland, your way.</strong></div><span class="explore-sun" aria-hidden="true">✳</span></div>
+        <a class="explore-link" href="#paths">History · nature · culture · everyday life <span aria-hidden="true">↗</span></a>
+      </article>
+    </section>
+  </main>
+
+  <section class="trust-strip" aria-label="Kielo learning approach"><div class="shell trust-inner"><strong>Useful Finnish for the life you want to build.</strong><div class="trust-items"><span><i></i>Website in English or Finnish</span><span><i></i>Choose an explanation language for Finnish lessons</span><span><i></i>Official sources, clearly linked</span></div></div></section>
+  <footer><div class="shell footer-inner"><a class="footer-brand" href="#home">Kielo</a><span>Learn Finnish. Find your way in Finland.</span><span>© Leon Islam · <a href="https://leonislam.com/" target="_blank" rel="noreferrer">leonislam.com</a></span></div></footer>
+
+  <script src="./homepage.js?v=1" defer></script>
+  <script src="./pwa.js?v=1" defer></script>
+</body>
 </html>

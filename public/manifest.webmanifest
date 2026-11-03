@@ -1,14 +1,14 @@
 {
   "id": "./",
-  "name": "Kielo — Learn Finnish, gently",
+  "name": "Kielo — Finland, with you",
   "short_name": "Kielo",
-  "description": "A calm Finnish-learning path with English or Bangla support.",
+  "description": "Learn Finnish and find your way to life in Finland.",
   "lang": "en",
   "start_url": "./?source=install#home",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f6f2",
-  "theme_color": "#f4f6f2",
+  "background_color": "#f7f6ef",
+  "theme_color": "#f7f6ef",
   "orientation": "any",
   "categories": ["education", "lifestyle"],
   "icons": [
