@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f6ef" />
+  <title>Kielo — Home mockup</title>
+  <meta name="description" content="A mobile-first home page concept for learning Finnish and finding your way in Finland." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --pine:#173f36;--pine-2:#245a4b;--pine-3:#527967;--moss:#83967a;--lake:#dcebe6;--lake-deep:#8aadaa;
+      --oat:#f7f6ef;--paper:#fffefa;--sand:#ece8dc;--clay:#c7745d;--gold:#d9ba78;--ink:#203b33;--muted:#718078;
+      --line:#e3e8df;--heading:'Fraunces',Georgia,serif;--body:'DM Sans','Noto Sans Bengali',system-ui,sans-serif;--shadow:0 18px 46px rgba(25,57,47,.11)
+    }
+    *{box-sizing:border-box}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    body{margin:0;background:var(--oat);color:var(--ink);font:400 15px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+    button,input,select{font:inherit}
+    button,a,select{touch-action:manipulation}
+    a{color:inherit;text-decoration:none}
+    button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #c7745d;outline-offset:3px}
+    .shell{width:min(100% - 38px,1216px);margin-inline:auto}
+    .site-header{position:sticky;top:0;z-index:20;background:rgba(247,246,239,.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(37,73,59,.09)}
+    .header-row{min-height:76px;display:flex;align-items:center;gap:25px}
+    .brand{display:inline-flex;align-items:center;gap:10px;min-width:max-content}
+    .brand-mark{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:var(--pine);color:#f5f1e5}
+    .brand-mark svg{width:24px;height:24px}
+    .brand-word{display:grid;line-height:1}
+    .brand-word strong{font:600 25px/1 var(--heading);letter-spacing:-.8px;color:var(--pine)}
+    .brand-word small{margin-top:5px;color:var(--muted);font-size:8px;font-weight:700;letter-spacing:1.15px}
+    .desktop-nav{display:flex;align-items:center;justify-content:center;gap:24px;margin-left:auto}
+    .desktop-nav a{color:#566c60;font-size:12px;font-weight:600;transition:color .18s}
+    .desktop-nav a:hover{color:var(--clay)}
+    .header-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+    @media(min-width:761px){.desktop-nav+.header-actions{margin-left:0}}
+    .locale-select{height:38px;border:1px solid var(--line);border-radius:11px;padding:0 27px 0 10px;background:var(--paper);color:var(--pine);font-size:11px;font-weight:700;max-width:90px}
+    .locale-select.help{max-width:100px}
+    .header-cta{display:none;align-items:center;justify-content:center;height:40px;padding:0 15px;border:0;border-radius:12px;background:var(--pine);color:#fff;font-size:11px;font-weight:700;white-space:nowrap}
+    .menu-toggle{width:39px;height:39px;border:1px solid var(--line);border-radius:11px;background:var(--paper);color:var(--pine);display:grid;place-items:center;cursor:pointer}
+    .menu-toggle svg{width:19px;height:19px}
+    .mobile-menu{display:none;padding:0 0 15px}
+    .mobile-menu.open{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .mobile-menu a{border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:11px 13px;color:var(--pine);font-size:12px;font-weight:700}
+
+    .now-strip{padding:14px 0 0}
+    .now-inner{display:grid;grid-template-columns:1fr 1.15fr;gap:10px}
+    .now-card{min-height:63px;display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid rgba(23,63,54,.08);border-radius:15px;background:rgba(255,254,250,.9)}
+    .now-icon{width:34px;height:34px;flex:0 0 auto;display:grid;place-items:center;border-radius:11px;background:var(--lake);color:var(--pine-2)}
+    .now-icon svg{width:18px;height:18px}
+    .now-copy{min-width:0;display:grid;line-height:1.2}
+    .now-label{color:#84918a;font-size:8px;font-weight:700;letter-spacing:1.05px;text-transform:uppercase}
+    .now-value{display:flex;align-items:baseline;gap:7px;margin-top:4px;color:var(--pine);font-size:14px;font-weight:700;white-space:nowrap}
+    .now-value small{color:var(--muted);font-size:9px;font-weight:500}
+    .weather-city{margin-left:auto;max-width:118px;border:0;background:transparent;color:var(--pine);font-size:10px;font-weight:600;text-align:right}
+    .weather-note{position:absolute;clip:rect(0,0,0,0);clip-path:inset(50%);width:1px;height:1px;overflow:hidden;white-space:nowrap}
+    .search-wrap{position:relative;margin-top:11px}
+    .search-field{height:46px;display:flex;align-items:center;gap:10px;padding:0 14px;border:1px solid #e1e6de;border-radius:14px;background:rgba(255,254,250,.92);box-shadow:0 5px 18px rgba(25,57,47,.035)}
+    .search-field svg{width:17px;height:17px;flex:0 0 auto;color:#7b8e83}
+    .search-field input{width:100%;min-width:0;border:0;outline:0!important;background:transparent;color:var(--pine);font-size:11px}
+    .search-field input::placeholder{color:#98a39b}
+    .search-field kbd{flex:0 0 auto;padding:3px 6px;border:1px solid #e3e7e0;border-radius:6px;background:#f9f8f3;color:#8b968e;font:500 8px var(--body)}
+
+    .hero{display:grid;grid-template-columns:1.03fr .97fr;gap:35px;align-items:center;padding:28px 0 36px}
+    .hero-copy{padding:12px 0 13px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--pine-2);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+    .eyebrow-mark{width:7px;height:7px;border-radius:50%;background:var(--clay);box-shadow:0 0 0 4px rgba(199,116,93,.13)}
+    h1,h2,h3,p{margin-top:0}
+    h1{max-width:620px;margin:15px 0 13px;color:var(--pine);font:600 clamp(38px,5.7vw,68px)/.99 var(--heading);letter-spacing:-2.6px}
+    h1 em{color:var(--clay);font-style:italic;font-weight:500}
+    .hero-intro{max-width:480px;margin:0;color:#61746a;font-size:15px;line-height:1.75}
+    .hero-actions{display:flex;align-items:center;gap:10px;margin-top:23px}
+    .button{min-height:47px;display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:13px;padding:0 17px;font-size:11px;font-weight:700;transition:transform .18s,background .18s}
+    .button:hover{transform:translateY(-2px)}
+    .button-primary{background:var(--pine);color:#fff;box-shadow:0 8px 17px rgba(23,63,54,.15)}
+    .button-primary:hover{background:var(--pine-2)}
+    .button-secondary{border:1px solid #d9e2d9;background:rgba(255,254,250,.78);color:var(--pine)}
+    .button svg{width:15px;height:15px}
+    .hero-meta{display:flex;align-items:center;gap:9px;margin-top:19px;color:#839088;font-size:10px}
+    .tiny-people{display:flex;padding-left:2px}
+    .tiny-people i{width:22px;height:22px;display:grid;place-items:center;margin-left:-3px;border:2px solid var(--oat);border-radius:50%;background:#d9e8df;color:var(--pine-2);font-size:9px;font-style:normal;font-weight:700}
+    .tiny-people i:nth-child(2){background:#eadbcb;color:#815b45}.tiny-people i:nth-child(3){background:#dce6ef;color:#48667e}
+    .hero-photo{position:relative;min-height:380px;overflow:hidden;border-radius:26px;background:#dce8e1;box-shadow:var(--shadow)}
+    .hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 43%}
+    .photo-shade{position:absolute;inset:45% 0 0;background:linear-gradient(180deg,transparent,rgba(15,45,38,.48))}
+    .photo-caption{position:absolute;bottom:17px;left:18px;color:#fff;display:grid;gap:2px;text-shadow:0 1px 8px rgba(0,0,0,.25)}
+    .photo-caption small{font-size:8px;letter-spacing:1.15px;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,.82)}
+    .photo-caption strong{font:500 21px var(--heading)}
+    .word-float{position:absolute;top:18px;left:16px;width:170px;padding:13px 15px;border:1px solid rgba(255,255,255,.8);border-radius:15px;background:rgba(255,254,250,.96);box-shadow:0 12px 28px rgba(26,57,47,.16)}
+    .word-float span{display:block;color:#8a978f;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+    .word-float strong{display:block;margin-top:3px;color:var(--pine);font:600 22px var(--heading)}
+    .word-float small{color:#75847b;font-size:10px}
+    .hero-stamp{position:absolute;top:18px;right:18px;width:58px;height:58px;display:grid;place-content:center;border:1px solid rgba(255,255,255,.82);border-radius:50%;background:rgba(255,254,250,.88);color:var(--pine);text-align:center;transform:rotate(8deg)}
+    .hero-stamp strong{font:600 17px var(--heading);line-height:1}
+    .hero-stamp small{font-size:7px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+
+    .pathways{padding:37px 0 48px;border-top:1px solid rgba(23,63,54,.08);background:var(--paper)}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:17px}
+    .section-kicker{color:#8a968d;font-size:8px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase}
+    .section-head h2{margin:5px 0 0;color:var(--pine);font:600 clamp(26px,3vw,34px)/1.12 var(--heading);letter-spacing:-.8px}
+    .section-head p{max-width:400px;margin:0;color:var(--muted);font-size:11px}
+    .path-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px}
+    .path-card{position:relative;min-height:156px;display:flex;flex-direction:column;align-items:flex-start;padding:16px 15px 14px;border:1px solid var(--line);border-radius:17px;background:#fff;transition:transform .18s,border-color .18s,box-shadow .18s}
+    .path-card:hover{transform:translateY(-3px);border-color:#b8cabe;box-shadow:0 12px 25px rgba(28,65,52,.07)}
+    .path-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:12px;background:var(--lake);color:var(--pine-2)}
+    .path-card:nth-child(2) .path-icon{background:#f4e7d9;color:#9e684a}.path-card:nth-child(3) .path-icon{background:#ecede0;color:#6a7955}.path-card:nth-child(4) .path-icon{background:#e3eaf1;color:#506b7d}.path-card:nth-child(5) .path-icon{background:#f2e4df;color:#a26451}
+    .path-icon svg{width:18px;height:18px}
+    .path-card strong{margin-top:13px;color:var(--pine);font:600 16px var(--heading);letter-spacing:-.2px}
+    .path-card p{margin:4px 0 0;color:#77857c;font-size:9px;line-height:1.5}
+    .path-arrow{position:absolute;right:13px;top:23px;color:#8ca196;font-size:15px}
+    .path-card[hidden]{display:none}
+    .search-feedback{min-height:15px;margin:10px 0 0;color:var(--muted);font-size:10px}
+
+    .daily-section{padding:37px 0 43px}
+    .daily-card{position:relative;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;overflow:hidden;padding:24px 26px;border-radius:20px;background:var(--pine);color:#f9f6ed}
+    .daily-card:after{content:"";position:absolute;right:116px;top:-80px;width:240px;height:240px;border:1px solid rgba(236,230,207,.13);border-radius:50%;box-shadow:0 0 0 20px rgba(236,230,207,.025),0 0 0 42px rgba(236,230,207,.025)}
+    .daily-label{color:#c8d6c8;font-size:8px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
+    .daily-card h2{margin:7px 0 4px;color:#fffdf5;font:500 27px var(--heading)}
+    .daily-card p{max-width:560px;margin:0;color:#d0ddd2;font-size:11px}
+    .daily-card .button{position:relative;z-index:1;background:#e4c98f;color:#234a3d;white-space:nowrap}
+    .daily-count{display:flex;align-items:center;gap:8px;margin-top:12px;color:#c1d1c5;font-size:9px}
+    .daily-dots{display:flex;gap:3px}.daily-dots i{width:13px;height:4px;border-radius:9px;background:#527768}.daily-dots i:first-child{background:#e4c98f}
+
+    .feature-row{display:grid;grid-template-columns:1.07fr .93fr;gap:15px;padding:0 0 52px}
+    .feature-panel{min-height:186px;padding:22px;border:1px solid var(--line);border-radius:20px;background:#fff}
+    .phrase-panel{position:relative;overflow:hidden;background:#e9f1ec}
+    .phrase-panel:after{content:"";position:absolute;right:-22px;bottom:-82px;width:190px;height:190px;border:1px solid rgba(34,84,67,.12);border-radius:50%;box-shadow:0 0 0 18px rgba(34,84,67,.025),0 0 0 38px rgba(34,84,67,.025)}
+    .feature-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .feature-top h3{margin:3px 0 0;color:var(--pine);font:600 18px var(--heading)}
+    .feature-top small{color:#8a968f;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+    .phrase-line{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:19px}
+    .phrase-line strong{color:var(--pine);font:600 23px var(--heading)}
+    .phrase-line p{margin:3px 0 0;color:#61756a;font-size:11px}
+    .phrase-line small{display:block;margin-top:3px;color:#708277;font-size:10px;font-family:'Noto Sans Bengali',var(--body)}
+    .listen-button{width:42px;height:42px;flex:0 0 auto;border:0;border-radius:13px;background:var(--pine);color:white;cursor:pointer;font-size:16px}
+    .learning-language-picker{position:relative;z-index:1;margin-top:16px}
+    .learning-language-picker label{display:block;margin-bottom:6px;color:var(--pine);font-size:10px;font-weight:700}
+    .learning-language-control{position:relative;width:min(100%,310px)}
+    .learning-language-picker input{width:100%;height:37px;padding:0 30px 0 11px;border:1px solid #cbd9cf;border-radius:10px;background:#fff;color:var(--pine);font:500 11px var(--body);outline:none}
+    .learning-language-picker input:focus{border-color:#4a806d;box-shadow:0 0 0 3px rgba(74,128,109,.13)}
+    .learning-language-picker .picker-note{max-width:440px;margin:6px 0 0;color:#6e8075;font-size:10px;line-height:1.5}
+    .learning-language-status{min-height:14px;margin:4px 0 0;color:#567064;font-size:10px;line-height:1.45}
+    .explore-panel{display:flex;flex-direction:column;justify-content:space-between;background:var(--paper)}
+    .explore-image{min-height:75px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:13px;padding:13px 15px;border-radius:13px;background:linear-gradient(115deg,#d9e8df,#c1d8d1 56%,#e7dcbf);color:var(--pine)}
+    .explore-image span{font-size:9px;color:#537466}
+    .explore-image strong{display:block;font:600 17px var(--heading)}
+    .explore-sun{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.48);font-size:19px}
+    .explore-link{display:inline-flex;align-items:center;gap:7px;margin-top:10px;color:var(--pine-2);font-size:10px;font-weight:700}
+
+    .trust-strip{padding:18px 0;background:#eeeae0}
+    .trust-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .trust-inner strong{color:var(--pine);font:500 16px var(--heading)}
+    .trust-items{display:flex;flex-wrap:wrap;gap:13px;color:#75827a;font-size:9px}
+    .trust-items span{display:inline-flex;align-items:center;gap:5px}
+    .trust-items i{width:6px;height:6px;border-radius:50%;background:var(--moss)}
+    footer{padding:19px 0 25px;background:var(--pine);color:#d4e0d6}
+    .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:15px;font-size:9px}
+    .footer-inner a{color:#f1d9a3;font-weight:700}
+    .footer-brand{font:500 18px var(--heading);color:#fffdf5}
+    .mockup-note{padding:0 0 16px;color:#87938b;text-align:center;font-size:8px}
+
+    @media(min-width:1280px){.header-cta{display:inline-flex}.hero{padding-top:32px;padding-bottom:43px}.hero-photo{min-height:425px}}
+    @media(max-width:1000px){.desktop-nav{gap:14px}.desktop-nav a{font-size:10px}.header-row{gap:17px}.hero{gap:24px}.path-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.path-card{min-height:146px}}
+    @media(max-width:760px){
+      .shell{width:min(100% - 32px,560px)}.header-row{min-height:67px;gap:7px}.brand-mark{width:34px;height:34px;border-radius:11px}.brand-mark svg{width:21px;height:21px}.brand-word strong{font-size:22px}.brand-word small{font-size:7px;letter-spacing:.9px}.desktop-nav,.header-cta{display:none}.header-actions{gap:5px;margin-left:auto}.locale-select{height:35px;max-width:60px;padding:0 22px 0 8px;font-size:10px}.locale-select.help{max-width:79px}.menu-toggle{width:35px;height:35px;border-radius:10px}.now-strip{padding-top:10px}.now-inner{gap:7px}.now-card{min-height:57px;padding:8px 9px;border-radius:13px;gap:7px}.now-icon{width:29px;height:29px;border-radius:9px}.now-icon svg{width:16px;height:16px}.now-label{font-size:7px;letter-spacing:.65px}.now-value{gap:4px;margin-top:3px;font-size:12px}.now-value small{font-size:8px}.weather-city{max-width:65px;font-size:8px}.hero{grid-template-columns:1fr;gap:18px;padding:23px 0 29px}.hero-copy{padding:0}.eyebrow{font-size:8px;letter-spacing:1.15px}.eyebrow-mark{width:6px;height:6px}h1{max-width:520px;margin:11px 0 10px;font-size:clamp(39px,11vw,55px);letter-spacing:-1.9px}.hero-intro{max-width:500px;font-size:13px;line-height:1.65}.hero-actions{gap:8px;margin-top:16px}.button{min-height:44px;padding:0 13px;font-size:10px}.hero-meta{margin-top:13px;font-size:9px}.hero-photo{min-height:230px;max-height:260px;border-radius:20px}.hero-photo img{object-position:50% 42%}.word-float{top:11px;left:11px;width:148px;padding:9px 11px;border-radius:12px}.word-float span{font-size:7px}.word-float strong{font-size:19px}.word-float small{font-size:9px}.hero-stamp{top:12px;right:12px;width:48px;height:48px}.hero-stamp strong{font-size:14px}.hero-stamp small{font-size:6px}.photo-caption{bottom:13px;left:14px}.photo-caption small{font-size:7px}.photo-caption strong{font-size:18px}.pathways{padding:27px 0 31px}.section-head{display:block;margin-bottom:14px}.section-head h2{font-size:28px}.section-head p{margin-top:6px;font-size:10px}.path-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.path-card{min-height:137px;padding:12px 11px;border-radius:14px}.path-icon{width:32px;height:32px;border-radius:10px}.path-card strong{margin-top:10px;font-size:15px}.path-card p{font-size:8px}.path-arrow{top:18px;right:10px;font-size:13px}.path-card:last-child{grid-column:span 2;min-height:102px;display:grid;grid-template-columns:34px 1fr 14px;grid-template-rows:auto auto;align-items:center;column-gap:10px}.path-card:last-child .path-icon{grid-row:1/3}.path-card:last-child strong{margin:0;align-self:end}.path-card:last-child p{margin-top:2px;align-self:start}.path-card:last-child .path-arrow{position:static;grid-column:3;grid-row:1/3}.daily-section{padding:23px 0 27px}.daily-card{grid-template-columns:1fr;gap:13px;padding:18px 17px;border-radius:17px}.daily-card:after{right:-5px;top:-110px}.daily-card h2{font-size:23px}.daily-card p{font-size:10px}.daily-card .button{justify-self:start;min-height:40px}.daily-count{margin-top:9px}.feature-row{grid-template-columns:1fr;gap:9px;padding-bottom:30px}.feature-panel{min-height:162px;padding:17px;border-radius:17px}.feature-top h3{font-size:16px}.phrase-line{margin-top:14px}.phrase-line strong{font-size:21px}.phrase-line p{font-size:10px}.phrase-line small{font-size:9px}.listen-button{width:39px;height:39px}.trust-strip{padding:14px 0}.trust-inner{align-items:flex-start;flex-direction:column;gap:7px}.trust-inner strong{font-size:15px}.trust-items{gap:8px 12px;font-size:8px}.footer-inner{flex-wrap:wrap;font-size:8px}.footer-brand{font-size:16px}.mockup-note{font-size:7px}
+    }
+    @media(max-width:360px){.shell{width:calc(100% - 24px)}.brand-word small{display:none}.header-row{gap:5px}.header-actions{gap:4px}.locale-select.help{max-width:68px}.now-card{padding:7px 6px;gap:5px}.now-icon{width:26px;height:26px}.now-label{font-size:6px;letter-spacing:.4px}.now-value{font-size:11px}.weather-city{max-width:56px;font-size:7px}.hero-actions{flex-wrap:wrap}.button{padding:0 11px}.path-card p{font-size:7.5px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+    .finland-section{padding:42px 0 47px;background:#f0f2eb;border-top:1px solid rgba(23,63,54,.07)}
+    .finland-heading{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:19px}
+    .finland-heading h2{max-width:650px;margin:6px 0 7px;color:var(--pine);font:600 clamp(27px,3.4vw,39px)/1.08 var(--heading);letter-spacing:-1px}
+    .finland-heading p{max-width:610px;margin:0;color:#6c7b72;font-size:12px;line-height:1.65}
+    .finland-overview-link{display:inline-flex;align-items:center;gap:8px;flex:0 0 auto;padding:11px 14px;border:1px solid #d7e0d7;border-radius:12px;background:rgba(255,254,250,.72);color:var(--pine-2);font-size:10px;font-weight:700}
+    .finland-overview-link:hover{border-color:#aabfb0;background:#fffefa}
+    .finland-glance{display:grid;grid-template-columns:.9fr 1.1fr;gap:12px;margin-bottom:35px}
+    .finland-story{position:relative;isolation:isolate;min-height:240px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;padding:22px 23px;border-radius:21px;background:radial-gradient(ellipse at 82% 4%,rgba(139,188,160,.32),transparent 33%),radial-gradient(ellipse at 94% 100%,rgba(81,144,139,.42),transparent 42%),linear-gradient(135deg,#173d36,#214e49 67%,#2d665d);color:#f8f7ef}
+    .finland-story:after{content:"";position:absolute;z-index:-1;right:-43px;top:6px;width:205px;height:205px;border:1px solid rgba(233,241,222,.18);border-radius:48% 52% 43% 57%;transform:rotate(24deg);box-shadow:0 0 0 14px rgba(233,241,222,.025),0 0 0 31px rgba(233,241,222,.025)}
+    .story-eyebrow{color:#cfddcd;font-size:8px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase}
+    .finland-story h3{max-width:390px;margin:16px 0 7px;color:#fffdf5;font:500 clamp(24px,3vw,34px)/1.08 var(--heading);letter-spacing:-.5px}
+    .finland-story p{max-width:430px;margin:0;color:#d4e1d8;font-size:10px;line-height:1.7}
+    .season-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:19px}
+    .season-list span{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border:1px solid rgba(245,248,235,.17);border-radius:999px;background:rgba(255,255,255,.08);color:#f7f7ec;font-size:9px;font-weight:600}
+    .season-list small{color:#c5d7cb;font-size:8px;font-weight:400}
+    .fact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .fact-card{min-height:114px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:15px 17px;border:1px solid #e1e7df;border-radius:17px;background:rgba(255,254,250,.91)}
+    .fact-label{color:#87938a;font-size:8px;font-weight:700;letter-spacing:1.15px;text-transform:uppercase}
+    .fact-value{margin-top:5px;color:var(--pine);font:600 clamp(22px,2.5vw,30px)/1.05 var(--heading);letter-spacing:-.6px}
+    .fact-card:last-child .fact-value{font:600 18px/1.2 var(--heading);letter-spacing:-.2px}
+    .fact-caption{margin:4px 0 0;color:#75837a;font-size:9px;line-height:1.4}
+    .topic-explorer{padding-top:1px;scroll-margin-top:90px}
+    .topic-heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:15px}
+    .topic-heading h3{margin:5px 0 0;color:var(--pine);font:600 clamp(22px,2.8vw,29px)/1.12 var(--heading);letter-spacing:-.6px}
+    .topic-heading p{max-width:360px;margin:0;color:var(--muted);font-size:10px;line-height:1.55}
+    .topic-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+    .topic-card{min-height:145px;padding:13px 13px 12px;border:1px solid #e0e6de;border-radius:15px;background:rgba(255,254,250,.94);transition:transform .18s,border-color .18s,box-shadow .18s}
+    .topic-card:hover{transform:translateY(-2px);border-color:#b6c9bc;box-shadow:0 9px 19px rgba(28,65,52,.06)}
+    .topic-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .topic-index{color:#9aa59c;font-size:8px;font-weight:700;letter-spacing:1px}
+    .topic-term{padding:4px 7px;border-radius:999px;background:#e9f0e9;color:var(--pine-2);font-size:8px;font-weight:700;white-space:nowrap}
+    .topic-card h4{margin:11px 0 4px;color:var(--pine);font:600 15px/1.15 var(--heading)}
+    .topic-card p{margin:0;color:#77847b;font-size:9px;line-height:1.5}
+    .source-row{display:flex;align-items:center;flex-wrap:wrap;gap:7px 13px;margin-top:14px;color:#829087;font-size:8px}
+    .source-row strong{color:#63756a;font-size:8px}
+    .source-row a{color:var(--pine-2);text-decoration:underline;text-decoration-color:#c0d0c4;text-underline-offset:2px}
+    .source-row a:hover{color:var(--clay)}
+    .topic-card[hidden]{display:none}
+    @media(max-width:1000px){.finland-glance{grid-template-columns:1fr 1.05fr}.topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:760px){.finland-section{padding:29px 0 33px}.finland-heading{display:block;margin-bottom:14px}.finland-heading h2{font-size:29px}.finland-heading p{font-size:10px}.finland-overview-link{margin-top:12px;padding:9px 11px;font-size:9px}.finland-glance{grid-template-columns:1fr;gap:8px;margin-bottom:26px}.finland-story{min-height:208px;padding:18px 17px;border-radius:17px}.finland-story h3{max-width:320px;margin:13px 0 6px;font-size:26px}.finland-story p{max-width:360px;font-size:9px}.season-list{gap:5px;margin-top:14px}.season-list span{padding:5px 7px;font-size:8px}.season-list small{font-size:7px}.fact-grid{gap:7px}.fact-card{min-height:91px;padding:12px;border-radius:14px}.fact-label{font-size:7px;letter-spacing:.8px}.fact-value{font-size:24px}.fact-card:last-child .fact-value{font-size:15px}.fact-caption{font-size:8px}.topic-heading{display:block;margin-bottom:12px}.topic-heading h3{font-size:24px}.topic-heading p{margin-top:5px;font-size:9px}.topic-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.topic-card{min-height:136px;padding:11px 10px;border-radius:13px}.topic-term{padding:4px 6px;font-size:8px}.topic-card h4{margin-top:9px;font-size:14px}.topic-card p{font-size:9px}.source-row{gap:6px 10px;margin-top:11px;font-size:8px}.source-row strong{font-size:8px}}
+    @media(max-width:360px){.finland-story{min-height:220px}.finland-story h3{font-size:24px}.season-list span{gap:3px;padding:5px 6px}.topic-card{min-height:146px;padding:10px 8px}.topic-card h4{font-size:13px}.topic-card p{font-size:8.5px}.source-row{font-size:7.5px}}
+
+    .site-header:before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--pine),#407566 62%,var(--gold))}
+    .header-actions{gap:10px}
+    .locale-controls{display:flex;align-items:center;gap:8px;padding-left:14px;border-left:1px solid var(--line)}
+    .locale-control{display:grid;gap:4px;min-width:82px}
+    .locale-control.help-control{min-width:100px}
+    .locale-label{color:#697d72;font-size:8px;font-weight:650;letter-spacing:.1px;line-height:1;white-space:nowrap}
+    .locale-select{width:82px;height:30px;max-width:none;padding:0 23px 0 9px;font-size:10px}
+    .locale-select.help{width:100px;max-width:none}
+    @media(min-width:761px){.menu-toggle{display:none}}
+    @media(min-width:1000px){.header-cta{display:inline-flex}}
+    @media(max-width:760px){.header-row{gap:6px}.header-actions{gap:5px;margin-left:auto}.locale-controls{gap:5px;padding-left:7px}.locale-control{min-width:0;gap:3px}.locale-control.site-control{width:74px;flex:0 0 74px}.locale-label{font-size:7.2px;letter-spacing:0}.locale-select{width:100%;height:29px;max-width:none;padding:0 20px 0 8px;border-radius:9px;font-size:10px}.header-cta{display:none}.menu-toggle{display:grid}.learning-language-control{width:100%;max-width:none}}
+    @media(max-width:360px){.header-row{gap:5px}.header-actions{gap:4px}.locale-controls{gap:4px;padding-left:5px}.locale-control.site-control{width:68px;flex:0 0 68px}.locale-label{font-size:6.3px;letter-spacing:0}.locale-select{padding-right:16px;padding-left:7px;font-size:9px}.menu-toggle{width:33px;height:33px}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-row">
+      <a class="brand" href="#home" aria-label="Kielo home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 25V12m0 8c-3-4-6-5-9-4m9-2c2-4 5-6 9-6" stroke="#dce9d8" stroke-width="1.7" stroke-linecap="round"/><path d="M15.7 7.6c0-2 1.3-3.6 3.1-3.6 1.6 0 2.8 1.3 2.8 3.1 0 1.7-1.1 3-2.6 3-.9 0-1.7-.5-2-1.3-.3.8-1 1.3-1.9 1.3-1.6 0-2.7-1.3-2.7-3 0-1.8 1.2-3.1 2.8-3.1 1.6 0 2.8 1.3 3 3.1" fill="#e8d3a4"/><path d="M10 21c-2.7 0-4.7 1.3-5.6 3.4 2.6.7 5 .3 6.5-1.5m11.1-7.7c2.7-1.3 5-.9 6.8.7-1.8 2.1-4 3-6.1 2.1" stroke="#dce9d8" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        <span class="brand-word"><strong>Kielo</strong><small>FINLAND, WITH YOU</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#learn">Learn Finnish</a><a href="#paths">Work</a><a href="#paths">Study</a><a href="#paths">Life in Finland</a><a href="#explore">Explore</a>
+      </nav>
+      <div class="header-actions">
+        <a class="header-cta" href="#paths">Start learning <span aria-hidden="true">↗</span></a>
+        <div class="locale-controls" role="group" aria-label="Website language">
+          <label class="locale-control site-control"><span class="locale-label">Site language</span><select class="locale-select" id="ui-language" aria-label="Site language"><option value="en">EN</option><option value="fi">FI</option></select></label>
+        </div>
+        <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      </div>
+    </div>
+    <nav class="shell mobile-menu" aria-label="Mobile navigation"><a href="#learn">Learn Finnish</a><a href="#paths">Find work</a><a href="#paths">Study in Finland</a><a href="#explore">Life & culture</a></nav>
+  </header>
+
+  <main id="home">
+    <section class="now-strip shell" aria-label="Finland local time and weather">
+      <div class="now-inner">
+        <article class="now-card">
+          <span class="now-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg></span>
+          <span class="now-copy"><span class="now-label">Finland local time</span><span class="now-value"><span id="helsinki-clock">10:24 AM</span><small id="helsinki-date">Europe/Helsinki</small></span></span>
+        </article>
+        <article class="now-card">
+          <span class="now-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7.1 17.5h10.3a3.4 3.4 0 0 0 .1-6.8 5.4 5.4 0 0 0-10.4-1.1 4 4 0 0 0 0 7.9Z"/><path d="M8 20h8"/></svg></span>
+          <span class="now-copy"><span class="now-label">Current weather <small style="font-size:6px;color:#b98554">· preview</small></span><span class="now-value"><span id="weather-temp">8°</span><small id="weather-condition">Light rain</small></span></span>
+          <label class="sr-only" for="weather-city">Weather region</label><select class="weather-city" id="weather-city" aria-label="Choose from all 19 Finnish regions"><option>Helsinki · Uusimaa</option><option>Turku · Southwest Finland</option><option>Pori · Satakunta</option><option>Hämeenlinna · Kanta-Häme</option><option>Tampere · Pirkanmaa</option><option>Lahti · Päijät-Häme</option><option>Kotka · Kymenlaakso</option><option>Lappeenranta · South Karelia</option><option>Mikkeli · South Savo</option><option>Kuopio · North Savo</option><option>Joensuu · North Karelia</option><option>Jyväskylä · Central Finland</option><option>Seinäjoki · South Ostrobothnia</option><option>Vaasa · Ostrobothnia</option><option>Kokkola · Central Ostrobothnia</option><option>Oulu · North Ostrobothnia</option><option>Kajaani · Kainuu</option><option>Rovaniemi · Lapland</option><option>Mariehamn · Åland</option></select>
+        </article>
+      </div>
+      <p class="weather-note">Weather values are layout examples in this mockup.</p>
+    </section>
+
+    <form class="shell search-wrap" role="search">
+      <div class="search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg><label class="sr-only" for="global-search">Search Finnish words, jobs, study, and life in Finland</label><input id="global-search" type="search" placeholder="Search Finnish, jobs, study, life in Finland…" autocomplete="off"/><kbd>⌘ K</kbd></div>
+    </form>
+
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-mark"></span><span>LEARN · WORK · LIVE · BELONG</span></div>
+        <h1 id="hero-title" data-en="Find your place <em>in Finland.</em>" data-fi="Löydä oma paikkasi <em>Suomessa.</em>">Find your place <em>in Finland.</em></h1>
+        <p class="hero-intro" id="hero-intro" data-en="Learn Finnish. Find your way to work, studies, and everyday life—with guidance in the language you choose." data-fi="Opiskele suomea. Löydä reittisi työhön, opintoihin ja arkeen — omalla valitsemallasi kielellä.">Learn Finnish. Find your way to work, studies, and everyday life—with guidance in the language you choose.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#paths" id="hero-cta" data-en="Choose your path" data-fi="Valitse oma polkusi">Choose your path <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11m-5-5 5 5-5 5"/></svg></a><a class="button button-secondary" href="#learn" id="hero-secondary" data-en="Start with Finnish" data-fi="Aloita suomesta">Start with Finnish</a></div>
+        <div class="hero-meta"><span class="tiny-people" aria-hidden="true"><i>A</i><i>M</i><i>S</i></span><span>A little Finnish, a little more at home.</span></div>
+      </div>
+      <div class="hero-photo">
+        <img src="../public/images/kielo-cover.webp" alt="A learner on a bridge beside water on an autumn day in Finland" />
+        <div class="photo-shade"></div>
+        <div class="word-float"><span>Today's Finnish word</span><strong lang="fi">tervetuloa</strong><small id="word-gloss">welcome · স্বাগতম</small></div>
+        <div class="hero-stamp" aria-label="Learn at your own pace"><strong>oma</strong><small>your pace</small></div>
+        <div class="photo-caption"><small>SUOMI · FINLAND</small><strong>A new beginning, at your own pace.</strong></div>
+      </div>
+    </section>
+
+    <section class="pathways" id="paths" aria-labelledby="paths-title">
+      <div class="shell">
+        <div class="section-head"><div><span class="section-kicker">START WHERE YOU ARE</span><h2 id="paths-title">What brings you to Finland?</h2></div><p>Choose one small step. Your learning and practical guides stay connected.</p></div>
+        <div class="path-grid" id="path-grid">
+          <a class="path-card" href="#learn" data-search="learn finnish language words lessons beginner advanced study"><span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.8c2.8-.8 5.4-.4 8 1.2v13c-2.6-1.5-5.2-2-8-1.1zM20 5.8c-2.8-.8-5.4-.4-8 1.2v13c2.6-1.5 5.2-2 8-1.1z"/><path d="M7 9h2m-2 3h2m6-3h2m-2 3h2"/></svg></span><span class="path-arrow" aria-hidden="true">↗</span><strong>Learn Finnish</strong><p>Start at your level, from first words to fluent conversations.</p></a>
+          <a class="path-card" id="work" href="#work" data-search="work jobs career cv application interview employment finnish"><span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12.5" rx="2"/><path d="M8 7.5V5.8a1.8 1.8 0 0 1 1.8-1.8h4.4A1.8 1.8 0 0 1 16 5.8v1.7M3.5 12.5c4 2.4 13 2.4 17 0m-9 1.4v1.2"/></svg></span><span class="path-arrow" aria-hidden="true">↗</span><strong>Find a job</strong><p>Build your CV, practise interviews, explore trusted job sources.</p></a>
+          <a class="path-card" id="study" href="#study" data-search="study university admissions application course student scholarship"><span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 9 9.5-5 9.5 5-9.5 5z"/><path d="M6 11v5.2c3.5 2.6 8.5 2.6 12 0V11m4-2v6"/></svg></span><span class="path-arrow" aria-hidden="true">↗</span><strong>Study in Finland</strong><p>Find programmes, understand admissions, plan your next steps.</p></a>
+          <a class="path-card" id="live" href="#live" data-search="move live settle home housing government services register healthcare"><span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21v-7h6v7M3 10h18"/></svg></span><span class="path-arrow" aria-hidden="true">↗</span><strong>Make a home here</strong><p>Explore official guides for moving and everyday life.</p></a>
+          <a class="path-card" id="explore-path" href="#explore" data-search="explore finland culture history nature regions climate food saami"><span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5 13 13l-3.5 1.5L11 11zM12 3v2m9 7h-2M12 21v-2m-9-7h2"/></svg></span><span class="path-arrow" aria-hidden="true">↗</span><strong>Explore Finland</strong><p>Meet the places, seasons, stories, and culture of Finland.</p></a>
+        </div>
+        <p class="search-feedback" id="search-feedback" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="finland-section" id="finland" aria-labelledby="finland-title">
+      <div class="shell">
+        <div class="finland-heading">
+          <div><span class="section-kicker">GET TO KNOW FINLAND</span><h2 id="finland-title">Learn the words. Meet the country behind them.</h2><p>From everyday public services to forests, universities, jobs, and local traditions—each topic pairs Finnish vocabulary with a clear introduction to life in Finland.</p></div>
+          <a class="finland-overview-link" href="#explore">Explore Finland topics <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="finland-glance">
+          <article class="finland-story">
+            <span class="story-eyebrow">SUOMI · FINLAND · FOUR DISTINCT SEASONS</span>
+            <div><h3>One country, many ways to feel at home.</h3><p>Follow Finland from the Baltic shoreline and lake country to northern Lapland. Learn the Finnish words as you discover the places, people, and everyday systems that give them meaning.</p></div>
+            <div class="season-list" aria-label="Finnish seasons"><span lang="fi">talvi <small>winter</small></span><span lang="fi">kevät <small>spring</small></span><span lang="fi">kesä <small>summer</small></span><span lang="fi">syksy <small>autumn</small></span></div>
+          </article>
+          <div class="fact-grid" aria-label="Finland at a glance">
+            <article class="fact-card"><span class="fact-label">PEOPLE · 2025</span><strong class="fact-value">5.65M</strong><p class="fact-caption">residents at the end of 2025</p></article>
+            <article class="fact-card"><span class="fact-label">REGIONS</span><strong class="fact-value">19</strong><p class="fact-caption">regions, from Åland to Lapland</p></article>
+            <article class="fact-card"><span class="fact-label">NATIONAL LANGUAGES</span><strong class="fact-value">Suomi + Svenska</strong><p class="fact-caption">Finnish and Swedish; Sámi languages and communities are part of Finland too</p></article>
+            <article class="fact-card"><span class="fact-label">NATURE · CLIMATE</span><strong class="fact-value">4 seasons</strong><p class="fact-caption">with weather and daylight that vary by region</p></article>
+          </div>
+        </div>
+        <div class="topic-explorer" id="explore" aria-labelledby="topic-title">
+          <div class="topic-heading"><div><span class="section-kicker">A COUNTRY, MANY STORIES</span><h3 id="topic-title">Explore Finland from every angle</h3></div><p>Start with a topic. Pick up Finnish you can use while you explore.</p></div>
+          <div class="topic-grid">
+            <article class="topic-card" data-search="people languages population Finnish Swedish Sámi väestö language"><div class="topic-card-top"><span class="topic-index">01 · PEOPLE</span><span class="topic-term" lang="fi">väestö · population</span></div><h4>People & languages</h4><p>Population, national languages, Sámi communities, and regional voices.</p></article>
+            <article class="topic-card" data-search="history government public life municipality services society kunta historia"><div class="topic-card-top"><span class="topic-index">02 · SOCIETY</span><span class="topic-term" lang="fi">kunta · municipality</span></div><h4>History & public life</h4><p>Understand Finnish history, government, municipalities, and public services.</p></article>
+            <article class="topic-card" data-search="study university universities admissions student education yliopisto"><div class="topic-card-top"><span class="topic-index">03 · LEARNING</span><span class="topic-term" lang="fi">yliopisto · university</span></div><h4>Study & universities</h4><p>Explore universities, admissions, student life, and useful campus Finnish.</p></article>
+            <article class="topic-card" data-search="jobs economy career work workplace careers työelämä työpaikka"><div class="topic-card-top"><span class="topic-index">04 · CAREERS</span><span class="topic-term" lang="fi">työelämä · working life</span></div><h4>Jobs & economy</h4><p>Learn about careers, workplaces, job searches, and the Finnish economy.</p></article>
+            <article class="topic-card" data-search="forest forests lake lakes sea nature Baltic metsä järvi meri"><div class="topic-card-top"><span class="topic-index">05 · NATURE</span><span class="topic-term" lang="fi">metsä · forest</span></div><h4>Forests, lakes & sea</h4><p>Discover forests, lake country, the Baltic coast, and nature vocabulary.</p></article>
+            <article class="topic-card" data-search="weather climate seasons snow rain daylight sää talvi kesä"><div class="topic-card-top"><span class="topic-index">06 · CLIMATE</span><span class="topic-term" lang="fi">sää · weather</span></div><h4>Climate & seasons</h4><p>See how snow, rain, daylight, and the four seasons change across Finland.</p></article>
+            <article class="topic-card" data-search="transport travel train rail ferries bus city regions juna liikenne"><div class="topic-card-top"><span class="topic-index">07 · GETTING AROUND</span><span class="topic-term" lang="fi">juna · train</span></div><h4>Transport & places</h4><p>Find your way through city transport, rail journeys, ferries, and regions.</p></article>
+            <article class="topic-card" data-search="food markets culture sauna design celebrations tori ruoka"><div class="topic-card-top"><span class="topic-index">08 · EVERYDAY CULTURE</span><span class="topic-term" lang="fi">tori · market square</span></div><h4>Food, markets & culture</h4><p>Meet local foods, market days, sauna traditions, design, and celebrations.</p></article>
+          </div>
+          <div class="source-row"><strong>Fact sources</strong><a href="https://stat.fi/en/topic/population-and-society" target="_blank" rel="noreferrer">Statistics Finland · population 2025</a><a href="https://finland.fi/life-society/take-a-tour-of-finland-region-by-region/" target="_blank" rel="noreferrer">ThisisFINLAND · 19 regions</a><a href="https://toolbox.finland.fi/wp-content/uploads/sites/2/2026/01/finfo_facts_2025_en_aukeama_toolbox.pdf" target="_blank" rel="noreferrer">Finland Toolbox · languages</a><a href="https://www.visitfinland.com/en/practical-tips/climate-and-weather-in-finland/" target="_blank" rel="noreferrer">Visit Finland · seasons</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="daily-section" id="learn" aria-labelledby="daily-title">
+      <div class="shell">
+        <article class="daily-card">
+          <div><span class="daily-label">YOUR FINNISH · ONE DAY AT A TIME</span><h2 id="daily-title">A hundred useful words. A little more confidence.</h2><p>Short sets, clear meanings, and Finnish audio. Pick up where you are—your daily goal is yours to choose.</p><div class="daily-count"><span>10 small sets of 10</span><span class="daily-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div></div>
+          <a class="button" href="#learn">Explore Daily 100 <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="feature-row shell" aria-label="A Finnish phrase and explore Finland">
+      <article class="feature-panel phrase-panel" id="finnish-learning" aria-label="Finnish lesson language settings">
+        <div class="feature-top"><div><small>HEAR IT · SAY IT · KEEP IT</small><h3>A phrase for today</h3></div><span class="section-kicker">PRE-A1 · 1 MIN</span></div>
+        <div class="phrase-line"><div><strong lang="fi">Tervetuloa Suomeen.</strong><p>Welcome to Finland.</p><small id="phrase-support" lang="bn">ফিনল্যান্ডে স্বাগতম।</small></div><button class="listen-button" type="button" aria-label="Play Finnish pronunciation">▶</button></div>
+        <div class="learning-language-picker">
+          <label for="support-inline">Explain Finnish in</label>
+          <div class="learning-language-control"><input id="support-inline" type="text" list="learning-language-options" value="বাংলা · Bangla" autocomplete="off" placeholder="Search or type a language" aria-describedby="learning-language-note learning-language-status" aria-label="Search or type your language for Finnish lesson explanations"></div>
+          <datalist id="learning-language-options">
+            <option value="বাংলা · Bangla"></option><option value="English"></option><option value="Suomi · Finnish"></option><option value="Svenska · Swedish"></option><option value="العربية · Arabic"></option><option value="Українська · Ukrainian"></option>
+            <option value="Afrikaans"></option><option value="አማርኛ · Amharic"></option><option value="অসমীয়া · Assamese"></option><option value="Azərbaycan dili · Azerbaijani"></option><option value="Беларуская · Belarusian"></option><option value="Bosanski · Bosnian"></option><option value="Български · Bulgarian"></option><option value="မြန်မာ · Burmese"></option><option value="Cantonese · 廣東話"></option><option value="Català · Catalan"></option><option value="中文（简体）· Chinese (Simplified)"></option><option value="中文（繁體）· Chinese (Traditional)"></option><option value="Hrvatski · Croatian"></option><option value="Čeština · Czech"></option><option value="Dansk · Danish"></option><option value="Nederlands · Dutch"></option><option value="Eesti · Estonian"></option><option value="Filipino"></option><option value="Français · French"></option><option value="ქართული · Georgian"></option><option value="Deutsch · German"></option><option value="Ελληνικά · Greek"></option><option value="ગુજરાતી · Gujarati"></option><option value="Hausa"></option><option value="עברית · Hebrew"></option><option value="हिन्दी · Hindi"></option><option value="Magyar · Hungarian"></option><option value="Bahasa Indonesia · Indonesian"></option><option value="Italiano · Italian"></option><option value="日本語 · Japanese"></option><option value="ಕನ್ನಡ · Kannada"></option><option value="Қазақша · Kazakh"></option><option value="ខ្មែរ · Khmer"></option><option value="한국어 · Korean"></option><option value="Kurdî · Kurdish"></option><option value="ລາວ · Lao"></option><option value="Latviešu · Latvian"></option><option value="Lietuvių · Lithuanian"></option><option value="Bahasa Melayu · Malay"></option><option value="മലയാളം · Malayalam"></option><option value="मराठी · Marathi"></option><option value="Монгол · Mongolian"></option><option value="नेपाली · Nepali"></option><option value="Norsk · Norwegian"></option><option value="ଓଡ଼ିଆ · Odia"></option><option value="پښتو · Pashto"></option><option value="فارسی · Persian"></option><option value="Polski · Polish"></option><option value="Português · Portuguese"></option><option value="ਪੰਜਾਬੀ · Punjabi"></option><option value="Română · Romanian"></option><option value="Русский · Russian"></option><option value="Српски · Serbian"></option><option value="සිංහල · Sinhala"></option><option value="Slovenčina · Slovak"></option><option value="Slovenščina · Slovenian"></option><option value="Soomaali · Somali"></option><option value="Español · Spanish"></option><option value="Kiswahili · Swahili"></option><option value="தமிழ் · Tamil"></option><option value="తెలుగు · Telugu"></option><option value="ไทย · Thai"></option><option value="Türkçe · Turkish"></option><option value="اردو · Urdu"></option><option value="O‘zbekcha · Uzbek"></option><option value="Tiếng Việt · Vietnamese"></option><option value="Yorùbá · Yoruba"></option><option value="isiZulu · Zulu"></option>
+          </datalist>
+          <p class="picker-note" id="learning-language-note">This starter list has 74 language names. It changes Finnish lessons only; the rest of the site stays in English or Finnish. Search by language name, or type yours if it is missing.</p>
+          <p class="learning-language-status" id="learning-language-status" aria-live="polite"></p>
+        </div>
+      </article>
+      <article class="feature-panel explore-panel" id="culture">
+        <div class="feature-top"><div><small>SMALL STORIES · REAL SOURCES</small><h3>Get to know Finland</h3></div><span class="section-kicker">19 CHAPTERS</span></div>
+        <div class="explore-image"><div><span>From the forest to the city</span><strong>Explore Finland, your way.</strong></div><span class="explore-sun" aria-hidden="true">✳</span></div>
+        <a class="explore-link" href="#paths">History · nature · culture · everyday life <span aria-hidden="true">↗</span></a>
+      </article>
+    </section>
+  </main>
+
+  <section class="trust-strip" aria-label="Kielo learning approach"><div class="shell trust-inner"><strong>Useful Finnish for the life you want to build.</strong><div class="trust-items"><span><i></i>Website in English or Finnish</span><span><i></i>Choose an explanation language for Finnish lessons</span><span><i></i>Official sources, clearly linked</span></div></div></section>
+  <footer><div class="shell footer-inner"><a class="footer-brand" href="#home">Kielo</a><span>Learn Finnish. Find your way in Finland.</span><span>© Leon Islam · <a href="https://leonislam.com/" target="_blank" rel="noreferrer">leonislam.com</a></span></div></footer>
+  <p class="mockup-note">Home page visual mockup · weather shown for layout only · concept, not the production site.</p>
+
+  <script>
+    const clock=document.getElementById("helsinki-clock"), dateLine=document.getElementById("helsinki-date");
+    function updateClock(){const now=new Date();clock.textContent=new Intl.DateTimeFormat("en-US",{timeZone:"Europe/Helsinki",hour:"numeric",minute:"2-digit",hourCycle:"h12"}).format(now);dateLine.textContent=new Intl.DateTimeFormat("en-US",{timeZone:"Europe/Helsinki",weekday:"short",month:"short",day:"numeric"}).format(now)}
+    updateClock();setInterval(updateClock,30000);
+    const helpLanguages={"বাংলা · Bangla":{code:"bn",phrase:"ফিনল্যান্ডে স্বাগতম।"},English:{code:"en",phrase:"Welcome to Finland."},"العربية · Arabic":{code:"ar",phrase:"أهلاً وسهلاً بكم في فنلندا."},"Українська · Ukrainian":{code:"uk",phrase:"Ласкаво просимо до Фінляндії."},"Svenska · Swedish":{code:"sv",phrase:"Välkommen till Finland."}};
+    const learningLanguage=document.getElementById("support-inline"),languageStatus=document.getElementById("learning-language-status"),phraseSupport=document.getElementById("phrase-support");
+    function setHelpLanguage(value){const picked=value.trim();if(!picked){languageStatus.textContent="Search or type your language for Finnish lesson help.";return}const info=helpLanguages[picked];if(info){phraseSupport.textContent=info.phrase;phraseSupport.lang=info.code;languageStatus.textContent="This language changes Finnish lesson help only."}else{phraseSupport.textContent="Translation preview is not available for this language yet.";phraseSupport.lang="en";languageStatus.textContent=picked+" is selected for Finnish lessons. The main site remains English/Finnish."}}
+    learningLanguage.addEventListener("change",event=>setHelpLanguage(event.target.value));
+    const uiLanguage=document.getElementById("ui-language");
+    uiLanguage.addEventListener("change",event=>{const lang=event.target.value;document.documentElement.lang=lang;document.querySelectorAll("[data-en][data-fi]").forEach(node=>{const value=node.dataset[lang];if(node.id==="hero-title")node.innerHTML=value;else node.textContent=value});});
+    const menuButton=document.querySelector(".menu-toggle"),mobileMenu=document.querySelector(".mobile-menu");
+    menuButton.addEventListener("click",()=>{const open=menuButton.getAttribute("aria-expanded")==="true";menuButton.setAttribute("aria-expanded",String(!open));menuButton.setAttribute("aria-label",open?"Open navigation":"Close navigation");mobileMenu.classList.toggle("open",!open)});
+    mobileMenu.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{mobileMenu.classList.remove("open");menuButton.setAttribute("aria-expanded","false")}));
+    document.getElementById("weather-city").addEventListener("change",event=>{event.target.setAttribute("aria-label","Sample weather location: "+event.target.value);});
+    const search=document.getElementById("global-search"),feedback=document.getElementById("search-feedback"),cards=[...document.querySelectorAll(".path-card,.topic-card")];
+    if(search){search.addEventListener("input",()=>{const query=search.value.trim().toLocaleLowerCase();let count=0;cards.forEach(card=>{const matches=!query||(card.dataset.search||"").toLocaleLowerCase().includes(query);card.hidden=!matches;if(matches)count++});feedback.textContent=query?(count?"Showing "+count+" matching guides and learning paths.":"No result yet. Try Finnish, work, study, housing, weather, or culture."):""});document.querySelector(".search-wrap").addEventListener("submit",event=>{event.preventDefault();search.dispatchEvent(new Event("input"));const firstMatch=cards.find(card=>!card.hidden);if(firstMatch)firstMatch.scrollIntoView({behavior:"smooth",block:"center"})});document.addEventListener("keydown",event=>{if((event.metaKey||event.ctrlKey)&&event.key.toLowerCase()==="k"){event.preventDefault();search.focus()}})}
+  </script>
+</body>
+</html>
