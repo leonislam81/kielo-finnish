@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f5f6f1" />
+  <title>Create your CV · Kielo mockup</title>
+  <meta name="description" content="A mobile-first mockup for a simple Finland-ready CV builder inside Kielo." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%23173f35'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23e8d3a4'%3Ek%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #173f35;
+      --ink-strong: #123c34;
+      --muted: #63776e;
+      --muted-2: #819087;
+      --paper: #f5f6f1;
+      --white: #fffefa;
+      --line: #dce5dc;
+      --line-dark: #cbd9cf;
+      --sage: #e9f0e8;
+      --sage-deep: #d9e7dc;
+      --coral: #d37a60;
+      --gold: #e6d49b;
+      --blue: #173f65;
+      --blue-soft: #edf4f8;
+      --shadow: 0 20px 55px rgba(28, 63, 51, .08);
+      --radius: 22px;
+      font-family: "DM Sans", "Noto Sans", sans-serif;
+      color: var(--ink-strong);
+      background: var(--paper);
+      scroll-behavior: smooth;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; background: var(--paper); }
+    button, input, textarea, select { font: inherit; }
+    button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    button { color: inherit; }
+    .skip-link { position: absolute; left: -9999px; top: 8px; z-index: 20; padding: 12px; background: white; border-radius: 10px; }
+    .skip-link:focus { left: 8px; }
+    .site-header { position: sticky; top: 0; z-index: 10; background: rgba(255,254,250,.94); border-bottom: 1px solid var(--line); backdrop-filter: blur(16px); }
+    .header-inner { max-width: 1440px; margin: auto; min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px clamp(16px,4vw,52px); }
+    .brand { display: inline-flex; gap: 10px; align-items: center; text-decoration: none; }
+    .brand-mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 15px; color: #f5f3df; background: var(--ink); }
+    .brand-mark svg { width: 26px; height: 26px; }
+    .brand-word strong { display: block; font: 600 25px/1 "Fraunces", Georgia, serif; letter-spacing: -.04em; }
+    .brand-word small { display: block; margin-top: 5px; color: var(--muted-2); font-size: 8px; letter-spacing: .17em; font-weight: 700; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .header-tag { display: inline-flex; align-items: center; gap: 8px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: #fff; font-size: 11px; }
+    .header-tag i, .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #6aaa7f; }
+    .back-link { color: var(--ink); font-weight: 700; font-size: 12px; text-decoration: none; }
+    .back-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+    main { max-width: 1440px; margin: 0 auto; padding: 0 clamp(16px,4vw,52px) 56px; }
+    .intro { padding: clamp(28px,5vw,62px) 0 23px; }
+    .eyebrow { display: flex; align-items: center; gap: 9px; color: #58766b; font-size: 9px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+    .eyebrow-mark { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 5px rgba(211,122,96,.12); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 750px; margin: 17px 0 12px; font: 600 clamp(37px,6vw,68px)/.99 "Fraunces", Georgia, serif; letter-spacing: -.055em; color: var(--ink-strong); }
+    h1 em { color: var(--coral); font-weight: 500; }
+    .intro-copy { max-width: 690px; margin-bottom: 20px; color: var(--muted); font-size: clamp(14px,1.5vw,16px); line-height: 1.7; }
+    .intro-points { display: flex; flex-wrap: wrap; gap: 8px; }
+    .intro-points span { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.7); color: #537268; font-size: 11px; }
+    .intro-points b { color: #1e745c; font-size: 13px; }
+    .placement-card { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0,1.15fr) minmax(230px,.85fr); gap: 18px; align-items: center; padding: clamp(21px,3vw,34px); border: 1px solid #d7e3d7; border-radius: 25px; background: linear-gradient(112deg,#edf3e9 0%,#edf3e9 61%,#e5eee5 61%,#f4f1e7 100%); }
+    .placement-copy { max-width: 690px; }
+    .placement-copy h2 { margin: 10px 0 9px; font: 600 clamp(25px,3.3vw,39px)/1.04 "Fraunces", Georgia, serif; letter-spacing: -.04em; }
+    .placement-copy p { max-width: 570px; margin-bottom: 18px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .placement-action { display: inline-flex; align-items: center; gap: 10px; border: 0; border-radius: 13px; padding: 13px 17px; color: #fff; background: var(--ink); font-size: 12px; font-weight: 700; box-shadow: 0 8px 20px rgba(23,63,53,.14); cursor: pointer; text-decoration: none; }
+    .placement-action:hover, .primary-button:hover { background: #215f50; transform: translateY(-1px); }
+    .placement-aside { justify-self: end; display: flex; flex-direction: column; gap: 10px; width: min(100%,300px); }
+    .mini-proof { display: flex; gap: 11px; align-items: center; padding: 12px; border: 1px solid rgba(203,217,207,.9); border-radius: 15px; background: rgba(255,254,250,.82); }
+    .mini-proof-icon { flex: 0 0 34px; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 12px; color: var(--ink); background: var(--sage); font-size: 16px; }
+    .mini-proof strong { display: block; font-size: 11px; }
+    .mini-proof small { display: block; margin-top: 3px; color: var(--muted); font-size: 10px; line-height: 1.4; }
+    .builder-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin: clamp(36px,5vw,64px) 0 18px; }
+    .builder-heading h2 { margin: 8px 0 5px; font: 600 clamp(27px,3.5vw,42px)/1 "Fraunces", Georgia, serif; letter-spacing: -.04em; }
+    .builder-heading p { max-width: 650px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .mock-badge { flex: 0 0 auto; padding: 8px 11px; border: 1px solid #e8d8b1; border-radius: 999px; color: #80643a; background: #fbf5e8; font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+    #builder { scroll-margin-top: 86px; }
+    .workspace { display: grid; grid-template-columns: minmax(0,1.02fr) minmax(420px,.98fr); align-items: start; gap: 20px; }
+    .builder-card, .preview-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
+    .builder-card { scroll-margin-top: 82px; }
+    .builder-card { overflow: hidden; }
+    .builder-top { padding: 20px 22px 0; }
+    .builder-topline { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .step-count { color: var(--muted); font-size: 11px; font-weight: 600; }
+    .save-note { display: flex; align-items: center; gap: 6px; color: var(--muted-2); font-size: 10px; }
+    .save-note i { width: 6px; height: 6px; background: #91b79c; border-radius: 50%; }
+    .progress-track { height: 5px; margin-top: 14px; overflow: hidden; border-radius: 999px; background: #edf1ec; }
+    .progress-fill { width: 25%; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#5b9678,#a5bd88); transition: width .25s ease; }
+    .step-tabs { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-top: 15px; }
+    .step-tab { display: flex; align-items: center; gap: 7px; min-width: 0; padding: 9px 7px; border: 1px solid transparent; border-radius: 11px; color: #74847b; background: transparent; text-align: left; cursor: pointer; }
+    .step-tab .step-no { flex: 0 0 24px; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: #eff3ee; font-size: 10px; font-weight: 700; }
+    .step-tab .step-name { overflow: hidden; font-size: 10px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+    .step-tab[aria-current="step"] { border-color: #d5e4d8; color: var(--ink); background: #eef4ed; }
+    .step-tab[aria-current="step"] .step-no { color: white; background: var(--ink); }
+    .form-body { padding: 22px; }
+    .step-panel { display: none; animation: show .2s ease; }
+    .step-panel.is-active { display: block; }
+    @keyframes show { from { opacity:.5; transform:translateY(3px); } to { opacity:1; transform:translateY(0); } }
+    .panel-heading { margin-bottom: 19px; }
+    .panel-heading h3 { margin: 0 0 6px; font: 600 22px/1.1 "Fraunces", Georgia, serif; letter-spacing: -.025em; }
+    .panel-heading p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 13px; }
+    .field { min-width: 0; }
+    .field.full { grid-column: 1/-1; }
+    .field label, .mini-field label { display: block; margin: 0 0 6px; color: #3a5f52; font-size: 10px; font-weight: 700; }
+    .field label span { color: var(--muted-2); font-weight: 400; }
+    .field input, .field textarea, .field select, .mini-field input, .mini-field textarea { width: 100%; min-height: 42px; padding: 10px 12px; border: 1px solid var(--line-dark); border-radius: 11px; outline: none; color: var(--ink-strong); background: #fff; font-size: 12px; transition: border-color .15s,box-shadow .15s; }
+    .field textarea, .mini-field textarea { min-height: 93px; resize: vertical; line-height: 1.5; }
+    .field input:focus, .field textarea:focus, .field select:focus, .mini-field input:focus, .mini-field textarea:focus { border-color: #75a38a; box-shadow: 0 0 0 3px rgba(117,163,138,.16); }
+    .field small, .mini-field small { display: block; margin-top: 6px; color: var(--muted-2); font-size: 9px; line-height: 1.45; }
+    .upload-row { grid-column: 1/-1; display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px dashed #b9cbbd; border-radius: 13px; background: #fafcf8; }
+    .upload-avatar { flex: 0 0 44px; width: 44px; height: 52px; display: grid; place-items: center; overflow: hidden; border-radius: 10px; color: #688075; background: #e8efe8; font-size: 18px; }
+    .upload-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .upload-copy { flex: 1; min-width: 0; }
+    .upload-copy strong { display: block; font-size: 10px; }
+    .upload-copy small { display: block; margin-top: 3px; color: var(--muted-2); font-size: 9px; line-height: 1.4; }
+    .upload-button { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; color: var(--ink); background: #fff; font-size: 10px; font-weight: 700; cursor: pointer; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; clip-path: inset(50%); border: 0; }
+    .work-item, .education-item { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; padding: 14px; border: 1px solid var(--line); border-radius: 15px; background: #fff; }
+    .work-item + .work-item, .education-item + .education-item { margin-top: 10px; }
+    .item-top { grid-column: 1/-1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .item-top strong { font-size: 11px; }
+    .remove-item { border: 0; padding: 5px 7px; color: #9b685d; background: transparent; font-size: 10px; cursor: pointer; }
+    .mini-field { min-width: 0; }
+    .mini-field input, .mini-field textarea { min-height: 36px; padding: 8px 9px; font-size: 10px; }
+    .mini-field textarea { min-height: 67px; }
+    .add-button { display: inline-flex; align-items: center; gap: 7px; margin-top: 12px; border: 1px solid #cfe0d3; border-radius: 10px; padding: 10px 12px; color: var(--ink); background: #f3f7f1; font-size: 10px; font-weight: 700; cursor: pointer; }
+    .add-button:hover { border-color: #9fbea6; background: #eaf2e8; }
+    .chip-input { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; min-height: 43px; padding: 6px 8px; border: 1px solid var(--line-dark); border-radius: 11px; background: white; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 999px; color: #426153; background: #edf3ec; font-size: 10px; }
+    .chip button { border: 0; padding: 0; color: #6e8779; background: transparent; cursor: pointer; font-size: 12px; line-height: 1; }
+    .chip-input input { flex: 1; min-width: 82px; min-height: 25px; padding: 3px; border: 0; outline: 0; box-shadow: none!important; font-size: 10px; }
+    .language-list { display: grid; gap: 8px; }
+    .language-row { display: grid; grid-template-columns: minmax(0,1fr) 130px; gap: 8px; }
+    .language-row input, .language-row select { width: 100%; height: 39px; padding: 8px 10px; border: 1px solid var(--line-dark); border-radius: 10px; color: var(--ink-strong); background: white; font-size: 11px; }
+    .helper-card { display: flex; gap: 10px; margin: 14px 0 0; padding: 12px; border-radius: 12px; color: #506c5f; background: #f0f5ef; font-size: 10px; line-height: 1.5; }
+    .helper-card b { color: #376b56; }
+    .review-list { display: grid; gap: 8px; margin: 14px 0; }
+    .review-row { display: flex; align-items: center; gap: 9px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 11px; color: #547267; font-size: 11px; }
+    .review-check { display: grid; place-items: center; flex: 0 0 19px; width: 19px; height: 19px; border-radius: 50%; color: #fff; background: #70a281; font-size: 11px; }
+    .mobile-preview-toggle { display: none; width: 100%; justify-content: center; gap: 8px; margin: 0 0 12px; padding: 11px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: white; font-size: 11px; font-weight: 700; cursor: pointer; }
+    .form-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #edf0eb; }
+    .footer-left { color: var(--muted-2); font-size: 9px; }
+    .footer-actions { display: flex; gap: 8px; }
+    .secondary-button, .primary-button { min-height: 40px; border-radius: 11px; padding: 0 14px; font-size: 11px; font-weight: 700; cursor: pointer; transition: transform .15s,background .15s; }
+    .secondary-button { border: 1px solid var(--line); color: #536f63; background: white; }
+    .secondary-button:hover { background: #f5f8f4; }
+    .primary-button { border: 1px solid var(--ink); color: white; background: var(--ink); }
+    .primary-button:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+    .preview-card { position: sticky; top: 90px; overflow: hidden; }
+    .preview-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 15px 17px; border-bottom: 1px solid var(--line); }
+    .preview-head strong { display: block; font-size: 11px; }
+    .preview-head small { display: block; margin-top: 3px; color: var(--muted-2); font-size: 9px; }
+    .preview-status { display: inline-flex; align-items: center; gap: 6px; color: #658272; font-size: 9px; font-weight: 600; }
+    .preview-document-wrap { padding: 15px; background: #edf1eb; }
+    .resume-page { width: 100%; max-width: 570px; min-height: 680px; margin: 0 auto; overflow: hidden; border: 1px solid #e1e7e8; border-radius: 5px; background: #fff; box-shadow: 0 6px 24px rgba(21,53,45,.11); color: #173d63; font-family: "DM Sans", sans-serif; }
+    .resume-header { position: relative; min-height: 138px; display: flex; align-items: center; gap: 18px; padding: 23px 22px; color: white; background: var(--blue); }
+    .resume-header::after { content: ""; position: absolute; right: 0; bottom: 0; left: 0; height: 4px; background: #3798d4; }
+    .resume-main-contact { flex: 1; min-width: 0; }
+    .resume-name { overflow-wrap: anywhere; margin: 0 0 10px; color: white; font-size: clamp(19px,2.5vw,27px); line-height: 1.05; font-weight: 800; letter-spacing: .015em; text-transform: uppercase; }
+    .resume-role { margin: -4px 0 8px; color: #dbeaf5; font-size: 10px; font-weight: 600; }
+    .resume-contact { display: flex; flex-wrap: wrap; gap: 5px 9px; color: #e6eff6; font-size: 9px; line-height: 1.5; }
+    .resume-contact a { color: inherit; text-decoration: none; }
+    .resume-photo { flex: 0 0 78px; width: 78px; height: 94px; display: grid; place-items: center; overflow: hidden; border: 3px solid rgba(255,255,255,.85); border-radius: 14px; color: #315c78; background: #e8eef2; font-size: 26px; font-weight: 700; }
+    .resume-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .resume-grid { display: grid; grid-template-columns: minmax(0,1.72fr) minmax(150px,.88fr); gap: 22px; padding: 19px 20px 22px; }
+    .resume-main, .resume-aside { min-width: 0; }
+    .resume-section { margin: 0 0 17px; }
+    .resume-section h4 { display: flex; align-items: center; gap: 7px; margin: 0 0 8px; padding-bottom: 6px; border-bottom: 2px solid #3995ce; color: var(--blue); font-size: 10px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .resume-section h4 span:first-child { flex: 0 0 17px; width: 17px; height: 17px; display: grid; place-items: center; border-radius: 6px; color: #225984; background: #eaf3f8; font-size: 9px; }
+    .resume-profile { margin: 0; color: #405b70; font-size: 9px; line-height: 1.55; }
+    .resume-job { margin: 0 0 10px; }
+    .resume-job-title { margin: 0 0 3px; color: #173f65; font-size: 10px; font-weight: 700; }
+    .resume-meta { margin: 0 0 4px; color: #70879a; font-size: 8px; font-style: italic; line-height: 1.4; }
+    .resume-bullets { margin: 0; padding-left: 13px; color: #415a6e; font-size: 8px; line-height: 1.45; }
+    .resume-education { margin-bottom: 9px; }
+    .resume-education strong { display: block; color: #173f65; font-size: 9px; }
+    .resume-education small { display: block; margin-top: 3px; color: #6f8494; font-size: 8px; line-height: 1.4; }
+    .resume-aside { padding: 10px 11px; border-radius: 14px; background: var(--blue-soft); }
+    .resume-aside .resume-section { margin-bottom: 15px; }
+    .resume-aside .resume-section h4 { font-size: 9px; }
+    .resume-skill { margin: 0 0 7px; color: #385e78; font-size: 8px; line-height: 1.4; }
+    .resume-skill strong { display: block; margin-bottom: 2px; color: #234e6d; font-size: 8px; text-transform: uppercase; }
+    .resume-language, .resume-course { display: flex; justify-content: space-between; gap: 5px; margin-bottom: 5px; color: #446176; font-size: 8px; }
+    .resume-language span:last-child { color: #6e8797; text-align: right; }
+    .resume-target { margin: 0; color: #476176; font-size: 8px; line-height: 1.5; }
+    .preview-controls { padding: 14px 16px 16px; }
+    .download-intro { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 9px; }
+    .download-intro strong { font-size: 10px; }
+    .download-intro small { color: var(--muted-2); font-size: 9px; }
+    .download-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+    .download-button { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; border: 1px solid var(--line); border-radius: 11px; color: var(--ink); background: white; font-size: 10px; font-weight: 700; cursor: pointer; }
+    .download-button span { font-size: 14px; }
+    .download-button:hover { border-color: #99b9a2; background: #f4f8f2; }
+    .download-footnote { margin: 8px 0 0; color: var(--muted-2); font-size: 9px; line-height: 1.45; }
+    .privacy-note { display: flex; gap: 8px; align-items: start; margin-top: 10px; padding: 10px; border-radius: 11px; color: #587166; background: #f0f5ef; font-size: 9px; line-height: 1.45; }
+    .privacy-note b { color: #326a54; }
+    .bottom-note { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 25px; padding: 17px 0 0; border-top: 1px solid var(--line); color: var(--muted-2); font-size: 10px; }
+    .bottom-note a { color: var(--ink); font-weight: 700; text-decoration: none; }
+    .toast { position: fixed; z-index: 50; right: 18px; bottom: 18px; max-width: min(390px,calc(100vw - 36px)); padding: 12px 16px; border: 1px solid rgba(255,255,255,.15); border-radius: 13px; color: #fff; background: #183f36; box-shadow: 0 12px 35px rgba(17,45,38,.2); font-size: 11px; line-height: 1.5; opacity: 0; transform: translateY(10px); pointer-events: none; transition: .2s ease; }
+    .toast.is-visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 960px) {
+      .workspace { grid-template-columns: minmax(0,1fr) minmax(330px,.9fr); gap: 13px; }
+      .resume-grid { grid-template-columns: minmax(0,1.6fr) minmax(120px,.9fr); gap: 14px; padding: 16px; }
+      .resume-header { padding: 18px; }
+    }
+    @media (max-width: 760px) {
+      .header-inner { min-height: 64px; padding: 8px 15px; }
+      .brand-mark { width: 38px; height: 38px; border-radius: 13px; }
+      .brand-word strong { font-size: 23px; }
+      .header-tag { display: none; }
+      main { padding: 0 14px 34px; }
+      .intro { padding: 27px 0 20px; }
+      .intro-copy { font-size: 13px; }
+      .placement-card { grid-template-columns: 1fr; gap: 15px; padding: 20px; border-radius: 20px; background: linear-gradient(145deg,#edf3e9 0%,#edf3e9 72%,#e7eee6 72%); }
+      .placement-copy p { margin-bottom: 14px; }
+      .placement-aside { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); width: 100%; }
+      .mini-proof { align-items: flex-start; padding: 10px; }
+      .mini-proof-icon { flex-basis: 30px; width: 30px; height: 30px; }
+      .mini-proof strong { font-size: 9px; }
+      .mini-proof small { font-size: 8px; }
+      .builder-heading { display: block; margin: 34px 0 14px; }
+      .builder-heading .mock-badge { display: inline-flex; margin-top: 11px; }
+      .workspace { display: flex; flex-direction: column; }
+      .builder-card { width: 100%; border-radius: 18px; }
+      .builder-top { padding: 16px 14px 0; }
+      .step-tabs { gap: 3px; margin-top: 12px; }
+      .step-tab { flex-direction: column; justify-content: center; gap: 4px; padding: 7px 3px; }
+      .step-tab .step-name { display: block; max-width: 100%; font-size: 8px; text-align: center; }
+      .step-tab .step-no { flex-basis: 26px; width: 26px; height: 26px; }
+      .form-body { padding: 17px 14px; }
+      .mobile-preview-toggle { display: flex; }
+      .preview-card { position: static; display: none; width: 100%; border-radius: 18px; }
+      .workspace.is-preview-open .preview-card { display: block; }
+      .preview-document-wrap { padding: 9px; }
+      .resume-page { min-height: 0; }
+      .resume-header { min-height: 105px; gap: 12px; padding: 15px; }
+      .resume-name { font-size: clamp(17px,5vw,23px); }
+      .resume-contact { font-size: 8px; }
+      .resume-photo { flex-basis: 61px; width: 61px; height: 73px; border-radius: 11px; }
+      .resume-grid { grid-template-columns: minmax(0,1.55fr) minmax(115px,.85fr); gap: 11px; padding: 13px 12px; }
+      .resume-aside { padding: 8px; }
+      .resume-section h4 { font-size: 9px; }
+      .form-grid { gap: 11px; }
+      .field input, .field textarea, .field select { font-size: 16px; }
+      .bottom-note { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 420px) {
+      .back-link { font-size: 10px; }
+      .brand-word small { font-size: 7px; }
+      .placement-aside { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .upload-row { grid-column: auto; }
+      .step-count { font-size: 10px; }
+      .save-note { max-width: 118px; font-size: 9px; }
+      .resume-grid { grid-template-columns: minmax(0,1fr) minmax(99px,.72fr); gap: 8px; padding: 10px; }
+      .resume-aside { padding: 7px; }
+      .resume-contact { gap: 3px 6px; }
+      .resume-profile { font-size: 8px; }
+      .resume-bullets { padding-left: 11px; font-size: 7px; }
+      .language-row { grid-template-columns: minmax(0,1fr) 112px; }
+      .form-footer { align-items: stretch; flex-direction: column; }
+      .footer-actions { justify-content: space-between; }
+      .footer-actions button { flex: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto!important; animation-duration: .01ms!important; transition-duration: .01ms!important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#builder">Skip to CV builder</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../public/jobs.html" aria-label="Kielo, back to Find work">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 25V12m0 8c-3-4-6-5-9-4m9-2c2-4 5-6 9-6" stroke="#dce9d8" stroke-width="1.7" stroke-linecap="round"/><path d="M15.7 7.6c0-2 1.3-3.6 3.1-3.6 1.6 0 2.8 1.3 2.8 3.1 0 1.7-1.1 3-2.6 3-.9 0-1.7-.5-2-1.3-.3.8-1 1.3-1.9 1.3-1.6 0-2.7-1.3-2.7-3 0-1.8 1.2-3.1 2.8-3.1 1.6 0 2.8 1.3 3 3.1" fill="#e8d3a4"/><path d="M10 21c-2.7 0-4.7 1.3-5.6 3.4 2.6.7 5 .3 6.5-1.5m11.1-7.7c2.7-1.3 5-.9 6.8.7-1.8 2.1-4 3-6.1 2.1" stroke="#dce9d8" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+        <span class="brand-word"><strong>Kielo</strong><small>FINLAND, WITH YOU</small></span>
+      </a>
+      <div class="header-right">
+        <span class="header-tag"><i></i> CV BUILDER MOCKUP</span>
+        <a class="back-link" href="../public/jobs.html">← Back to Find work</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div class="eyebrow"><i class="eyebrow-mark"></i> A PRACTICAL NEXT STEP · FINLAND</div>
+      <h1 id="page-title">Make your experience <em>easy to see.</em></h1>
+      <p class="intro-copy">Build a clear, job-ready CV with simple prompts. Add your experience once, tailor it for the role, review the live preview, then choose a download format.</p>
+      <div class="intro-points">
+        <span><b>✓</b> One simple step at a time</span>
+        <span><b>✓</b> English or Finnish CV</span>
+        <span><b>✓</b> PDF, JPG or PNG export</span>
+      </div>
+    </section>
+
+    <section class="placement-card" aria-labelledby="placement-title">
+      <div class="placement-copy">
+        <div class="eyebrow"><i class="eyebrow-mark"></i> MOCKUP · THE LAST SECTION ON FIND WORK</div>
+        <h2 id="placement-title">Your next application can start here.</h2>
+        <p>After exploring Finnish cities and job platforms, visitors can create a CV that brings their skills and experience together—ready to tailor for each application.</p>
+        <a class="placement-action" href="#builder">Create your CV <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="placement-aside" aria-label="CV builder benefits">
+        <div class="mini-proof"><span class="mini-proof-icon" aria-hidden="true">✦</span><span><strong>Made for your next role</strong><small>Cleaning, hospitality, warehouse and more</small></span></div>
+        <div class="mini-proof"><span class="mini-proof-icon" aria-hidden="true">▤</span><span><strong>See it as you build</strong><small>Your details appear in the CV preview</small></span></div>
+      </div>
+    </section>
+
+    <section id="builder" aria-labelledby="builder-title">
+      <div class="builder-heading">
+        <div><div class="eyebrow">YOUR CV WORKSPACE · SAMPLE DETAILS</div><h2 id="builder-title">Build your Finland-ready CV.</h2><p>Answer a few guided questions. You can change the sample details and see how your CV updates.</p></div>
+        <span class="mock-badge">Design mockup</span>
+      </div>
+
+      <div class="workspace" id="workspace">
+        <section class="builder-card" aria-label="CV details form">
+          <div class="builder-top">
+            <div class="builder-topline"><span class="step-count" id="step-count">STEP 1 OF 4 · YOUR DETAILS</span><span class="save-note"><i></i> Preview only · no account needed</span></div>
+            <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+            <div class="step-tabs" aria-label="CV building steps">
+              <button class="step-tab" type="button" data-step-tab="0" aria-current="step"><span class="step-no">1</span><span class="step-name">Your details</span></button>
+              <button class="step-tab" type="button" data-step-tab="1"><span class="step-no">2</span><span class="step-name">Experience</span></button>
+              <button class="step-tab" type="button" data-step-tab="2"><span class="step-no">3</span><span class="step-name">Skills</span></button>
+              <button class="step-tab" type="button" data-step-tab="3"><span class="step-no">4</span><span class="step-name">Review</span></button>
+            </div>
+          </div>
+
+          <form class="form-body" id="cv-form" novalidate>
+            <button class="mobile-preview-toggle" type="button" id="preview-toggle"><span aria-hidden="true">▤</span> See live CV preview</button>
+            <section class="step-panel is-active" data-step-panel="0" aria-labelledby="details-heading">
+              <div class="panel-heading"><h3 id="details-heading">Start with your details.</h3><p>These details appear at the top of your CV. Only include information you want an employer to use.</p></div>
+              <div class="form-grid">
+                <div class="field full"><label for="full-name">Full name</label><input id="full-name" data-bind="name" autocomplete="name" value="Amina Example" /><small>Use the name you use on your job applications.</small></div>
+                <div class="field"><label for="target-role">Job you want <span>(you can tailor later)</span></label><input id="target-role" data-bind="role" value="Housekeeping &amp; cleaning" /></div>
+                <div class="field"><label for="cv-language">Language for your CV</label><select id="cv-language"><option value="en" selected>English</option><option value="fi">Finnish · Suomi</option></select><small>Write and review your profile in this language. Your job descriptions are not auto-translated.</small></div>
+                <div class="field"><label for="city">City or region</label><input id="city" data-bind="city" value="Helsinki, Finland" /></div>
+                <div class="field"><label for="email">Email</label><input id="email" data-bind="email" type="email" autocomplete="email" value="amina@example.com" /></div>
+                <div class="field"><label for="phone">Phone</label><input id="phone" data-bind="phone" type="tel" autocomplete="tel" value="+358 XX XXX XXXX" /></div>
+                <div class="field full"><label for="profile">A short introduction</label><textarea id="profile" data-bind="profile">Reliable and service-minded professional with experience in housekeeping, customer support and warehouse routines. Punctual, careful and comfortable learning new tasks in a team.</textarea><small>Two or three short sentences about the experience that matters for this role.</small></div>
+                <div class="upload-row">
+                  <div class="upload-avatar" id="upload-avatar" aria-hidden="true">＋</div>
+                  <div class="upload-copy"><strong>Add a profile photo <span style="font-weight:400;color:#819087">(optional)</span></strong><small>A clear, professional photo is optional in Finland. You can continue without one.</small></div>
+                  <label class="upload-button" for="photo-file">Choose photo</label><input class="sr-only" id="photo-file" name="photo-file" type="file" accept="image/*" />
+                </div>
+              </div>
+              <div class="form-footer"><span class="footer-left">You can update every section before downloading.</span><div class="footer-actions"><button class="primary-button next-step" type="button">Add experience →</button></div></div>
+            </section>
+
+            <section class="step-panel" data-step-panel="1" aria-labelledby="experience-heading">
+              <div class="panel-heading"><h3 id="experience-heading">Show what you have done.</h3><p>Start with the experience most relevant to the job. Paid, part-time and volunteer work can all count.</p></div>
+              <div id="experience-list">
+                <article class="work-item" data-work-item>
+                  <div class="item-top"><strong>Experience 1</strong><button class="remove-item" type="button" data-remove-work>Remove</button></div>
+                  <div class="mini-field"><label for="work-title-1">Job title</label><input id="work-title-1" name="work-title" data-work-title value="Housekeeping Assistant" /></div>
+                  <div class="mini-field"><label for="work-company-1">Employer</label><input id="work-company-1" name="work-company" data-work-company value="Example Hotel" /></div>
+                  <div class="mini-field"><label for="work-location-1">City / country</label><input id="work-location-1" name="work-location" data-work-location value="Helsinki, Finland" /></div>
+                  <div class="mini-field"><label for="work-dates-1">Dates</label><input id="work-dates-1" name="work-dates" data-work-dates value="2024–2026" /></div>
+                  <div class="mini-field" style="grid-column:1/-1"><label for="work-bullets-1">What did you do?</label><textarea id="work-bullets-1" name="work-bullets" data-work-bullets>Prepared guest rooms and shared spaces to daily quality standards.
+Restocked supplies and followed hygiene checklists.</textarea><small>Use clear action words. Add numbers only when they are accurate.</small></div>
+                </article>
+                <article class="work-item" data-work-item>
+                  <div class="item-top"><strong>Experience 2</strong><button class="remove-item" type="button" data-remove-work>Remove</button></div>
+                  <div class="mini-field"><label for="work-title-2">Job title</label><input id="work-title-2" name="work-title" data-work-title value="Warehouse Assistant" /></div>
+                  <div class="mini-field"><label for="work-company-2">Employer</label><input id="work-company-2" name="work-company" data-work-company value="Example Logistics" /></div>
+                  <div class="mini-field"><label for="work-location-2">City / country</label><input id="work-location-2" name="work-location" data-work-location value="Dhaka, Bangladesh" /></div>
+                  <div class="mini-field"><label for="work-dates-2">Dates</label><input id="work-dates-2" name="work-dates" data-work-dates value="2022–2024" /></div>
+                  <div class="mini-field" style="grid-column:1/-1"><label for="work-bullets-2">What did you do?</label><textarea id="work-bullets-2" name="work-bullets" data-work-bullets>Picked and packed orders for dispatch.
+Kept stock areas tidy and followed work instructions.</textarea></div>
+                </article>
+              </div>
+              <button class="add-button" type="button" id="add-work">＋ Add another experience</button>
+              <div class="form-footer"><span class="footer-left">List the newest experience first.</span><div class="footer-actions"><button class="secondary-button previous-step" type="button">← Back</button><button class="primary-button next-step" type="button">Add education →</button></div></div>
+            </section>
+
+            <section class="step-panel" data-step-panel="2" aria-labelledby="skills-heading">
+              <div class="panel-heading"><h3 id="skills-heading">Add education and skills.</h3><p>Choose the details that help an employer understand what you can bring to this role.</p></div>
+              <div class="field"><label>Education or training</label>
+                <div id="education-list">
+                  <article class="education-item" data-education-item>
+                    <div class="item-top"><strong>Education 1</strong><button class="remove-item" type="button" data-remove-education>Remove</button></div>
+                    <div class="mini-field"><label for="edu-title-1">Qualification or course</label><input id="edu-title-1" name="education-title" data-edu-title value="Hospitality Training" /></div>
+                    <div class="mini-field"><label for="edu-school-1">School or provider</label><input id="edu-school-1" name="education-school" data-edu-school value="Example Training Centre" /></div>
+                    <div class="mini-field"><label for="edu-location-1">City / country</label><input id="edu-location-1" name="education-location" data-edu-location value="Helsinki, Finland" /></div>
+                    <div class="mini-field"><label for="edu-dates-1">Year or dates</label><input id="edu-dates-1" name="education-dates" data-edu-dates value="2024" /></div>
+                  </article>
+                </div>
+                <button class="add-button" type="button" id="add-education">＋ Add education or training</button>
+              </div>
+              <div class="field full" style="margin-top:18px"><label for="skill-entry">Key skills <span>(press Enter to add)</span></label><div class="chip-input" id="skill-chip-box"><span class="chip" data-skill-chip>Guest service <button type="button" aria-label="Remove Guest service">×</button></span><span class="chip" data-skill-chip>Cleaning routines <button type="button" aria-label="Remove Cleaning routines">×</button></span><span class="chip" data-skill-chip>Stock handling <button type="button" aria-label="Remove Stock handling">×</button></span><input id="skill-entry" name="skill-entry" placeholder="Type a skill…" aria-label="Type a skill and press Enter" /></div><small>Keep skills relevant to the job you are applying for.</small></div>
+              <div class="field full" style="margin-top:17px"><label>Languages</label>
+                <div class="language-list" id="language-list">
+                  <div class="language-row" data-language-row><input name="language-name" aria-label="Language" data-language-name value="Bengali" /><select name="language-level" aria-label="Bengali level" data-language-level><option>Native</option><option>Fluent</option><option>B2</option><option>B1</option><option>A2</option><option>A1</option><option>Beginner</option></select></div>
+                  <div class="language-row" data-language-row><input name="language-name" aria-label="Language" data-language-name value="English" /><select name="language-level" aria-label="English level" data-language-level><option>Native</option><option selected>B2</option><option>B1</option><option>A2</option><option>A1</option><option>Beginner</option></select></div>
+                  <div class="language-row" data-language-row><input name="language-name" aria-label="Language" data-language-name value="Finnish" /><select name="language-level" aria-label="Finnish level" data-language-level><option>Native</option><option>Fluent</option><option>B2</option><option>B1</option><option selected>A2</option><option>A1</option><option>Beginner</option></select></div>
+                </div>
+                <button class="add-button" type="button" id="add-language">＋ Add a language</button>
+                <small>Use a level that honestly reflects your speaking, reading and writing.</small>
+              </div>
+              <div class="field full" style="margin-top:17px"><label for="references">References</label><input id="references" data-bind="references" value="Available upon request" /><small>Or add a referee’s name and contact details if they have agreed.</small></div>
+              <div class="helper-card"><span aria-hidden="true">✦</span><span><b>Helpful tip</b> · Keep the CV focused. Your application letter can explain why you want this particular job.</span></div>
+              <div class="form-footer"><span class="footer-left">You can add more than one qualification.</span><div class="footer-actions"><button class="secondary-button previous-step" type="button">← Back</button><button class="primary-button next-step" type="button">Review my CV →</button></div></div>
+            </section>
+
+            <section class="step-panel" data-step-panel="3" aria-labelledby="review-heading">
+              <div class="panel-heading"><h3 id="review-heading">Review before you download.</h3><p>Check names, dates and language levels. Then choose the file format you need.</p></div>
+              <div class="review-list"><div class="review-row"><span class="review-check">✓</span><span>Your contact details are easy to find.</span></div><div class="review-row"><span class="review-check">✓</span><span>Your newest and most relevant work appears first.</span></div><div class="review-row"><span class="review-check">✓</span><span>Skills and language levels match your real experience.</span></div></div>
+              <div class="helper-card"><span aria-hidden="true">▤</span><span><b>One CV, different applications</b> · Update your job title and highlight the experience that fits each role.</span></div>
+              <div class="form-footer"><span class="footer-left">Use “See live CV preview” to review the page.</span><div class="footer-actions"><button class="secondary-button previous-step" type="button">← Back</button><button class="primary-button" type="button" id="finish-preview">Preview &amp; download ↓</button></div></div>
+            </section>
+          </form>
+        </section>
+
+        <aside class="preview-card" id="preview-card" aria-label="Live CV preview">
+          <div class="preview-head"><div><strong>Your CV preview</strong><small>A clean, Finland-friendly layout · A4 page</small></div><span class="preview-status"><i class="live-dot"></i> Updates as you type</span></div>
+          <div class="preview-document-wrap">
+            <article class="resume-page" id="resume-page" aria-label="CV preview document">
+              <header class="resume-header">
+                <div class="resume-main-contact"><h3 class="resume-name" id="preview-name">AMINA EXAMPLE</h3><p class="resume-role" id="preview-role">Housekeeping &amp; cleaning</p><div class="resume-contact"><span id="preview-city">Helsinki, Finland</span><span>·</span><span id="preview-phone">+358 XX XXX XXXX</span><span>·</span><a id="preview-email" href="mailto:amina@example.com">amina@example.com</a></div></div>
+                <div class="resume-photo" id="preview-photo" aria-label="Optional profile photo preview">AE</div>
+              </header>
+              <div class="resume-grid">
+                <div class="resume-main">
+                  <section class="resume-section"><h4><span>✦</span> <span data-preview-label="profile">Profile</span></h4><p class="resume-profile" id="preview-profile">Reliable and service-minded professional with experience in housekeeping, customer support and warehouse routines. Punctual, careful and comfortable learning new tasks in a team.</p></section>
+                  <section class="resume-section"><h4><span>▣</span> <span data-preview-label="experience">Work experience</span></h4><div id="preview-work"><article class="resume-job"><p class="resume-job-title">Housekeeping Assistant</p><p class="resume-meta">Example Hotel · Helsinki, Finland · 2024–2026</p><ul class="resume-bullets"><li>Prepared guest rooms and shared spaces to daily quality standards.</li><li>Restocked supplies and followed hygiene checklists.</li></ul></article><article class="resume-job"><p class="resume-job-title">Warehouse Assistant</p><p class="resume-meta">Example Logistics · Dhaka, Bangladesh · 2022–2024</p><ul class="resume-bullets"><li>Picked and packed orders for dispatch.</li><li>Kept stock areas tidy and followed work instructions.</li></ul></article></div></section>
+                  <section class="resume-section"><h4><span>▤</span> <span data-preview-label="education">Education</span></h4><div id="preview-education"><div class="resume-education"><strong>Hospitality Training</strong><small>Example Training Centre · Helsinki, Finland · 2024</small></div></div></section>
+                </div>
+                <aside class="resume-aside">
+                  <section class="resume-section"><h4><span>✧</span> <span data-preview-label="skills">Key skills</span></h4><div id="preview-skills"><p class="resume-skill"><strong>Guest service</strong></p><p class="resume-skill"><strong>Cleaning routines</strong></p><p class="resume-skill"><strong>Stock handling</strong></p></div></section>
+                  <section class="resume-section"><h4><span>◎</span> <span data-preview-label="languages">Languages</span></h4><div id="preview-languages"><div class="resume-language"><span>Bengali</span><span>Native</span></div><div class="resume-language"><span>English</span><span>B2</span></div><div class="resume-language"><span>Finnish</span><span>A2</span></div></div></section>
+                  <section class="resume-section"><h4><span>◇</span> <span data-preview-label="references">References</span></h4><p class="resume-target" id="preview-references">Available upon request</p></section>
+                </aside>
+              </div>
+            </article>
+          </div>
+          <div class="preview-controls">
+            <div class="download-intro"><strong>Download your CV</strong><small>Choose a format</small></div>
+            <div class="download-grid"><button class="download-button" type="button" data-export="PDF"><span>▧</span> PDF</button><button class="download-button" type="button" data-export="JPG"><span>▧</span> JPG</button><button class="download-button" type="button" data-export="PNG"><span>▧</span> PNG</button></div>
+            <p class="download-footnote">PDF for applications · JPG or PNG when an image file is requested</p>
+            <div class="privacy-note"><span aria-hidden="true">✦</span><span><b>Designed for confidence.</b> Review every detail before you download or share your CV.</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="bottom-note"><span>MOCKUP ONLY · Downloads and personal-data storage will be designed in the next development step.</span><a href="../public/jobs.html">← Return to Find work</a></div>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    (function () {
+      const workspace = document.getElementById("workspace");
+      const panels = Array.from(document.querySelectorAll("[data-step-panel]"));
+      const tabs = Array.from(document.querySelectorAll("[data-step-tab]"));
+      const stepCount = document.getElementById("step-count");
+      const progress = document.getElementById("progress-fill");
+      const stepNames = ["YOUR DETAILS", "EXPERIENCE", "SKILLS", "REVIEW"];
+      let currentStep = 0;
+      let workSequence = 2;
+      let educationSequence = 1;
+      let languageSequence = 3;
+      let toastTimer;
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("is-visible");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toast.classList.remove("is-visible"); }, 2900);
+      }
+
+      function setStep(next) {
+        currentStep = Math.max(0, Math.min(3, next));
+        panels.forEach(function (panel, index) { panel.classList.toggle("is-active", index === currentStep); });
+        tabs.forEach(function (tab, index) {
+          if (index === currentStep) tab.setAttribute("aria-current", "step");
+          else tab.removeAttribute("aria-current");
+        });
+        stepCount.textContent = "STEP " + (currentStep + 1) + " OF 4 · " + stepNames[currentStep];
+        progress.style.width = ((currentStep + 1) * 25) + "%";
+        if (window.matchMedia("(max-width: 760px)").matches) {
+          document.querySelector(".builder-card").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      tabs.forEach(function (tab) { tab.addEventListener("click", function () { setStep(Number(tab.dataset.stepTab)); }); });
+      document.querySelectorAll(".next-step").forEach(function (button) { button.addEventListener("click", function () { setStep(currentStep + 1); }); });
+      document.querySelectorAll(".previous-step").forEach(function (button) { button.addEventListener("click", function () { setStep(currentStep - 1); }); });
+
+      const previewToggle = document.getElementById("preview-toggle");
+      previewToggle.addEventListener("click", function () {
+        const open = workspace.classList.toggle("is-preview-open");
+        previewToggle.innerHTML = open ? "<span aria-hidden=\"true\">×</span> Hide CV preview" : "<span aria-hidden=\"true\">▤</span> See live CV preview";
+        if (open) document.getElementById("preview-card").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      document.getElementById("finish-preview").addEventListener("click", function () {
+        workspace.classList.add("is-preview-open");
+        previewToggle.innerHTML = "<span aria-hidden=\"true\">×</span> Hide CV preview";
+        document.getElementById("preview-card").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      document.querySelectorAll("[data-export]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          showToast(button.dataset.export + " download will be connected when the CV builder is developed.");
+        });
+      });
+
+      function textFor(selector, fallback) {
+        const node = document.querySelector(selector);
+        return node && node.value.trim() ? node.value.trim() : fallback;
+      }
+      function bindPreview() {
+        document.getElementById("preview-name").textContent = textFor("#full-name", "YOUR NAME").toUpperCase();
+        document.getElementById("preview-role").textContent = textFor("#target-role", "Your target role");
+        document.getElementById("preview-city").textContent = textFor("#city", "City, Finland");
+        const email = textFor("#email", "name@example.com");
+        const phone = textFor("#phone", "Phone number");
+        const emailNode = document.getElementById("preview-email");
+        emailNode.textContent = email;
+        emailNode.href = "mailto:" + email;
+        document.getElementById("preview-phone").textContent = phone;
+        document.getElementById("preview-profile").textContent = textFor("#profile", "Add a short profile about your experience and strengths.");
+        document.getElementById("preview-references").textContent = textFor("#references", "Available upon request");
+        const language = document.getElementById("cv-language").value;
+        const labels = language === "fi"
+          ? { profile: "Profiili", experience: "Työkokemus", education: "Koulutus", skills: "Osaaminen", languages: "Kielitaito", references: "Suosittelijat" }
+          : { profile: "Profile", experience: "Work experience", education: "Education", skills: "Key skills", languages: "Languages", references: "References" };
+        document.querySelectorAll("[data-preview-label]").forEach(function (node) {
+          node.textContent = labels[node.dataset.previewLabel];
+        });
+        renderWork();
+        renderEducation();
+        renderSkills();
+        renderLanguages();
+      }
+
+      function renderWork() {
+        const items = Array.from(document.querySelectorAll("[data-work-item]"));
+        const html = items.map(function (item) {
+          const values = {
+            title: item.querySelector("[data-work-title]").value.trim() || "Job title",
+            company: item.querySelector("[data-work-company]").value.trim(),
+            location: item.querySelector("[data-work-location]").value.trim(),
+            dates: item.querySelector("[data-work-dates]").value.trim(),
+            bullets: item.querySelector("[data-work-bullets]").value.split("\n").map(function (line) { return line.trim(); }).filter(Boolean)
+          };
+          const meta = [values.company, values.location, values.dates].filter(Boolean).join(" · ");
+          const bullets = values.bullets.map(function (line) { return "<li>" + escapeHtml(line) + "</li>"; }).join("");
+          return "<article class=\"resume-job\"><p class=\"resume-job-title\">" + escapeHtml(values.title) + "</p>" + (meta ? "<p class=\"resume-meta\">" + escapeHtml(meta) + "</p>" : "") + (bullets ? "<ul class=\"resume-bullets\">" + bullets + "</ul>" : "") + "</article>";
+        }).join("");
+        document.getElementById("preview-work").innerHTML = html || "<p class=\"resume-meta\">Add your relevant work experience.</p>";
+      }
+      function renderEducation() {
+        const items = Array.from(document.querySelectorAll("[data-education-item]"));
+        const html = items.map(function (item) {
+          const title = item.querySelector("[data-edu-title]").value.trim() || "Qualification or course";
+          const meta = [item.querySelector("[data-edu-school]").value.trim(), item.querySelector("[data-edu-location]").value.trim(), item.querySelector("[data-edu-dates]").value.trim()].filter(Boolean).join(" · ");
+          return "<div class=\"resume-education\"><strong>" + escapeHtml(title) + "</strong>" + (meta ? "<small>" + escapeHtml(meta) + "</small>" : "") + "</div>";
+        }).join("");
+        document.getElementById("preview-education").innerHTML = html || "<p class=\"resume-meta\">Add education or training.</p>";
+      }
+      function renderSkills() {
+        const skills = Array.from(document.querySelectorAll("[data-skill-chip]")).map(function (chip) { return chip.firstChild.textContent.trim(); });
+        document.getElementById("preview-skills").innerHTML = skills.length ? skills.map(function (skill) { return "<p class=\"resume-skill\"><strong>" + escapeHtml(skill) + "</strong></p>"; }).join("") : "<p class=\"resume-meta\">Add skills for this role.</p>";
+      }
+      function renderLanguages() {
+        const languages = Array.from(document.querySelectorAll("[data-language-row]")).map(function (row) {
+          return { name: row.querySelector("[data-language-name]").value.trim(), level: row.querySelector("[data-language-level]").value };
+        }).filter(function (language) { return language.name; });
+        document.getElementById("preview-languages").innerHTML = languages.length ? languages.map(function (language) { return "<div class=\"resume-language\"><span>" + escapeHtml(language.name) + "</span><span>" + escapeHtml(language.level) + "</span></div>"; }).join("") : "<p class=\"resume-meta\">Add your languages and levels.</p>";
+      }
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (char) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]; });
+      }
+
+      document.getElementById("cv-form").addEventListener("input", bindPreview);
+      document.getElementById("cv-form").addEventListener("change", bindPreview);
+      document.getElementById("cv-language").addEventListener("change", bindPreview);
+      document.getElementById("add-work").addEventListener("click", function () {
+        const list = document.getElementById("experience-list");
+        const number = ++workSequence;
+        const item = document.createElement("article");
+        item.className = "work-item";
+        item.setAttribute("data-work-item", "");
+        item.innerHTML = "<div class=\"item-top\"><strong>Another experience</strong><button class=\"remove-item\" type=\"button\" data-remove-work>Remove</button></div><div class=\"mini-field\"><label for=\"work-title-" + number + "\">Job title</label><input id=\"work-title-" + number + "\" name=\"work-title\" data-work-title placeholder=\"Your job title\" /></div><div class=\"mini-field\"><label for=\"work-company-" + number + "\">Employer</label><input id=\"work-company-" + number + "\" name=\"work-company\" data-work-company placeholder=\"Company or organisation\" /></div><div class=\"mini-field\"><label for=\"work-location-" + number + "\">City / country</label><input id=\"work-location-" + number + "\" name=\"work-location\" data-work-location placeholder=\"City, country\" /></div><div class=\"mini-field\"><label for=\"work-dates-" + number + "\">Dates</label><input id=\"work-dates-" + number + "\" name=\"work-dates\" data-work-dates placeholder=\"2023–2025\" /></div><div class=\"mini-field\" style=\"grid-column:1/-1\"><label for=\"work-bullets-" + number + "\">What did you do?</label><textarea id=\"work-bullets-" + number + "\" name=\"work-bullets\" data-work-bullets placeholder=\"One useful task or result per line\"></textarea></div>";
+        list.appendChild(item);
+        bindPreview();
+        item.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
+      document.getElementById("experience-list").addEventListener("click", function (event) {
+        const remove = event.target.closest("[data-remove-work]");
+        if (!remove) return;
+        if (document.querySelectorAll("[data-work-item]").length <= 1) { showToast("Keep at least one experience card in this preview."); return; }
+        remove.closest("[data-work-item]").remove();
+        bindPreview();
+      });
+      document.getElementById("add-education").addEventListener("click", function () {
+        const list = document.getElementById("education-list");
+        const number = ++educationSequence;
+        const item = document.createElement("article");
+        item.className = "education-item";
+        item.setAttribute("data-education-item", "");
+        item.innerHTML = "<div class=\"item-top\"><strong>Another qualification</strong><button class=\"remove-item\" type=\"button\" data-remove-education>Remove</button></div><div class=\"mini-field\"><label for=\"edu-title-" + number + "\">Qualification or course</label><input id=\"edu-title-" + number + "\" name=\"education-title\" data-edu-title placeholder=\"Course or qualification\" /></div><div class=\"mini-field\"><label for=\"edu-school-" + number + "\">School or provider</label><input id=\"edu-school-" + number + "\" name=\"education-school\" data-edu-school placeholder=\"School or provider\" /></div><div class=\"mini-field\"><label for=\"edu-location-" + number + "\">City / country</label><input id=\"edu-location-" + number + "\" name=\"education-location\" data-edu-location placeholder=\"City, country\" /></div><div class=\"mini-field\"><label for=\"edu-dates-" + number + "\">Year or dates</label><input id=\"edu-dates-" + number + "\" name=\"education-dates\" data-edu-dates placeholder=\"2024\" /></div>";
+        list.appendChild(item);
+        bindPreview();
+      });
+      document.getElementById("education-list").addEventListener("click", function (event) {
+        const remove = event.target.closest("[data-remove-education]");
+        if (!remove) return;
+        if (document.querySelectorAll("[data-education-item]").length <= 1) { showToast("Keep one education or training card in this preview."); return; }
+        remove.closest("[data-education-item]").remove();
+        bindPreview();
+      });
+      document.getElementById("skill-entry").addEventListener("keydown", function (event) {
+        if (event.key !== "Enter") return;
+        event.preventDefault();
+        const value = event.target.value.trim();
+        if (!value) return;
+        const chip = document.createElement("span");
+        chip.className = "chip";
+        chip.setAttribute("data-skill-chip", "");
+        chip.appendChild(document.createTextNode(value + " "));
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.setAttribute("aria-label", "Remove " + value);
+        remove.textContent = "×";
+        chip.appendChild(remove);
+        document.getElementById("skill-chip-box").insertBefore(chip, event.target);
+        event.target.value = "";
+        bindPreview();
+      });
+      document.getElementById("skill-chip-box").addEventListener("click", function (event) {
+        const remove = event.target.closest("button");
+        if (remove) { remove.closest("[data-skill-chip]").remove(); bindPreview(); }
+      });
+      document.getElementById("add-language").addEventListener("click", function () {
+        const number = ++languageSequence;
+        const row = document.createElement("div");
+        row.className = "language-row";
+        row.setAttribute("data-language-row", "");
+        row.innerHTML = "<input id=\"language-name-" + number + "\" name=\"language-name\" aria-label=\"Language\" data-language-name placeholder=\"Language\" /><select id=\"language-level-" + number + "\" name=\"language-level\" aria-label=\"Language level\" data-language-level><option>Choose level</option><option>Native</option><option>Fluent</option><option>B2</option><option>B1</option><option>A2</option><option>A1</option><option>Beginner</option></select>";
+        document.getElementById("language-list").appendChild(row);
+        bindPreview();
+      });
+      document.getElementById("photo-file").addEventListener("change", function (event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        document.getElementById("upload-avatar").innerHTML = "<img alt=\"\" src=\"" + url + "\">";
+        document.getElementById("preview-photo").innerHTML = "<img alt=\"Profile photo in CV preview\" src=\"" + url + "\">";
+      });
+
+      bindPreview();
+    }());
+  </script>
+</body>
+</html>

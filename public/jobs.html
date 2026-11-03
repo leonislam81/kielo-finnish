@@ -11,8 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./jobs.css?v=1" />
+  <link rel="stylesheet" href="./cv-builder.css?v=1" />
   <script src="./jobs.js?v=1" defer></script>
   <script src="./jobs-guide.js?v=1" defer></script>
+  <script src="./cv-builder.js?v=1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
@@ -182,6 +184,133 @@
     </section>
 
     <section class="safety-section wrap"><div class="safety-mark" aria-hidden="true">!</div><div><strong data-i18n="safetyTitle">A safe search is a better search</strong><p data-i18n="safetyText">Check the employer and original vacancy before sharing personal information. Official guidance says employment services are free for job seekers—be cautious if anyone asks you to pay to access a job.</p></div><a href="https://infofinland.fi/en/work-and-enterprise/find-a-job-in-finland/tips-for-job-hunting" target="_blank" rel="noopener noreferrer" data-i18n="safetyLink">Official guidance ↗</a></section>
+
+    <section class="cv-builder-section wrap" id="create-cv" aria-labelledby="cv-section-title">
+      <div class="cv-section-heading">
+        <span class="section-eyebrow" data-cv-ui="kicker">A PRACTICAL NEXT STEP</span>
+        <h2 id="cv-section-title" data-cv-ui="sectionTitle">Make your experience easy to see.</h2>
+        <p data-cv-ui="sectionIntro">Create a clear CV for your next application. Your details stay in this browser on this device.</p>
+      </div>
+
+      <div class="cv-entry-card" id="cv-entry-card">
+        <div class="cv-entry-mark" aria-hidden="true">CV</div>
+        <div class="cv-entry-copy">
+          <span class="cv-entry-kicker" data-cv-ui="entryKicker">YOUR KIELO CV · SAVED ON THIS DEVICE</span>
+          <h3 data-cv-ui="entryTitle">A Finland-ready CV, one step at a time.</h3>
+          <p data-cv-ui="entryText">Add your details, choose your language and review a live preview in a clean, familiar format.</p>
+        </div>
+        <button class="primary-button cv-start-button" id="cv-start" type="button"><span data-cv-ui="startButton">Create your CV</span><span aria-hidden="true">→</span></button>
+      </div>
+
+      <div class="cv-builder-app" id="cv-builder-app" hidden>
+        <div class="cv-builder-toolbar">
+          <div><span class="cv-save-status" id="cv-save-status" aria-live="polite"><i></i><span data-cv-ui="notSaved">Not saved yet</span></span><small data-cv-ui="saveHint">Your CV is saved only in this browser.</small></div>
+          <button class="cv-clear-button" id="cv-clear" type="button" data-cv-ui="clearButton">Clear my CV</button>
+        </div>
+
+        <div class="cv-workspace" id="cv-workspace">
+          <section class="cv-editor" aria-label="CV details">
+            <div class="cv-steps-head">
+              <div class="cv-step-copy"><span id="cv-step-count">STEP 1 OF 4 · YOUR DETAILS</span><div class="cv-progress"><i id="cv-progress-fill"></i></div></div>
+              <div class="cv-step-tabs" role="group" aria-label="CV building steps">
+                <button class="cv-step-tab is-current" type="button" data-cv-step="0"><b>1</b><span data-cv-ui="stepDetails">Your details</span></button>
+                <button class="cv-step-tab" type="button" data-cv-step="1"><b>2</b><span data-cv-ui="stepExperience">Experience</span></button>
+                <button class="cv-step-tab" type="button" data-cv-step="2"><b>3</b><span data-cv-ui="stepSkills">Skills</span></button>
+                <button class="cv-step-tab" type="button" data-cv-step="3"><b>4</b><span data-cv-ui="stepReview">Review</span></button>
+              </div>
+            </div>
+
+            <form id="cv-form" class="cv-form" novalidate>
+              <button class="cv-mobile-preview-toggle" id="cv-preview-toggle" type="button"><span aria-hidden="true">▤</span><span data-cv-ui="seePreview">See live CV preview</span></button>
+              <section class="cv-panel is-active" data-cv-panel="0" aria-labelledby="cv-details-title">
+                <div class="cv-panel-heading"><h3 id="cv-details-title" data-cv-ui="detailsTitle">Start with your details.</h3><p data-cv-ui="detailsIntro">These details appear at the top of your CV. Only include information you want an employer to use.</p></div>
+                <div class="cv-fields">
+                  <label class="cv-field cv-full" for="cv-name"><span data-cv-ui="nameLabel">Full name</span><input id="cv-name" name="name" autocomplete="name" maxlength="100" required /><small data-cv-ui="nameHint">Use the name you use on job applications.</small></label>
+                  <label class="cv-field" for="cv-role"><span data-cv-ui="roleLabel">Job you want</span><input id="cv-role" name="role" maxlength="100" placeholder="e.g. Housekeeping assistant" data-cv-placeholder="roleHint" /></label>
+                  <label class="cv-field" for="cv-language"><span data-cv-ui="cvLanguage">Language for your CV</span><select id="cv-language" name="cvLanguage"><option value="en">English</option><option value="fi">Finnish · Suomi</option></select><small data-cv-ui="cvLanguageHint">Section headings change; your personal text is not translated.</small></label>
+                  <label class="cv-field" for="cv-city"><span data-cv-ui="cityLabel">City or region</span><input id="cv-city" name="city" autocomplete="address-level2" maxlength="100" placeholder="e.g. Helsinki" data-cv-placeholder="cityHint" /></label>
+                  <label class="cv-field" for="cv-email"><span data-cv-ui="emailLabel">Email</span><input id="cv-email" name="email" type="email" autocomplete="email" maxlength="160" placeholder="name@example.com" /></label>
+                  <label class="cv-field" for="cv-phone"><span data-cv-ui="phoneLabel">Phone</span><input id="cv-phone" name="phone" type="tel" autocomplete="tel" maxlength="50" placeholder="+358…" /></label>
+                  <label class="cv-field cv-full" for="cv-profile"><span data-cv-ui="profileLabel">Short profile</span><textarea id="cv-profile" name="profile" maxlength="500" rows="4" placeholder="A few lines about your experience and strengths" data-cv-placeholder="profileHint"></textarea><small data-cv-ui="profileHintSmall">Keep it relevant to the job you are applying for.</small></label>
+                  <div class="cv-photo-row">
+                    <div class="cv-photo-thumb" id="cv-photo-thumb" aria-hidden="true">＋</div>
+                    <div class="cv-photo-copy"><strong data-cv-ui="photoTitle">Profile photo <em>(optional)</em></strong><small data-cv-ui="photoHint">A photo is optional in Finland. You can make a CV without one.</small></div>
+                    <label class="cv-photo-button" for="cv-photo-file" data-cv-ui="choosePhoto">Choose photo</label><input class="cv-visually-hidden" id="cv-photo-file" name="photo" type="file" accept="image/*" />
+                  </div>
+                </div>
+                <div class="cv-form-footer"><span data-cv-ui="detailsFooter">You can review everything before exporting.</span><button class="primary-button" type="button" data-cv-next><span data-cv-ui="addExperience">Add experience</span> →</button></div>
+              </section>
+
+              <section class="cv-panel" data-cv-panel="1" aria-labelledby="cv-experience-title">
+                <div class="cv-panel-heading"><h3 id="cv-experience-title" data-cv-ui="experienceTitle">Show what you have done.</h3><p data-cv-ui="experienceIntro">Start with the experience most relevant to the job. Part-time and volunteer work can count too.</p></div>
+                <div class="cv-repeat-list" id="cv-experience-list"></div>
+                <button class="cv-add-button" id="cv-add-experience" type="button">＋ <span data-cv-ui="addAnotherExperience">Add another experience</span></button>
+                <div class="cv-form-footer"><span data-cv-ui="newestFirst">List the newest experience first.</span><div><button class="cv-secondary-button" type="button" data-cv-previous>← <span data-cv-ui="back">Back</span></button><button class="primary-button" type="button" data-cv-next><span data-cv-ui="addEducation">Add education</span> →</button></div></div>
+              </section>
+
+              <section class="cv-panel" data-cv-panel="2" aria-labelledby="cv-skills-title">
+                <div class="cv-panel-heading"><h3 id="cv-skills-title" data-cv-ui="skillsTitle">Add education and skills.</h3><p data-cv-ui="skillsIntro">Choose qualifications, skills and language levels that match your real experience.</p></div>
+                <div class="cv-subheading"><strong data-cv-ui="educationLabel">Education and training</strong><small data-cv-ui="educationHint">Add a degree, course or certificate.</small></div>
+                <div class="cv-repeat-list" id="cv-education-list"></div>
+                <button class="cv-add-button" id="cv-add-education" type="button">＋ <span data-cv-ui="addEducationAnother">Add education or training</span></button>
+                <div class="cv-fields cv-fields-lower">
+                  <label class="cv-field cv-full" for="cv-skill-input"><span data-cv-ui="skillsLabel">Key skills</span><div class="cv-chip-box" id="cv-skill-box"><input id="cv-skill-input" type="text" maxlength="45" placeholder="Type a skill and press Enter" data-cv-placeholder="skillHint" /></div><small data-cv-ui="skillsHint">Keep skills relevant to your target role.</small></label>
+                  <div class="cv-field cv-full"><span class="cv-label" data-cv-ui="languagesLabel">Languages and levels</span><div class="cv-language-list" id="cv-language-list"></div><button class="cv-add-button" id="cv-add-language" type="button">＋ <span data-cv-ui="addLanguage">Add a language</span></button><small data-cv-ui="languageHint">Choose a level you can honestly describe in an interview.</small></div>
+                  <label class="cv-field cv-full" for="cv-references"><span data-cv-ui="referencesLabel">References</span><input id="cv-references" name="references" maxlength="180" placeholder="Available upon request" data-cv-placeholder="referencesHint" /><small data-cv-ui="referencesHint">Only add a referee's contact details with their permission.</small></label>
+                </div>
+                <div class="cv-help-note"><span aria-hidden="true">✦</span><span data-cv-ui="coverLetterHint">Your cover letter can explain why this particular job interests you.</span></div>
+                <div class="cv-form-footer"><span data-cv-ui="skillsFooter">Use a level and dates you can support with confidence.</span><div><button class="cv-secondary-button" type="button" data-cv-previous>← <span data-cv-ui="back">Back</span></button><button class="primary-button" type="button" data-cv-next><span data-cv-ui="reviewButton">Review my CV</span> →</button></div></div>
+              </section>
+
+              <section class="cv-panel" data-cv-panel="3" aria-labelledby="cv-review-title">
+                <div class="cv-panel-heading"><h3 id="cv-review-title" data-cv-ui="reviewTitle">Review before you download.</h3><p data-cv-ui="reviewIntro">Check names, dates, contact details and language levels. Your CV text is not sent to Kielo.</p></div>
+                <div class="cv-review-list">
+                  <div><i>✓</i><span data-cv-ui="reviewContact">Your contact details are easy to find.</span></div>
+                  <div><i>✓</i><span data-cv-ui="reviewRelevant">Your experience highlights what matters for this role.</span></div>
+                  <div><i>✓</i><span data-cv-ui="reviewAccurate">Your dates and language levels are accurate.</span></div>
+                </div>
+                <div class="cv-help-note"><span aria-hidden="true">▤</span><span data-cv-ui="tailorHint">Tailor the target role and summary for each application.</span></div>
+                <div class="cv-form-footer"><button class="cv-secondary-button" type="button" data-cv-previous>← <span data-cv-ui="back">Back</span></button><button class="primary-button" type="button" id="cv-go-preview"><span data-cv-ui="previewDownload">See preview and formats</span> ↓</button></div>
+              </section>
+            </form>
+          </section>
+
+          <aside class="cv-preview-card" id="cv-preview-card" aria-label="Live CV preview">
+            <div class="cv-preview-heading"><div><strong data-cv-ui="previewTitle">Your CV preview</strong><small data-cv-ui="previewSubtitle">Clean two-column layout · A4</small></div><span><i></i><span data-cv-ui="updatesLive">Updates as you type</span></span></div>
+            <div class="cv-preview-stage">
+              <article class="cv-sheet" id="cv-preview" aria-label="CV preview">
+                <header class="cv-resume-header">
+                  <div class="cv-resume-contact"><h3 id="cv-preview-name">Your name</h3><p id="cv-preview-role"></p><div class="cv-contact-line" id="cv-preview-contact"></div></div>
+                  <div class="cv-resume-photo" id="cv-preview-photo" aria-hidden="true">CV</div>
+                </header>
+                <div class="cv-resume-body">
+                  <div class="cv-resume-main">
+                    <section class="cv-resume-section" id="cv-preview-profile-section"><h4><i>✦</i><span data-cv-label="profile">Profile</span></h4><p id="cv-preview-profile" class="cv-resume-summary"></p><small class="cv-resume-empty" data-cv-ui="previewEmptyProfile">Your short profile will appear here.</small></section>
+                    <section class="cv-resume-section"><h4><i>▣</i><span data-cv-label="experience">Work experience</span></h4><div id="cv-preview-experience"><small class="cv-resume-empty" data-cv-ui="previewEmptyExperience">Add a role to show your work experience.</small></div></section>
+                    <section class="cv-resume-section"><h4><i>▤</i><span data-cv-label="education">Education and training</span></h4><div id="cv-preview-education"><small class="cv-resume-empty" data-cv-ui="previewEmptyEducation">Add a degree, course or training.</small></div></section>
+                  </div>
+                  <aside class="cv-resume-sidebar">
+                    <section class="cv-resume-section"><h4><i>✧</i><span data-cv-label="skills">Key skills</span></h4><div id="cv-preview-skills"><small class="cv-resume-empty" data-cv-ui="previewEmptySkills">Your relevant skills will appear here.</small></div></section>
+                    <section class="cv-resume-section"><h4><i>◎</i><span data-cv-label="languages">Languages</span></h4><div id="cv-preview-languages"><small class="cv-resume-empty" data-cv-ui="previewEmptyLanguages">Add your languages and levels.</small></div></section>
+                    <section class="cv-resume-section"><h4><i>◇</i><span data-cv-label="references">References</span></h4><p class="cv-resume-reference" id="cv-preview-references"></p></section>
+                  </aside>
+                </div>
+              </article>
+            </div>
+            <div class="cv-download-area">
+              <div class="cv-download-heading"><strong data-cv-ui="downloadTitle">Download your CV</strong><small data-cv-ui="downloadHint">Choose a format</small></div>
+              <div class="cv-download-grid">
+                <button type="button" class="cv-download-button" data-cv-export="pdf"><span aria-hidden="true">▧</span><span data-cv-ui="downloadPdf">Save as PDF</span></button>
+                <button type="button" class="cv-download-button" data-cv-export="png"><span aria-hidden="true">▧</span><span data-cv-ui="downloadPng">Download PNG</span></button>
+                <button type="button" class="cv-download-button" data-cv-export="jpg"><span aria-hidden="true">▧</span><span data-cv-ui="downloadJpg">Download JPG</span></button>
+              </div>
+              <p class="cv-export-note" data-cv-ui="pdfPrintNote">PDF opens your browser's print window. Choose “Save as PDF”.</p>
+              <div class="cv-privacy-note"><span aria-hidden="true">✦</span><span data-cv-ui="privacyNote"><b>Your details stay yours.</b> The CV is stored only in this browser on this device.</span></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="job-footer"><div class="wrap footer-row"><a class="footer-brand" href="./index.html">Kielo</a><span data-i18n="footerText">Find work. Learn Finnish. Make a life in Finland.</span><div><a href="./index.html" data-i18n="navHome">Home</a><a href="./learn.html" data-i18n="navLearn">Learn Finnish</a><a href="https://leonislam.com/" target="_blank" rel="noopener noreferrer">© Leon Islam · Credits</a></div></div></footer>
