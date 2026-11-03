@@ -85,6 +85,7 @@
 .cv-language-row{display:grid;grid-template-columns:minmax(0,1fr) 105px 25px;gap:5px}
 .cv-language-row input,.cv-language-row select{width:100%;min-width:0;height:32px;padding:6px 8px;border:1px solid #d3dfd5;border-radius:8px;color:#21473b;background:#fff;font:500 9px var(--sans)}
 .cv-language-row button{border:0;border-radius:7px;color:#966454;background:#fff4ee;font-size:12px;cursor:pointer}
+.cv-reference-note-field{display:block;margin-top:10px}
 .cv-help-note{display:flex;gap:8px;align-items:flex-start;margin-top:12px;padding:9px;border-radius:9px;color:#557062;background:#eff5ee;font-size:8px;line-height:1.5}
 .cv-help-note>span:first-child{color:#c57760}
 .cv-review-list{display:grid;gap:7px}
@@ -128,6 +129,9 @@
 .cv-resume-education{margin:0 0 7px}
 .cv-resume-education strong{display:block;color:#173f65;font-size:7px;line-height:1.35}
 .cv-resume-education small{display:block;margin-top:2px;color:#718698;font-size:6px;line-height:1.35}
+.cv-resume-reference-entry{margin:0 0 8px;break-inside:avoid;page-break-inside:avoid}
+.cv-resume-reference-entry strong{display:block;margin-bottom:2px;color:#315b77;font-size:7px;line-height:1.35;overflow-wrap:anywhere}
+.cv-resume-reference-entry small{display:block;margin:0 0 2px;color:#718698;font-size:6px;line-height:1.4;overflow-wrap:anywhere}
 .cv-resume-skill{margin:0 0 5px;color:#315b77;font-size:7px;font-weight:700;line-height:1.4;overflow-wrap:anywhere}
 .cv-resume-language{display:flex;justify-content:space-between;gap:5px;margin:0 0 4px;color:#456277;font-size:6px;line-height:1.4}
 .cv-resume-language span:last-child{text-align:right;color:#758b9b}

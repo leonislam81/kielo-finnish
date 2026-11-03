@@ -24,7 +24,9 @@
       educationLabel:'Education and training', educationHint:'Add a degree, course or certificate.', addEducationAnother:'Add education or training',
       skillsLabel:'Key skills', skillHint:'Type a skill and press Enter', skillsHint:'Keep skills relevant to your target role.',
       languagesLabel:'Languages and levels', addLanguage:'Add a language', languageHint:'Choose a level you can honestly describe in an interview.',
-      referencesLabel:'References', referencesHint:'Only add a referee’s contact details with their permission.', referencesPlaceholder:'Available upon request',
+      referencesLabel:'References (optional)', referencesHint:'Ask permission first. Add their name, role or relationship, organisation, and contact details. Email and phone are optional.',
+      referenceEntry:'Reference', addReference:'Add a reference', referenceNameLabel:'Full name', referenceRoleLabel:'Job title / relationship', referenceOrganizationLabel:'Organisation', referenceEmailLabel:'Email', referencePhoneLabel:'Phone',
+      referenceNameHint:'e.g. Jamie Sample', referenceRoleHint:'e.g. Former supervisor', referenceOrganizationHint:'e.g. Example Market', referenceEmailHint:'name@example.com', referencePhoneHint:'Optional phone number', referenceNoteLabel:'Optional reference note', referenceNoteHint:'e.g. References available upon request',
       coverLetterHint:'Your cover letter can explain why this particular job interests you.', skillsFooter:'Use a level and dates you can support with confidence.',
       reviewTitle:'Review before you download.', reviewIntro:'Check names, dates, contact details and language levels. Your CV text is not sent to Kielo.',
       reviewContact:'Your contact details are easy to find.', reviewRelevant:'Your experience highlights what matters for this role.', reviewAccurate:'Your dates and language levels are accurate.',
@@ -67,7 +69,9 @@
       educationLabel:'Koulutus ja kurssit', educationHint:'Lisää tutkinto, kurssi tai todistus.', addEducationAnother:'Lisää koulutus tai kurssi',
       skillsLabel:'Keskeiset taidot', skillHint:'Kirjoita taito ja paina Enter', skillsHint:'Valitse tavoittelemaasi työhön liittyvät taidot.',
       languagesLabel:'Kielet ja kielitasot', addLanguage:'Lisää kieli', languageHint:'Valitse taso, jonka pystyt kuvaamaan haastattelussa.',
-      referencesLabel:'Suosittelijat', referencesHint:'Lisää yhteystiedot vain luvalla.', referencesPlaceholder:'Saatavilla pyynnöstä',
+      referencesLabel:'Suosittelijat (valinnainen)', referencesHint:'Pyydä lupa ensin. Lisää nimi, tehtävänimike tai suhde, organisaatio ja yhteystiedot. Sähköposti ja puhelin ovat valinnaisia.',
+      referenceEntry:'Suosittelija', addReference:'Lisää suosittelija', referenceNameLabel:'Koko nimi', referenceRoleLabel:'Tehtävänimike / suhde', referenceOrganizationLabel:'Organisaatio', referenceEmailLabel:'Sähköposti', referencePhoneLabel:'Puhelin',
+      referenceNameHint:'esim. Mira Esimerkki', referenceRoleHint:'esim. Entinen esihenkilö', referenceOrganizationHint:'esim. Esimerkkikauppa', referenceEmailHint:'nimi@example.com', referencePhoneHint:'Puhelin valinnainen', referenceNoteLabel:'Valinnainen lisätieto', referenceNoteHint:'esim. Suosittelijat saatavilla pyynnöstä',
       coverLetterHint:'Hakemuskirjeessä voit kertoa, miksi haet juuri tätä työpaikkaa.', skillsFooter:'Lisää vain todenmukaiset päivämäärät ja kielitasot.',
       reviewTitle:'Tarkista ennen lataamista.', reviewIntro:'Tarkista nimet, päivämäärät, yhteystiedot ja kielitasot. CV-tekstiäsi ei lähetetä Kielolle.',
       reviewContact:'Yhteystietosi löytyvät helposti.', reviewRelevant:'Kokemuksesi korostaa tämän työn kannalta olennaista.', reviewAccurate:'Päivämäärät ja kielitasot ovat oikein.',
@@ -104,6 +108,7 @@
   let experienceCount = 0;
   let educationCount = 0;
   let languageCount = 0;
+  let referenceCount = 0;
   let fieldCount = 0;
   let lastSavedState = null;
 
@@ -116,14 +121,16 @@
       profile:'Ystävällinen ja luotettava asiakaspalvelija, jolla on kahden vuoden kokemus vähittäiskaupasta. Pidän asiakkaiden auttamisesta ja tiimityöstä. Kehitän parhaillaan suomen kielen taitoani.',
       experience:[{title:'Myyjä',employer:'Esimerkkikauppa',location:'Helsinki',dates:'2024–2025',tasks:'Autoin asiakkaita myymälässä.\nTäydensin hyllyjä ja pidin myymälän siistinä.\nTyöskentelin tiimin kanssa kiireisinä aikoina.'}],
       education:[{title:'Asiakaspalvelun opinnot',school:'Esimerkkiopisto',location:'Helsinki',dates:'2022–2024'}],
-      skills:['Asiakaspalvelu','Tiimityö','Hyllytys','Kassatyö'],languages:[{name:'Suomi',level:'A2'},{name:'Englanti',level:'B2'}],references:'Saatavilla pyydettäessä',photo:''
+      skills:['Asiakaspalvelu','Tiimityö','Hyllytys','Kassatyö'],languages:[{name:'Suomi',level:'A2'},{name:'Englanti',level:'B2'}],
+      references:[{name:'Mira Esimerkki',role:'Entinen esihenkilö',organization:'Esimerkkikauppa',email:'mira.example@example.com',phone:'+358 XX XXX XXXX'}],referenceNote:'',photo:''
     };
     return {
       name:'Alex Example', role:'Customer service assistant', cvLanguage:'en', city:'Helsinki', email:'alex.example@example.com', phone:'+358 XX XXX XXXX',
       profile:'Friendly and dependable service professional with two years of retail experience. Enjoys helping customers and working as part of a team. Currently improving Finnish.',
       experience:[{title:'Shop assistant',employer:'Example Market',location:'Helsinki',dates:'2024–2025',tasks:'Helped customers in the store.\nRestocked shelves and kept the shop tidy.\nWorked with a team during busy shifts.'}],
       education:[{title:'Customer service studies',school:'Example College',location:'Helsinki',dates:'2022–2024'}],
-      skills:['Customer service','Teamwork','Stock replenishment','Cash handling'],languages:[{name:'Finnish',level:'A2'},{name:'English',level:'B2'}],references:'Available upon request',photo:''
+      skills:['Customer service','Teamwork','Stock replenishment','Cash handling'],languages:[{name:'Finnish',level:'A2'},{name:'English',level:'B2'}],
+      references:[{name:'Jamie Sample',role:'Former supervisor',organization:'Example Market',email:'jamie.sample@example.com',phone:'+358 XX XXX XXXX'}],referenceNote:'',photo:''
     };
   }
   function words() { return copy[appLanguage()]; }
@@ -181,7 +188,14 @@
       email: $('#cv-email').value.trim(),
       phone: $('#cv-phone').value.trim(),
       profile: $('#cv-profile').value.trim(),
-      references: $('#cv-references').value.trim(),
+      references: $$('.cv-reference-item').map(card => ({
+        name:$('[data-reference="name"]',card).value.trim(),
+        role:$('[data-reference="role"]',card).value.trim(),
+        organization:$('[data-reference="organization"]',card).value.trim(),
+        email:$('[data-reference="email"]',card).value.trim(),
+        phone:$('[data-reference="phone"]',card).value.trim()
+      })).filter(item => Object.values(item).some(Boolean)),
+      referenceNote:$('#cv-reference-note').value.trim(),
       photo: photoData,
       experience: $$('.cv-work-item').map(card => ({
         title: $('[data-work="title"]', card).value.trim(),
@@ -341,6 +355,51 @@
     $('#cv-language-list').appendChild(row);
     languageCount += 1;
   }
+  function makeReferenceField(labelKey,property,value,type='text') {
+    const dict=words();
+    const wrap=document.createElement('label');
+    wrap.className='cv-mini-field';
+    const caption=document.createElement('span');
+    caption.dataset.cvUi=labelKey;
+    caption.textContent=dict[labelKey];
+    const input=document.createElement('input');
+    input.type=type;
+    input.maxLength=property==='email'?160:120;
+    input.dataset.reference=property;
+    input.id='cv-reference-'+property+'-'+(++fieldCount);
+    input.name='reference-'+property+'-'+fieldCount;
+    input.dataset.cvPlaceholder='reference'+property[0].toUpperCase()+property.slice(1)+'Hint';
+    input.placeholder=dict[input.dataset.cvPlaceholder];
+    input.value=value[property]||'';
+    wrap.append(caption,input);
+    return wrap;
+  }
+  function makeReferenceItem(value={}) {
+    const dict=words();
+    const card=document.createElement('article');
+    card.className='cv-repeat-item cv-reference-item';
+    const head=document.createElement('div');
+    head.className='cv-repeat-head';
+    const title=document.createElement('strong');
+    title.textContent=dict.referenceEntry+' '+(++referenceCount);
+    const remove=document.createElement('button');
+    remove.type='button';
+    remove.className='cv-remove-button';
+    remove.textContent=dict.remove;
+    remove.dataset.removeReference='';
+    head.append(title,remove);
+    const grid=document.createElement('div');
+    grid.className='cv-mini-grid';
+    [
+      ['referenceNameLabel','name','text'],
+      ['referenceRoleLabel','role','text'],
+      ['referenceOrganizationLabel','organization','text'],
+      ['referenceEmailLabel','email','email'],
+      ['referencePhoneLabel','phone','tel']
+    ].forEach(([labelKey,property,type])=>grid.appendChild(makeReferenceField(labelKey,property,value,type)));
+    card.append(head,grid);
+    return card;
+  }
   function addSkill(name) {
     const value = name.trim();
     if (!value || $$('.cv-chip').some(chip => chip.dataset.skill.toLocaleLowerCase() === value.toLocaleLowerCase())) return;
@@ -361,13 +420,16 @@
     experienceCount = 0;
     educationCount = 0;
     languageCount = 0;
+    referenceCount = 0;
     $('#cv-experience-list').replaceChildren();
     $('#cv-education-list').replaceChildren();
     $('#cv-language-list').replaceChildren();
+    $('#cv-reference-list').replaceChildren();
     (state.experience && state.experience.length ? state.experience : [{}]).forEach(item => $('#cv-experience-list').appendChild(makeWorkItem(item)));
     (state.education && state.education.length ? state.education : [{}]).forEach(item => $('#cv-education-list').appendChild(makeEducationItem(item)));
     (state.languages && state.languages.length ? state.languages : []).forEach(addLanguage);
     if (!state.languages || !state.languages.length) addLanguage({});
+    (Array.isArray(state.references) ? state.references : []).forEach(item => $('#cv-reference-list').appendChild(makeReferenceItem(item)));
     $('#cv-skill-box').querySelectorAll('.cv-chip').forEach(chip => chip.remove());
     (state.skills || []).forEach(addSkill);
   }
@@ -379,7 +441,7 @@
     $('#cv-email').value = state.email || '';
     $('#cv-phone').value = state.phone || '';
     $('#cv-profile').value = state.profile || '';
-    $('#cv-references').value = state.references || '';
+    $('#cv-reference-note').value = state.referenceNote || (typeof state.references==='string' ? state.references : '');
     photoData = state.photo || '';
     $('#cv-photo-thumb').replaceChildren();
     $('#cv-preview-photo').replaceChildren();
@@ -434,8 +496,20 @@
     $('#cv-preview-profile').textContent = state.profile;
     $('#cv-preview-profile').hidden = !state.profile;
     $('[data-cv-ui="previewEmptyProfile"]').hidden = Boolean(state.profile);
-    $('#cv-preview-references').textContent = state.references;
-    $('#cv-preview-references').hidden = !state.references;
+    const referencePreview=$('#cv-preview-references');
+    referencePreview.replaceChildren();
+    const savedReferences=state.references.filter(item=>item.name||item.role||item.organization||item.email||item.phone);
+    savedReferences.forEach(item=>{
+      const card=node('article','cv-resume-reference-entry');
+      if(item.name) card.appendChild(node('strong','',item.name));
+      const role=[item.role,item.organization].filter(Boolean).join(' · ');
+      if(role) card.appendChild(node('small','',role));
+      const contact=[item.email,item.phone].filter(Boolean).join(' · ');
+      if(contact) card.appendChild(node('small','',contact));
+      referencePreview.appendChild(card);
+    });
+    if(state.referenceNote) referencePreview.appendChild(node('p','cv-resume-reference',state.referenceNote));
+    $('#cv-preview-references-section').hidden=!savedReferences.length&&!state.referenceNote;
     $('#cv-preview-experience').replaceChildren();
     const work = state.experience.filter(item => item.title || item.employer || item.location || item.dates || item.tasks);
     if (!work.length) $('#cv-preview-experience').appendChild(node('small','cv-resume-empty',dict.previewEmptyExperience));
@@ -576,9 +650,19 @@
       });
       rightY+=11;
     }
-    if(state.references){
+    const references=state.references.filter(item=>item.name||item.role||item.organization||item.email||item.phone);
+    if(references.length||state.referenceNote){
       rightY=section(language==='fi'?'Suosittelijat':'References',rightX,rightY,rightW);
-      rightY=textBlock(state.references,rightX,rightY,rightW,'11px Arial','#405d72',16)+10;
+      references.forEach(item=>{
+        if(item.name) rightY=textBlock(item.name,rightX,rightY,rightW,'bold 11px Arial','#405d72',15)+2;
+        const role=[item.role,item.organization].filter(Boolean).join(' · ');
+        if(role) rightY=textBlock(role,rightX,rightY,rightW,'10px Arial','#70879a',14)+2;
+        const contact=[item.email,item.phone].filter(Boolean).join(' · ');
+        if(contact) rightY=textBlock(contact,rightX,rightY,rightW,'9px Arial','#758b9b',13)+7;
+        else rightY+=5;
+      });
+      if(state.referenceNote) rightY=textBlock(state.referenceNote,rightX,rightY,rightW,'10px Arial','#405d72',15)+8;
+      rightY+=3;
     }
     return {operations,width:W,height:Math.max(1188,leftY+48,rightY+48),pad,headerH,leftW,rightX,rightW,bodyTop};
   }
@@ -733,6 +817,13 @@
       renderPreview(); saveSoon();
     });
     $('#cv-add-language').addEventListener('click',() => { addLanguage(); renderPreview(); saveSoon(); });
+    $('#cv-add-reference').addEventListener('click',() => { $('#cv-reference-list').appendChild(makeReferenceItem()); renderPreview(); saveSoon(); });
+    $('#cv-reference-list').addEventListener('click',event => {
+      const button=event.target.closest('[data-remove-reference]');
+      if(!button) return;
+      button.closest('.cv-reference-item').remove();
+      renderPreview(); saveSoon();
+    });
     $('#cv-skill-input').addEventListener('keydown',event => {
       if (event.key !== 'Enter' && event.key !== ',') return;
       event.preventDefault();
