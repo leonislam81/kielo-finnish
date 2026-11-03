@@ -10,6 +10,7 @@
       kicker:'A PRACTICAL NEXT STEP', sectionTitle:'Make your experience easy to see.', sectionIntro:'Create a clear CV for your next application. Your details stay in this browser on this device.',
       entryKicker:'YOUR KIELO CV · SAVED ON THIS DEVICE', entryTitle:'A Finland-ready CV, one step at a time.', entryText:'Add your details, choose your language and review a live preview in a clean, familiar format.',
       startButton:'Create your CV', continueButton:'Continue my CV', savedCv:'Saved CV found on this device', notSaved:'Not saved yet', saveHint:'Your CV is saved only in this browser.',
+      exampleNote:'✦ Fictional sample details are editable. Replace every example before applying.', loadSample:'Load sample', confirmSample:'Replace the current form with the fictional sample CV? You can edit every field afterward.', toastSampleLoaded:'Sample CV loaded. Replace its details with your own.',
       clearButton:'Clear my CV', stepDetails:'Your details', stepExperience:'Experience', stepSkills:'Skills', stepReview:'Review',
       detailsTitle:'Start with your details.', detailsIntro:'These details appear at the top of your CV. Only include information you want an employer to use.',
       nameLabel:'Full name', nameHint:'Use the name you use on job applications.', roleLabel:'Job you want', roleHint:'e.g. Housekeeping assistant',
@@ -52,6 +53,7 @@
       kicker:'KÄYTÄNNÖN SEURAAVA ASKEL', sectionTitle:'Tuo osaamisesi selkeästi esiin.', sectionIntro:'Luo selkeä CV seuraavaa hakemustasi varten. Tietosi säilyvät tässä selaimessa ja tällä laitteella.',
       entryKicker:'KIELO-CV · TALLENNETTU TÄLLE LAITTEELLE', entryTitle:'Suomeen sopiva CV, yksi askel kerrallaan.', entryText:'Lisää tietosi, valitse CV:n kieli ja tarkista selkeä esikatselu.',
       startButton:'Luo CV', continueButton:'Jatka CV:n tekemistä', savedCv:'CV löytyy tältä laitteelta', notSaved:'Ei vielä tallennettu', saveHint:'CV tallentuu vain tähän selaimeen.',
+      exampleNote:'✦ Esimerkkitiedot ovat kuvitteellisia ja muokattavissa. Vaihda kaikki esimerkkitiedot ennen hakemista.', loadSample:'Lataa esimerkki', confirmSample:'Korvataanko nykyiset tiedot kuvitteellisella esimerkkipohjalla? Voit muokata kaikkia kenttiä.', toastSampleLoaded:'Esimerkkipohja ladattu. Vaihda tiedot omiksesi.',
       clearButton:'Tyhjennä CV', stepDetails:'Omat tiedot', stepExperience:'Kokemus', stepSkills:'Osaaminen', stepReview:'Tarkista',
       detailsTitle:'Aloita omista tiedoistasi.', detailsIntro:'Nämä tiedot näkyvät CV:n alussa. Lisää vain tiedot, joita haluat jakaa työnantajalle.',
       nameLabel:'Koko nimi', nameHint:'Käytä työnhaussa käyttämääsi nimeä.', roleLabel:'Tavoittelemasi työ', roleHint:'esim. hotellisiivooja',
@@ -107,6 +109,22 @@
 
   function appLanguage() {
     return ui && ui.value === 'fi' ? 'fi' : (localStorage.getItem('kielo-jobs-language-v1') === 'fi' ? 'fi' : 'en');
+  }
+  function sampleState(language = appLanguage()) {
+    if (language === 'fi') return {
+      name:'Alex Esimerkki', role:'Asiakaspalvelija', cvLanguage:'fi', city:'Helsinki', email:'alex.example@example.com', phone:'+358 XX XXX XXXX',
+      profile:'Ystävällinen ja luotettava asiakaspalvelija, jolla on kahden vuoden kokemus vähittäiskaupasta. Pidän asiakkaiden auttamisesta ja tiimityöstä. Kehitän parhaillaan suomen kielen taitoani.',
+      experience:[{title:'Myyjä',employer:'Esimerkkikauppa',location:'Helsinki',dates:'2024–2025',tasks:'Autoin asiakkaita myymälässä.\nTäydensin hyllyjä ja pidin myymälän siistinä.\nTyöskentelin tiimin kanssa kiireisinä aikoina.'}],
+      education:[{title:'Asiakaspalvelun opinnot',school:'Esimerkkiopisto',location:'Helsinki',dates:'2022–2024'}],
+      skills:['Asiakaspalvelu','Tiimityö','Hyllytys','Kassatyö'],languages:[{name:'Suomi',level:'A2'},{name:'Englanti',level:'B2'}],references:'Saatavilla pyydettäessä',photo:''
+    };
+    return {
+      name:'Alex Example', role:'Customer service assistant', cvLanguage:'en', city:'Helsinki', email:'alex.example@example.com', phone:'+358 XX XXX XXXX',
+      profile:'Friendly and dependable service professional with two years of retail experience. Enjoys helping customers and working as part of a team. Currently improving Finnish.',
+      experience:[{title:'Shop assistant',employer:'Example Market',location:'Helsinki',dates:'2024–2025',tasks:'Helped customers in the store.\nRestocked shelves and kept the shop tidy.\nWorked with a team during busy shifts.'}],
+      education:[{title:'Customer service studies',school:'Example College',location:'Helsinki',dates:'2022–2024'}],
+      skills:['Customer service','Teamwork','Stock replenishment','Cash handling'],languages:[{name:'Finnish',level:'A2'},{name:'English',level:'B2'}],references:'Available upon request',photo:''
+    };
   }
   function words() { return copy[appLanguage()]; }
   function showToast(message) {
@@ -459,7 +477,7 @@
   function openBuilder() {
     $('#cv-builder-app').hidden = false;
     if (lastSavedState) applyState(lastSavedState);
-    else applyState({});
+    else applyState(sampleState(appLanguage()));
     $('#cv-start').querySelector('[data-cv-ui]').textContent = lastSavedState ? words().continueButton : words().startButton;
     $('#cv-builder-app').scrollIntoView({ behavior:'smooth', block:'start' });
   }
@@ -750,6 +768,13 @@
       updateStep(0);
       showToast(words().toastCleared);
     });
+    $('#cv-load-sample').addEventListener('click',() => {
+      if (!confirm(words().confirmSample)) return;
+      const state=sampleState($('#cv-language').value || appLanguage());
+      applyState(state);
+      safeSave(currentState());
+      showToast(words().toastSampleLoaded);
+    });
     $('#cv-preview-toggle').addEventListener('click',() => {
       const open = $('#cv-workspace').classList.toggle('cv-show-preview');
       const label = $('#cv-preview-toggle').querySelector('[data-cv-ui]');
@@ -766,7 +791,7 @@
       else exportImage(button.dataset.cvExport);
     }));
     ui?.addEventListener('change',switchLanguage);
-    applyState({});
+    applyState(lastSavedState || sampleState(appLanguage()));
   }
   initialize();
 })();
