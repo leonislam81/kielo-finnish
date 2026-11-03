@@ -173,15 +173,18 @@
   body.cv-printing .cv-resume-photo{flex-basis:27mm;width:27mm;height:33mm}
   body.cv-printing .cv-resume-body{grid-template-columns:minmax(0,1.62fr) minmax(47mm,.9fr);gap:6mm;padding:7mm}
   body.cv-printing .cv-resume-sidebar{padding:4mm}
-  body.cv-printing .cv-resume-section{margin-bottom:5mm}
-  body.cv-printing .cv-resume-section h4{font-size:8.5pt}
+  body.cv-printing .cv-resume-section{margin-bottom:6mm}
+  body.cv-printing .cv-resume-section h4{font-size:9.5pt}
   body.cv-printing .cv-resume-section h4 i{flex-basis:5mm;width:5mm;height:5mm;font-size:7pt}
-  body.cv-printing .cv-resume-summary,body.cv-printing .cv-resume-reference{font-size:8pt}
-  body.cv-printing .cv-resume-job h5{font-size:8.5pt}
-  body.cv-printing .cv-resume-meta{font-size:7pt}
-  body.cv-printing .cv-resume-job ul{font-size:7.2pt}
-  body.cv-printing .cv-resume-education strong{font-size:8pt}
-  body.cv-printing .cv-resume-education small,body.cv-printing .cv-resume-skill{font-size:7.2pt}
-  body.cv-printing .cv-resume-language{font-size:7pt}
+  body.cv-printing .cv-resume-summary,body.cv-printing .cv-resume-reference{font-size:9.2pt;line-height:1.5}
+  body.cv-printing .cv-resume-job{margin-bottom:5mm}
+  body.cv-printing .cv-resume-job h5{font-size:10pt;line-height:1.35}
+  body.cv-printing .cv-resume-meta{font-size:8.5pt}
+  body.cv-printing .cv-resume-job ul{font-size:9.2pt;line-height:1.5}
+  body.cv-printing .cv-resume-education strong{font-size:9.2pt}
+  body.cv-printing .cv-resume-education small,body.cv-printing .cv-resume-skill{font-size:8.5pt}
+  body.cv-printing .cv-resume-language{font-size:8.2pt}
+  body.cv-printing .cv-resume-reference-entry strong{font-size:8.8pt}
+  body.cv-printing .cv-resume-reference-entry small{font-size:8.2pt}
   body.cv-printing .cv-resume-empty{display:none!important}
 }

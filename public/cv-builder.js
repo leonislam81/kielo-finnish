@@ -118,16 +118,24 @@
   function sampleState(language = appLanguage()) {
     if (language === 'fi') return {
       name:'Alex Esimerkki', role:'Asiakaspalvelija', cvLanguage:'fi', city:'Helsinki', email:'alex.example@example.com', phone:'+358 XX XXX XXXX',
-      profile:'Ystävällinen ja luotettava asiakaspalvelija, jolla on kahden vuoden kokemus vähittäiskaupasta. Pidän asiakkaiden auttamisesta ja tiimityöstä. Kehitän parhaillaan suomen kielen taitoani.',
-      experience:[{title:'Myyjä',employer:'Esimerkkikauppa',location:'Helsinki',dates:'2024–2025',tasks:'Autoin asiakkaita myymälässä.\nTäydensin hyllyjä ja pidin myymälän siistinä.\nTyöskentelin tiimin kanssa kiireisinä aikoina.'}],
+      profile:'Ystävällinen ja luotettava asiakaspalvelija, jolla on kokemusta vähittäiskaupasta, kahvilatyöstä ja tapahtuma-avustamisesta. Pidän asiakkaiden auttamisesta ja tiimityöstä. Kehitän parhaillaan suomen kielen taitoani.',
+      experience:[
+        {title:'Myyjä',employer:'Esimerkkikauppa',location:'Helsinki',dates:'2024–2025',tasks:'Autoin asiakkaita ja vastasin arjen kysymyksiin.\nTäydensin hyllyjä, tarkistin tuotteiden päiväykset ja huolehdin esillepanoista.\nKäytin kassaa ja käsittelin kortti- ja käteismaksuja.\nTyöskentelin tiimin kanssa kiireisinä vuoroina.'},
+        {title:'Kahvilatyöntekijä',employer:'Esimerkkikahvila',location:'Helsinki',dates:'2023–2024',tasks:'Valmistelin palvelutiskin, pakkasin tilauksia ja siistin pöytiä.\nNoudatin elintarvikehygienian ohjeita jokaisessa vuorossa.\nAutoin asiakkaita valinnoissa ja selvitin tuotteiden ainesosia.\nTein yhteistyötä keittiön kanssa tilausten sujuvoittamiseksi.'},
+        {title:'Tapahtuma-avustaja',employer:'Esimerkkitapahtumat',location:'Helsinki',dates:'2022–2023',tasks:'Valmistelin tiloja, opasteita ja ilmoittautumispisteitä.\nToivotin vieraat tervetulleiksi ja tarkistin ilmoittautumiset.\nAutoin tilan järjestelyissä ennen tapahtumia ja niiden jälkeen.\nTyöskentelin joustavasti iltaisin ja viikonloppuisin.'}
+      ],
       education:[{title:'Asiakaspalvelun opinnot',school:'Esimerkkiopisto',location:'Helsinki',dates:'2022–2024'}],
       skills:['Asiakaspalvelu','Tiimityö','Hyllytys','Kassatyö'],languages:[{name:'Suomi',level:'A2'},{name:'Englanti',level:'B2'}],
       references:[{name:'Mira Esimerkki',role:'Entinen esihenkilö',organization:'Esimerkkikauppa',email:'mira.example@example.com',phone:'+358 XX XXX XXXX'}],referenceNote:'',photo:''
     };
     return {
       name:'Alex Example', role:'Customer service assistant', cvLanguage:'en', city:'Helsinki', email:'alex.example@example.com', phone:'+358 XX XXX XXXX',
-      profile:'Friendly and dependable service professional with two years of retail experience. Enjoys helping customers and working as part of a team. Currently improving Finnish.',
-      experience:[{title:'Shop assistant',employer:'Example Market',location:'Helsinki',dates:'2024–2025',tasks:'Helped customers in the store.\nRestocked shelves and kept the shop tidy.\nWorked with a team during busy shifts.'}],
+      profile:'Friendly and dependable service professional with experience in retail, café service and event support. Enjoys helping customers and working as part of a team. Currently improving Finnish.',
+      experience:[
+        {title:'Shop assistant',employer:'Example Market',location:'Helsinki',dates:'2024–2025',tasks:'Helped customers in person and answered everyday questions.\nRestocked shelves, checked product dates and kept displays organised.\nSupported checkout, cash handling and card payments accurately.\nWorked with the team to keep service friendly during busy shifts.'},
+        {title:'Café assistant',employer:'Example Café',location:'Helsinki',dates:'2023–2024',tasks:'Prepared the counter, packed takeaway orders and kept tables clean.\nFollowed food hygiene routines and kept work areas organised.\nHelped customers choose items and explained ingredient information.\nCoordinated with kitchen staff to keep orders moving.'},
+        {title:'Event support assistant',employer:'Sample Events',location:'Helsinki',dates:'2022–2023',tasks:'Set up rooms, signs and registration materials before events.\nWelcomed guests, checked registrations and answered basic questions.\nHelped with room changes and reset shared spaces after events.\nWorked flexibly during evening and weekend events.'}
+      ],
       education:[{title:'Customer service studies',school:'Example College',location:'Helsinki',dates:'2022–2024'}],
       skills:['Customer service','Teamwork','Stock replenishment','Cash handling'],languages:[{name:'Finnish',level:'A2'},{name:'English',level:'B2'}],
       references:[{name:'Jamie Sample',role:'Former supervisor',organization:'Example Market',email:'jamie.sample@example.com',phone:'+358 XX XXX XXXX'}],referenceNote:'',photo:''
@@ -160,6 +168,32 @@
   function safeRead() {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); }
     catch { return null; }
+  }
+  function isUnchangedOldSample(state) {
+    if (!state || !['en','fi'].includes(state.cvLanguage)) return false;
+    const language = state.cvLanguage;
+    const oldExperience = language === 'fi'
+      ? [{title:'Myyjä',employer:'Esimerkkikauppa',location:'Helsinki',dates:'2024–2025',tasks:'Autoin asiakkaita myymälässä.\nTäydensin hyllyjä ja pidin myymälän siistinä.\nTyöskentelin tiimin kanssa kiireisinä aikoina.'}]
+      : [{title:'Shop assistant',employer:'Example Market',location:'Helsinki',dates:'2024–2025',tasks:'Helped customers in the store.\nRestocked shelves and kept the shop tidy.\nWorked with a team during busy shifts.'}];
+    const old = language === 'fi' ? {
+      name:'Alex Esimerkki',role:'Asiakaspalvelija',city:'Helsinki',email:'alex.example@example.com',phone:'+358 XX XXX XXXX',
+      profile:'Ystävällinen ja luotettava asiakaspalvelija, jolla on kahden vuoden kokemus vähittäiskaupasta. Pidän asiakkaiden auttamisesta ja tiimityöstä. Kehitän parhaillaan suomen kielen taitoani.',
+      education:[{title:'Asiakaspalvelun opinnot',school:'Esimerkkiopisto',location:'Helsinki',dates:'2022–2024'}],
+      skills:['Asiakaspalvelu','Tiimityö','Hyllytys','Kassatyö'],languages:[{name:'Suomi',level:'A2'},{name:'Englanti',level:'B2'}],
+      references:[{name:'Mira Esimerkki',role:'Entinen esihenkilö',organization:'Esimerkkikauppa',email:'mira.example@example.com',phone:'+358 XX XXX XXXX'}]
+    } : {
+      name:'Alex Example',role:'Customer service assistant',city:'Helsinki',email:'alex.example@example.com',phone:'+358 XX XXX XXXX',
+      profile:'Friendly and dependable service professional with two years of retail experience. Enjoys helping customers and working as part of a team. Currently improving Finnish.',
+      education:[{title:'Customer service studies',school:'Example College',location:'Helsinki',dates:'2022–2024'}],
+      skills:['Customer service','Teamwork','Stock replenishment','Cash handling'],languages:[{name:'Finnish',level:'A2'},{name:'English',level:'B2'}],
+      references:[{name:'Jamie Sample',role:'Former supervisor',organization:'Example Market',email:'jamie.sample@example.com',phone:'+358 XX XXX XXXX'}]
+    };
+    const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
+    const referencesMatch = same(state.references,old.references) || (state.references === 'Available upon request' && state.referenceNote === '');
+    return state.name === old.name && state.role === old.role && state.city === old.city && state.email === old.email && state.phone === old.phone &&
+      state.profile === old.profile && same(state.experience,oldExperience) && same(state.education,old.education) &&
+      same(state.skills,old.skills) && same(state.languages,old.languages) && referencesMatch &&
+      (!state.referenceNote || state.referenceNote === '') && (!state.photo || state.photo === '');
   }
   function safeSave(state) {
     try {
@@ -614,39 +648,39 @@
     let rightY=bodyTop;
     if (state.profile) {
       leftY=section(language==='fi'?'Profiili':'Profile',pad,leftY,leftW);
-      leftY=textBlock(state.profile,pad,leftY,leftW,'12px Arial','#405d72',18)+21;
+      leftY=textBlock(state.profile,pad,leftY,leftW,'15px Arial','#405d72',21)+22;
     }
     const work=state.experience.filter(item=>item.title||item.employer||item.location||item.dates||item.tasks);
     if (work.length) {
       leftY=section(language==='fi'?'Työkokemus':'Work experience',pad,leftY,leftW);
       work.forEach(item=>{
         const title=item.title||item.employer|| (language==='fi'?'Työkokemus':'Experience');
-        leftY=textBlock(title,pad,leftY,leftW,'bold 14px Arial','#173f65',19)+2;
+        leftY=textBlock(title,pad,leftY,leftW,'bold 17px Arial','#173f65',22)+3;
         const meta=[item.employer,item.location,item.dates].filter(Boolean).join(' · ');
-        if(meta) leftY=textBlock(meta,pad,leftY,leftW,'italic 11px Arial','#70879a',15)+3;
-        if(item.tasks) item.tasks.split(/\r?\n/).filter(Boolean).forEach(task=>{leftY=textBlock(task,pad+3,leftY,leftW-3,'11px Arial','#40596d',16,true)+2;});
-        leftY+=11;
+        if(meta) leftY=textBlock(meta,pad,leftY,leftW,'italic 13px Arial','#70879a',18)+4;
+        if(item.tasks) item.tasks.split(/\r?\n/).filter(Boolean).forEach(task=>{leftY=textBlock(task,pad+3,leftY,leftW-3,'13px Arial','#40596d',19,true)+3;});
+        leftY+=14;
       });
     }
     const education=state.education.filter(item=>item.title||item.school||item.location||item.dates);
     if (education.length) {
       leftY=section(language==='fi'?'Koulutus ja kurssit':'Education and training',pad,leftY,leftW);
       education.forEach(item=>{
-        leftY=textBlock(item.title||item.school,pad,leftY,leftW,'bold 12px Arial','#173f65',17)+2;
+        leftY=textBlock(item.title||item.school,pad,leftY,leftW,'bold 15px Arial','#173f65',20)+3;
         const meta=[item.school,item.location,item.dates].filter(Boolean).join(' · ');
-        if(meta) leftY=textBlock(meta,pad,leftY,leftW,'11px Arial','#718698',15)+8;
+        if(meta) leftY=textBlock(meta,pad,leftY,leftW,'13px Arial','#718698',18)+9;
       });
     }
     if(state.skills.length){
       rightY=section(language==='fi'?'Osaaminen':'Key skills',rightX,rightY,rightW);
-      state.skills.forEach(skill=>{rightY=textBlock(skill,rightX,rightY,rightW,'bold 11px Arial','#315b77',16,true)+5;});
+      state.skills.forEach(skill=>{rightY=textBlock(skill,rightX,rightY,rightW,'bold 13px Arial','#315b77',19,true)+6;});
       rightY+=13;
     }
     if(state.languages.length){
       rightY=section(language==='fi'?'Kielitaito':'Languages',rightX,rightY,rightW);
       state.languages.forEach(item=>{
-        rightY=textBlock(item.name,rightX,rightY,rightW,'bold 11px Arial','#456277',15)+1;
-        rightY=textBlock(item.level,rightX,rightY,rightW,'10px Arial','#758b9b',14)+6;
+        rightY=textBlock(item.name,rightX,rightY,rightW,'bold 13px Arial','#456277',18)+2;
+        rightY=textBlock(item.level,rightX,rightY,rightW,'12px Arial','#758b9b',16)+7;
       });
       rightY+=11;
     }
@@ -654,11 +688,11 @@
     if(references.length||state.referenceNote){
       rightY=section(language==='fi'?'Suosittelijat':'References',rightX,rightY,rightW);
       references.forEach(item=>{
-        if(item.name) rightY=textBlock(item.name,rightX,rightY,rightW,'bold 11px Arial','#405d72',15)+2;
+        if(item.name) rightY=textBlock(item.name,rightX,rightY,rightW,'bold 13px Arial','#405d72',18)+2;
         const role=[item.role,item.organization].filter(Boolean).join(' · ');
-        if(role) rightY=textBlock(role,rightX,rightY,rightW,'10px Arial','#70879a',14)+2;
+        if(role) rightY=textBlock(role,rightX,rightY,rightW,'12px Arial','#70879a',16)+3;
         const contact=[item.email,item.phone].filter(Boolean).join(' · ');
-        if(contact) rightY=textBlock(contact,rightX,rightY,rightW,'9px Arial','#758b9b',13)+7;
+        if(contact) rightY=textBlock(contact,rightX,rightY,rightW,'11px Arial','#758b9b',15)+8;
         else rightY+=5;
       });
       if(state.referenceNote) rightY=textBlock(state.referenceNote,rightX,rightY,rightW,'10px Arial','#405d72',15)+8;
@@ -708,8 +742,8 @@
     context.fillStyle='#edf4f8';context.beginPath();context.roundRect(layout.rightX-13,layout.bodyTop-16,layout.rightW+26,layout.height-layout.bodyTop-14,12);context.fill();
     layout.operations.forEach(operation=>{
       if(operation.type==='heading'){
-        context.fillStyle='#1c4b70';context.font='800 11px Arial';context.fillText(operation.text,operation.x,operation.y);
-        context.fillStyle='#3798d4';context.fillRect(operation.x,operation.y+8,operation.width,2);
+        context.fillStyle='#1c4b70';context.font='800 13px Arial';context.fillText(operation.text,operation.x,operation.y);
+        context.fillStyle='#3798d4';context.fillRect(operation.x,operation.y+10,operation.width,2);
       } else {
         context.fillStyle=operation.color;context.font=operation.font;context.fillText(operation.text,operation.x,operation.y);
       }
@@ -778,6 +812,8 @@
   function initialize() {
     lastSavedState = safeRead();
     if (lastSavedState && !Array.isArray(lastSavedState.experience)) lastSavedState = null;
+    const refreshSample = isUnchangedOldSample(lastSavedState);
+    if (refreshSample) lastSavedState = sampleState(lastSavedState.cvLanguage);
     translateBuilder();
     if (lastSavedState) {
       $('#cv-start').querySelector('[data-cv-ui]').textContent = words().continueButton;
@@ -883,6 +919,7 @@
     }));
     ui?.addEventListener('change',switchLanguage);
     applyState(lastSavedState || sampleState(appLanguage()));
+    if (refreshSample) safeSave(currentState());
   }
   initialize();
 })();
