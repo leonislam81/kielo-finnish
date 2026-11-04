@@ -230,3 +230,9 @@
     @media(max-width:360px){.locale-control.site-control{width:80px;flex:0 0 80px}}
     @media(max-width:360px){.header-row{gap:5px}.header-actions{gap:4px}.locale-controls{gap:4px;padding-left:5px}.locale-control.site-control{width:80px;flex:0 0 80px}.locale-label{font-size:12px;letter-spacing:0}.locale-select{padding-right:16px;padding-left:7px;font-size:12px}.menu-toggle{width:33px;height:33px}}
     small,sub,sup{font-size:max(12px,1em)}
+    .word-float span{white-space:nowrap}
+    .hero-stamp{width:74px;height:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transform:none}
+    .hero-stamp strong{font-size:16px}
+    .hero-stamp small{white-space:nowrap;letter-spacing:0;line-height:1}
+    @media(max-width:760px){.hero-stamp{top:12px;right:12px;width:70px;height:70px}.hero-stamp strong{font-size:16px}}
+    html[lang="fi"] .hero-stamp small{max-width:68px;white-space:normal;line-height:1.05;text-wrap:balance}

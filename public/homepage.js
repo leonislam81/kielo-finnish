@@ -60,7 +60,7 @@
     ["#hero-cta","Choose your path","Valitse polkusi"],
     ["#hero-secondary","Start with Finnish","Aloita suomesta"],
     [".hero-meta span:last-child","A little Finnish, a little more at home.","Pieni pala suomea, askel lähemmäs kotia."],
-    [".word-float span","Today's Finnish word","Päivän suomen sana"],
+    [".word-float span","Today's word","Päivän sana"],
     [".hero-stamp small","your pace","omaan tahtiisi"],
     [".photo-caption strong","A new beginning, at your own pace.","Uusi alku, omaan tahtiisi."],
     [".pathways .section-kicker","START WHERE YOU ARE","ALOITA SIITÄ, MISSÄ OLET"],

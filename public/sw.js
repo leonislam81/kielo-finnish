@@ -1,20 +1,20 @@
 "use strict";
 
-const CACHE_NAME="kielo-offline-v163";
+const CACHE_NAME="kielo-offline-v168";
 const SCOPE_URL=new URL(self.registration.scope);
 const OFFLINE_PAGE=new URL("index.html",SCOPE_URL).href;
 const ASSET_PATHS=[
   "index.html",
   "jobs.html",
   "learn.html",
-  "homepage.css?v=layoutfix5",
+  "homepage.css?v=layoutfix7",
   "jobs.css?v=font12",
-  "cv-builder.css?v=layoutfix1",
+  "cv-builder.css?v=layoutfix4",
   "jobs.js?v=7",
   "jobs-guide.js?v=2",
   "jobs-workspace.js?v=3",
   "cv-builder.js?v=5",
-  "homepage.js?v=1",
+  "homepage.js?v=2",
   "manifest.webmanifest",
   "styles.css?v=layoutfix1",
   "accessibility.css?v=font12",
@@ -30,7 +30,7 @@ const ASSET_PATHS=[
   "pwa.css?v=font12",
   "backup.css?v=font12",
   "rhythm.css?v=font12",
-  "redesign.css?v=font12",
+  "redesign.css?v=layoutfix2",
   "holidays.css?v=font12",
   "finnish-keys.css?v=font12",
   "finland-design.css?v=font12",
