@@ -104,7 +104,12 @@
     const visible = regions.filter(matchesRegion);
     const grid = $("#region-grid");
     if (!grid) return;
-    grid.innerHTML = visible.map(region => `<button class="region-card${region.code === activeRegion ? " is-selected" : ""}" type="button" data-code="${region.code}" aria-pressed="${region.code === activeRegion}" aria-label="${escapeHtml(regionName(region))}, ${escapeHtml(region.city)}, ${language === "fi" ? "väkiluku" : "population"} ${number.format(region.population)}"><span class="region-flag" aria-hidden="true">${region.code.slice(-2)}</span><span class="region-copy"><b>${escapeHtml(regionName(region))}</b><span>${escapeHtml(region.city)}</span><small>${number.format(region.population)} · 2025</small></span><span class="region-arrow" aria-hidden="true">↗</span></button>`).join("");
+    // Region codes are official identifiers (for example, Åland is MK21), not list positions.
+    // Keep the visible labels as an easy-to-follow 01–19 sequence while retaining codes in data-code.
+    grid.innerHTML = visible.map(region => {
+      const serial = String(regions.indexOf(region) + 1).padStart(2, "0");
+      return `<button class="region-card${region.code === activeRegion ? " is-selected" : ""}" type="button" data-code="${region.code}" aria-pressed="${region.code === activeRegion}" aria-label="${escapeHtml(regionName(region))}, ${escapeHtml(region.city)}, ${language === "fi" ? "väkiluku" : "population"} ${number.format(region.population)}"><span class="region-flag" aria-hidden="true">${serial}</span><span class="region-copy"><b>${escapeHtml(regionName(region))}</b><span>${escapeHtml(region.city)}</span><small>${number.format(region.population)} · 2025</small></span><span class="region-arrow" aria-hidden="true">↗</span></button>`;
+    }).join("");
     $("#no-regions").hidden = visible.length > 0;
     $("#region-count").textContent = language === "fi" ? `Näytetään ${visible.length} / 19 maakuntaa` : visible.length === 19 ? "Showing all 19 regions" : `Showing ${visible.length} of 19 regions`;
     $$(".region-shape", $("#region-map") || document).forEach(path => {
