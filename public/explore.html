@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6ef">
+  <title>Explore Finland · Kielo</title>
+  <link rel="icon" href="./images/kielo-mark.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./explore-page.css?v=1">
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+  <header class="site-header">
+    <div class="site-header-inner shell">
+      <a class="brand" href="./index.html" aria-label="Kielo home">
+        <span class="brand-mark" aria-hidden="true">✿</span><span class="brand-copy"><b>Kielo</b><small>FINLAND, WITH YOU</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="./index.html" data-i18n="navHome">Home</a><a href="./learn.html" data-i18n="navLearn">Learn Finnish</a><a href="./jobs.html" data-i18n="navWork">Work</a><a href="./study.html" data-i18n="navStudy">Study</a><a href="./housing.html" data-i18n="navHomeLife">Make a home</a><a class="active" href="#main" aria-current="page" data-i18n="navExplore">Explore Finland</a>
+      </nav>
+      <div class="header-tools"><label class="language-picker"><span class="sr-only" data-i18n="siteLanguage">Site language</span><select id="site-language" aria-label="Site language"><option value="en">EN</option><option value="fi">FI</option></select></label><button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button></div>
+    </div>
+    <nav class="mobile-nav shell" id="mobile-nav" aria-label="Mobile navigation"><a href="./index.html" data-i18n="navHome">Home</a><a href="./learn.html" data-i18n="navLearn">Learn Finnish</a><a href="./jobs.html" data-i18n="navWork">Work</a><a href="./study.html" data-i18n="navStudy">Study</a><a href="./housing.html" data-i18n="navHomeLife">Make a home</a><a href="#main" aria-current="page" data-i18n="navExplore">Explore Finland</a></nav>
+  </header>
+
+  <main id="main" class="shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <span class="eyebrow"><i></i><span data-i18n="heroKicker">A COUNTRY, MANY STORIES</span></span>
+        <h1 id="hero-title" data-i18n="heroTitle">Find your Finland.</h1>
+        <p data-i18n="heroText">From Baltic islands to the Arctic north, explore the places, people, seasons and everyday ideas that shape Finland.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#regions"><span data-i18n="heroButton">Explore the 19 regions</span><span aria-hidden="true">↓</span></a><a class="button button-secondary" href="#history" data-i18n="historyButton">Start with the story</a></div>
+        <p class="hero-note" data-i18n="heroNote">A clear guide to nature, culture and everyday life—made to explore one small step at a time.</p>
+      </div>
+      <div class="hero-art" role="img" aria-label="Illustrated map and landscapes of Finland">
+        <div class="hero-sun"></div><div class="hero-lake"></div><div class="hero-hill hero-hill-back"></div><div class="hero-hill hero-hill-front"></div>
+        <div class="hero-map-panel"><div class="map-panel-top"><span class="eyebrow" data-i18n="mapKicker">FINLAND AT A GLANCE</span><span class="live-dot"></span></div><svg id="hero-map" class="hero-map" viewBox="0 0 300 410" aria-hidden="true"></svg><div class="hero-map-label"><b>Suomi</b><span data-i18n="mapCaption">One country · 19 regions</span></div></div>
+        <div class="hero-sticker">SUOMI<br><small data-i18n="heroSticker">YOUR NEXT STORY</small></div><div class="hero-word"><span data-i18n="firstFinnishWord">A Finnish word</span><b lang="fi">luonto</b><small data-i18n="natureTranslation">nature · luonto</small></div>
+      </div>
+    </section>
+
+    <section class="fact-strip" aria-label="Finland facts">
+      <article class="fact-card"><span class="fact-label" data-i18n="populationLabel">PEOPLE · YEAR-END 2025</span><strong>5.65 <small>million</small></strong><span data-i18n="populationCaption">residents in Finland</span></article>
+      <article class="fact-card"><span class="fact-label" data-i18n="regionsLabel">REGIONS</span><strong>19</strong><span data-i18n="regionsCaption">official statistical regions</span></article>
+      <article class="fact-card"><span class="fact-label" data-i18n="languagesLabel">NATIONAL LANGUAGES</span><strong>2</strong><span data-i18n="languagesCaption">Finnish & Swedish; Sámi languages are part of Finland’s story</span></article>
+      <article class="fact-card"><span class="fact-label" data-i18n="parksLabel">NATIONAL PARKS · 2025</span><strong>41</strong><span data-i18n="parksCaption">protected places to experience nature</span></article>
+    </section>
+    <p class="fact-source" data-i18n="factSource">Dated figures: Statistics Finland population at 31 December 2025; national park count at 31 December 2025. Open the official sources below for definitions and updates.</p>
+
+    <nav class="chapter-nav" aria-label="Explore this page">
+      <a href="#regions"><span>01</span><b data-i18n="chapterRegions">Regions</b></a><a href="#history"><span>02</span><b data-i18n="chapterHistory">History</b></a><a href="#nature"><span>03</span><b data-i18n="chapterNature">Nature & seasons</b></a><a href="#culture"><span>04</span><b data-i18n="chapterCulture">Culture</b></a><a href="#everyday"><span>05</span><b data-i18n="chapterEveryday">Everyday Finland</b></a>
+    </nav>
+
+    <section class="section region-section" id="regions" aria-labelledby="regions-title">
+      <div class="section-heading"><div><span class="eyebrow"><i></i><span data-i18n="regionKicker">MAP · PEOPLE · PLACES</span></span><h2 id="regions-title" data-i18n="regionsTitle">Explore Finland, one region at a time.</h2></div><p data-i18n="regionsIntro">Finland has regions, not states. Search a city, browse the map, or choose the kind of landscape you want to know.</p></div>
+      <div class="region-tools"><label class="search-box"><span aria-hidden="true">⌕</span><span class="sr-only" data-i18n="searchLabel">Search a region or city</span><input id="region-search" type="search" placeholder="Try Lapland, Lappi or Tampere" autocomplete="off"><button id="clear-search" type="button" aria-label="Clear search" hidden>×</button></label><div class="filter-row" id="region-filters" role="group" aria-label="Filter regions"><button type="button" class="filter-chip selected" data-filter="all" aria-pressed="true" data-i18n="filterAll">All 19</button><button type="button" class="filter-chip" data-filter="city" aria-pressed="false" data-i18n="filterCity">City & campus</button><button type="button" class="filter-chip" data-filter="coast" aria-pressed="false" data-i18n="filterCoast">Coast & islands</button><button type="button" class="filter-chip" data-filter="lake" aria-pressed="false" data-i18n="filterLake">Lakes & forests</button><button type="button" class="filter-chip" data-filter="north" aria-pressed="false" data-i18n="filterNorth">Northern Finland</button></div></div>
+      <div class="atlas-layout">
+        <figure class="map-card"><figcaption><span class="eyebrow" data-i18n="mapSectionKicker">THE FINLAND ATLAS</span><b data-i18n="mapInstruction">Choose a region on the map</b><span data-i18n="mapHelp">Select a map shape or a region card to see more.</span></figcaption><div id="region-map" class="region-map" role="group" aria-label="Interactive map of Finland’s 19 regions"><p class="map-loading" data-i18n="mapLoading">Loading the Finland map…</p></div><div class="map-legend"><span><i></i><span data-i18n="mapLegend">19 statistical regions</span></span><a href="https://stat.fi/en/luokitukset/maakunta/maakunta_1_20260101" target="_blank" rel="noopener noreferrer" data-i18n="mapSource">Source: Statistics Finland ↗</a></div>
+          <div class="selected-region" id="selected-region" aria-live="polite"><span class="eyebrow" data-i18n="selectedKicker">REGION SNAPSHOT</span><div class="selected-region-title"><h3 id="selected-name">Uusimaa</h3><span id="selected-fi" lang="fi">Uusimaa</span></div><p id="selected-summary"></p><div class="selected-region-facts"><span><small data-i18n="regionalPopulation">POPULATION · 31 DEC 2025</small><b id="selected-population">1,799,629</b></span><span><small data-i18n="cityExamples">CITY EXAMPLES</small><b id="selected-cities">Helsinki · Espoo · Vantaa</b></span></div><a id="selected-explore" class="text-link" href="./learn.html?open=culture" data-i18n="regionLearnLink">Explore a Finnish chapter ↗</a></div>
+        </figure>
+        <div class="region-directory"><div class="directory-heading"><span id="region-count" role="status" aria-live="polite" data-i18n="showingRegions">Showing all 19 regions</span><span data-i18n="populationUnit">Population · 2025</span></div><div id="region-grid" class="region-grid"></div><div class="no-results" id="no-regions" hidden><b data-i18n="noRegions">No regions match that search.</b><button type="button" id="reset-regions" data-i18n="resetRegions">Show all regions</button></div></div>
+      </div>
+      <p class="map-attribution" data-i18n="mapAttribution">Names and boundaries follow Statistics Finland’s 2026 classification. Population is the dated year-end 2025 snapshot. Map geometry: Statistics Finland open GeoJSON, CC BY 4.0.</p>
+    </section>
+
+    <section class="section history-section" id="history" aria-labelledby="history-title">
+      <div class="section-heading"><div><span class="eyebrow"><i></i><span data-i18n="historyKicker">A SHORT TIMELINE</span></span><h2 id="history-title" data-i18n="historyTitle">Many chapters shaped one country.</h2></div><p data-i18n="historyIntro">A starting point for Finland’s story—from earlier rule and autonomy to independence and modern partnerships.</p></div>
+      <div class="timeline">
+        <article class="timeline-card"><span>BEFORE 1809</span><b data-i18n="historySwedenTitle">Part of the Swedish realm</b><p data-i18n="historySwedenText">The region that is now Finland was governed as part of Sweden for centuries.</p></article>
+        <article class="timeline-card"><span>1809</span><b data-i18n="historyRussiaTitle">Autonomous Grand Duchy</b><p data-i18n="historyRussiaText">Finland became a Grand Duchy of the Russian Empire, developing its own institutions.</p></article>
+        <article class="timeline-card"><span>6 DEC 1917</span><b data-i18n="historyIndependenceTitle">Independence</b><p data-i18n="historyIndependenceText">Finland’s Parliament approved the declaration of independence.</p></article>
+        <article class="timeline-card"><span>1919</span><b data-i18n="historyRepublicTitle">A republic</b><p data-i18n="historyRepublicText">The independent country became a republic under its new constitution.</p></article>
+        <article class="timeline-card"><span>1995 · 2023</span><b data-i18n="historyNowTitle">European & Nordic partnerships</b><p data-i18n="historyNowText">Finland joined the European Union in 1995 and NATO in 2023.</p></article>
+      </div>
+      <p class="history-source"><span data-i18n="historySourceIntro">Explore the sources:</span> <a href="https://finland.fi/life-society/main-outlines-of-finnish-history/" target="_blank" rel="noopener noreferrer">This is Finland · history ↗</a> · <a href="https://commission.europa.eu/topics/enlargement/30-years-together_en" target="_blank" rel="noopener noreferrer">European Union ↗</a> · <a href="https://www.nato.int/en/news-and-events/articles/news/2023/04/04/finland-joins-nato-as-31st-ally" target="_blank" rel="noopener noreferrer">NATO ↗</a></p>
+    </section>
+
+    <section class="section nature-section" id="nature" aria-labelledby="nature-title">
+      <div class="nature-head"><div><span class="eyebrow"><i></i><span data-i18n="natureKicker">LAND · WATER · DAYLIGHT</span></span><h2 id="nature-title" data-i18n="natureTitle">Notice the country change with the seasons.</h2><p data-i18n="natureIntro">Travel from the southern coast to Lapland and the light, landscape and daily rhythm change with you.</p></div><div class="nature-words"><span lang="fi">metsä</span><span lang="fi">järvi</span><span lang="fi">meri</span><span lang="fi">vuodenaika</span></div></div>
+      <div class="season-explorer"><div class="season-tabs" id="season-tabs" role="tablist" aria-label="Choose a season"><button type="button" role="tab" aria-selected="true" data-season="winter"><span>❄</span><b data-i18n="seasonWinter">Winter</b><small lang="fi">talvi</small></button><button type="button" role="tab" aria-selected="false" data-season="spring"><span>✿</span><b data-i18n="seasonSpring">Spring</b><small lang="fi">kevät</small></button><button type="button" role="tab" aria-selected="false" data-season="summer"><span>☼</span><b data-i18n="seasonSummer">Summer</b><small lang="fi">kesä</small></button><button type="button" role="tab" aria-selected="false" data-season="autumn"><span>◌</span><b data-i18n="seasonAutumn">Autumn</b><small lang="fi">syksy</small></button></div><article class="season-detail" id="season-detail" aria-live="polite"><div class="season-illustration" id="season-illustration"><span class="season-icon">❄</span><span class="season-ground"></span><span class="season-tree">♠</span><span class="season-sun"></span></div><div class="season-copy"><span class="eyebrow" data-i18n="seasonAtAGlance">A SEASON AT A GLANCE</span><h3 id="season-title">Winter · talvi</h3><p id="season-copy"></p><div class="season-word"><div><small data-i18n="usefulFinnish">A USEFUL FINNISH WORD</small><b id="season-word" lang="fi">lumi</b><span id="season-meaning">snow</span></div><span class="season-phrase" id="season-phrase" lang="fi">Talvella sataa lunta.</span></div><p class="season-footnote" data-i18n="seasonNote">Season timing and daylight vary by region and year. These are broad patterns, not a weather forecast.</p></div></article></div>
+      <div class="nature-cards"><article><span>🌲</span><b data-i18n="forestTitle">Forest paths</b><p data-i18n="forestText">Marked routes, peatlands and pine, spruce and birch landscapes invite a closer look.</p><a href="https://www.metsa.fi/en/outdoors/hiking/" target="_blank" rel="noopener noreferrer" data-i18n="forestLink">Plan a responsible visit ↗</a></article><article><span>🌊</span><b data-i18n="seaTitle">Lakes, sea & islands</b><p data-i18n="seaText">From lake country to the Baltic and island routes, water is part of everyday and travel life.</p><a href="https://www.visitfinland.com/en/places-to-go/coast-and-archipelago/" target="_blank" rel="noopener noreferrer" data-i18n="seaLink">Explore the coast & archipelago ↗</a></article><article><span>🥾</span><b data-i18n="parksTitle">Nature with care</b><p data-i18n="parksText">Everyman’s Rights allow many outdoor activities, with important limits. Protected parks have their own rules.</p><a href="https://www.metsa.fi/en/lands-and-waters/protected-areas/national-parks/" target="_blank" rel="noopener noreferrer" data-i18n="parksLink">Read park guidance ↗</a></article></div>
+    </section>
+
+    <section class="section culture-section" id="culture" aria-labelledby="culture-title">
+      <div class="section-heading"><div><span class="eyebrow"><i></i><span data-i18n="cultureKicker">PEOPLE · CUSTOMS · EVERYDAY MOMENTS</span></span><h2 id="culture-title" data-i18n="cultureTitle">Culture lives in small shared moments.</h2></div><p data-i18n="cultureIntro">Finnish culture is diverse and always changing. These are useful starting points, not rules that describe everyone.</p></div>
+      <div class="culture-grid">
+        <article class="culture-card culture-card--sauna"><span class="culture-icon">♨</span><span class="culture-index">01 · <span lang="fi">sauna</span></span><h3 data-i18n="saunaTitle">Sauna & taking time</h3><p data-i18n="saunaText">A place to warm up, unwind and share an unhurried conversation—or a comfortable silence.</p><a href="https://finland.fi/life-society/bare-facts-of-the-sauna/" target="_blank" rel="noopener noreferrer" data-i18n="saunaLink">Sauna basics ↗</a></article>
+        <article class="culture-card culture-card--food"><span class="culture-icon">♨</span><span class="culture-index">02 · <span lang="fi">ruoka</span></span><h3 data-i18n="foodTitle">Food, coffee & the market</h3><p data-i18n="foodText">Rye bread, berries, seasonal ingredients and coffee breaks meet regional and international food cultures.</p><a href="https://infofinland.fi/en/information-about-finland/finnish-customs" target="_blank" rel="noopener noreferrer" data-i18n="foodLink">Food and customs ↗</a></article>
+        <article class="culture-card culture-card--design"><span class="culture-icon">✳</span><span class="culture-index">03 · <span lang="fi">muotoilu</span></span><h3 data-i18n="designTitle">Design in daily life</h3><p data-i18n="designText">Libraries, public spaces and useful objects show how design can fit into ordinary routines.</p><a href="https://finland.fi/life-society/" target="_blank" rel="noopener noreferrer" data-i18n="designLink">Stories from Finland ↗</a></article>
+        <article class="culture-card culture-card--conversation"><span class="culture-icon">☁</span><span class="culture-index">04 · <span lang="fi">keskustelu</span></span><h3 data-i18n="conversationTitle">Conversation & quiet</h3><p data-i18n="conversationText">Direct speech and pauses can feel natural in some situations. People and settings differ.</p><a href="https://infofinland.fi/en/information-about-finland/finnish-customs" target="_blank" rel="noopener noreferrer" data-i18n="conversationLink">Customs and manners ↗</a></article>
+        <article class="culture-card culture-card--celebrations"><span class="culture-icon">✿</span><span class="culture-index">05 · <span lang="fi">juhla</span></span><h3 data-i18n="celebrationsTitle">The year’s celebrations</h3><p data-i18n="celebrationsText">Vappu, Midsummer, Independence Day and local events each bring their own food, words and traditions.</p><a href="https://infofinland.fi/en/information-about-finland/finnish-holidays" target="_blank" rel="noopener noreferrer" data-i18n="celebrationsLink">Finnish holidays ↗</a></article>
+        <article class="culture-card culture-card--languages"><span class="culture-icon">Aa</span><span class="culture-index">06 · <span lang="fi">kielet</span></span><h3 data-i18n="languagesCultureTitle">Languages & many voices</h3><p data-i18n="languagesCultureText">Finnish and Swedish are national languages. Sámi languages and other mother tongues also belong to Finland.</p><a href="https://infofinland.fi/en/finnish-and-swedish/swedish-language-in-finland" target="_blank" rel="noopener noreferrer" data-i18n="languageLink">Language in Finland ↗</a></article>
+      </div>
+    </section>
+
+    <section class="section everyday-section" id="everyday" aria-labelledby="everyday-title">
+      <div class="section-heading"><div><span class="eyebrow"><i></i><span data-i18n="everydayKicker">MAKE THE COUNTRY USEFUL</span></span><h2 id="everyday-title" data-i18n="everydayTitle">Take your next step in Finland.</h2></div><p data-i18n="everydayIntro">Go deeper into the parts of everyday life you want to learn about.</p></div>
+      <div class="everyday-grid">
+        <a class="everyday-card" href="https://www.vr.fi/en/timetables" target="_blank" rel="noopener noreferrer"><span>↗</span><b data-i18n="travelTitle">Travel & transport</b><small data-i18n="travelText">Check current train times and plan a route.</small><em data-i18n="travelLink">VR timetables ↗</em></a>
+        <a class="everyday-card" href="./study.html"><span>↗</span><b data-i18n="studyTitle">Study in Finland</b><small data-i18n="studyText">Explore admissions, programmes and campus life.</small><em data-i18n="studyLink">Kielo study guide ↗</em></a>
+        <a class="everyday-card" href="./jobs.html"><span>↗</span><b data-i18n="workTitle">Work in Finland</b><small data-i18n="workText">Understand job-search routes and working life.</small><em data-i18n="workLink">Kielo work guide ↗</em></a>
+        <a class="everyday-card" href="./housing.html"><span>↗</span><b data-i18n="homeTitle">Make a home here</b><small data-i18n="homeText">Compare renting, student homes, buying and building.</small><em data-i18n="homeLink">Kielo housing guide ↗</em></a>
+      </div>
+      <div class="learning-callout"><div><span class="eyebrow" data-i18n="learnKicker">LEARN THE WORDS IN CONTEXT</span><h3 data-i18n="learnTitle">Bring Finland into your Finnish.</h3><p data-i18n="learnText">Explore culture, regions, nature and everyday Finnish with guided words, audio and practice.</p></div><a class="button button-primary" href="./learn.html?open=culture"><span data-i18n="learnButton">Open the Finnish Explorer</span><span aria-hidden="true">↗</span></a></div>
+    </section>
+
+    <section class="source-section" aria-labelledby="sources-title"><div class="section-heading"><div><span class="eyebrow"><i></i><span data-i18n="sourceKicker">TRUSTED STARTING POINTS</span></span><h2 id="sources-title" data-i18n="sourcesTitle">Go straight to the official source.</h2></div><p data-i18n="sourcesIntro">Dates, names and daily-service details can change. Follow the source for the latest information.</p></div><div class="source-grid"><a href="https://stat.fi/en/topic/population-and-society" target="_blank" rel="noopener noreferrer"><b data-i18n="sourceStats">Statistics Finland</b><span data-i18n="sourceStatsText">Population, regions and other statistics ↗</span></a><a href="https://finland.fi/life-society/main-outlines-of-finnish-history/" target="_blank" rel="noopener noreferrer"><b data-i18n="sourceHistory">This is Finland</b><span data-i18n="sourceHistoryText">History, society and Finnish life ↗</span></a><a href="https://www.visitfinland.com/en/places-to-go/" target="_blank" rel="noopener noreferrer"><b data-i18n="sourceVisit">Visit Finland</b><span data-i18n="sourceVisitText">Regions and destinations ↗</span></a><a href="https://www.metsa.fi/en/lands-and-waters/protected-areas/national-parks/" target="_blank" rel="noopener noreferrer"><b data-i18n="sourceNature">Metsähallitus</b><span data-i18n="sourceNatureText">National parks and nature access ↗</span></a></div><p class="source-note" data-i18n="sourceNote">General introduction, not a live travel planner. Always check current local conditions, opening hours, routes and park guidance.</p></section>
+  </main>
+
+  <footer class="site-footer"><div class="shell footer-inner"><a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true">✿</span><span class="brand-copy"><b>Kielo</b><small>FINLAND, WITH YOU</small></span></a><span data-i18n="footerText">Discover a place. Learn its words. Find your own way.</span><span>© Leon Islam · <a href="https://leonislam.com/">Credits: Leon Islam</a></span></div></footer>
+  <script src="./explore-page.js?v=1" defer></script>
+  <script src="./pwa.js?v=font12" defer></script>
+</body>
+</html>
