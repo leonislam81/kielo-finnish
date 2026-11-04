@@ -54,6 +54,9 @@
 .tracker-filter-empty{font-size:10px}
 .application-manager .tracked-job[hidden]{display:none}
 .application-manager .tracked-job-edit[aria-pressed="true"]{border-color:#91b499;background:#e6f0e5;color:var(--pine)}
+.filters-card[hidden]{display:none}
+.content-grid:not(.has-search){grid-template-columns:minmax(0,1fr) 255px}
+@media(max-width:1120px){.content-grid:not(.has-search){grid-template-columns:minmax(0,1fr)}.content-grid:not(.has-search) .side-column{grid-column:auto;grid-template-columns:1fr}}
 .privacy-banner p{font-size:10px}
 .privacy-banner .text-button,.import-button{font-size:10px}
 .application-field,.letter-field{font-size:10px}

@@ -183,7 +183,23 @@
     if (scroll) $('#job-sources').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  function collapseSearchIfCleared() {
+    const next = readForm();
+    if (!hasSearchCriteria(search) || hasSearchCriteria(next)) return;
+    $$('[data-source-filter]').forEach(input => { input.checked = false; });
+    $('#focus-filter').value = '';
+    search = next;
+    updateUrl();
+    renderSourceResults();
+    renderActiveSearch();
+    $('#search-hint').textContent = current().searchHint;
+  }
+
   function selectedKinds() { return $$('[data-source-filter]:checked').map(input => input.value); }
+
+  function hasSearchCriteria(criteria = search) {
+    return Boolean([criteria.keyword, criteria.city, criteria.type, criteria.focus, criteria.language].some(value => String(value || '').trim()));
+  }
 
   function matchesSource(source, criteria, kinds = selectedKinds()) {
     if (kinds.length && !kinds.includes(source.kind)) return false;
@@ -245,6 +261,9 @@
   function renderSourceResults() {
     const host = $('#source-results');
     if (!host) return;
+    const filtering = hasSearchCriteria();
+    $('#job-sources').classList.toggle('has-search', filtering);
+    $('.filters-card').hidden = !filtering;
     host.replaceChildren();
     const results = sources.filter(source => matchesSource(source, search));
     $('#source-count').textContent = `${results.length} ${current().countSuffix}`;
@@ -406,6 +425,8 @@
   $('#ui-language').value = language;
   $('#ui-language').addEventListener('change', event => { language = ['en','fi'].includes(event.target.value) ? event.target.value : 'en'; write(KEYS.language, language); translate(); });
   $('#job-search-form').addEventListener('submit', event => { event.preventDefault(); runSearch({scroll:false}); });
+  $('#job-search-form').addEventListener('input', collapseSearchIfCleared);
+  $('#job-search-form').addEventListener('change', collapseSearchIfCleared);
   $$('[data-query]').forEach(button => button.addEventListener('click', () => { $('#job-keyword').value = button.dataset.query; runSearch(); }));
   $$('[data-source-filter]').forEach(input => input.addEventListener('change', () => renderSourceResults()));
   $('#focus-filter').addEventListener('change', () => { search = readForm(); updateUrl(); renderSourceResults(); renderActiveSearch(); });
