@@ -73,7 +73,7 @@
     ["#path-grid .path-card:nth-child(3) strong","Study in Finland","Opiskele Suomessa"],
     ["#path-grid .path-card:nth-child(3) p","Plan admissions, compare study routes and costs, and explore student cities.","Suunnittele hakua, vertaile opintopolkuja ja kustannuksia sekä tutustu opiskelijakaupunkeihin."],
     ["#path-grid .path-card:nth-child(4) strong","Make a home here","Rakenna arkea Suomessa"],
-    ["#path-grid .path-card:nth-child(4) p","Find official information for moving and everyday life.","Löydä virallista tietoa muutosta ja arjesta Suomessa."],
+    ["#path-grid .path-card:nth-child(4) p","Rent, buy, build, or find student housing with clear Finland-wide guidance.","Löydä selkeät ohjeet vuokraamiseen, ostamiseen, rakentamiseen ja opiskelija-asumiseen Suomessa."],
     ["#path-grid .path-card:nth-child(5) strong","Explore Finland","Tutustu Suomeen"],
     ["#path-grid .path-card:nth-child(5) p","Explore Finnish regions, history, nature, and everyday culture.","Tutustu Suomen alueisiin, historiaan, luontoon ja arkeen."],
     [".finland-heading .section-kicker","GET TO KNOW FINLAND","TUTUSTU SUOMEEN"],
