@@ -55,6 +55,9 @@
 .application-manager .tracked-job[hidden]{display:none}
 .application-manager .tracked-job-edit[aria-pressed="true"]{border-color:#91b499;background:#e6f0e5;color:var(--pine)}
 #source-directory-area[hidden]{display:none}
+.clear-search-button{display:inline-flex;align-items:center;justify-content:center;min-height:30px;margin-left:auto;padding:0 10px;border:1px solid #dbe5da;border-radius:9px;background:#fffefa;color:var(--pine-2);font-size:9px;font-weight:800;white-space:nowrap;cursor:pointer}
+.clear-search-button:hover{border-color:#a8c2ab;background:#f1f6ef}
+@media(max-width:620px){.clear-search-button{margin-left:0}}
 .privacy-banner p{font-size:10px}
 .privacy-banner .text-button,.import-button{font-size:10px}
 .application-field,.letter-field{font-size:10px}
