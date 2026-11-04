@@ -10,7 +10,7 @@
   const words = {
     en: {
       workspaceKicker:'YOUR NEXT APPLICATION',workspaceTitle:'One clear workspace for each job.',workspaceIntro:'Keep the real advert, your next steps and an editable letter draft together as you apply.',privateLabel:'Private · saved on this device',applicationKicker:'SELECTED APPLICATION',applicationTitle:'Choose an application or start a new one.',applicationIntro:'Open one of your saved jobs to continue its checklist and letter.',
-      roleLabel:'Role or job title',rolePlaceholder:'e.g. Cleaner',employerLabel:'Employer',employerPlaceholder:'Company or organisation',cityLabel:'City or region',cityPlaceholder:'e.g. Helsinki',vacancyLinkLabel:'Original job advert link',vacancyLinkPlaceholder:'Paste the employer’s real advert link',vacancyLinkHint:'Use the exact HTTPS link from the original employer or job board.',statusLabel:'Application status',statusPlanning:'Planning',statusPreparing:'Preparing my application',statusApplied:'Applied',statusInterview:'Interview',statusOffer:'Offer received',statusClosed:'Closed / not continuing',checklistTitle:'My application checklist',stepRead:'Read the full advert and note the deadline.',stepLanguage:'Check the working language and qualifications.',stepEligibility:'Confirm the requirements that apply to me.',stepDocuments:'Tailor my CV and letter to this role.',stepFollowup:'Record when I applied and when to follow up.',progressCount:'{done} of {total} complete',applicationProgress:'Checklist {done} of {total}',saveApplication:'Save application',draftSaved:'Changes save on this device.',
+      roleLabel:'Role or job title',rolePlaceholder:'e.g. Cleaner',employerLabel:'Employer',employerPlaceholder:'Company or organisation',cityLabel:'City or region',cityPlaceholder:'e.g. Helsinki',vacancyLinkLabel:'Original job advert link',vacancyLinkPlaceholder:'Paste the employer’s real advert link',vacancyLinkHint:'Use the exact HTTPS link from the original employer or job board.',statusLabel:'Application status',statusPlanning:'Planning',statusPreparing:'Preparing my application',statusApplied:'Applied',statusInterview:'Interview',statusOffer:'Offer received',statusClosed:'Closed / not continuing',timelineKicker:'APPLICATION TIMELINE',timelineTitle:'Keep the important dates together.',timelineSaved:'Saved per application',deadlineDate:'Vacancy deadline',appliedDate:'Applied on',followUpDate:'Follow-up date',timelineHint:'Keep each date with the vacancy it belongs to. You can leave a date blank.',checklistTitle:'My application checklist',stepRead:'Read the full advert and note the deadline.',stepLanguage:'Check the working language and qualifications.',stepEligibility:'Confirm the requirements that apply to me.',stepDocuments:'Tailor my CV and letter to this role.',stepFollowup:'Record when I applied and when to follow up.',progressCount:'{done} of {total} complete',applicationProgress:'Checklist {done} of {total}',saveApplication:'Save application',draftSaved:'Changes save on this device.',
       letterKicker:'CV & APPLICATION LETTER',letterTitle:'Prepare a clear first draft.',letterIntro:'Start with a sample, then make every detail true to your experience and the advert.',letterLanguageLabel:'Letter language',yourNameLabel:'Your name',namePlaceholder:'Your name',letterDraftLabel:'Editable application letter draft',letterPlaceholder:'Choose Insert sample to create a starting draft.',insertSample:'Insert sample',copyDraft:'Copy draft',openCv:'Open CV builder',letterSaved:'Your draft is saved only in this browser.',phraseKicker:'FINNISH FOR WORK',phraseMeaning:'Could I tell you more about my experience?',meansExperience:'means experience.',listenPhrase:'Listen in Finnish',learnWork:'Learn Finnish for work ↗',
       savedKicker:'YOUR APPLICATIONS',savedTitle:'My applications',newApplication:'Start a new application',filterApplications:'Search your saved applications',filterPlaceholder:'Find one of your saved jobs…',filterEmpty:'No saved application matches that search.',statSaved:'APPLICATIONS SAVED',statActive:'IN PROGRESS',statInterviews:'INTERVIEWS',
       savedDraft:'Draft saved on this device. Add the original HTTPS job link to include it in your application list.',savedTracker:'Application saved. You can reopen it from My applications.',invalidUrl:'Paste the original job advert link, beginning with https://.',missingRole:'Add a job title before saving this application.',copied:'Draft copied. Personalize it for the exact advert before sending.',copyFailed:'Select and copy the draft. Personalize it before sending.',sampleInserted:'Sample inserted. Replace the bracketed details with your own experience.',saveFailed:'This browser could not save your changes.',confirmNew:'Start a blank application? Your current unsaved draft will be replaced.',
@@ -18,7 +18,7 @@
     },
     fi: {
       workspaceKicker:'SEURAAVA TYÖHAKEMUKSESI',workspaceTitle:'Selkeä työtila jokaista työpaikkaa varten.',workspaceIntro:'Pidä alkuperäinen ilmoitus, seuraavat tehtävät ja muokattava hakemuskirje samassa paikassa.',privateLabel:'Yksityinen · tallennetaan tälle laitteelle',applicationKicker:'VALITTU TYÖHAKEMUS',applicationTitle:'Valitse hakemus tai aloita uusi.',applicationIntro:'Avaa tallennettu työpaikka jatkaaksesi muistilistaa ja hakemuskirjettä.',
-      roleLabel:'Tehtävä tai ammattinimike',rolePlaceholder:'esim. siivooja',employerLabel:'Työnantaja',employerPlaceholder:'Yritys tai organisaatio',cityLabel:'Kaupunki tai alue',cityPlaceholder:'esim. Helsinki',vacancyLinkLabel:'Alkuperäisen työpaikkailmoituksen linkki',vacancyLinkPlaceholder:'Liitä työnantajan alkuperäinen ilmoituslinkki',vacancyLinkHint:'Käytä alkuperäisen työnantajan tai työnhakusivuston HTTPS-linkkiä.',statusLabel:'Hakemuksen tila',statusPlanning:'Suunnitteilla',statusPreparing:'Valmistelen hakemusta',statusApplied:'Haettu',statusInterview:'Haastattelu',statusOffer:'Työtarjous saatu',statusClosed:'Suljettu / ei aktiivinen',checklistTitle:'Työhakemuksen muistilista',stepRead:'Lue koko ilmoitus ja merkitse määräaika.',stepLanguage:'Tarkista työkieli ja tutkintovaatimukset.',stepEligibility:'Varmista itseäsi koskevat vaatimukset.',stepDocuments:'Muokkaa CV ja hakemuskirje tähän tehtävään.',stepFollowup:'Kirjaa hakupäivä ja yhteydenoton ajankohta.',progressCount:'{done}/{total} tehtävää valmiina',applicationProgress:'Muistilista {done}/{total}',saveApplication:'Tallenna hakemus',draftSaved:'Muutokset tallentuvat tälle laitteelle.',
+      roleLabel:'Tehtävä tai ammattinimike',rolePlaceholder:'esim. siivooja',employerLabel:'Työnantaja',employerPlaceholder:'Yritys tai organisaatio',cityLabel:'Kaupunki tai alue',cityPlaceholder:'esim. Helsinki',vacancyLinkLabel:'Alkuperäisen työpaikkailmoituksen linkki',vacancyLinkPlaceholder:'Liitä työnantajan alkuperäinen ilmoituslinkki',vacancyLinkHint:'Käytä alkuperäisen työnantajan tai työnhakusivuston HTTPS-linkkiä.',statusLabel:'Hakemuksen tila',statusPlanning:'Suunnitteilla',statusPreparing:'Valmistelen hakemusta',statusApplied:'Haettu',statusInterview:'Haastattelu',statusOffer:'Työtarjous saatu',statusClosed:'Suljettu / ei aktiivinen',timelineKicker:'TYÖHAKEMUKSEN AIKATAULU',timelineTitle:'Pidä tärkeät päivämäärät yhdessä paikassa.',timelineSaved:'Tallennetaan hakemuksittain',deadlineDate:'Hakuaika päättyy',appliedDate:'Hakupäivä',followUpDate:'Yhteydenottopäivä',timelineHint:'Päivämäärät tallentuvat niihin liittyvän työpaikan tietoihin. Voit jättää kohdan tyhjäksi.',checklistTitle:'Työhakemuksen muistilista',stepRead:'Lue koko ilmoitus ja merkitse määräaika.',stepLanguage:'Tarkista työkieli ja tutkintovaatimukset.',stepEligibility:'Varmista itseäsi koskevat vaatimukset.',stepDocuments:'Muokkaa CV ja hakemuskirje tähän tehtävään.',stepFollowup:'Kirjaa hakupäivä ja yhteydenoton ajankohta.',progressCount:'{done}/{total} tehtävää valmiina',applicationProgress:'Muistilista {done}/{total}',saveApplication:'Tallenna hakemus',draftSaved:'Muutokset tallentuvat tälle laitteelle.',
       letterKicker:'CV JA HAKEMUSKIRJE',letterTitle:'Valmistele selkeä ensimmäinen luonnos.',letterIntro:'Aloita mallista ja muuta tiedot vastaamaan kokemustasi sekä työpaikkailmoitusta.',letterLanguageLabel:'Kirjeen kieli',yourNameLabel:'Nimesi',namePlaceholder:'Nimesi',letterDraftLabel:'Muokattava työhakemuskirjeen luonnos',letterPlaceholder:'Luo aloitusluonnos valitsemalla Lisää malliteksti.',insertSample:'Lisää malliteksti',copyDraft:'Kopioi luonnos',openCv:'Avaa CV-työkalu',letterSaved:'Luonnos tallentuu vain tähän selaimeen.',phraseKicker:'SUOMEA TYÖELÄMÄÄN',phraseMeaning:'Voisinko kertoa lisää kokemuksestani?',meansExperience:'tarkoittaa kokemusta.',listenPhrase:'Kuuntele suomeksi',learnWork:'Opiskele suomea työelämään ↗',
       savedKicker:'TYÖHAKEMUKSESI',savedTitle:'Omat hakemukset',newApplication:'Aloita uusi hakemus',filterApplications:'Hae tallennetuista hakemuksista',filterPlaceholder:'Etsi tallennettua työpaikkaa…',filterEmpty:'Hakua vastaavaa tallennettua hakemusta ei löytynyt.',statSaved:'TALLENNETUT HAKEMUKSET',statActive:'KÄSITTELYSSÄ',statInterviews:'HAASTATTELUT',
       savedDraft:'Luonnos tallennettu tälle laitteelle. Lisää alkuperäisen työpaikkailmoituksen HTTPS-linkki hakemusluetteloon tallentamista varten.',savedTracker:'Hakemus tallennettu. Voit avata sen uudelleen hakemusluettelosta.',invalidUrl:'Liitä alkuperäisen työpaikkailmoituksen linkki, joka alkaa https://.',missingRole:'Lisää tehtävän nimi ennen hakemuksen tallentamista.',copied:'Luonnos kopioitu. Muokkaa se ilmoitusta vastaavaksi ennen lähettämistä.',copyFailed:'Valitse luonnos ja kopioi se. Muokkaa sitä ennen lähettämistä.',sampleInserted:'Malliteksti lisätty. Korvaa hakasulkeissa olevat tiedot omalla kokemuksellasi.',saveFailed:'Selain ei voinut tallentaa muutoksia.',confirmNew:'Aloitetaanko tyhjä hakemus? Nykyinen tallentamaton luonnos korvataan.',
@@ -32,6 +32,11 @@
     city:document.getElementById('application-city'),
     url:document.getElementById('application-url'),
     status:document.getElementById('application-status')
+  };
+  const dateFields = {
+    deadline:document.getElementById('application-deadline'),
+    applied:document.getElementById('application-applied-on'),
+    followUp:document.getElementById('application-follow-up')
   };
   const checks = [...document.querySelectorAll('[data-application-step]')];
   const count = document.getElementById('application-count');
@@ -61,7 +66,7 @@
     if (old.fields || old.steps || old.letter) {
       state.drafts.new = {
         fields:{role:old.fields?.role||'',employer:old.fields?.employer||'',city:old.fields?.city||'',url:old.fields?.url||'',status:normalizeStatus(old.fields?.status)},
-        steps:old.steps||{},letter:old.letter||{language:'en',name:'',draft:''}
+        steps:old.steps||{},dates:old.dates||{},letter:old.letter||{language:'en',name:'',draft:''}
       };
     }
     try { localStorage.setItem(storageKey,JSON.stringify(state)); } catch {}
@@ -77,7 +82,7 @@
     return request.job;
   }
   function appData() {
-    return {steps:Object.fromEntries(checks.map(box=>[box.dataset.applicationStep,box.checked])),letter:{language:letterLanguage.value,name:letterName.value.trim(),draft:letterDraft.value}};
+    return {steps:Object.fromEntries(checks.map(box=>[box.dataset.applicationStep,box.checked])),dates:Object.fromEntries(Object.entries(dateFields).map(([key,field])=>[key,field.value])),letter:{language:letterLanguage.value,name:letterName.value.trim(),draft:letterDraft.value}};
   }
   function snapshot() {
     return {fields:Object.fromEntries(Object.entries(fields).map(([key,field])=>[key,field.value.trim()])),...appData()};
@@ -131,6 +136,7 @@
     Object.entries(fields).forEach(([key,field])=>{field.value=typeof f[key]==='string'?f[key]:'';});
     fields.status.value=normalizeStatus(f.status||'planning');
     checks.forEach(box=>box.checked=data.steps?.[box.dataset.applicationStep]===true);
+    Object.entries(dateFields).forEach(([key,field])=>{field.value=typeof data.dates?.[key]==='string'?data.dates[key]:'';});
     const letter=data.letter||{};
     letterLanguage.value=['en','fi'].includes(letter.language)?letter.language:'en';
     letterName.value=typeof letter.name==='string'?letter.name:'';
@@ -145,13 +151,13 @@
     activeId=job.id;
     state.activeJobId=activeId;
     const local=state.drafts?.[activeId];
-    const data=local||{fields:{role:job.title||'',employer:job.employer||'',city:job.city||'',url:job.url||'',status:normalizeStatus(job.status)},steps:job.application?.steps||{},letter:job.application?.letter||{language:'en',name:'',draft:''}};
+    const data=local||{fields:{role:job.title||'',employer:job.employer||'',city:job.city||'',url:job.url||'',status:normalizeStatus(job.status)},steps:job.application?.steps||{},dates:job.application?.dates||{},letter:job.application?.letter||{language:'en',name:'',draft:''}};
     applyData(data);saveLocal();
     const panel=document.getElementById('application-workspace');
     if(window.matchMedia('(max-width: 760px)').matches)panel?.scrollIntoView({behavior:'smooth',block:'start'});
   }
   function newApplication(restore=false) {
-    if(!restore && !activeId && (fields.role.value||fields.employer.value||fields.url.value||letterDraft.value) && !window.confirm(copy('confirmNew')))return;
+    if(!restore && !activeId && (fields.role.value||fields.employer.value||fields.url.value||letterDraft.value||Object.values(dateFields).some(field=>field.value)) && !window.confirm(copy('confirmNew')))return;
     syncRecord();
     activeId=null;
     state.activeJobId=null;
@@ -179,6 +185,7 @@
   fields.status.addEventListener('change',()=>{if(loading)return;saveLocal();scheduleRecordSync();renderState();});
   checks.forEach(box=>box.addEventListener('change',()=>{saveLocal();scheduleRecordSync();renderProgress();}));
   [letterName,letterDraft].forEach(field=>field.addEventListener('input',()=>{saveLocal();scheduleRecordSync();}));
+  Object.values(dateFields).forEach(field=>field.addEventListener('input',()=>{if(loading)return;saveLocal();scheduleRecordSync();}));
   letterLanguage.addEventListener('change',()=>{letterDraft.lang=letterLanguage.value;saveLocal();scheduleRecordSync();});
 
   form.addEventListener('submit',event=>{

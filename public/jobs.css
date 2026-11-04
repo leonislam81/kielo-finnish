@@ -86,3 +86,15 @@
 @media(max-width:1020px){.search-card{grid-template-columns:repeat(2,minmax(0,1fr))}.search-button{grid-column:1/-1}.guide-market-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.offer-guide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.job-official-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.job-guide-section{padding-top:34px}.job-guide-head{display:block}.job-guide-head h2{font-size:30px}.guide-source-link{margin-top:10px}.job-market-insight{grid-template-columns:1fr 1fr}.job-insight-card:first-child{grid-column:1/-1}.job-city-layout{grid-template-columns:1fr}.job-city-list{display:flex;gap:4px;overflow:auto;scrollbar-width:thin}.job-city-choice{flex:0 0 auto;width:auto;min-width:112px;padding:7px}.job-city-choice small{white-space:nowrap}.job-city-detail{min-height:0;padding:16px}.job-city-top{display:block}.job-city-top>b{display:inline-flex;max-width:none;margin-top:9px;text-align:left}.job-city-notes{grid-template-columns:1fr}.job-route-grid{grid-template-columns:1fr 1fr}.work-finnish-card{grid-template-columns:1fr}.work-phrase-note{padding:12px}}
 @media(max-width:520px){.search-card{grid-template-columns:1fr}.search-button{grid-column:auto}.job-market-insight{grid-template-columns:1fr}.job-insight-card:first-child{grid-column:auto}.guide-market-grid{grid-template-columns:1fr}.job-route-grid{grid-template-columns:1fr}.offer-guide-grid{grid-template-columns:1fr}.job-official-grid{grid-template-columns:1fr 1fr}.job-city-top h3{font-size:23px}.work-finnish-card h2{font-size:21px}.job-guide-head h2{font-size:27px}}
+
+.application-timeline{margin-top:12px;padding:12px;border:1px solid #dfe8de;border-radius:13px;background:linear-gradient(120deg,#f2f7ef,#fbfcf8)}
+.application-timeline-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.application-timeline-head h5{margin:4px 0 0;color:var(--pine);font:600 15px/1.15 var(--display)}
+.timeline-saved-label{flex:0 0 auto;padding:5px 7px;border:1px solid #dbe6da;border-radius:20px;background:#fff;color:#6f8375;font-size:7px}
+.application-timeline-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.application-date-field{display:grid;grid-template-columns:24px 1fr;align-items:center;gap:6px;padding:8px;border:1px solid #e0e8df;border-radius:10px;background:#fffefa;color:#516d5d;font-size:8px;font-weight:800}
+.date-step{display:grid;place-items:center;width:24px;height:24px;border-radius:8px;background:#e9f2e8;color:#3c7557;font-size:9px}
+.application-date-field input{grid-column:1/-1;width:100%;min-width:0;min-height:34px;padding:0 8px;border:1px solid #dce5dc;border-radius:8px;background:#fbfcf9;color:#365749;font:500 10px "DM Sans",sans-serif}
+.application-date-field input:focus{border-color:#8db69a;outline:none;box-shadow:0 0 0 3px #eaf3eb}
+.application-timeline-hint{margin:8px 0 0;color:#7c8980;font-size:7px;line-height:1.45}
+@media(max-width:700px){.application-timeline-fields{grid-template-columns:1fr}.application-date-field{grid-template-columns:26px 1fr}.application-date-field input{grid-column:2}.application-timeline-head h5{font-size:15px}}

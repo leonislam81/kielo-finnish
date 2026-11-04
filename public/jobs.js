@@ -404,7 +404,10 @@
     const steps = {};
     ['read','language','eligibility','documents','followup'].forEach(key => { steps[key] = value.steps?.[key] === true; });
     const letter = value.letter && typeof value.letter === 'object' ? value.letter : {};
-    return { steps, letter:{ language:['en','fi'].includes(letter.language) ? letter.language : 'en', name:String(letter.name || '').slice(0,100), draft:String(letter.draft || '').slice(0,10000) } };
+    const sourceDates = value.dates && typeof value.dates === 'object' ? value.dates : {};
+    const dates = {};
+    ['deadline','applied','followUp'].forEach(key => { const date = typeof sourceDates[key] === 'string' ? sourceDates[key] : ''; const parsed = Date.parse(`${date}T00:00:00Z`); dates[key] = /^\d{4}-\d{2}-\d{2}$/.test(date) && !Number.isNaN(parsed) && new Date(parsed).toISOString().slice(0,10) === date ? date : ''; });
+    return { steps, dates, letter:{ language:['en','fi'].includes(letter.language) ? letter.language : 'en', name:String(letter.name || '').slice(0,100), draft:String(letter.draft || '').slice(0,10000) } };
   }
   function currentData() { return { version: 1, exportedAt: new Date().toISOString(), savedSearches, jobs: trackedJobs }; }
 
