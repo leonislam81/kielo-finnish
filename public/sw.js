@@ -1,12 +1,14 @@
 "use strict";
 
-const CACHE_NAME="kielo-offline-v168";
+const CACHE_NAME="kielo-offline-v169";
 const SCOPE_URL=new URL(self.registration.scope);
 const OFFLINE_PAGE=new URL("index.html",SCOPE_URL).href;
 const ASSET_PATHS=[
   "index.html",
   "jobs.html",
   "learn.html",
+  "study.html",
+  "study-page.js?v=1",
   "homepage.css?v=layoutfix7",
   "jobs.css?v=font12",
   "cv-builder.css?v=layoutfix4",

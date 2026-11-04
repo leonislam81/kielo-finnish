@@ -71,7 +71,7 @@
     ["#path-grid .path-card:nth-child(2) strong","Find a job","Löydä työtä"],
     ["#path-grid .path-card:nth-child(2) p","Start with Finland’s official job service and useful workplace Finnish.","Aloita Suomen virallisesta työnhakupalvelusta ja työelämän suomesta."],
     ["#path-grid .path-card:nth-child(3) strong","Study in Finland","Opiskele Suomessa"],
-    ["#path-grid .path-card:nth-child(3) p","Visit the official programme portal and explore admissions information.","Tutustu viralliseen koulutusohjelmien portaaliin ja hakutietoihin."],
+    ["#path-grid .path-card:nth-child(3) p","Plan admissions, compare study routes and costs, and explore student cities.","Suunnittele hakua, vertaile opintopolkuja ja kustannuksia sekä tutustu opiskelijakaupunkeihin."],
     ["#path-grid .path-card:nth-child(4) strong","Make a home here","Rakenna arkea Suomessa"],
     ["#path-grid .path-card:nth-child(4) p","Find official information for moving and everyday life.","Löydä virallista tietoa muutosta ja arjesta Suomessa."],
     ["#path-grid .path-card:nth-child(5) strong","Explore Finland","Tutustu Suomeen"],
