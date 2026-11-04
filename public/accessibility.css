@@ -33,7 +33,7 @@
   .topbar-actions{flex:0 0 auto;gap:5px}
   .help-language{gap:0}
   .help-language>span{display:none}
-  .language-toggle{padding:5px 7px;font-size:10px}
+  .language-toggle{padding:5px 7px;font-size:12px}
   .voice-shortcut{padding:7px}
   .pwa-install-button{padding:6px 7px}
 }

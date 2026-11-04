@@ -721,7 +721,7 @@
     if(state.role){ context.fillStyle='#dbeaf4'; context.font='bold 14px Arial'; context.fillText(state.role.slice(0,90),textX,infoY); infoY+=23; }
     const contact=[state.city,state.email,state.phone].filter(Boolean).join('   ·   ');
     if(contact){
-      context.fillStyle='#e4eff6'; context.font='11px Arial';
+      context.fillStyle='#e4eff6'; context.font='12px Arial';
       wrapCanvasText(context,contact,textWidth).slice(0,3).forEach((line,index)=>context.fillText(line,textX,infoY+index*16));
     }
     const photoX=layout.width-layout.pad-83, photoY=34, photoW=83, photoH=102;
