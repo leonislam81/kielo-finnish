@@ -1,24 +1,24 @@
 "use strict";
 
-const CACHE_NAME="kielo-offline-v156";
+const CACHE_NAME="kielo-offline-v163";
 const SCOPE_URL=new URL(self.registration.scope);
 const OFFLINE_PAGE=new URL("index.html",SCOPE_URL).href;
 const ASSET_PATHS=[
   "index.html",
   "jobs.html",
   "learn.html",
-  "homepage.css?v=font12",
+  "homepage.css?v=layoutfix5",
   "jobs.css?v=font12",
-  "cv-builder.css?v=font12",
+  "cv-builder.css?v=layoutfix1",
   "jobs.js?v=7",
   "jobs-guide.js?v=2",
   "jobs-workspace.js?v=3",
   "cv-builder.js?v=5",
   "homepage.js?v=1",
   "manifest.webmanifest",
-  "styles.css?v=font12",
+  "styles.css?v=layoutfix1",
   "accessibility.css?v=font12",
-  "cafe.css?v=font12",
+  "cafe.css?v=layoutfix1",
   "spoken.css?v=font12",
   "sounds.css?v=font12",
   "listening.css?v=font12",
@@ -26,7 +26,7 @@ const ASSET_PATHS=[
   "writing.css?v=font12",
   "speaking.css?v=font12",
   "grammar.css?v=font12",
-  "vocabulary.css?v=font12",
+  "vocabulary.css?v=layoutfix1",
   "pwa.css?v=font12",
   "backup.css?v=font12",
   "rhythm.css?v=font12",
@@ -34,7 +34,7 @@ const ASSET_PATHS=[
   "holidays.css?v=font12",
   "finnish-keys.css?v=font12",
   "finland-design.css?v=font12",
-  "learning-centre-polish.css?v=font12",
+  "learning-centre-polish.css?v=layoutfix1",
   "curriculum.js?v=10",
   "advanced-vocabulary.js",
   "daily-vocabulary.js?v=4",

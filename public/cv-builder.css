@@ -188,4 +188,5 @@
   body.cv-printing .cv-resume-reference-entry small{font-size:12px}
   body.cv-printing .cv-resume-empty{display:none!important}
 }
+@media(max-width:840px){.cv-workspace{grid-template-columns:minmax(0,1fr)}.cv-preview-card{position:static}}
 small,sub,sup{font-size:max(12px,1em)}

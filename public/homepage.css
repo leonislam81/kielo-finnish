@@ -212,6 +212,8 @@
     .daily-card .button{white-space:nowrap}
     @media(max-width:520px){.now-inner{grid-template-columns:1fr}.now-card{min-height:60px}.now-card:last-child{padding-right:9px}.weather-city{max-width:120px}.weather-wind{font-size:12px}.weather-credit{font-size:12px}}
     @media(max-width:360px){.weather-city{max-width:105px}.weather-refresh{width:25px;height:25px}.weather-credit{gap:5px}}
+    @media(max-width:520px){.weather-credit{display:block}.weather-credit span{display:block;margin-left:0;text-align:left}}
+    @media(max-width:760px){.topic-card,.topic-card-top{min-width:0}.topic-card-top{align-items:flex-start;justify-content:flex-start;flex-wrap:wrap;gap:5px 8px}.topic-card-top>*{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere}}
 
     .site-header:before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--pine),#407566 62%,var(--gold))}
     .header-actions{gap:10px}
@@ -224,5 +226,7 @@
     @media(min-width:761px){.menu-toggle{display:none}}
     @media(min-width:1000px){.header-cta{display:inline-flex}}
     @media(max-width:760px){.header-row{gap:6px}.header-actions{gap:5px;margin-left:auto}.locale-controls{gap:5px;padding-left:7px}.locale-control{min-width:0;gap:3px}.locale-control.site-control{width:74px;flex:0 0 74px}.locale-label{font-size:12px;letter-spacing:0}.locale-select{width:100%;height:29px;max-width:none;padding:0 20px 0 8px;border-radius:9px;font-size:12px}.header-cta{display:none}.menu-toggle{display:grid}.learning-language-control{width:100%;max-width:none}}
-    @media(max-width:360px){.header-row{gap:5px}.header-actions{gap:4px}.locale-controls{gap:4px;padding-left:5px}.locale-control.site-control{width:68px;flex:0 0 68px}.locale-label{font-size:12px;letter-spacing:0}.locale-select{padding-right:16px;padding-left:7px;font-size:12px}.menu-toggle{width:33px;height:33px}}
+    .locale-select{box-sizing:border-box;min-width:0}
+    @media(max-width:360px){.locale-control.site-control{width:80px;flex:0 0 80px}}
+    @media(max-width:360px){.header-row{gap:5px}.header-actions{gap:4px}.locale-controls{gap:4px;padding-left:5px}.locale-control.site-control{width:80px;flex:0 0 80px}.locale-label{font-size:12px;letter-spacing:0}.locale-select{padding-right:16px;padding-left:7px;font-size:12px}.menu-toggle{width:33px;height:33px}}
     small,sub,sup{font-size:max(12px,1em)}
