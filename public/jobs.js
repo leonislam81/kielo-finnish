@@ -263,7 +263,7 @@
     if (!host) return;
     const filtering = hasSearchCriteria();
     $('#job-sources').classList.toggle('has-search', filtering);
-    $('.filters-card').hidden = !filtering;
+    $('#source-directory-area').hidden = !filtering;
     host.replaceChildren();
     const results = sources.filter(source => matchesSource(source, search));
     $('#source-count').textContent = `${results.length} ${current().countSuffix}`;
