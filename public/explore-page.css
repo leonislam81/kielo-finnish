@@ -16,3 +16,5 @@
 @media(max-width:340px){.shell{width:calc(100% - 20px)}.hero h1,h1{font-size:41px}.hero-map-panel{width:55%}.hero-sticker{width:55px;height:55px}.hero-word{max-width:143px}.fact-card{padding:11px}.chapter-nav a{padding:0 6px}.filter-chip{padding-inline:8px}.timeline-card{min-height:205px}.everyday-grid,.source-grid{grid-template-columns:1fr}.everyday-card{min-height:145px}}
 small,sub,sup{font-size:max(12px,1em)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+#region-map .region-shape.is-filtered-out{display:none}
